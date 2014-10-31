@@ -1,0 +1,25 @@
+#include "SceneManager.h"
+
+static SceneManager* instance;
+
+SceneManager::SceneManager() {
+}
+
+
+SceneManager::~SceneManager() {
+}
+
+SceneManager* SceneManager::getInstance(){
+	if (instance == NULL){
+		instance = new SceneManager();
+	}
+	return instance;
+}
+
+Scene* SceneManager::getScene(int _sceneIndex){
+	return &sceneVec[_sceneIndex];
+}
+
+void SceneManager::addScene(Scene _scene){
+	sceneVec.push_back(_scene);
+}
