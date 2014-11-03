@@ -4,6 +4,7 @@
 #include "Renderer.h"
 #include "MeshManager.h"
 #include "SceneManager.h"
+#include "PLYModelReader.h"
 
 #define GAME_RUNNING true
 #define GAME_END false
@@ -18,6 +19,7 @@ protected:
 	Renderer* renderer;
 	SceneManager* sceneManager;
 	MeshManager* meshManager;
+	IModelReader* modelReader;
 
 	float gameTime = 0.1f;
 public:
