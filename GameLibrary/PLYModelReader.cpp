@@ -74,6 +74,7 @@ void PLYModelReader::readModel(std::string _fileName){
 						} catch (...) {
 							numFaces = 0;
 						}
+						indiceCountData.reserve(numFaces);
 					}
 				}else if (line.find(std::string(PLY_END_HEADER_STRING)) != std::string::npos){
 					plyReadStage = PLY_READ_STAGE::VERTICES;
@@ -113,9 +114,11 @@ void PLYModelReader::readModel(std::string _fileName){
 					}
 					//The first interger in an indice line is the amount of integers on that line following the inital integer that will be added in
 					//(Please correct me if I'm wrong)
-					int amtOfFacesOnLine = (faceInts[0] > 0) ? faceInts[0] + 1: 0;
+					int amtOfIndices = faceInts[0];
+					indiceCountData.push_back(amtOfIndices);
+					int amtOfValuesOnLine = (amtOfIndices > 0) ? amtOfIndices + 1 : 0;
 					//Now let's gather up the rest of the integers we will need!
-					for (int i = 1; i < amtOfFacesOnLine; i++){
+					for (int i = 1; i < amtOfValuesOnLine; i++){
 						indices.push_back(faceInts[i]);
 					}
 					faceLineCounter++;
@@ -129,4 +132,8 @@ void PLYModelReader::readModel(std::string _fileName){
 
 std::pair<std::vector<GLfloat>, std::vector<GLuint>> PLYModelReader::getModelData(){
 	return std::make_pair(vertices, indices);
+}
+
+std::vector<int> PLYModelReader::getIndiceCountData(){
+	return indiceCountData;
 }

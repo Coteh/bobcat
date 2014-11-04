@@ -1,6 +1,6 @@
 #include "Mesh.h"
 
-Mesh::Mesh(std::vector<GLfloat> _vertices, std::vector<GLuint> _elements, std::string _name){
+Mesh::Mesh(std::vector<GLfloat> _vertices, std::vector<GLuint> _elements, std::string _name, std::vector<int> _indiceCountData){
 	name = _name;
 	count = _elements.size();
 
@@ -15,6 +15,8 @@ Mesh::Mesh(std::vector<GLfloat> _vertices, std::vector<GLuint> _elements, std::s
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(GLuint), &_elements[0], GL_STATIC_DRAW);
 
+	indiceCountData = _indiceCountData;
+
 	/*Specify that our coordinate data is going into attribute index 0 (vPosition), and contains
 	three floats per vertex*/
 	glVertexAttribPointer(0, 3, GL_FLOAT,
@@ -27,6 +29,10 @@ Mesh::~Mesh(){
 	glBindVertexArray(0);
 	glDeleteBuffers(1, &vbo);
 	glDeleteBuffers(1, &ebo);
+}
+
+std::vector<int> Mesh::getIndiceCountData(){
+	return indiceCountData;
 }
 
 std::string Mesh::getName(){

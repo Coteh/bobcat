@@ -30,10 +30,12 @@ private:
 	PLY_READ_STAGE plyReadStage;
 	std::vector<GLfloat> vertices;
 	std::vector<GLuint> indices;
+	std::vector<int> indiceCountData;
 public:
 	PLYModelReader();
 	virtual ~PLYModelReader();
 	virtual void readModel(std::string _fileName);
 	std::pair<std::vector<GLfloat>, std::vector<GLuint>> getModelData();
+	std::vector<int> getIndiceCountData();
 };
 

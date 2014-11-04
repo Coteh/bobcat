@@ -21,7 +21,7 @@ protected:
 	MeshManager* meshManager;
 	IModelReader* modelReader;
 
-	float gameTime = 0.1f;
+	float gameTime = 0.016f;
 public:
 	Engine();
 	~Engine();

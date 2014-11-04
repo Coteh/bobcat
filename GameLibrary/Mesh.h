@@ -7,13 +7,15 @@
 class Mesh{
 private:
 	GLuint vbo, ebo, vao;
+	std::vector<int> indiceCountData;
 	int count;
 	std::string name;
 public:
 	Mesh(){}
-	Mesh(std::vector<GLfloat> _vertices, std::vector<GLuint> _elements, std::string _name);
+	Mesh(std::vector<GLfloat> _vertices, std::vector<GLuint> _elements, std::string _name, std::vector<int> _indiceCountData);
 	~Mesh();
 	GLuint getVAO();
 	int getCount();
+	std::vector<int> getIndiceCountData();
 	std::string getName();
 };

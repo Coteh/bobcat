@@ -36,10 +36,11 @@ void DemoApp::Init(){
 		3, 2, 5, 5, 4, 3            // bottom face
 	};
 	modelReader = new PLYModelReader();
-	modelReader->readModel("Cone.ply");
+	modelReader->readModel("Torus.ply");
 	std::pair<std::vector<GLfloat>, std::vector<GLuint>> modelPair = ((PLYModelReader*)modelReader)->getModelData();
 	cubeVertices = modelPair.first;
 	cubeIndices = modelPair.second;
+	std::vector<int> indiceCountData = ((PLYModelReader*)modelReader)->getIndiceCountData();
 	//Square
 	//std::vector<GLfloat> squareVertices{
 	//	-1, -1, 0,
@@ -51,7 +52,7 @@ void DemoApp::Init(){
 	//	0, 1, 2, 2, 3, 0            // front face
 	//};
 	//Mesh squareMesh = Mesh(squareVertices, squareIndices, "Square");
-	Mesh cubeMesh = Mesh(cubeVertices, cubeIndices, "Cube");
+	Mesh cubeMesh = Mesh(cubeVertices, cubeIndices, "Cube", indiceCountData);
 	//meshManager->addMesh(squareMesh);
 	meshManager->addMesh(cubeMesh);
 
@@ -62,9 +63,9 @@ void DemoApp::Init(){
 	//squareObj->setMesh(meshManager->getMesh("Square"));
 
 	//Adding the gameobjects to the scene
-	cubeObj->setDrawMode(GL_TRIANGLES);
 	//squareObj->setDrawMode(GL_TRIANGLES);
 	//squareObj->setPosition(2.0f, 2.0f, -20.0f);
+	cubeObj->setVelocity(0.0f, 0, 0);
 	scene->addGameObject(cubeObj);
 	//scene->addGameObject(squareObj);
 }
