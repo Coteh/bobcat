@@ -37,6 +37,10 @@ void Window::setWindowDimensions(int _width, int _height){
 	height = _height;
 }
 
+void Window::setKeyboardFunc(GLFWkeyfun _keyboardFunc){
+	glfwSetKeyCallback(window, _keyboardFunc);
+}
+
 void Window::windowInit(){
 	//Initalize GLFW
 	if (!glfwInit())

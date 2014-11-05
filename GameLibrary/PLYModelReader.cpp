@@ -48,8 +48,10 @@ void PLYModelReader::readModel(std::string _fileName){
 	}
 
 	//Now to iterate through the remaining lines and figure out which model data we need
-	int numVertices = 0, numFaces = 0, vertLineCounter = 0, faceLineCounter = 0;
+	numVertices = 0;
+	int numFaces = 0, vertLineCounter = 0, faceLineCounter = 0;
 	plyReadStage = PLY_READ_STAGE::HEADER;
+	headerInitStage = PLY_HEADER_VARIABLE_INIT_STAGE::NO_VARS;
 	std::string line;
 	for (++fileIterator; fileIterator != fileContents.end() || plyReadStage == PLY_READ_STAGE::NONE; ++fileIterator){
 		line = *fileIterator;
@@ -67,7 +69,8 @@ void PLYModelReader::readModel(std::string _fileName){
 						} catch (...) {
 							numVertices = 0;
 						}
-						vertices.reserve(numVertices * 3);
+						//vertices.reserve(numVertices * 3);
+						headerInitStage = PLY_HEADER_VARIABLE_INIT_STAGE::VERTEX_VARS;
 					} else if (linesSplit[1] == "face"){
 						try{
 							numFaces = ::atoi(linesSplit[2].c_str());
@@ -75,8 +78,23 @@ void PLYModelReader::readModel(std::string _fileName){
 							numFaces = 0;
 						}
 						indiceCountData.reserve(numFaces);
+						headerInitStage = PLY_HEADER_VARIABLE_INIT_STAGE::INDICE_VARS;
 					}
-				}else if (line.find(std::string(PLY_END_HEADER_STRING)) != std::string::npos){
+				} else if (line.find(std::string(PLY_PROPERTY_STRING)) != std::string::npos){
+					//Only deal with vertex variables for now because I have no clue how to deal with the indices/face variables
+					if (headerInitStage == PLY_HEADER_VARIABLE_INIT_STAGE::VERTEX_VARS){
+						//First word is "property", words in the middle are data types, last word is the name of the variable
+						//We will figure out a data type to use and then create a PLY property object for it, and give it its name
+						std::istringstream iss(line);
+						std::vector<std::string> linesSplit;
+						while (std::getline(iss, line, ' ')){
+							linesSplit.push_back(line);
+						}
+						//Just do GLfloats for now (so not needing the middle words for now)
+						PLYProperty<GLfloat>* propy = new PLYProperty<GLfloat>(linesSplit.back());
+						propVec.push_back(propy);
+					}
+				} else if (line.find(std::string(PLY_END_HEADER_STRING)) != std::string::npos){
 					plyReadStage = PLY_READ_STAGE::VERTICES;
 				}
 				break;
@@ -91,8 +109,12 @@ void PLYModelReader::readModel(std::string _fileName){
 						vertFloats.push_back(0.0f);
 					}
 				}
-				for (int i = 0; i < 3; i++){
-					vertices.push_back(vertFloats[i]);
+				for (int i = 0; i < propVec.size(); i++){
+					try{
+						((PLYProperty<GLfloat>*)propVec[i])->addData(vertFloats[i]);
+					} catch (...){
+						((PLYProperty<GLfloat>*)propVec[i])->addData(0.0f);
+					}
 				}
 				vertLineCounter++;
 				if (vertLineCounter >= numVertices){
@@ -130,8 +152,47 @@ void PLYModelReader::readModel(std::string _fileName){
 	}
 }
 
-std::pair<std::vector<GLfloat>, std::vector<GLuint>> PLYModelReader::getModelData(){
-	return std::make_pair(vertices, indices);
+std::vector<GLfloat> PLYModelReader::getVertexData(std::string _variableName){
+	try{
+		for (int i = 0; i < propVec.size(); i++){
+			if (propVec[i]->getName() == _variableName){
+				return ((PLYProperty<GLfloat>*)propVec[i])->getData();
+			}
+		}
+	} catch (...){
+		std::cout << "Could not retrieve model data for variable " << _variableName;
+	}
+	return std::vector<GLfloat>();
+}
+
+std::vector<GLfloat> PLYModelReader::getVertices(std::string _xName, std::string _yName, std::string _zName){
+	//Will grab x, y, and z variables and concatenate them together
+	//then return that
+	std::vector<GLfloat> vertexData;
+	vertexData.reserve(numVertices * 3);
+	const int NUM_VERTS = 3;
+	std::vector<GLfloat> verts[NUM_VERTS];
+	//Getting the collections
+	verts[0] = getVertexData(_xName);
+	verts[1] = getVertexData(_yName);
+	verts[2] = getVertexData(_zName);
+	for (int i = 0; i < NUM_VERTS; i++){
+		if (verts[i].size() <= 0){
+			verts[i] = std::vector<GLfloat>(numVertices, 0);
+		}
+	}
+	//Adding them all up
+	for (int i = 0; i < numVertices; i++){
+		for (int j = 0; j < NUM_VERTS; j++){
+			vertexData.push_back(verts[j][i]);
+		}
+	}
+	//Return the bundled up vertex data
+	return vertexData;
+}
+
+std::vector<GLuint> PLYModelReader::getIndices(){
+	return indices;
 }
 
 std::vector<int> PLYModelReader::getIndiceCountData(){
