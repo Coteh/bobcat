@@ -4,12 +4,12 @@
 class SceneManager {
 private:
 	static SceneManager* instane;
-	std::vector<Scene> sceneVec;
+	std::vector<Scene*> sceneVec;
 	SceneManager();
 public:
 	static SceneManager* getInstance();
 	Scene* getScene(int _sceneIndex);
-	void addScene(Scene _scene);
-	~SceneManager();
+	void addScene(Scene* _scene);
+	virtual ~SceneManager();
 };
 

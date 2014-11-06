@@ -23,6 +23,10 @@ void GameObject::setMesh(Mesh* _mesh) {
 	UpdateDrawModes();
 }
 
+void GameObject::setCollisionRect(Rect3D _rect){
+	collisionRect = _rect;
+}
+
 void GameObject::setPosition(float _x, float _y, float _z){
 	position.x = _x;
 	position.y = _y;
@@ -52,7 +56,8 @@ void GameObject::Update(float _gameTime){
 		angle = 0.0f;
 	}
 	position += velocity * _gameTime;
-	ModelMat = glm::translate(position) * glm::rotate(angle, glm::vec3(0.0f, 1.0f, 1.0f));
+	velocity *= 0.97f;
+	ModelMat = glm::translate(position) * glm::rotate(90.0f, glm::vec3(0.0f, 0.0f, 1.0f));
 }
 
 void GameObject::Draw(GLuint _modelLoc){

@@ -9,11 +9,11 @@ Engine::Engine() {
 	isGameRunning = true;
 }
 
-bool Engine::getGameRunning(){
+bool Engine::getIsGameRunning(){
 	return isGameRunning;
 }
 
-bool Engine::getWindowRunning(){
+bool Engine::getIsWindowRunning(){
 	return !glfwWindowShouldClose(window->getGLFWWindowInstance());
 }
 
@@ -25,7 +25,12 @@ void Engine::setGameRunning(bool _expression){
 	isGameRunning = _expression;
 }
 
+void Engine::setKeyboardFunc(void* _function){
+	window->setKeyboardFunc((GLFWkeyfun)_function);
+}
+
 void Engine::Init(){
+	//inputManager = InputManager::getInstance();
 	window->windowInit();
 	renderer->Init();
 
@@ -34,6 +39,10 @@ void Engine::Init(){
 	camera->setZoom(10.0f);
 	renderer->setCamera(camera);
 	camera->UpdateCamera(); //Initial camera update
+}
+
+void Engine::OnKeyEvent(GLFWwindow* _window, int _key, int _scancode, int _action, int _mods){
+	
 }
 
 void Engine::Update(){
@@ -56,6 +65,7 @@ void Engine::DrawEnd(){
 
 Engine::~Engine() {
 	delete window;
+	delete sceneManager;
 	glfwTerminate();
 	exit(EXIT_SUCCESS);
 }

@@ -6,11 +6,11 @@
 class Scene
 {
 private:
-	std::vector<GameObject> objectList;
+	std::vector<GameObject*> objectList;
 	Renderer* renderer;
 public:
 	Scene();
-	~Scene();
+	virtual ~Scene();
 	void setRenderer(Renderer* _renderer);
 	void addGameObject(GameObject* _gameObject);
 	GameObject* getGameObject(std::string _name);

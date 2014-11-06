@@ -7,6 +7,9 @@ SceneManager::SceneManager() {
 
 
 SceneManager::~SceneManager() {
+	sceneVec.clear();
+	std::vector<Scene*> clearVec;
+	clearVec.swap(sceneVec);
 }
 
 SceneManager* SceneManager::getInstance(){
@@ -17,9 +20,9 @@ SceneManager* SceneManager::getInstance(){
 }
 
 Scene* SceneManager::getScene(int _sceneIndex){
-	return &sceneVec[_sceneIndex];
+	return sceneVec[_sceneIndex];
 }
 
-void SceneManager::addScene(Scene _scene){
+void SceneManager::addScene(Scene* _scene){
 	sceneVec.push_back(_scene);
 }
