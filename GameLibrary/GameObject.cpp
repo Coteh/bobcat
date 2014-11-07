@@ -39,6 +39,10 @@ void GameObject::setVelocity(float _x, float _y, float _z){
 	velocity.z = _z;
 }
 
+void GameObject::setTorque(float _torque){
+	torque = _torque;
+}
+
 void GameObject::UpdateDrawModes(){
 	indiceCountData = mesh->getIndiceCountData();
 	for (int i = 0; i < indiceCountData.size(); i++){
@@ -51,13 +55,13 @@ void GameObject::UpdateDrawModes(){
 }
 
 void GameObject::Update(float _gameTime){
-	angle += 10 * _gameTime;
+	angle += torque * _gameTime;
 	if (angle >= 360.0f){
 		angle = 0.0f;
 	}
 	position += velocity * _gameTime;
 	velocity *= 0.97f;
-	ModelMat = glm::translate(position) * glm::rotate(90.0f, glm::vec3(0.0f, 0.0f, 1.0f));
+	ModelMat = glm::translate(position) * glm::rotate(angle, glm::vec3(0.0f, 0.0f, 1.0f));
 }
 
 void GameObject::Draw(GLuint _modelLoc){

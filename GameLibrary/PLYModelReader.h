@@ -25,7 +25,11 @@ public:
 	PLYProperty(std::string _name){
 		setName(_name);
 	}
-	~PLYProperty(){}
+	~PLYProperty(){
+		data.clear();
+		std::vector<T> clearVec;
+		clearVec.swap(data);
+	}
 	inline virtual std::string getName(){
 		return name;
 	}
@@ -73,6 +77,8 @@ private:
 	std::vector<GLuint> indices;
 	std::vector<int> indiceCountData;
 	std::vector<IPLYProperty*> propVec;
+	bool isFirstTime;
+	void clearVectors();
 public:
 	PLYModelReader();
 	virtual ~PLYModelReader();

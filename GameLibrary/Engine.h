@@ -22,6 +22,7 @@ protected:
 	Renderer* renderer;
 	SceneManager* sceneManager;
 	MeshManager* meshManager;
+	ShaderManager* shaderManager;
 	IModelReader* modelReader;
 
 	float gameTime = 0.016f;

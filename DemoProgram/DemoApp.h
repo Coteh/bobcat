@@ -5,7 +5,7 @@ class DemoApp : public Engine {
 private:
 	Scene* scene;
 	GameObject* cubeObj;
-	GameObject* squareObj;
+	GameObject* torusObj;
 public:
 	DemoApp();
 	~DemoApp();

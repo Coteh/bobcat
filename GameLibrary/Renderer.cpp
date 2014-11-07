@@ -9,22 +9,22 @@ Renderer::~Renderer() {
 }
 
 void Renderer::Init(){
-	ShaderInfo shaders[] = {
-		{ GL_VERTEX_SHADER, "square.vert" },
-		{ GL_FRAGMENT_SHADER, "square.frag" },
-		{ GL_NONE, NULL }
-	};
-
-	program = ShaderManager::LoadShaders(shaders);
-	glUseProgram(program);
-
-	modelLoc = glGetUniformLocation(program, "Model");
-	cameraLoc = glGetUniformLocation(program, "Camera");
-	projectionLoc = glGetUniformLocation(program, "Perspective_Projection");
+	
 }
 
 void Renderer::setCamera(Camera* _camera){
 	camera = _camera;
+}
+
+void Renderer::SwitchShader(GLuint _program){
+	glUseProgram(_program);
+	UpdateLocations(_program);
+}
+
+void Renderer::UpdateLocations(GLuint _program){
+	modelLoc = glGetUniformLocation(_program, "Model");
+	cameraLoc = glGetUniformLocation(_program, "Camera");
+	projectionLoc = glGetUniformLocation(_program, "Perspective_Projection");
 }
 
 void Renderer::PreRender(){

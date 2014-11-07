@@ -6,6 +6,7 @@ Engine::Engine() {
 	renderer = new Renderer();
 	meshManager = MeshManager::getInstance();
 	sceneManager = SceneManager::getInstance();
+	shaderManager = ShaderManager::getInstance();
 	isGameRunning = true;
 }
 
@@ -66,6 +67,7 @@ void Engine::DrawEnd(){
 Engine::~Engine() {
 	delete window;
 	delete sceneManager;
+	delete shaderManager;
 	glfwTerminate();
 	exit(EXIT_SUCCESS);
 }

@@ -17,7 +17,7 @@ private:
 	glm::vec3 force;
 	glm::mat4 ModelMat;
 	Rect3D collisionRect;
-	float angle;
+	float angle, torque;
 	GLuint modelLoc;
 	std::vector<GLenum> drawModeVec;
 	std::vector<int> indiceCountData;
@@ -30,6 +30,7 @@ public:
 	void setCollisionRect(Rect3D _rect);
 	void setPosition(float _x, float _y, float _z);
 	void setVelocity(float _x, float _y, float _z);
+	void setTorque(float _torque);
 	void UpdateDrawModes();
 	void Update(float _gameTime);
 	void Draw(GLuint _modelLoc);

@@ -1,19 +1,19 @@
-// Include GLEW via vgl.h. Always include it before gl.h and glfw.h
-#include "vgl.h";
-// Include GLFW
-#include <GLFW/glfw3.h>
+#pragma once
 
-typedef struct {
-	GLenum       type;
-	const char*  filename;
-	GLuint       shader;
-} ShaderInfo;
+// Include map
+#include <map>
+// Include Shader Loader
+#include "ShaderLoader.h"
 
 class ShaderManager{
 private:
-	static const GLchar* ReadShader(const char* _fileName);
-public:
+	static ShaderManager* instance;
+	typedef std::map<const std::string, GLuint> ShaderMap;
+	ShaderMap shaderMap;
 	ShaderManager(){}
-	//GLuint LoadShaders(const char * vertex_file_path, const char * fragment_file_path);
-	static GLuint LoadShaders(ShaderInfo* _shaders);
+public:
+	~ShaderManager();
+	static ShaderManager* getInstance();
+	void addShader(GLuint _shader, std::string _name);
+	GLuint getShader(std::string _name);
 };

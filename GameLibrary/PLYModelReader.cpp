@@ -4,9 +4,23 @@
 #include "PLYModelReader.h"
 
 PLYModelReader::PLYModelReader() {
+	isFirstTime = true;
 }
 
 PLYModelReader::~PLYModelReader() {
+	clearVectors();
+}
+
+void PLYModelReader::clearVectors(){
+	indices.clear();
+	std::vector<GLuint> clearVec;
+	clearVec.swap(indices);
+	indiceCountData.clear();
+	std::vector<int> clearVec2;
+	clearVec2.swap(indiceCountData);
+	propVec.clear();
+	std::vector<IPLYProperty*> clearVec3;
+	clearVec3.swap(propVec);
 }
 
 /*Process File
@@ -14,6 +28,12 @@ PLYModelReader::~PLYModelReader() {
 and removes any blank lines and/or comment lines
 */
 void PLYModelReader::readModel(std::string _fileName){
+	//Is it the first time reading a model with PLY Model Reader?
+	if (!isFirstTime){
+		//If not, clear all the data out from previous read
+		clearVectors();
+	}
+	isFirstTime = false;
 	//Contents of the model file
 	fileContents = std::vector<std::string>(readFromFile(_fileName));
 
