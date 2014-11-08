@@ -6,6 +6,7 @@ private:
 	Scene* scene;
 	GameObject* cubeObj;
 	GameObject* torusObj;
+	GameObject* circleObj;
 public:
 	DemoApp();
 	~DemoApp();

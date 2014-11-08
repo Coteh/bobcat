@@ -10,12 +10,15 @@
 
 class GameObject {
 private:
+	GameObject* parent;
+	std::vector<GameObject*> children;
 	std::string name;
 	Mesh* mesh;
+	GLuint tex;
 	glm::vec3 position;
 	glm::vec3 velocity;
 	glm::vec3 force;
-	glm::mat4 ModelMat;
+	glm::vec3 rotAxis;
 	Rect3D collisionRect;
 	float angle, torque;
 	GLuint modelLoc;
@@ -25,12 +28,15 @@ public:
 	GameObject();
 	~GameObject();
 	std::string getName();
+	glm::mat4 getModelMat();
 	void setName(std::string _name);
 	void setMesh(Mesh* _mesh);
 	void setCollisionRect(Rect3D _rect);
 	void setPosition(float _x, float _y, float _z);
 	void setVelocity(float _x, float _y, float _z);
 	void setTorque(float _torque);
+	void setRotAxis(float _x, float _y, float _z);
+	void attachGameObject(GameObject* _gameObject);
 	void UpdateDrawModes();
 	void Update(float _gameTime);
 	void Draw(GLuint _modelLoc);

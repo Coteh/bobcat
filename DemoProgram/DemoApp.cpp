@@ -50,6 +50,13 @@ void DemoApp::Init(){
 	Mesh cubeMesh = Mesh(cubeVertices, cubeIndices, "Cube", cubeIndiceCountData);
 	meshManager->addMesh(cubeMesh);
 
+	modelReader->readModel("Circle.ply");
+	std::vector<GLfloat> circleVertices = ((PLYModelReader*)modelReader)->getVertices("x", "y", "z");
+	std::vector<GLuint> circleIndices = ((PLYModelReader*)modelReader)->getIndices();
+	std::vector<int> circleIndiceCountData = ((PLYModelReader*)modelReader)->getIndiceCountData();
+	Mesh circleMesh = Mesh(circleVertices, circleIndices, "Circle", circleIndiceCountData);
+	meshManager->addMesh(circleMesh);
+
 	//Initalize the objects, plugging the meshes into them
 	cubeObj = new GameObject();
 	cubeObj->setMesh(meshManager->getMesh("Cube"));
@@ -60,9 +67,16 @@ void DemoApp::Init(){
 
 	torusObj = new GameObject();
 	torusObj->setMesh(meshManager->getMesh("Torus"));
-	torusObj->setPosition(0, 0, 0);
+	torusObj->setPosition(2, 0, 0);
 	torusObj->setTorque(8.0f);
-	scene->addGameObject(torusObj);
+	torusObj->setRotAxis(0.0f, 0.0f, 1.0f);
+	cubeObj->attachGameObject(torusObj);
+
+	circleObj = new GameObject();
+	circleObj->setMesh(meshManager->getMesh("Circle"));
+	circleObj->setPosition(-2, 0, 0);
+	//circleObj->setTorque(0.0f);
+	torusObj->attachGameObject(circleObj);
 }
 
 void DemoApp::OnKeyEvent(GLFWwindow* _window, int _key, int _scancode, int _action, int _mods){
@@ -89,6 +103,18 @@ void DemoApp::OnKeyEvent(GLFWwindow* _window, int _key, int _scancode, int _acti
 	}
 	if (_key == GLFW_KEY_DOWN){
 		cubeObj->setVelocity(0.0, -0.1, 0.0);
+	}
+	if (_key == GLFW_KEY_A){
+		circleObj->setVelocity(-0.5, 0.0, 0.0);
+	}
+	if (_key == GLFW_KEY_D){
+		circleObj->setVelocity(0.5, 0.0, 0.0);
+	}
+	if (_key == GLFW_KEY_W){
+		circleObj->setVelocity(0.0, 0.5, 0.0);
+	}
+	if (_key == GLFW_KEY_S){
+		circleObj->setVelocity(0.0, -0.5, 0.0);
 	}
 }
 
