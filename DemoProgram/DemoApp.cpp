@@ -62,20 +62,18 @@ void DemoApp::Init(){
 	cubeObj->setMesh(meshManager->getMesh("Cube"));
 	cubeObj->setPosition(0, -1.5f, 0);
 	cubeObj->setVelocity(0.0f, 0.0f, 0.0f);
-	cubeObj->setTorque(8.0f);
+	cubeObj->setRotationEuler(8.0f, 0.0f, 0.0f);
 	scene->addGameObject(cubeObj);
 
 	torusObj = new GameObject();
 	torusObj->setMesh(meshManager->getMesh("Torus"));
 	torusObj->setPosition(2, 0, 0);
-	torusObj->setTorque(8.0f);
-	torusObj->setRotAxis(0.0f, 0.0f, 1.0f);
+	torusObj->setRotationEuler(0.0f, 0.0f, 8.0f);
 	cubeObj->attachGameObject(torusObj);
 
 	circleObj = new GameObject();
 	circleObj->setMesh(meshManager->getMesh("Circle"));
 	circleObj->setPosition(-2, 0, 0);
-	//circleObj->setTorque(0.0f);
 	torusObj->attachGameObject(circleObj);
 }
 

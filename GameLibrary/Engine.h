@@ -16,7 +16,7 @@ private:
 	Window* window;
 	Camera* camera;
 
-	bool isGameRunning;
+	bool isKeyPressed;
 protected:
 	//InputManager* inputManager;
 	Renderer* renderer;
@@ -25,7 +25,11 @@ protected:
 	ShaderManager* shaderManager;
 	IModelReader* modelReader;
 
+	GLFWwindow* currActiveWindowInstance;
+	int lastKeyAction;
+
 	float gameTime = 0.016f;
+	bool isGameRunning;
 public:
 	Engine();
 	~Engine();
@@ -34,8 +38,11 @@ public:
 	void setScreenDimensions(int _width, int _height);
 	void setGameRunning(bool _expression);
 	void setKeyboardFunc(void* _function);
+	void setWindowSizeFunc(void* _function);
 	virtual void Init();
 	virtual void OnKeyEvent(GLFWwindow* _window, int _key, int _scancode, int _action, int _mods);
+	virtual void OnKeyHandle();
+	virtual void OnWindowResize(int _width, int _height);
 	virtual void Update();
 	void DrawBegin();
 	virtual void Draw();

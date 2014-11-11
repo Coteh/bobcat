@@ -16,6 +16,7 @@ public:
 	int getWindowHeight();
 	void setWindowDimensions(int _width, int _height);
 	void setKeyboardFunc(GLFWkeyfun _keyboardFunc);
+	void setWindowSizeFunc(GLFWwindowsizefun _windowFunc);
 	void windowInit();
 	void closeWindow();
 };

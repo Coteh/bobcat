@@ -5,9 +5,10 @@ GameObject::GameObject(){
 	glGenTextures(1, &tex);
 	glBindTexture(GL_TEXTURE_3D, tex);
 
-	angle = 0;
 	position = glm::vec3(0.0f, 0.0f, 0.0f);
-	rotAxis = glm::vec3(1.0f, 1.0f, 1.0f);
+	rotation = glm::vec3(0.0f, 0.0f, 0.0f);
+	scale = glm::vec3(1.0f, 1.0f, 1.0f);
+	collisionRect = Rect3D();
 }
 
 GameObject::~GameObject() {
@@ -19,11 +20,27 @@ std::string GameObject::getName(){
 }
 
 glm::mat4 GameObject::getModelMat(){
-	glm::mat4 model = glm::translate(position) * glm::rotate(angle, glm::vec3(rotAxis.x, rotAxis.y, rotAxis.z));
+	glm::mat4 model = glm::translate(position);
+	model = glm::rotate(model, rotation.x, glm::vec3(1, 0, 0));
+	model = glm::rotate(model, rotation.y, glm::vec3(0, 1, 0));
+	model = glm::rotate(model, rotation.z, glm::vec3(0, 0, 1));
+	model = glm::scale(model, scale);
 	if (parent){
 		model = parent->getModelMat() * model;
 	}
 	return model;
+}
+
+glm::vec3 GameObject::getPosition(){
+	return position;
+}
+
+glm::vec3 GameObject::getRotation(){
+	return rotation;
+}
+
+Rect3D GameObject::getCollisionRect(){
+	return collisionRect;
 }
 
 void GameObject::setName(std::string _name){
@@ -45,20 +62,24 @@ void GameObject::setPosition(float _x, float _y, float _z){
 	position.z = _z;
 }
 
+void GameObject::setPosition(glm::vec3 _pos){
+	position = _pos;
+}
+
 void GameObject::setVelocity(float _x, float _y, float _z){
 	velocity.x = _x;
 	velocity.y = _y;
 	velocity.z = _z;
 }
 
-void GameObject::setTorque(float _torque){
-	torque = _torque;
+void GameObject::setRotationEuler(float _x, float _y, float _z){
+	rotation.x = _x;
+	rotation.y = _y;
+	rotation.z = _z;
 }
 
-void GameObject::setRotAxis(float _x, float _y, float _z){
-	rotAxis.x = _x;
-	rotAxis.y = _y;
-	rotAxis.z = _z;
+void GameObject::setScale(float _x, float _y, float _z){
+	scale = glm::vec3(_x, _y, _z);
 }
 
 void GameObject::attachGameObject(GameObject* _gameObject){
@@ -78,11 +99,6 @@ void GameObject::UpdateDrawModes(){
 }
 
 void GameObject::Update(float _gameTime){
-	angle += torque * _gameTime;
-	if (angle >= 360.0f){
-		angle = 0.0f;
-	}
-	position += velocity * _gameTime;
 	velocity *= 0.97f;
 	for (int i = 0; i < children.size(); i++){
 		children[i]->Update(_gameTime);

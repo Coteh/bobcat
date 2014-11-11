@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameLibrary", "GameLibrary\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DemoProgram", "DemoProgram\DemoProgram.vcxproj", "{F3461B79-25B4-4EF8-9294-E31B89907DD2}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Squash", "Squash\Squash.vcxproj", "{B113E876-04C1-43E5-A0A3-0B5B8A959CDE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -21,6 +23,10 @@ Global
 		{F3461B79-25B4-4EF8-9294-E31B89907DD2}.Debug|Win32.Build.0 = Debug|Win32
 		{F3461B79-25B4-4EF8-9294-E31B89907DD2}.Release|Win32.ActiveCfg = Release|Win32
 		{F3461B79-25B4-4EF8-9294-E31B89907DD2}.Release|Win32.Build.0 = Release|Win32
+		{B113E876-04C1-43E5-A0A3-0B5B8A959CDE}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B113E876-04C1-43E5-A0A3-0B5B8A959CDE}.Debug|Win32.Build.0 = Debug|Win32
+		{B113E876-04C1-43E5-A0A3-0B5B8A959CDE}.Release|Win32.ActiveCfg = Release|Win32
+		{B113E876-04C1-43E5-A0A3-0B5B8A959CDE}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

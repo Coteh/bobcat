@@ -41,10 +41,22 @@ void Window::setKeyboardFunc(GLFWkeyfun _keyboardFunc){
 	glfwSetKeyCallback(window, _keyboardFunc);
 }
 
+void Window::setWindowSizeFunc(GLFWwindowsizefun _windowFunc){
+	glfwSetWindowSizeCallback(window, _windowFunc);
+}
+
 void Window::windowInit(){
 	//Initalize GLFW
 	if (!glfwInit())
 		exit(EXIT_FAILURE);
+
+	//4x antialiasing
+	glfwWindowHint(GLFW_SAMPLES, 4);
+
+	//Set up OpenGL version
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+
 	//Set GLFW error callback
 	glfwSetErrorCallback(error_callback);
 

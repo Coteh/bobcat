@@ -30,9 +30,14 @@ void Engine::setKeyboardFunc(void* _function){
 	window->setKeyboardFunc((GLFWkeyfun)_function);
 }
 
+void Engine::setWindowSizeFunc(void* _function){
+	window->setWindowSizeFunc((GLFWwindowsizefun)_function);
+}
+
 void Engine::Init(){
 	//inputManager = InputManager::getInstance();
 	window->windowInit();
+	currActiveWindowInstance = window->getGLFWWindowInstance();
 	renderer->Init();
 
 	camera = new Camera();
@@ -43,11 +48,26 @@ void Engine::Init(){
 }
 
 void Engine::OnKeyEvent(GLFWwindow* _window, int _key, int _scancode, int _action, int _mods){
+	currActiveWindowInstance = _window;
+	isKeyPressed = (_action == GLFW_PRESS || _action == GLFW_REPEAT || (_action == GLFW_RELEASE && lastKeyAction == GLFW_PRESS) || (_action == GLFW_RELEASE && lastKeyAction == GLFW_REPEAT));
+	lastKeyAction = _action;
+}
+
+void Engine::OnKeyHandle(){
 	
 }
 
-void Engine::Update(){
+void Engine::OnWindowResize(int _width, int _height){
+	window->setWindowDimensions(_width, _height);
+	glViewport(0,0,_width, _height);
+	camera->setCameraScreenDimensions(_width, _height);
+	camera->UpdateProjection();
+}
 
+void Engine::Update(){
+	//if (isKeyPressed){
+		OnKeyHandle();
+	//}
 }
 
 void Engine::DrawBegin(){
