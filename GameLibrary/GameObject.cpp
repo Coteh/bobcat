@@ -2,9 +2,6 @@
 
 
 GameObject::GameObject(){
-	glGenTextures(1, &tex);
-	glBindTexture(GL_TEXTURE_3D, tex);
-
 	position = glm::vec3(0.0f, 0.0f, 0.0f);
 	rotation = glm::vec3(0.0f, 0.0f, 0.0f);
 	scale = glm::vec3(1.0f, 1.0f, 1.0f);
@@ -41,6 +38,10 @@ glm::vec3 GameObject::getRotation(){
 
 Rect3D GameObject::getCollisionRect(){
 	return collisionRect;
+}
+
+Mesh* GameObject::getMesh(){
+	return mesh;
 }
 
 void GameObject::setName(std::string _name){
@@ -82,6 +83,27 @@ void GameObject::setScale(float _x, float _y, float _z){
 	scale = glm::vec3(_x, _y, _z);
 }
 
+void GameObject::setTexture(Texture* _tex, std::vector<GLfloat> _uvCords){
+	tex = _tex;
+	//glGenTextures(1, &_tex->texID);
+	glBindTexture(GL_TEXTURE_3D, _tex->texID);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	//glGenerateMipmap(GL_TEXTURE_2D);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,
+		GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
+		GL_NEAREST);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, _tex->bpp / 8, _tex->width, _tex->height, 0, _tex->type, GL_UNSIGNED_BYTE, _tex->imageData);
+	//glEnableVertexAttribArray(texAttrib);
+	glBindBuffer(GL_ARRAY_BUFFER, _tex->texID);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, (_uvCords.size()) * sizeof(GLfloat), (void*)(sizeof(GLfloat)));
+	uvCords = _uvCords;
+}
+
 void GameObject::attachGameObject(GameObject* _gameObject){
 	children.push_back(_gameObject);
 	_gameObject->parent = this;
@@ -106,9 +128,11 @@ void GameObject::Update(float _gameTime){
 }
 
 void GameObject::Draw(GLuint _modelLoc){
+	/*glBindBuffer(GL_ARRAY_BUFFER, tex->texID);
+	glDrawElements(GL_TEXTURE_2D, uvCords.size(), GL_UNSIGNED_INT, (void*)0);*/
 	glUniformMatrix4fv(_modelLoc, 1, GL_FALSE, glm::value_ptr(getModelMat()));
 	glBindVertexArray(mesh->getVAO());
-	//glDrawElements(drawMode, mesh->getCount(), GL_UNSIGNED_INT, (void*)0);
+	//glDrawElements(drawModeVec[0], mesh->getCount(), GL_UNSIGNED_INT, (void*)0);
 	int indicesSoFar = 0;
 	for (int i = 0; i < drawModeVec.size(); i++){
 		glDrawElements(drawModeVec[i], indiceCountData[i], GL_UNSIGNED_INT, (void*)(indicesSoFar * sizeof(GLuint)));

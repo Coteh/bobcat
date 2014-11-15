@@ -5,6 +5,7 @@
 #include "Renderer.h"
 #include "MeshManager.h"
 #include "SceneManager.h"
+#include "TextureManager.h"
 #include "PLYModelReader.h"
 #include "CollisionMath.h"
 
@@ -14,15 +15,16 @@
 class Engine {
 private:
 	Window* window;
-	Camera* camera;
 
 	bool isKeyPressed;
 protected:
 	//InputManager* inputManager;
 	Renderer* renderer;
+	Camera* camera;
 	SceneManager* sceneManager;
 	MeshManager* meshManager;
 	ShaderManager* shaderManager;
+	TextureManager* textureManager;
 	IModelReader* modelReader;
 
 	GLFWwindow* currActiveWindowInstance;

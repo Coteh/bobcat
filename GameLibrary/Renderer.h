@@ -6,14 +6,13 @@
 class Renderer {
 private:
 	Camera* camera;
-	GLuint modelLoc, projectionLoc, cameraLoc, lightingLoc;
+	ShaderManager* shaderManager;
+	Shader* currShader;
 public:
 	Renderer();
 	virtual ~Renderer();
 	void Init();
 	void setCamera(Camera* _camera);
-	void SwitchShader(GLuint _program);
-	void UpdateLocations(GLuint _program);
 	void PreRender();
 	void RenderObject(GameObject* _gameObject);
 	void EndRender();

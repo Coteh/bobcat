@@ -13,13 +13,13 @@ void SquashApp::Init(){
 	Engine::Init();
 
 	/*Setting up Shaders*/
-	ShaderInfo shaders[] = {
+	ShaderLoadInfo shaders[] = {
 		{ GL_VERTEX_SHADER, "square.vert" },
 		{ GL_FRAGMENT_SHADER, "square.frag" },
 		{ GL_NONE, NULL }
 	};
 
-	ShaderInfo shaders2[] = {
+	ShaderLoadInfo shaders2[] = {
 		{ GL_VERTEX_SHADER, "triangles.vert" },
 		{ GL_FRAGMENT_SHADER, "triangles.frag" },
 		{ GL_NONE, NULL }
@@ -27,7 +27,6 @@ void SquashApp::Init(){
 
 	shaderManager->addShader(ShaderLoader::LoadShaders(shaders), "TestShader");
 	shaderManager->addShader(ShaderLoader::LoadShaders(shaders2), "TestShader2");
-	renderer->SwitchShader(shaderManager->getShader("TestShader2"));
 
 	/*Setting up Scene*/
 	sceneManager->addScene(new Scene());
@@ -89,16 +88,19 @@ void SquashApp::OnKeyEvent(GLFWwindow* _window, int _key, int _scancode, int _ac
 		if (_key == GLFW_KEY_ESCAPE){
 			printf("Quit");
 			isGameRunning = false;
-		} else if (_key == GLFW_KEY_KP_4){
-			renderer->SwitchShader(shaderManager->getShader("TestShader2"));
-		} else if (_key == GLFW_KEY_KP_6){
-			renderer->SwitchShader(shaderManager->getShader("TestShader"));
 		}
 	}
 }
 
 void SquashApp::OnKeyHandle(){
 	Engine::OnKeyHandle();
+	//Camera Controls
+	if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_EQUAL) == GLFW_PRESS){
+		camera->IncrementZoom(-2.0f * gameTime);
+	} else if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_MINUS) == GLFW_PRESS){
+		camera->IncrementZoom(2.0f * gameTime);
+	}
+	//Player One, Player Two, and Ball Controls
 	glm::vec3 playerOnePos = playerOne->getPosition();
 	glm::vec3 playerTwoPos = playerTwo->getPosition();
 	glm::vec3 playerOneVelChange = glm::vec3(0.0f);

@@ -25,18 +25,18 @@ const GLchar* ShaderLoader::ReadShader(const char* _fileName){
 	return const_cast<const GLchar*>(source);
 }
 
-GLuint ShaderLoader::LoadShaders(ShaderInfo* _shaders){
+GLuint ShaderLoader::LoadShaders(ShaderLoadInfo* _shaders){
 	//Check if the shader isn't null before continuing
 	if (_shaders == NULL) return 0;
 
 	//Create the shader program that will be filled with shaders and then returned
 	GLuint program = glCreateProgram();
 
-	ShaderInfo* entry = _shaders;
+	ShaderLoadInfo* entry = _shaders;
 	while (entry->type != GL_NONE){
 		//Create shader of specified type
 		GLuint shader = glCreateShader(entry->type);
-		//Save the shader ID to the ShaderInfo's shaderID property
+		//Save the shader ID to the ShaderLoadInfo's shaderID property
 		entry->shaderID = shader;
 		//Read specified filename of the shader type
 		const GLchar* source = ReadShader(entry->filename);

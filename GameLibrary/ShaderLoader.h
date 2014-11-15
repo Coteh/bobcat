@@ -6,7 +6,7 @@
 // Include string
 #include <string>
 
-struct ShaderInfo {
+struct ShaderLoadInfo {
 	GLenum       type;
 	const char*  filename;
 	GLuint shaderID;
@@ -17,6 +17,6 @@ private:
 	static const GLchar* ReadShader(const char* _fileName);
 public:
 	//GLuint LoadShaders(const char * vertex_file_path, const char * fragment_file_path);
-	static GLuint LoadShaders(ShaderInfo* _shaders);
+	static GLuint LoadShaders(ShaderLoadInfo* _shaders);
 };
 

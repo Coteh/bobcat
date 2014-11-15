@@ -7,6 +7,7 @@ Engine::Engine() {
 	meshManager = MeshManager::getInstance();
 	sceneManager = SceneManager::getInstance();
 	shaderManager = ShaderManager::getInstance();
+	textureManager = TextureManager::getInstance();
 	isGameRunning = true;
 }
 

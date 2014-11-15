@@ -131,6 +131,9 @@ void PLYModelReader::readModel(std::string _fileName){
 				}
 				for (int i = 0; i < propVec.size(); i++){
 					try{
+						if (propVec[i]->getName() == "red" || propVec[i]->getName() == "blue" || propVec[i]->getName() == "green"){
+							vertFloats[i] /= 255.0f; //divide the color by 255 so OpenGL will read it
+						}
 						((PLYProperty<GLfloat>*)propVec[i])->addData(vertFloats[i]);
 					} catch (...){
 						((PLYProperty<GLfloat>*)propVec[i])->addData(0.0f);
@@ -189,22 +192,74 @@ std::vector<GLfloat> PLYModelReader::getVertices(std::string _xName, std::string
 	//Will grab x, y, and z variables and concatenate them together
 	//then return that
 	std::vector<GLfloat> vertexData;
-	vertexData.reserve(numVertices * 3);
-	const int NUM_VERTS = 3;
-	std::vector<GLfloat> verts[NUM_VERTS];
+	const int NUM_PROPS = 3;
+	vertexData.reserve(numVertices * NUM_PROPS);
+	std::vector<GLfloat> verts[NUM_PROPS];
 	//Getting the collections
 	verts[0] = getVertexData(_xName);
 	verts[1] = getVertexData(_yName);
 	verts[2] = getVertexData(_zName);
-	for (int i = 0; i < NUM_VERTS; i++){
+	for (int i = 0; i < NUM_PROPS; i++){
 		if (verts[i].size() <= 0){
 			verts[i] = std::vector<GLfloat>(numVertices, 0);
 		}
 	}
 	//Adding them all up
 	for (int i = 0; i < numVertices; i++){
-		for (int j = 0; j < NUM_VERTS; j++){
+		for (int j = 0; j < NUM_PROPS; j++){
 			vertexData.push_back(verts[j][i]);
+		}
+	}
+	//Return the bundled up vertex data
+	return vertexData;
+}
+
+std::vector<GLfloat> PLYModelReader::getVertices(std::string _xName, std::string _yName){
+	//Will grab x and y variables and concatenate them together
+	//then return that
+	std::vector<GLfloat> vertexData;
+	const int NUM_PROPS = 2;
+	vertexData.reserve(numVertices * NUM_PROPS);
+	std::vector<GLfloat> verts[NUM_PROPS];
+	//Getting the collections
+	verts[0] = getVertexData(_xName);
+	verts[1] = getVertexData(_yName);
+	for (int i = 0; i < NUM_PROPS; i++){
+		if (verts[i].size() <= 0){
+			verts[i] = std::vector<GLfloat>(numVertices, 0);
+		}
+	}
+	//Adding them all up
+	for (int i = 0; i < numVertices; i++){
+		for (int j = 0; j < NUM_PROPS; j++){
+			vertexData.push_back(verts[j][i]);
+		}
+	}
+	//Return the bundled up vertex data
+	return vertexData;
+}
+
+std::vector<GLfloat> PLYModelReader::getAllVertexData(){
+	/*Will grab ALL variables and concatenate them together
+	  then return that*/
+	//Initalizing the vertexData vector that we will return
+	std::vector<GLfloat> vertexData;
+	//Reserve it for numVertices * size of propVec amount of data
+	vertexData.reserve(numVertices * propVec.size());
+	//Create a vector of GLfloat vectors that will be used to store copies of each
+	//vert datas on the propVec vector
+	std::vector<std::vector<GLfloat>> vertsVec;
+	//Give it a size of propVec's size
+	vertsVec.resize(propVec.size());
+	//Getting the collections and saving each piece of data
+	for (size_t i = 0; i < vertsVec.size(); i++){
+		vertsVec[i] = getVertexData(propVec[i]->getName());
+	}
+	//Now we will set up the vertexData vector by
+	//adding up all vert datas line by line
+	for (int i = 0; i < numVertices; i++){
+		for (size_t j = 0; j < vertsVec.size(); j++){
+			vertexData.push_back(vertsVec[j][i]);
 		}
 	}
 	//Return the bundled up vertex data

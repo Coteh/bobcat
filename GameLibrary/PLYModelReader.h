@@ -85,6 +85,8 @@ public:
 	virtual void readModel(std::string _fileName);
 	std::vector<GLfloat> getVertexData(std::string _variableName);
 	std::vector<GLfloat> getVertices(std::string _xName, std::string _yName, std::string _zName);
+	std::vector<GLfloat> getVertices(std::string _xName, std::string _yName);
+	std::vector<GLfloat> getAllVertexData();
 	std::vector<GLuint> getIndices();
 	std::vector<int> getIndiceCountData();
 };

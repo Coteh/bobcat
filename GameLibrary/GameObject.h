@@ -7,6 +7,7 @@
 #include <glm\gtc\type_ptr.hpp>
 #include "Mesh.h"
 #include "Rect.h"
+#include "TextureLoader.h"
 
 class GameObject {
 private:
@@ -14,7 +15,8 @@ private:
 	std::vector<GameObject*> children;
 	std::string name;
 	Mesh* mesh;
-	GLuint tex;
+	Texture* tex;
+	std::vector<GLfloat> uvCords;
 	glm::vec3 position;
 	glm::vec3 velocity;
 	glm::vec3 force;
@@ -32,6 +34,7 @@ public:
 	glm::vec3 getPosition();
 	glm::vec3 getRotation();
 	Rect3D getCollisionRect();
+	Mesh* getMesh();
 	void setName(std::string _name);
 	void setMesh(Mesh* _mesh);
 	void setCollisionRect(Rect3D _rect);
@@ -40,6 +43,7 @@ public:
 	void setVelocity(float _x, float _y, float _z);
 	void setRotationEuler(float _x, float _y, float _z);
 	void setScale(float _x, float _y, float _z);
+	void setTexture(Texture* _tex, std::vector<GLfloat> _uvCords);
 	void attachGameObject(GameObject* _gameObject);
 	void UpdateDrawModes();
 	void Update(float _gameTime);
