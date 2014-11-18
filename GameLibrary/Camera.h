@@ -17,9 +17,12 @@ public:
 	~Camera();
 	glm::mat4 getView();
 	glm::mat4 getProjection();
+	glm::vec3 getPosition();
 	void setCameraScreenDimensions(int _width, int _height);
 	void setZoom(float _zoom);
+	void setPosition(glm::vec3 _position);
 	void IncrementZoom(float _zoom);
+	void Translate(glm::vec3 _offset);
 	void UpdateCamera();
 	void UpdateProjection();
 };

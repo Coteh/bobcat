@@ -23,6 +23,10 @@ glm::mat4 Camera::getProjection(){
 	return projection;
 }
 
+glm::vec3 Camera::getPosition(){
+	return position;
+}
+
 void Camera::setCameraScreenDimensions(int _width, int _height){
 	screenWidth = _width;
 	screenHeight = _height;
@@ -32,9 +36,20 @@ void Camera::setZoom(float _zoom){
 	zoom = _zoom;
 	UpdateProjection();
 }
+
+void Camera::setPosition(glm::vec3 _position){
+	position = _position;
+	UpdateCamera();
+}
+
 void Camera::IncrementZoom(float _zoom){
 	zoom += _zoom;
 	UpdateProjection();
+}
+
+void Camera::Translate(glm::vec3 _offset){
+	position += _offset;
+	UpdateCamera();
 }
 
 void Camera::UpdateCamera(){

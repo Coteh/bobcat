@@ -4,6 +4,7 @@
 GameObject::GameObject(){
 	position = glm::vec3(0.0f, 0.0f, 0.0f);
 	rotation = glm::vec3(0.0f, 0.0f, 0.0f);
+	setFriction(1.0f);
 	scale = glm::vec3(1.0f, 1.0f, 1.0f);
 	collisionRect = Rect3D();
 }
@@ -30,6 +31,10 @@ glm::mat4 GameObject::getModelMat(){
 
 glm::vec3 GameObject::getPosition(){
 	return position;
+}
+
+glm::vec3 GameObject::getVelocity(){
+	return velocity;
 }
 
 glm::vec3 GameObject::getRotation(){
@@ -71,6 +76,10 @@ void GameObject::setVelocity(float _x, float _y, float _z){
 	velocity.x = _x;
 	velocity.y = _y;
 	velocity.z = _z;
+}
+
+void GameObject::setFriction(float _fric){
+	friction = _fric;
 }
 
 void GameObject::setRotationEuler(float _x, float _y, float _z){
@@ -121,7 +130,7 @@ void GameObject::UpdateDrawModes(){
 }
 
 void GameObject::Update(float _gameTime){
-	velocity *= 0.97f;
+	velocity *= friction;
 	for (int i = 0; i < children.size(); i++){
 		children[i]->Update(_gameTime);
 	}

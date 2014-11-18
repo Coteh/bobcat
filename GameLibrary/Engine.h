@@ -30,7 +30,8 @@ protected:
 	GLFWwindow* currActiveWindowInstance;
 	int lastKeyAction;
 
-	float gameTime = 0.016f;
+	float gameTime = 0.0f;
+	float deltaTime = 0.016f;
 	bool isGameRunning;
 public:
 	Engine();

@@ -66,6 +66,8 @@ void Engine::OnWindowResize(int _width, int _height){
 }
 
 void Engine::Update(){
+	//deltaTime = glutGet(GLUT_ELAPSED_TIME);
+	gameTime += deltaTime;
 	//if (isKeyPressed){
 		OnKeyHandle();
 	//}

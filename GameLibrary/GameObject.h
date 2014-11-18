@@ -22,6 +22,7 @@ private:
 	glm::vec3 force;
 	glm::vec3 rotation;
 	glm::vec3 scale;
+	float friction;
 	Rect3D collisionRect;
 	GLuint modelLoc;
 	std::vector<GLenum> drawModeVec;
@@ -32,6 +33,7 @@ public:
 	std::string getName();
 	glm::mat4 getModelMat();
 	glm::vec3 getPosition();
+	glm::vec3 getVelocity();
 	glm::vec3 getRotation();
 	Rect3D getCollisionRect();
 	Mesh* getMesh();
@@ -41,6 +43,7 @@ public:
 	void setPosition(float _x, float _y, float _z);
 	void setPosition(glm::vec3 _pos);
 	void setVelocity(float _x, float _y, float _z);
+	void setFriction(float _fric);
 	void setRotationEuler(float _x, float _y, float _z);
 	void setScale(float _x, float _y, float _z);
 	void setTexture(Texture* _tex, std::vector<GLfloat> _uvCords);

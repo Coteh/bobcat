@@ -40,15 +40,6 @@ void DemoApp::Init(){
 	textureManager->loadTexture("de1.tga", "treeTexture");
 	Texture* treeTex = &textureManager->getTexture("treeTexture");
 
-	/*std::vector<GLfloat> st{
-		0.25f, 0.66f, 0.25f, 0.33f, 0.0f, 0.33f, 0.0f, 0.66f,
-		0.5f, 0.66f, 0.5f, 0.33f, 0.25f, 0.33f, 0.25f, 0.66f,
-		0.75f, 0.66f, 0.75f, 0.33f, 0.5f, 0.33f, 0.5f, 0.66f,
-		1.0f, 0.66f, 1.0f, 0.33f, 0.75f, 0.33f, 0.75f, 0.66f,
-		0.75f, 0.33f, 0.75f, 0.0f, 0.5f, 0.0f, 0.5f, 0.33f,
-		0.75f, 1.0f, 0.75f, 0.66f, 0.5f, 0.66f, 0.5f, 1.0f
-	};*/
-
 	/*Setting up Scene*/
 	sceneManager->addScene(new Scene());
 	scene = sceneManager->getScene(0);
@@ -56,27 +47,14 @@ void DemoApp::Init(){
 
 	//Initalize the models
 	modelReader = new PLYModelReader();
-	/*modelReader->readModel("Torus.ply");
-	std::vector<GLfloat> torusVertices = ((PLYModelReader*)modelReader)->getVertices("x", "y", "z");
-	std::vector<GLuint> torusIndices = ((PLYModelReader*)modelReader)->getIndices();
-	std::vector<int> torusIndiceCountData = ((PLYModelReader*)modelReader)->getIndiceCountData();
-	Mesh torusMesh = Mesh(torusVertices, torusIndices, "Torus", torusIndiceCountData);
-	meshManager->addMesh(torusMesh);*/
 
-	modelReader->readModel("Torus.ply");
+	modelReader->readModel("Monkey.ply");
 	std::vector<GLfloat> cubeVertices = ((PLYModelReader*)modelReader)->getAllVertexData();
 	std::vector<GLuint> cubeIndices = ((PLYModelReader*)modelReader)->getIndices();
 	std::vector<int> cubeIndiceCountData = ((PLYModelReader*)modelReader)->getIndiceCountData();
 	Mesh cubeMesh = Mesh(cubeVertices, cubeIndices, "Cube", cubeIndiceCountData, shaderManager->getShader("TestShader"));
 	//cubeMesh.setShader(shaderManager->getShader("TestShader"));
 	meshManager->addMesh(cubeMesh);
-
-	/*modelReader->readModel("Circle.ply");
-	std::vector<GLfloat> circleVertices = ((PLYModelReader*)modelReader)->getVertices("x", "y", "z");
-	std::vector<GLuint> circleIndices = ((PLYModelReader*)modelReader)->getIndices();
-	std::vector<int> circleIndiceCountData = ((PLYModelReader*)modelReader)->getIndiceCountData();
-	Mesh circleMesh = Mesh(circleVertices, circleIndices, "Circle", circleIndiceCountData);
-	meshManager->addMesh(circleMesh);*/
 
 	//Initalize the objects, plugging the meshes into them
 	cubeObj = new GameObject();
@@ -90,9 +68,7 @@ void DemoApp::Init(){
 void DemoApp::OnKeyEvent(GLFWwindow* _window, int _key, int _scancode, int _action, int _mods){
 	Engine::OnKeyEvent(_window, _key, _scancode, _action, _mods);
 	if (_action == GLFW_PRESS){
-		if (_key == GLFW_KEY_A){
-			printf("Test");
-		} else if (_key == GLFW_KEY_ESCAPE){
+		if (_key == GLFW_KEY_ESCAPE){
 			printf("Quit");
 		}
 	}
@@ -110,24 +86,32 @@ void DemoApp::OnKeyEvent(GLFWwindow* _window, int _key, int _scancode, int _acti
 	if (_key == GLFW_KEY_DOWN){
 		cubeVelChange += glm::vec3(0.0, -1.0, 0.0);
 	}
-	cubeObj->setPosition(cubePos + cubeVelChange * gameTime);
+	cubeObj->setPosition(cubePos + cubeVelChange * deltaTime);
 }
 
 void DemoApp::OnKeyHandle(){
 	Engine::OnKeyHandle();
 	//Camera Controls
-	if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_EQUAL) == GLFW_PRESS){
-		camera->IncrementZoom(-2.0f * gameTime);
+	if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_W) == GLFW_PRESS){
+		camera->Translate(glm::vec3(0.0f, 0.0f, -1.0f) * deltaTime);
+	} else if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_S) == GLFW_PRESS){
+		camera->Translate(glm::vec3(0.0f, 0.0f, 1.0f) * deltaTime);
+	} else if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_A) == GLFW_PRESS){
+		camera->Translate(glm::vec3(-1.0f, 0.0f, 0.0f) * deltaTime);
+	} else if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_D) == GLFW_PRESS){
+		camera->Translate(glm::vec3(1.0f, 0.0f, 0.0f) * deltaTime);
+	} else if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_EQUAL) == GLFW_PRESS){
+		camera->IncrementZoom(-2.0f * deltaTime);
 	} else if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_MINUS) == GLFW_PRESS){
-		camera->IncrementZoom(2.0f * gameTime);
+		camera->IncrementZoom(2.0f * deltaTime);
 	}
 }
 
 void DemoApp::Update(){
 	Engine::Update();
-	scene->updateGameObjects(gameTime);
+	scene->updateGameObjects(deltaTime);
 	glm::vec3 rot = cubeObj->getRotation();
-	cubeObj->setRotationEuler(rot.x + (10.0f * gameTime), rot.y + (0.0f * gameTime), rot.z + (10.0f * gameTime));
+	cubeObj->setRotationEuler(rot.x + (10.0f * deltaTime), rot.y + (0.0f * deltaTime), rot.z + (10.0f * deltaTime));
 }
 
 void DemoApp::Draw(){
