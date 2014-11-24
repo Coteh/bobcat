@@ -1,9 +1,14 @@
 #pragma once
 #include "IFileReader.h"
+#include <fstream>
 
-class FileReader : public IFileReader{
-public:
-	FileReader();
-	virtual ~FileReader();
-	virtual std::vector<std::string> readFromFile(std::string _fileName);
+namespace FileIO {
+
+	class FileReader : public IFileReader{
+	public:
+		FileReader();
+		virtual ~FileReader();
+		virtual std::vector<std::string> readFromFile(std::string _fileName);
+	};
+
 };

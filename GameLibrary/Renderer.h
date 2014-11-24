@@ -8,6 +8,8 @@ private:
 	Camera* camera;
 	ShaderManager* shaderManager;
 	Shader* currShader;
+	glm::mat4 cam;
+	glm::mat4 proj;
 public:
 	Renderer();
 	virtual ~Renderer();

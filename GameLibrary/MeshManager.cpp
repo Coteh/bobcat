@@ -14,8 +14,10 @@ MeshManager* MeshManager::getInstance(){
 }
 
 MeshManager::~MeshManager() {
-	for (MeshMapType::iterator it = meshMap.begin(); it != meshMap.end(); ++it)
-		delete &it->second;
+	//Clear the map data and mesh buffers
+	for (MeshMapType::iterator it = meshMap.begin(); it != meshMap.end(); ++it){
+		it->second.clearBuffers();
+	}
 	meshMap.clear();
 }
 

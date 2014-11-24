@@ -18,6 +18,7 @@ private:
 	ShaderManager(){}
 	void determineShaderUniforms(Shader* _shader);
 	void initShaderAttribs(Shader* _shader);
+	void disableShaderAttribs(Shader* _shader);
 public:
 	~ShaderManager();
 	static ShaderManager* getInstance();
@@ -25,4 +26,5 @@ public:
 	Shader* getShader(std::string _name);
 	Shader* getCurrShader();
 	void useShader(std::string _name);
+	void updateAttribs(std::string _shaderName, Mesh* _mesh);
 };

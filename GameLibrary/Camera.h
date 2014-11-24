@@ -10,6 +10,8 @@ private:
 	glm::mat4 view;
 	glm::mat4 projection;
 	glm::vec3 position;
+	glm::vec3 direction;
+	glm::vec3 up;
 	int screenWidth, screenHeight;
 	float zoom;
 public:
@@ -23,6 +25,7 @@ public:
 	void setPosition(glm::vec3 _position);
 	void IncrementZoom(float _zoom);
 	void Translate(glm::vec3 _offset);
+	void Rotate(glm::vec3 _rotEuler);
 	void UpdateCamera();
 	void UpdateProjection();
 };

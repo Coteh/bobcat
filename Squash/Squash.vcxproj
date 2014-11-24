@@ -83,12 +83,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="square.frag" />
-    <None Include="square.vert" />
-    <None Include="triangles.frag" />
-    <None Include="triangles.vert" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="SquashApp.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

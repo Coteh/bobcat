@@ -10,6 +10,8 @@
 #define PLY_PROPERTY_STRING "property"
 #define PLY_END_HEADER_STRING "end_header"
 
+using namespace FileIO;
+
 class IPLYProperty{
 public:
 	virtual std::string getName() = 0;

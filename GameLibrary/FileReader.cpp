@@ -1,5 +1,7 @@
 #include "FileReader.h"
 
+using namespace FileIO;
+
 FileReader::FileReader(){
 
 }

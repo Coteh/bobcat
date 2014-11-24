@@ -27,10 +27,4 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="square.frag" />
-    <None Include="square.vert" />
-    <None Include="triangles.frag" />
-    <None Include="triangles.vert" />
-  </ItemGroup>
 </Project>

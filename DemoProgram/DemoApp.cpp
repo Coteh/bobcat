@@ -34,7 +34,6 @@ void DemoApp::Init(){
 	shaderManager->addShader(ShaderLoader::LoadShaders(shaders), "TestShader");
 	shaderManager->addShader(ShaderLoader::LoadShaders(shaders2), "TestShader2");
 	shaderManager->addShader(ShaderLoader::LoadShaders(shaders3), "JakeShader");
-	shaderManager->useShader("TestShader");
 
 	/*Setting up Textures*/
 	textureManager->loadTexture("de1.tga", "treeTexture");
@@ -52,9 +51,15 @@ void DemoApp::Init(){
 	std::vector<GLfloat> cubeVertices = ((PLYModelReader*)modelReader)->getAllVertexData();
 	std::vector<GLuint> cubeIndices = ((PLYModelReader*)modelReader)->getIndices();
 	std::vector<int> cubeIndiceCountData = ((PLYModelReader*)modelReader)->getIndiceCountData();
-	Mesh cubeMesh = Mesh(cubeVertices, cubeIndices, "Cube", cubeIndiceCountData, shaderManager->getShader("TestShader"));
-	//cubeMesh.setShader(shaderManager->getShader("TestShader"));
+	Mesh cubeMesh = Mesh(cubeVertices, cubeIndices, "Cube", cubeIndiceCountData);
 	meshManager->addMesh(cubeMesh);
+
+	modelReader->readModel("TestModel2.ply");
+	std::vector<GLfloat> torusVerts = ((PLYModelReader*)modelReader)->getAllVertexData();
+	std::vector<GLuint> torusIndices = ((PLYModelReader*)modelReader)->getIndices();
+	std::vector<int> torusIndiceCountData = ((PLYModelReader*)modelReader)->getIndiceCountData();
+	Mesh torusMesh = Mesh(torusVerts, torusIndices, "Torus", torusIndiceCountData);
+	meshManager->addMesh(torusMesh);
 
 	//Initalize the objects, plugging the meshes into them
 	cubeObj = new GameObject();
@@ -62,7 +67,14 @@ void DemoApp::Init(){
 	//cubeObj->setTexture(treeTex, st);
 	cubeObj->setPosition(0, 0.0f, 0);
 	cubeObj->setVelocity(0.0f, 0.0f, 0.0f);
+	cubeObj->setShader(shaderManager->getShader("TestShader"));
+	torusObj = new GameObject();
+	torusObj->setMesh(meshManager->getMesh("Torus"));
+	torusObj->setPosition(1.0f, 1.0f, -1.0f);
+	torusObj->setScale(0.4f, 0.4f, 0.4f);
+	torusObj->setShader(shaderManager->getShader("TestShader2"));
 	scene->addGameObject(cubeObj);
+	scene->addGameObject(torusObj);
 }
 
 void DemoApp::OnKeyEvent(GLFWwindow* _window, int _key, int _scancode, int _action, int _mods){
@@ -70,6 +82,12 @@ void DemoApp::OnKeyEvent(GLFWwindow* _window, int _key, int _scancode, int _acti
 	if (_action == GLFW_PRESS){
 		if (_key == GLFW_KEY_ESCAPE){
 			printf("Quit");
+		} else if (_key == GLFW_KEY_KP_4){
+			cubeObj->setShader(shaderManager->getShader("TestShader"));
+			torusObj->setShader(shaderManager->getShader("TestShader2"));
+		} else if (_key == GLFW_KEY_KP_6){
+			cubeObj->setShader(shaderManager->getShader("TestShader2"));
+			torusObj->setShader(shaderManager->getShader("TestShader"));
 		}
 	}
 	glm::vec3 cubePos = cubeObj->getPosition();
@@ -97,9 +115,9 @@ void DemoApp::OnKeyHandle(){
 	} else if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_S) == GLFW_PRESS){
 		camera->Translate(glm::vec3(0.0f, 0.0f, 1.0f) * deltaTime);
 	} else if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_A) == GLFW_PRESS){
-		camera->Translate(glm::vec3(-1.0f, 0.0f, 0.0f) * deltaTime);
+		camera->Rotate(glm::vec3(-0.001, 0.0, 0.0));
 	} else if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_D) == GLFW_PRESS){
-		camera->Translate(glm::vec3(1.0f, 0.0f, 0.0f) * deltaTime);
+		camera->Rotate(glm::vec3(0.001, 0.0, 0.0));
 	} else if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_EQUAL) == GLFW_PRESS){
 		camera->IncrementZoom(-2.0f * deltaTime);
 	} else if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_MINUS) == GLFW_PRESS){
@@ -112,6 +130,7 @@ void DemoApp::Update(){
 	scene->updateGameObjects(deltaTime);
 	glm::vec3 rot = cubeObj->getRotation();
 	cubeObj->setRotationEuler(rot.x + (10.0f * deltaTime), rot.y + (0.0f * deltaTime), rot.z + (10.0f * deltaTime));
+	torusObj->setRotationEuler(rot.x + (5.0f * deltaTime), rot.y + (0.0f * deltaTime), rot.z + (5.0f * deltaTime));
 }
 
 void DemoApp::Draw(){

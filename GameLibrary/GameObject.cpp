@@ -13,6 +13,10 @@ GameObject::~GameObject() {
 	
 }
 
+std::vector<GameObject*> GameObject::getChildren(){
+	return children;
+}
+
 std::string GameObject::getName(){
 	return name;
 }
@@ -47,6 +51,10 @@ Rect3D GameObject::getCollisionRect(){
 
 Mesh* GameObject::getMesh(){
 	return mesh;
+}
+
+Shader* GameObject::getShader(){
+	return shader;
 }
 
 void GameObject::setName(std::string _name){
@@ -90,6 +98,10 @@ void GameObject::setRotationEuler(float _x, float _y, float _z){
 
 void GameObject::setScale(float _x, float _y, float _z){
 	scale = glm::vec3(_x, _y, _z);
+}
+
+void GameObject::setShader(Shader* _shader) {
+	shader = _shader;
 }
 
 void GameObject::setTexture(Texture* _tex, std::vector<GLfloat> _uvCords){
@@ -136,18 +148,12 @@ void GameObject::Update(float _gameTime){
 	}
 }
 
-void GameObject::Draw(GLuint _modelLoc){
+void GameObject::Draw(){
 	/*glBindBuffer(GL_ARRAY_BUFFER, tex->texID);
 	glDrawElements(GL_TEXTURE_2D, uvCords.size(), GL_UNSIGNED_INT, (void*)0);*/
-	glUniformMatrix4fv(_modelLoc, 1, GL_FALSE, glm::value_ptr(getModelMat()));
-	glBindVertexArray(mesh->getVAO());
-	//glDrawElements(drawModeVec[0], mesh->getCount(), GL_UNSIGNED_INT, (void*)0);
 	int indicesSoFar = 0;
 	for (int i = 0; i < drawModeVec.size(); i++){
 		glDrawElements(drawModeVec[i], indiceCountData[i], GL_UNSIGNED_INT, (void*)(indicesSoFar * sizeof(GLuint)));
 		indicesSoFar += indiceCountData[i];
-	}
-	for (int i = 0; i < children.size(); i++){
-		children[i]->Draw(_modelLoc);
 	}
 }

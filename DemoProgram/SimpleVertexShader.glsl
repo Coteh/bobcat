@@ -1,6 +1,6 @@
 #version 330 core
 
-uniform mat4 Model, Camera, Perspective_Projection;
+uniform mat4 MVP;
 layout(location = 0) in vec3 vPosition;
 layout(location = 1) in vec3 vNormals;
 layout(location = 2) in vec2 vTexture;
@@ -12,7 +12,7 @@ out vec4 v2f_color;
 
 
 void main() {
-    gl_Position = Camera * Perspective_Projection * Model * vec4(vPosition, 1);
+    gl_Position = MVP * vec4(vPosition, 1);
 
     // The color of each vertex will be interpolated to produce the color of each fragment.
     v2f_color = vec4(vNormals * vColor, 1);

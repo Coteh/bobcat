@@ -72,6 +72,7 @@
     <ClCompile Include="CollisionMath.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="FileReader.cpp" />
+    <ClCompile Include="FileWriter.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="LogManager.cpp" />
     <ClCompile Include="Mesh.cpp" />
@@ -91,8 +92,10 @@
     <ClInclude Include="CollisionMath.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="FileReader.h" />
+    <ClInclude Include="FileWriter.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="IFileReader.h" />
+    <ClInclude Include="IFileWriter.h" />
     <ClInclude Include="IModelReader.h" />
     <ClInclude Include="LogManager.h" />
     <ClInclude Include="Mesh.h" />

@@ -8,6 +8,8 @@ Camera::Camera() {
 	projection = glm::mat4();
 	zoom = 10.0f;
 	position = glm::vec3(0, 0, 20);
+	direction = glm::vec3(0.0f, 0.0f, -1.0f);
+	up = glm::vec3(0.0f, 1.0f, 0.0f);
 }
 
 
@@ -52,11 +54,13 @@ void Camera::Translate(glm::vec3 _offset){
 	UpdateCamera();
 }
 
+void Camera::Rotate(glm::vec3 _rotEuler){
+	direction += _rotEuler;
+	UpdateCamera();
+}
+
 void Camera::UpdateCamera(){
-	glm::vec3 eye = position; //the evil eye
-	glm::vec3 direction = { 0.0f, 0.0f, -1.0f };
-	glm::vec3 up = { 0.0f, 1.0f, 0.0f };
-	view = glm::lookAt(eye, eye + direction, up);
+	view = glm::lookAt(position, position + direction, up); //position is the evil eye!
 }
 
 void Camera::UpdateProjection(){

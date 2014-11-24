@@ -14,14 +14,14 @@ void SquashApp::Init(){
 
 	/*Setting up Shaders*/
 	ShaderLoadInfo shaders[] = {
-		{ GL_VERTEX_SHADER, "square.vert" },
-		{ GL_FRAGMENT_SHADER, "square.frag" },
+		{ GL_VERTEX_SHADER, "rainbow-vert.glsl" },
+		{ GL_FRAGMENT_SHADER, "rainbow-frag.glsl" },
 		{ GL_NONE, NULL }
 	};
 
 	ShaderLoadInfo shaders2[] = {
-		{ GL_VERTEX_SHADER, "triangles.vert" },
-		{ GL_FRAGMENT_SHADER, "triangles.frag" },
+		{ GL_VERTEX_SHADER, "thomasalex-vert.glsl" },
+		{ GL_FRAGMENT_SHADER, "thomasalex-frag.glsl" },
 		{ GL_NONE, NULL }
 	};
 
@@ -36,14 +36,14 @@ void SquashApp::Init(){
 	//Initalize the models
 	modelReader = new PLYModelReader();
 	modelReader->readModel("Paddle.ply");
-	std::vector<GLfloat> paddleVertices = ((PLYModelReader*)modelReader)->getVertices("x", "y", "z");
+	std::vector<GLfloat> paddleVertices = ((PLYModelReader*)modelReader)->getAllVertexData();
 	std::vector<GLuint> paddleIndices = ((PLYModelReader*)modelReader)->getIndices();
 	std::vector<int> paddleIndiceCountData = ((PLYModelReader*)modelReader)->getIndiceCountData();
 	Mesh torusMesh = Mesh(paddleVertices, paddleIndices, "Paddle", paddleIndiceCountData);
 	meshManager->addMesh(torusMesh);
 
 	modelReader->readModel("Circle.ply");
-	std::vector<GLfloat> circleVertices = ((PLYModelReader*)modelReader)->getVertices("x", "y", "z");
+	std::vector<GLfloat> circleVertices = ((PLYModelReader*)modelReader)->getAllVertexData();
 	std::vector<GLuint> circleIndices = ((PLYModelReader*)modelReader)->getIndices();
 	std::vector<int> circleIndiceCountData = ((PLYModelReader*)modelReader)->getIndiceCountData();
 	Mesh cubeMesh = Mesh(circleVertices, circleIndices, "Circle", circleIndiceCountData);
@@ -53,6 +53,7 @@ void SquashApp::Init(){
 	//Collision rectangles are faked for now
 	playerOne = new GameObject();
 	playerOne->setMesh(meshManager->getMesh("Paddle"));
+	playerOne->setShader(shaderManager->getShader("TestShader2"));
 	playerOne->setPosition(-1.0f, -1.5f, 0);
 	playerOne->setVelocity(0.0f, 0.0f, 0.0f);
 	playerOne->setScale(0.5f, 0.35f, 0.35f);
@@ -62,6 +63,7 @@ void SquashApp::Init(){
 
 	playerTwo = new GameObject();
 	playerTwo->setMesh(meshManager->getMesh("Paddle"));
+	playerTwo->setShader(shaderManager->getShader("TestShader2"));
 	playerTwo->setPosition(1.0f, -1.5f, 0);
 	playerTwo->setVelocity(0.0f, 0.0f, 0.0f);
 	playerTwo->setScale(0.5f, 0.35f, 0.35f);
@@ -71,6 +73,7 @@ void SquashApp::Init(){
 
 	ballObj = new GameObject();
 	ballObj->setMesh(meshManager->getMesh("Circle"));
+	ballObj->setShader(shaderManager->getShader("TestShader"));
 	ballObj->setPosition(0, 0.0f, 0);
 	ballObj->setVelocity(0.0f, 0.0f, 0.0f);
 	ballObj->setScale(0.25f, 0.25f, 0.25f);
@@ -96,9 +99,9 @@ void SquashApp::OnKeyHandle(){
 	Engine::OnKeyHandle();
 	//Camera Controls
 	if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_EQUAL) == GLFW_PRESS){
-		camera->IncrementZoom(-2.0f * gameTime);
+		camera->IncrementZoom(-2.0f * deltaTime);
 	} else if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_MINUS) == GLFW_PRESS){
-		camera->IncrementZoom(2.0f * gameTime);
+		camera->IncrementZoom(2.0f * deltaTime);
 	}
 	//Player One, Player Two, and Ball Controls
 	glm::vec3 playerOnePos = playerOne->getPosition();
@@ -121,13 +124,13 @@ void SquashApp::OnKeyHandle(){
 	if (playerTwoPos.x + playerTwoVelChange.x <= playerOnePos.x + (playerOne->getCollisionRect().width - 0.1)){
 		playerTwoVelChange.x = 0;
 	}
-	playerOne->setPosition(playerOnePos += (playerOneVelChange * gameTime));
-	playerTwo->setPosition(playerTwoPos += (playerTwoVelChange * gameTime));
+	playerOne->setPosition(playerOnePos += (playerOneVelChange * deltaTime));
+	playerTwo->setPosition(playerTwoPos += (playerTwoVelChange * deltaTime));
 }
 
 void SquashApp::Update(){
 	Engine::Update();
-	scene->updateGameObjects(gameTime);
+	scene->updateGameObjects(deltaTime);
 	/*Updating the ball*/
 	glm::vec3 ballPos = ballObj->getPosition();
 	//Ball collision checks
@@ -173,9 +176,9 @@ void SquashApp::Update(){
 			ballSpeedMultiplier += 1.0f;
 		}
 	}
-	ballObj->setPosition(ballPos += ((ballVelChange * ballSpeedMultiplier) * gameTime));
+	ballObj->setPosition(ballPos += ((ballVelChange * ballSpeedMultiplier) * deltaTime));
 	glm::vec3 rot = ballObj->getRotation();
-	ballObj->setRotationEuler(rot.x + (0.0f * gameTime), rot.y + (0.0f * gameTime), rot.z + (10.0f * gameTime));
+	ballObj->setRotationEuler(rot.x + (0.0f * deltaTime), rot.y + (0.0f * deltaTime), rot.z + (10.0f * deltaTime));
 }
 
 void SquashApp::Draw(){

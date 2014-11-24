@@ -90,6 +90,7 @@ void Engine::DrawEnd(){
 Engine::~Engine() {
 	delete window;
 	delete sceneManager;
+	delete meshManager;
 	delete shaderManager;
 	glfwTerminate();
 	exit(EXIT_SUCCESS);
