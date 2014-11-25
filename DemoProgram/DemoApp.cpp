@@ -44,37 +44,28 @@ void DemoApp::Init(){
 	scene = sceneManager->getScene(0);
 	scene->setRenderer(renderer);
 
-	//Initalize the models
-	modelReader = new PLYModelReader();
-
-	modelReader->readModel("Monkey.ply");
-	std::vector<GLfloat> cubeVertices = ((PLYModelReader*)modelReader)->getAllVertexData();
-	std::vector<GLuint> cubeIndices = ((PLYModelReader*)modelReader)->getIndices();
-	std::vector<int> cubeIndiceCountData = ((PLYModelReader*)modelReader)->getIndiceCountData();
-	Mesh cubeMesh = Mesh(cubeVertices, cubeIndices, "Cube", cubeIndiceCountData);
-	meshManager->addMesh(cubeMesh);
-
-	modelReader->readModel("TestModel2.ply");
-	std::vector<GLfloat> torusVerts = ((PLYModelReader*)modelReader)->getAllVertexData();
-	std::vector<GLuint> torusIndices = ((PLYModelReader*)modelReader)->getIndices();
-	std::vector<int> torusIndiceCountData = ((PLYModelReader*)modelReader)->getIndiceCountData();
-	Mesh torusMesh = Mesh(torusVerts, torusIndices, "Torus", torusIndiceCountData);
-	meshManager->addMesh(torusMesh);
+	/*Adding meshes*/
+	meshManager->addMesh("Monkey.ply", "Monkey");
+	meshManager->addMesh("TestModel2.ply", "Cube");
 
 	//Initalize the objects, plugging the meshes into them
 	cubeObj = new GameObject();
-	cubeObj->setMesh(meshManager->getMesh("Cube"));
+	cubeObj->setMesh(meshManager->getMesh("Monkey"));
 	//cubeObj->setTexture(treeTex, st);
 	cubeObj->setPosition(0, 0.0f, 0);
 	cubeObj->setVelocity(0.0f, 0.0f, 0.0f);
 	cubeObj->setShader(shaderManager->getShader("TestShader"));
 	torusObj = new GameObject();
-	torusObj->setMesh(meshManager->getMesh("Torus"));
+	torusObj->setMesh(meshManager->getMesh("Cube"));
 	torusObj->setPosition(1.0f, 1.0f, -1.0f);
 	torusObj->setScale(0.4f, 0.4f, 0.4f);
 	torusObj->setShader(shaderManager->getShader("TestShader2"));
+	torusObj->isWireFrameOn = true;
 	scene->addGameObject(cubeObj);
 	scene->addGameObject(torusObj);
+
+	logManager->writeLog(LogLevel::LOG_INFO, "This is a test log");
+	logManager->writeLog(LogLevel::LOG_INFO, "This is a test log also");
 }
 
 void DemoApp::OnKeyEvent(GLFWwindow* _window, int _key, int _scancode, int _action, int _mods){

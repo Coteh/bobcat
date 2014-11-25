@@ -11,6 +11,7 @@ private:
 	std::vector<int> indiceCountData;
 	int count;
 	std::string name;
+	GLuint boundShaderProgram;
 public:
 	Mesh(){}
 	Mesh(std::vector<GLfloat> _vertices, std::vector<GLuint> _elements, std::string _name, std::vector<int> _indiceCountData);
@@ -22,4 +23,6 @@ public:
 	int getCount();
 	std::vector<int> getIndiceCountData();
 	std::string getName();
+	GLuint getBoundShaderProgram();
+	void setBoundShaderProgram(GLuint _shaderProgram);
 };

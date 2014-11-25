@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Window.h"
+#include "LogManager.h"
 //#include "InputManager.h"
 #include "Renderer.h"
 #include "MeshManager.h"
@@ -18,6 +19,7 @@ private:
 
 	bool isKeyPressed;
 protected:
+	LogManager* logManager;
 	//InputManager* inputManager;
 	Renderer* renderer;
 	Camera* camera;
@@ -25,7 +27,6 @@ protected:
 	MeshManager* meshManager;
 	ShaderManager* shaderManager;
 	TextureManager* textureManager;
-	IModelReader* modelReader;
 
 	GLFWwindow* currActiveWindowInstance;
 	int lastKeyAction;

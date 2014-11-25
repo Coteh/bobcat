@@ -33,27 +33,15 @@ void SquashApp::Init(){
 	scene = sceneManager->getScene(0);
 	scene->setRenderer(renderer);
 
-	//Initalize the models
-	modelReader = new PLYModelReader();
-	modelReader->readModel("Paddle.ply");
-	std::vector<GLfloat> paddleVertices = ((PLYModelReader*)modelReader)->getAllVertexData();
-	std::vector<GLuint> paddleIndices = ((PLYModelReader*)modelReader)->getIndices();
-	std::vector<int> paddleIndiceCountData = ((PLYModelReader*)modelReader)->getIndiceCountData();
-	Mesh torusMesh = Mesh(paddleVertices, paddleIndices, "Paddle", paddleIndiceCountData);
-	meshManager->addMesh(torusMesh);
-
-	modelReader->readModel("Circle.ply");
-	std::vector<GLfloat> circleVertices = ((PLYModelReader*)modelReader)->getAllVertexData();
-	std::vector<GLuint> circleIndices = ((PLYModelReader*)modelReader)->getIndices();
-	std::vector<int> circleIndiceCountData = ((PLYModelReader*)modelReader)->getIndiceCountData();
-	Mesh cubeMesh = Mesh(circleVertices, circleIndices, "Circle", circleIndiceCountData);
-	meshManager->addMesh(cubeMesh);
+	/*Setting up meshes*/
+	meshManager->addMesh("Paddle.ply", "Paddle");
+	meshManager->addMesh("Circle.ply", "Circle");
 
 	//Initalize the objects, plugging the meshes into them
 	//Collision rectangles are faked for now
 	playerOne = new GameObject();
 	playerOne->setMesh(meshManager->getMesh("Paddle"));
-	playerOne->setShader(shaderManager->getShader("TestShader2"));
+	playerOne->setShader(shaderManager->getShader("TestShader"));
 	playerOne->setPosition(-1.0f, -1.5f, 0);
 	playerOne->setVelocity(0.0f, 0.0f, 0.0f);
 	playerOne->setScale(0.5f, 0.35f, 0.35f);
@@ -63,7 +51,7 @@ void SquashApp::Init(){
 
 	playerTwo = new GameObject();
 	playerTwo->setMesh(meshManager->getMesh("Paddle"));
-	playerTwo->setShader(shaderManager->getShader("TestShader2"));
+	playerTwo->setShader(shaderManager->getShader("TestShader"));
 	playerTwo->setPosition(1.0f, -1.5f, 0);
 	playerTwo->setVelocity(0.0f, 0.0f, 0.0f);
 	playerTwo->setScale(0.5f, 0.35f, 0.35f);

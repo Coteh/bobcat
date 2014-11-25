@@ -21,16 +21,16 @@ void Renderer::PreRender(){
 }
 
 void Renderer::RenderObject(GameObject* _gameObject){
-	glBindVertexArray(_gameObject->getMesh()->getVAO());
 	if (shaderManager->getCurrShader() == nullptr || _gameObject->getShader()->shaderProgram != shaderManager->getCurrShader()->shaderProgram){
 		shaderManager->useShader(_gameObject->getShader()->name);
 	}
-	shaderManager->updateAttribs(_gameObject->getShader()->name, _gameObject->getMesh());
+	if (_gameObject->getMesh()->getBoundShaderProgram() != _gameObject->getShader()->shaderProgram){
+		shaderManager->updateAttribs(_gameObject->getShader()->name, _gameObject->getMesh());
+		_gameObject->getMesh()->setBoundShaderProgram(shaderManager->getCurrShader()->shaderProgram);
+	}
 	glm::mat4 mvp = camera->getProjection() * camera->getView() * _gameObject->getModelMat();
 	glUniformMatrix4fv(shaderManager->getCurrShader()->mvpLoc, 1, GL_FALSE, glm::value_ptr(mvp));
 	_gameObject->Draw();
-	
-	glBindVertexArray(0);
 
 	std::vector<GameObject*> childs = _gameObject->getChildren();
 	for (int i = 0; i < childs.size(); i++){

@@ -5,6 +5,9 @@ using namespace FileIO;
 FileWriter::FileWriter() {
 }
 
+FileWriter::~FileWriter() {
+}
+
 void FileWriter::writeToFile(std::string _fileName, std::vector<std::string> _data){
 	std::ofstream file;
 	file.open(_fileName);
@@ -14,5 +17,16 @@ void FileWriter::writeToFile(std::string _fileName, std::vector<std::string> _da
 	file.close();
 }
 
-FileWriter::~FileWriter() {
+void FileWriter::writeToFile(std::string _fileName, std::string _line){
+	std::ofstream file;
+	file.open(_fileName);
+	file << _line;
+	file.close();
+}
+
+void FileWriter::appendToFile(std::string _fileName, std::string _line){
+	std::ofstream file;
+	file.open(_fileName, std::ios_base::app);
+	file << _line;
+	file.close();
 }

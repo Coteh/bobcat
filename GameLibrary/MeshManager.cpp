@@ -1,4 +1,7 @@
 #include "MeshManager.h"
+#include <algorithm>
+#include <iostream>
+#include <sstream>
 
 MeshManager* MeshManager::instance;
 
@@ -25,6 +28,31 @@ Mesh* MeshManager::getMesh(std::string _name){
 	return &meshMap.find(_name)->second;
 }
 
+IModelReader* MeshManager::determineModelReader(std::string _fileName){
+	std::istringstream iss(_fileName);
+	std::vector<std::string> linesSplit;
+	std::string line;
+	while (std::getline(iss, line, '.')){
+		linesSplit.push_back(line);
+	}
+	std::string fileExtension = linesSplit[linesSplit.size() - 1];
+	std::transform(fileExtension.begin(), fileExtension.end(), fileExtension.begin(), ::tolower);
+	
+	//if (fileExtension == "ply"){ Right now it's just PLY we're doing
+	return new PLYModelReader();
+	//}
+}
+
 void MeshManager::addMesh(Mesh _mesh){
 	meshMap.insert(std::make_pair(_mesh.getName(), _mesh));
+}
+
+void MeshManager::addMesh(std::string _fileName, std::string _meshName){
+	modelReader = determineModelReader(_fileName);
+
+	modelReader->readModel(_fileName);
+	std::vector<GLfloat> verts = modelReader->getAllVertexData();
+	std::vector<GLuint> indices = modelReader->getIndices();
+	std::vector<int> indiceCountData = modelReader->getIndiceCountData();
+	addMesh(Mesh(verts, indices, _meshName, indiceCountData));
 }

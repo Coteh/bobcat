@@ -88,8 +88,8 @@ public:
 	std::vector<GLfloat> getVertexData(std::string _variableName);
 	std::vector<GLfloat> getVertices(std::string _xName, std::string _yName, std::string _zName);
 	std::vector<GLfloat> getVertices(std::string _xName, std::string _yName);
-	std::vector<GLfloat> getAllVertexData();
-	std::vector<GLuint> getIndices();
-	std::vector<int> getIndiceCountData();
+	virtual std::vector<GLfloat> getAllVertexData();
+	virtual std::vector<GLuint> getIndices();
+	virtual std::vector<int> getIndiceCountData();
 };
 

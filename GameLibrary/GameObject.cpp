@@ -151,9 +151,17 @@ void GameObject::Update(float _gameTime){
 void GameObject::Draw(){
 	/*glBindBuffer(GL_ARRAY_BUFFER, tex->texID);
 	glDrawElements(GL_TEXTURE_2D, uvCords.size(), GL_UNSIGNED_INT, (void*)0);*/
+	glBindVertexArray(mesh->getVAO());
+	if (isWireFrameOn){
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	}
 	int indicesSoFar = 0;
 	for (int i = 0; i < drawModeVec.size(); i++){
 		glDrawElements(drawModeVec[i], indiceCountData[i], GL_UNSIGNED_INT, (void*)(indicesSoFar * sizeof(GLuint)));
 		indicesSoFar += indiceCountData[i];
 	}
+	if (isWireFrameOn){
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+	glBindVertexArray(0);
 }

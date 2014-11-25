@@ -80,5 +80,7 @@ public:
 	void Update(float _gameTime);
 
 	void Draw();
+
+	bool isWireFrameOn;
 };
 

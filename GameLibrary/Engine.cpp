@@ -3,6 +3,8 @@
 
 Engine::Engine() {
 	window = new Window();
+	logManager = LogManager::getInstance();
+	logManager->setDefaultLogFileName("EngineLog.txt");
 	renderer = new Renderer();
 	meshManager = MeshManager::getInstance();
 	sceneManager = SceneManager::getInstance();
@@ -66,7 +68,6 @@ void Engine::OnWindowResize(int _width, int _height){
 }
 
 void Engine::Update(){
-	//deltaTime = glutGet(GLUT_ELAPSED_TIME);
 	gameTime += deltaTime;
 	//if (isKeyPressed){
 		OnKeyHandle();

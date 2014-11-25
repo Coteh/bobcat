@@ -19,6 +19,8 @@ Mesh::Mesh(std::vector<GLfloat> _vertices, std::vector<GLuint> _elements, std::s
 
 	//Unbind the vertex array when we're done here
 	glBindVertexArray(0);
+
+	boundShaderProgram = 0;
 }
 
 Mesh::~Mesh(){
@@ -53,4 +55,12 @@ GLuint Mesh::getEBO(){
 
 int Mesh::getCount(){
 	return count;
+}
+
+GLuint Mesh::getBoundShaderProgram(){
+	return boundShaderProgram;
+}
+
+void Mesh::setBoundShaderProgram(GLuint _shaderProgram){
+	boundShaderProgram = _shaderProgram;
 }
