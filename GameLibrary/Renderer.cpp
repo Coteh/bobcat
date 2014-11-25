@@ -2,7 +2,7 @@
 
 
 Renderer::Renderer() {
-
+	
 }
 
 Renderer::~Renderer() {
@@ -31,6 +31,14 @@ void Renderer::RenderObject(GameObject* _gameObject){
 	glm::mat4 mvp = camera->getProjection() * camera->getView() * _gameObject->getModelMat();
 	glUniformMatrix4fv(shaderManager->getCurrShader()->mvpLoc, 1, GL_FALSE, glm::value_ptr(mvp));
 	_gameObject->Draw();
+	if (isDebugOn){
+		Collider* col = _gameObject->getCollider();
+		if (col != nullptr){
+			float colScale = col->getScale();
+			glUniformMatrix4fv(shaderManager->getCurrShader()->mvpLoc, 1, GL_FALSE, glm::value_ptr(glm::scale(mvp, glm::vec3(colScale, colScale, colScale))));
+			_gameObject->DrawDebug();
+		}
+	}
 
 	std::vector<GameObject*> childs = _gameObject->getChildren();
 	for (int i = 0; i < childs.size(); i++){

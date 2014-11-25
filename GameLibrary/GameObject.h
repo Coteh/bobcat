@@ -6,7 +6,7 @@
 #include <glm\gtc\matrix_transform.hpp>
 #include <glm\gtc\type_ptr.hpp>
 #include "Mesh.h"
-#include "Rect.h"
+#include "Collider.h"
 #include "TextureLoader.h"
 
 class GameObject {
@@ -23,7 +23,7 @@ private:
 	glm::vec3 rotation;
 	glm::vec3 scale;
 	float friction;
-	Rect3D collisionRect;
+	Collider* collider;
 	GLuint modelLoc;
 	std::vector<GLenum> drawModeVec;
 	std::vector<int> indiceCountData;
@@ -45,7 +45,7 @@ public:
 
 	glm::vec3 getRotation();
 
-	Rect3D getCollisionRect();
+	Collider* getCollider();
 
 	Mesh* getMesh();
 
@@ -55,7 +55,7 @@ public:
 
 	void setMesh(Mesh* _mesh);
 
-	void setCollisionRect(Rect3D _rect);
+	void setCollider(Collider* _collider);
 
 	void setPosition(float _x, float _y, float _z);
 
@@ -80,6 +80,8 @@ public:
 	void Update(float _gameTime);
 
 	void Draw();
+
+	void DrawDebug();
 
 	bool isWireFrameOn;
 };

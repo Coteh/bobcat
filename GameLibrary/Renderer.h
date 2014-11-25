@@ -18,5 +18,6 @@ public:
 	void PreRender();
 	void RenderObject(GameObject* _gameObject);
 	void EndRender();
+	bool isDebugOn;
 };
 

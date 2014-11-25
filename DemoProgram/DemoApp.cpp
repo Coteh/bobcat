@@ -45,7 +45,7 @@ void DemoApp::Init(){
 	scene->setRenderer(renderer);
 
 	/*Adding meshes*/
-	meshManager->addMesh("Monkey.ply", "Monkey");
+	meshManager->addMesh("Sphere.ply", "Monkey");
 	meshManager->addMesh("TestModel2.ply", "Cube");
 
 	//Initalize the objects, plugging the meshes into them
@@ -60,12 +60,16 @@ void DemoApp::Init(){
 	torusObj->setPosition(1.0f, 1.0f, -1.0f);
 	torusObj->setScale(0.4f, 0.4f, 0.4f);
 	torusObj->setShader(shaderManager->getShader("TestShader2"));
-	torusObj->isWireFrameOn = true;
+	torusObj->setCollider(new SphereCollider());
+	torusObj->getCollider()->setScale(1.2f);
 	scene->addGameObject(cubeObj);
 	scene->addGameObject(torusObj);
 
 	logManager->writeLog(LogLevel::LOG_INFO, "This is a test log");
 	logManager->writeLog(LogLevel::LOG_INFO, "This is a test log also");
+	logManager->writeLog(LogLevel::LOG_ERROR, "This is an error!");
+
+	renderer->isDebugOn = true;
 }
 
 void DemoApp::OnKeyEvent(GLFWwindow* _window, int _key, int _scancode, int _action, int _mods){
@@ -110,9 +114,9 @@ void DemoApp::OnKeyHandle(){
 	} else if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_D) == GLFW_PRESS){
 		camera->Rotate(glm::vec3(0.001, 0.0, 0.0));
 	} else if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_EQUAL) == GLFW_PRESS){
-		camera->IncrementZoom(-2.0f * deltaTime);
-	} else if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_MINUS) == GLFW_PRESS){
 		camera->IncrementZoom(2.0f * deltaTime);
+	} else if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_MINUS) == GLFW_PRESS){
+		camera->IncrementZoom(-2.0f * deltaTime);
 	}
 }
 

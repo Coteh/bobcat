@@ -45,7 +45,9 @@ void Camera::setPosition(glm::vec3 _position){
 }
 
 void Camera::IncrementZoom(float _zoom){
-	zoom += _zoom;
+	float zoomDir = (direction.z / ::abs(direction.z));
+	if (zoomDir == 0) zoomDir = 1.0f;
+	zoom += _zoom * zoomDir;
 	UpdateProjection();
 }
 

@@ -6,7 +6,6 @@ GameObject::GameObject(){
 	rotation = glm::vec3(0.0f, 0.0f, 0.0f);
 	setFriction(1.0f);
 	scale = glm::vec3(1.0f, 1.0f, 1.0f);
-	collisionRect = Rect3D();
 }
 
 GameObject::~GameObject() {
@@ -45,8 +44,8 @@ glm::vec3 GameObject::getRotation(){
 	return rotation;
 }
 
-Rect3D GameObject::getCollisionRect(){
-	return collisionRect;
+Collider* GameObject::getCollider(){
+	return collider;
 }
 
 Mesh* GameObject::getMesh(){
@@ -66,8 +65,8 @@ void GameObject::setMesh(Mesh* _mesh) {
 	UpdateDrawModes();
 }
 
-void GameObject::setCollisionRect(Rect3D _rect){
-	collisionRect = _rect;
+void GameObject::setCollider(Collider* _collider){
+	collider = _collider;
 }
 
 void GameObject::setPosition(float _x, float _y, float _z){
@@ -163,5 +162,17 @@ void GameObject::Draw(){
 	if (isWireFrameOn){
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
+	glBindVertexArray(0);
+}
+
+void GameObject::DrawDebug(){
+	glBindVertexArray(mesh->getVAO());
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	int indicesSoFar = 0;
+	for (int i = 0; i < drawModeVec.size(); i++){
+		glDrawElements(drawModeVec[i], indiceCountData[i], GL_UNSIGNED_INT, (void*)(indicesSoFar * sizeof(GLuint)));
+		indicesSoFar += indiceCountData[i];
+	}
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	glBindVertexArray(0);
 }
