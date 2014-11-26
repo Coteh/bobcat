@@ -13,6 +13,7 @@ private:
 	glm::mat4 proj;
 	Mesh* boxColliderMesh;
 	Mesh* sphereColliderMesh;
+	Shader* debugShader;
 	void RenderDebugMesh(Mesh* _mesh);
 public:
 	Renderer();

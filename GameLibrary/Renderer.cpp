@@ -11,10 +11,17 @@ Renderer::~Renderer() {
 void Renderer::Init(){
 	shaderManager = ShaderManager::getInstance();
 	MeshManager* meshManager = MeshManager::getInstance();
-	meshManager->addMesh("TestModel2.ply", "Debug_ColliderBox");
+	meshManager->addMesh("Cube.ply", "Debug_ColliderBox");
 	meshManager->addMesh("Sphere.ply", "Debug_ColliderSphere");
 	boxColliderMesh = meshManager->getMesh("Debug_ColliderBox");
 	sphereColliderMesh = meshManager->getMesh("Debug_ColliderSphere");
+	ShaderLoadInfo debugShaderInfo[] = {
+		{ GL_VERTEX_SHADER, "debug-vert.glsl" },
+		{ GL_FRAGMENT_SHADER, "debug-frag.glsl" },
+		{ GL_NONE, NULL }
+	};
+	shaderManager->addShader(ShaderLoader::LoadShaders(debugShaderInfo), "DebugShader");
+	debugShader = shaderManager->getShader("DebugShader");
 }
 
 void Renderer::setCamera(Camera* _camera){
@@ -48,14 +55,15 @@ void Renderer::RenderObject(GameObject* _gameObject){
 			} else{
 				colMesh = boxColliderMesh;
 			}
-			if (!colMesh->getBoundShaderProgram() != _gameObject->getShader()->shaderProgram){
-				shaderManager->updateAttribs(_gameObject->getShader()->name, colMesh);
-				colMesh->setBoundShaderProgram(shaderManager->getCurrShader()->shaderProgram);
+			shaderManager->useShader(debugShader->name);
+			if (colMesh->getBoundShaderProgram() != debugShader->shaderProgram){
+				shaderManager->updateAttribs(debugShader->name, colMesh);
+				colMesh->setBoundShaderProgram(debugShader->shaderProgram);
 			}
 			float colScale = col->getScale();
 			glm::mat4 debugMat = glm::translate(mvp, col->getPosition());
 			debugMat = glm::scale(debugMat, glm::vec3(colScale, colScale, colScale));
-			glUniformMatrix4fv(shaderManager->getCurrShader()->mvpLoc, 1, GL_FALSE, glm::value_ptr(debugMat));
+			glUniformMatrix4fv(debugShader->mvpLoc, 1, GL_FALSE, glm::value_ptr(debugMat));
 			RenderDebugMesh(colMesh);
 		}
 	}

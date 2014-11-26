@@ -6,7 +6,7 @@
 MeshManager* MeshManager::instance;
 
 MeshManager::MeshManager() {
-	
+	logManager = LogManager::getInstance();
 }
 
 MeshManager* MeshManager::getInstance(){
@@ -25,7 +25,13 @@ MeshManager::~MeshManager() {
 }
 
 Mesh* MeshManager::getMesh(std::string _name){
-	return &meshMap.find(_name)->second;
+	Mesh* meshToReturn = nullptr;
+	if (meshMap.count(_name)){
+		meshToReturn = &meshMap.find(_name)->second;
+	} else if (meshMap.count("QuestionMark")){
+		meshToReturn = &meshMap.find("QuestionMark")->second;
+	}
+	return meshToReturn;
 }
 
 IModelReader* MeshManager::determineModelReader(std::string _fileName){
@@ -50,9 +56,13 @@ void MeshManager::addMesh(Mesh _mesh){
 void MeshManager::addMesh(std::string _fileName, std::string _meshName){
 	modelReader = determineModelReader(_fileName);
 
-	modelReader->readModel(_fileName);
-	std::vector<GLfloat> verts = modelReader->getAllVertexData();
-	std::vector<GLuint> indices = modelReader->getIndices();
-	std::vector<int> indiceCountData = modelReader->getIndiceCountData();
-	addMesh(Mesh(verts, indices, _meshName, indiceCountData));
+	try{
+		modelReader->readModel(_fileName);
+		std::vector<GLfloat> verts = modelReader->getAllVertexData();
+		std::vector<GLuint> indices = modelReader->getIndices();
+		std::vector<int> indiceCountData = modelReader->getIndiceCountData();
+		addMesh(Mesh(verts, indices, _meshName, indiceCountData));
+	} catch (...){
+		logManager->writeLog(LogLevel::LOG_ERROR, "Could not load mesh " + _fileName);
+	}
 }

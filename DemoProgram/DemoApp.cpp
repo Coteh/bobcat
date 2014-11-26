@@ -31,9 +31,16 @@ void DemoApp::Init(){
 		{ GL_NONE, NULL }
 	};
 
+	ShaderLoadInfo shaders4[] = {
+		{ GL_VERTEX_SHADER, "colormodel-vert.glsl" },
+		{ GL_FRAGMENT_SHADER, "colormodel-frag.glsl" },
+		{ GL_NONE, NULL }
+	};
+
 	shaderManager->addShader(ShaderLoader::LoadShaders(shaders), "TestShader");
 	shaderManager->addShader(ShaderLoader::LoadShaders(shaders2), "TestShader2");
 	shaderManager->addShader(ShaderLoader::LoadShaders(shaders3), "JakeShader");
+	shaderManager->addShader(ShaderLoader::LoadShaders(shaders4), "ColorModel");
 
 	/*Setting up Textures*/
 	textureManager->loadTexture("de1.tga", "treeTexture");
@@ -46,7 +53,7 @@ void DemoApp::Init(){
 
 	/*Adding meshes*/
 	meshManager->addMesh("Sphere.ply", "Monkey");
-	meshManager->addMesh("TestModel2.ply", "Cube");
+	meshManager->addMesh("Cube.ply", "Cube");
 
 	//Initalize the objects, plugging the meshes into them
 	cubeObj = new GameObject();
@@ -59,7 +66,7 @@ void DemoApp::Init(){
 	torusObj->setMesh(meshManager->getMesh("Cube"));
 	torusObj->setPosition(1.0f, 1.0f, -1.0f);
 	torusObj->setScale(0.4f, 0.4f, 0.4f);
-	torusObj->setShader(shaderManager->getShader("TestShader2"));
+	torusObj->setShader(shaderManager->getShader("ColorModel"));
 	torusObj->setCollider(new SphereCollider());
 	torusObj->getCollider()->setScale(2.0f);
 	scene->addGameObject(cubeObj);

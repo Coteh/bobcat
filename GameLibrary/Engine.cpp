@@ -43,6 +43,8 @@ void Engine::Init(){
 	currActiveWindowInstance = window->getGLFWWindowInstance();
 	renderer->Init();
 
+	meshManager->addMesh("QuestionMark.ply", "QuestionMark");
+
 	camera = new Camera();
 	camera->setCameraScreenDimensions(window->getWindowWidth(), window->getWindowHeight());
 	camera->setZoom(10.0f);

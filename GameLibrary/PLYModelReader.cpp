@@ -37,6 +37,11 @@ void PLYModelReader::readModel(std::string _fileName){
 	//Contents of the model file
 	fileContents = std::vector<std::string>(readFromFile(_fileName));
 
+	if (fileContents.size() == 0){
+		//file not read, throw an error
+		throw "Could not load file!";
+	}
+
 	//Iterate through it, and remove any blank lines or comment lines
 	fileContents.erase(
 		std::remove_if(fileContents.begin(),

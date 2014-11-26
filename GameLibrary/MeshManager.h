@@ -5,6 +5,7 @@
 #include "vgl.h"
 #include "Mesh.h"
 #include "PLYModelReader.h"
+#include "LogManager.h"
 
 class MeshManager {
 private:
@@ -12,6 +13,7 @@ private:
 	typedef std::map<const std::string, Mesh> MeshMapType;
 	MeshMapType meshMap;
 	IModelReader* modelReader;
+	LogManager* logManager;
 
 	IModelReader* determineModelReader(std::string _fileName);
 	MeshManager();
