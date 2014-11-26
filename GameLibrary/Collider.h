@@ -1,10 +1,22 @@
 #pragma once
-class Collider {
-public:
-	virtual ~Collider(){};
-	virtual float getScale() = 0;
-	virtual void setScale(float _scaleAmt) = 0;
-	virtual void setDimensions(float _width, float _height, float _length) = 0;
-	virtual void setDimensions(float _radius) = 0;
-};
+#include "ICollider.h"
+#include <glm\glm.hpp>
 
+class Collider : public ICollider {
+private:
+	glm::vec3 position;
+	float scale;
+protected:
+	ColliderDebugDrawType drawType;
+public:
+	Collider();
+	virtual ~Collider();
+	virtual glm::vec3 getPosition();
+	virtual float getScale();
+	virtual float getRadius();
+	virtual ColliderDebugDrawType getDebugDrawType();
+	virtual void setScale(float _scaleAmt);
+	virtual void setDimensions(float _width, float _height, float _length){};
+	virtual void setDimensions(float _radius){};
+	virtual void setDebugDrawType(ColliderDebugDrawType _drawType);
+};

@@ -3,6 +3,7 @@
 #include "Camera.h"
 #include "ShaderManager.h"
 #include "GameObject.h"
+
 class Renderer {
 private:
 	Camera* camera;
@@ -10,6 +11,9 @@ private:
 	Shader* currShader;
 	glm::mat4 cam;
 	glm::mat4 proj;
+	Mesh* boxColliderMesh;
+	Mesh* sphereColliderMesh;
+	void RenderDebugMesh(Mesh* _mesh);
 public:
 	Renderer();
 	virtual ~Renderer();

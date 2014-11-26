@@ -1,0 +1,33 @@
+#include "Collider.h"
+
+Collider::Collider(){
+
+}
+
+Collider::~Collider(){
+
+}
+
+glm::vec3 Collider::getPosition(){
+	return position;
+}
+
+float Collider::getScale(){
+	return scale;
+}
+
+float Collider::getRadius(){
+	return NULL;
+}
+
+ColliderDebugDrawType Collider::getDebugDrawType(){
+	return drawType;
+}
+
+void Collider::setScale(float _scaleAmt){
+	scale = _scaleAmt;
+}
+
+void Collider::setDebugDrawType(ColliderDebugDrawType _drawType){
+	drawType = _drawType;
+}

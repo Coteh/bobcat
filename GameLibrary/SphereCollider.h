@@ -3,13 +3,11 @@
 
 class SphereCollider : public Collider{
 private:
-	float radius, scale;
+	float radius;
 public:
 	SphereCollider();
 	~SphereCollider();
-	virtual float getScale();
-	virtual void setScale(float _scaleAmt);
-	virtual void setDimensions(float _width, float _height, float _length);
+	virtual float getRadius();
 	virtual void setDimensions(float _radius);
 };
 

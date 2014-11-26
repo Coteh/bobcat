@@ -1,23 +1,17 @@
 #include "BoxCollider.h"
 
 BoxCollider::BoxCollider() {
+	width = 0;
+	height = 0;
+	length = 0;
+	drawType = ColliderDebugDrawType::BOX;
 }
 
 BoxCollider::~BoxCollider() {
 }
 
-float BoxCollider::getScale(){
-	return scale;
-}
-
-void BoxCollider::setScale(float _scaleAmt){
-	scale = _scaleAmt;
-}
-
 void BoxCollider::setDimensions(float _width, float _height, float _length){
-	
-}
-
-void BoxCollider::setDimensions(float _radius){
-
+	width = _width;
+	height = _height;
+	length = _length;
 }

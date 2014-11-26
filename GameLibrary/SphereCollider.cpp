@@ -1,23 +1,17 @@
 #include "SphereCollider.h"
 
 SphereCollider::SphereCollider() {
+	radius = 0;
+	drawType = ColliderDebugDrawType::SPHERE;
 }
 
 SphereCollider::~SphereCollider() {
 }
 
-float SphereCollider::getScale(){
-	return scale;
-}
-
-void SphereCollider::setScale(float _scaleAmt){
-	scale = _scaleAmt;
-}
-
-void SphereCollider::setDimensions(float _width, float _height, float _length){
-
+float SphereCollider::getRadius(){
+	return radius;
 }
 
 void SphereCollider::setDimensions(float _radius){
-
+	radius = _radius;
 }

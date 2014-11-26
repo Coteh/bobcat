@@ -61,7 +61,7 @@ void DemoApp::Init(){
 	torusObj->setScale(0.4f, 0.4f, 0.4f);
 	torusObj->setShader(shaderManager->getShader("TestShader2"));
 	torusObj->setCollider(new SphereCollider());
-	torusObj->getCollider()->setScale(1.2f);
+	torusObj->getCollider()->setScale(2.0f);
 	scene->addGameObject(cubeObj);
 	scene->addGameObject(torusObj);
 

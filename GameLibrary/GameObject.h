@@ -75,8 +75,6 @@ public:
 
 	void attachGameObject(GameObject* _gameObject);
 
-	void UpdateDrawModes();
-
 	void Update(float _gameTime);
 
 	void Draw();

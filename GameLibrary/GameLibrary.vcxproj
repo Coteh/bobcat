@@ -70,6 +70,7 @@
   <ItemGroup>
     <ClCompile Include="BoxCollider.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Collider.cpp" />
     <ClCompile Include="CollisionMath.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="FileReader.cpp" />
@@ -98,6 +99,7 @@
     <ClInclude Include="FileReader.h" />
     <ClInclude Include="FileWriter.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="ICollider.h" />
     <ClInclude Include="IFileReader.h" />
     <ClInclude Include="IFileWriter.h" />
     <ClInclude Include="IModelReader.h" />

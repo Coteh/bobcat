@@ -62,7 +62,8 @@ void GameObject::setName(std::string _name){
 
 void GameObject::setMesh(Mesh* _mesh) {
 	mesh = _mesh;
-	UpdateDrawModes();
+	indiceCountData = mesh->getIndiceCountData();
+	drawModeVec = mesh->getDrawModes();
 }
 
 void GameObject::setCollider(Collider* _collider){
@@ -127,17 +128,6 @@ void GameObject::setTexture(Texture* _tex, std::vector<GLfloat> _uvCords){
 void GameObject::attachGameObject(GameObject* _gameObject){
 	children.push_back(_gameObject);
 	_gameObject->parent = this;
-}
-
-void GameObject::UpdateDrawModes(){
-	indiceCountData = mesh->getIndiceCountData();
-	for (int i = 0; i < indiceCountData.size(); i++){
-		if (indiceCountData[i] > 3){
-			drawModeVec.push_back(GL_TRIANGLE_FAN);
-		} else{
-			drawModeVec.push_back(GL_TRIANGLES);
-		}
-	}
 }
 
 void GameObject::Update(float _gameTime){

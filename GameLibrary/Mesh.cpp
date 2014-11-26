@@ -16,6 +16,7 @@ Mesh::Mesh(std::vector<GLfloat> _vertices, std::vector<GLuint> _elements, std::s
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(GLuint), &_elements[0], GL_STATIC_DRAW);
 
 	indiceCountData = _indiceCountData;
+	updateDrawModes();
 
 	//Unbind the vertex array when we're done here
 	glBindVertexArray(0);
@@ -35,6 +36,10 @@ void Mesh::clearBuffers(){
 
 std::vector<int> Mesh::getIndiceCountData(){
 	return indiceCountData;
+}
+
+std::vector<GLenum> Mesh::getDrawModes(){
+	return drawModeVec;
 }
 
 std::string Mesh::getName(){
@@ -63,4 +68,14 @@ GLuint Mesh::getBoundShaderProgram(){
 
 void Mesh::setBoundShaderProgram(GLuint _shaderProgram){
 	boundShaderProgram = _shaderProgram;
+}
+
+void Mesh::updateDrawModes(){
+	for (int i = 0; i < indiceCountData.size(); i++){
+		if (indiceCountData[i] > 3){
+			drawModeVec.push_back(GL_TRIANGLE_FAN);
+		} else{
+			drawModeVec.push_back(GL_TRIANGLES);
+		}
+	}
 }

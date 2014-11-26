@@ -9,6 +9,7 @@ class Mesh{
 private:
 	GLuint vbo, ebo, vao;
 	std::vector<int> indiceCountData;
+	std::vector<GLenum> drawModeVec;
 	int count;
 	std::string name;
 	GLuint boundShaderProgram;
@@ -22,7 +23,9 @@ public:
 	GLuint getEBO();
 	int getCount();
 	std::vector<int> getIndiceCountData();
+	std::vector<GLenum> getDrawModes();
 	std::string getName();
 	GLuint getBoundShaderProgram();
 	void setBoundShaderProgram(GLuint _shaderProgram);
+	void updateDrawModes();
 };
