@@ -6,7 +6,7 @@
 
 class Renderer {
 private:
-	Camera* camera;
+	Camera* activeCamera;
 	ShaderManager* shaderManager;
 	Shader* currShader;
 	glm::mat4 cam;
@@ -19,7 +19,7 @@ public:
 	Renderer();
 	virtual ~Renderer();
 	void Init();
-	void setCamera(Camera* _camera);
+	void setActiveCamera(Camera* _camera);
 	void PreRender();
 	void RenderObject(GameObject* _gameObject);
 	void EndRender();

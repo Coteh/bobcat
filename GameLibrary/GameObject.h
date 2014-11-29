@@ -16,7 +16,6 @@ private:
 	std::string name;
 	Mesh* mesh;
 	Texture* tex;
-	std::vector<GLfloat> uvCords;
 	glm::vec3 position;
 	glm::vec3 velocity;
 	glm::vec3 force;
@@ -71,15 +70,13 @@ public:
 
 	void setShader(Shader* _shader);
 
-	void setTexture(Texture* _tex, std::vector<GLfloat> _uvCords);
+	void setTexture(Texture* _tex);
 
 	void attachGameObject(GameObject* _gameObject);
 
 	void Update(float _gameTime);
 
 	void Draw();
-
-	void DrawDebug();
 
 	bool isWireFrameOn;
 };

@@ -24,8 +24,8 @@ void Renderer::Init(){
 	debugShader = shaderManager->getShader("DebugShader");
 }
 
-void Renderer::setCamera(Camera* _camera){
-	camera = _camera;
+void Renderer::setActiveCamera(Camera* _camera){
+	activeCamera = _camera;
 }
 
 void Renderer::PreRender(){
@@ -34,37 +34,41 @@ void Renderer::PreRender(){
 
 void Renderer::RenderObject(GameObject* _gameObject){
 	/*Drawing GameObject*/
-	if (shaderManager->getCurrShader() == nullptr || _gameObject->getShader()->shaderProgram != shaderManager->getCurrShader()->shaderProgram){
-		shaderManager->useShader(_gameObject->getShader()->name);
-	}
-	if (_gameObject->getMesh()->getBoundShaderProgram() != _gameObject->getShader()->shaderProgram){
-		shaderManager->updateAttribs(_gameObject->getShader()->name, _gameObject->getMesh());
-		_gameObject->getMesh()->setBoundShaderProgram(shaderManager->getCurrShader()->shaderProgram);
-	}
-	glm::mat4 mvp = camera->getProjection() * camera->getView() * _gameObject->getModelMat();
-	glUniformMatrix4fv(shaderManager->getCurrShader()->mvpLoc, 1, GL_FALSE, glm::value_ptr(mvp));
-	_gameObject->Draw();
+	if (_gameObject->getShader() != nullptr){ //don't draw if shader is null
+		if (shaderManager->getCurrShader() == nullptr || _gameObject->getShader()->shaderProgram != shaderManager->getCurrShader()->shaderProgram){
+			shaderManager->useShader(_gameObject->getShader()->name);
+		}
+		if (_gameObject->getMesh() != nullptr){ //don't draw if mesh is null
+			if (_gameObject->getMesh()->getBoundShaderProgram() != _gameObject->getShader()->shaderProgram){
+				shaderManager->updateAttribs(_gameObject->getShader()->name, _gameObject->getMesh());
+				_gameObject->getMesh()->setBoundShaderProgram(shaderManager->getCurrShader()->shaderProgram);
+			}
+			glm::mat4 mvp = activeCamera->getProjection() * activeCamera->getView() * _gameObject->getModelMat();
+			glUniformMatrix4fv(shaderManager->getCurrShader()->mvpLoc, 1, GL_FALSE, glm::value_ptr(mvp));
+			_gameObject->Draw();
 
-	/*Drawing Debug stuff*/
-	if (isDebugOn){
-		Collider* col = _gameObject->getCollider();
-		if (col != nullptr){
-			Mesh* colMesh;
-			if (col->getDebugDrawType() == ColliderDebugDrawType::SPHERE){
-				colMesh = sphereColliderMesh;
-			} else{
-				colMesh = boxColliderMesh;
+			/*Drawing Debug stuff*/
+			if (isDebugOn){
+				Collider* col = _gameObject->getCollider();
+				if (col != nullptr){
+					Mesh* colMesh;
+					if (col->getDebugDrawType() == ColliderDebugDrawType::SPHERE){
+						colMesh = sphereColliderMesh;
+					} else{
+						colMesh = boxColliderMesh;
+					}
+					shaderManager->useShader(debugShader->name);
+					if (colMesh->getBoundShaderProgram() != debugShader->shaderProgram){
+						shaderManager->updateAttribs(debugShader->name, colMesh);
+						colMesh->setBoundShaderProgram(debugShader->shaderProgram);
+					}
+					float colScale = col->getScale();
+					glm::mat4 debugMat = glm::translate(mvp, col->getPosition());
+					debugMat = glm::scale(debugMat, glm::vec3(colScale, colScale, colScale));
+					glUniformMatrix4fv(debugShader->mvpLoc, 1, GL_FALSE, glm::value_ptr(debugMat));
+					RenderDebugMesh(colMesh);
+				}
 			}
-			shaderManager->useShader(debugShader->name);
-			if (colMesh->getBoundShaderProgram() != debugShader->shaderProgram){
-				shaderManager->updateAttribs(debugShader->name, colMesh);
-				colMesh->setBoundShaderProgram(debugShader->shaderProgram);
-			}
-			float colScale = col->getScale();
-			glm::mat4 debugMat = glm::translate(mvp, col->getPosition());
-			debugMat = glm::scale(debugMat, glm::vec3(colScale, colScale, colScale));
-			glUniformMatrix4fv(debugShader->mvpLoc, 1, GL_FALSE, glm::value_ptr(debugMat));
-			RenderDebugMesh(colMesh);
 		}
 	}
 

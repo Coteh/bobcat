@@ -1,19 +1,11 @@
 #pragma once
 #include "vgl.h"
+#include "Texture.h"
 #include <windows.h>
 #include <windowsx.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
-
-struct Texture {
-	GLubyte	* imageData;									// Image Data (Up To 32 Bits)
-	GLuint	bpp;											// Image Color Depth In Bits Per Pixel
-	GLuint	width;											// Image Width
-	GLuint	height;											// Image Height
-	GLuint	texID;											// Texture ID Used To Select A Texture
-	GLuint	type;											// Image Type (GL_RGB, GL_RGBA)
-};
 
 struct TGAHeader {
 	GLubyte Header[12];									// TGA File Header

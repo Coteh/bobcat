@@ -39,8 +39,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\Development\glm;C:\Development\GLFW\include;C:\Development\OpenGL3+\include;C:\Users\James\Documents\GAME Semester 5\GAME 305\Projects\GLFW Engine\GameLibrary;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Development\glfw-3.0.4.bin.WIN32\lib-msvc120;C:\Development\OpenGL3+\lib;C:\Users\James\Documents\GAME Semester 5\GAME 305\Projects\GLFW Engine\GameLibrary\Debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Development\Simple OpenGL Image Library\src;C:\Development\glm;C:\Development\GLFW\include;C:\Development\OpenGL3+\include;C:\Users\James\Documents\GAME Semester 5\GAME 305\Projects\GLFW Engine\GameLibrary;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Development\Simple OpenGL Image Library\lib;C:\Development\glfw-3.0.4.bin.WIN32\lib-msvc120;C:\Development\OpenGL3+\lib;C:\Users\James\Documents\GAME Semester 5\GAME 305\Projects\GLFW Engine\GameLibrary\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -51,7 +51,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glfw3.lib;glfw3dll.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SOIL.lib;glfw3.lib;glfw3dll.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

@@ -1,4 +1,5 @@
 #pragma once
+#include "GameObject.h"
 
 #include <glm\glm.hpp>
 #include <glm\gtc\matrix_transform.hpp>
@@ -12,8 +13,10 @@ private:
 	glm::vec3 position;
 	glm::vec3 direction;
 	glm::vec3 up;
+	glm::vec3 rotation;
 	int screenWidth, screenHeight;
 	float zoom;
+	GameObject* attachedGameObject;
 public:
 	Camera();
 	~Camera();
@@ -23,6 +26,7 @@ public:
 	void setCameraScreenDimensions(int _width, int _height);
 	void setZoom(float _zoom);
 	void setPosition(glm::vec3 _position);
+	void attachGameObject(GameObject* _gameObject);
 	void IncrementZoom(float _zoom);
 	void Translate(glm::vec3 _offset);
 	void Rotate(glm::vec3 _rotEuler);

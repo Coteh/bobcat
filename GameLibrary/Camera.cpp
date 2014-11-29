@@ -44,6 +44,10 @@ void Camera::setPosition(glm::vec3 _position){
 	UpdateCamera();
 }
 
+void Camera::attachGameObject(GameObject* _gameObject){
+	attachedGameObject = _gameObject;
+}
+
 void Camera::IncrementZoom(float _zoom){
 	float zoomDir = (direction.z / ::abs(direction.z));
 	if (zoomDir == 0) zoomDir = 1.0f;
@@ -57,12 +61,30 @@ void Camera::Translate(glm::vec3 _offset){
 }
 
 void Camera::Rotate(glm::vec3 _rotEuler){
-	direction += _rotEuler;
+	/*direction = glm::rotate(direction, 0.16f, _rotEuler);
+	UpdateCamera();*/
+	rotation += _rotEuler;
 	UpdateCamera();
 }
 
 void Camera::UpdateCamera(){
-	view = glm::lookAt(position, position + direction, up); //position is the evil eye!
+	//Thank you Jake!
+	float cosPitch = cos(glm::radians(rotation.x));
+	float sinPitch = sin(glm::radians(rotation.x));
+	float cosYaw = cos(glm::radians(rotation.y));
+	float sinYaw = sin(glm::radians(rotation.y));
+
+	glm::vec3 xaxis = { cosYaw, 0, -sinYaw };
+	glm::vec3 yaxis = { sinYaw * sinPitch, cosPitch, cosYaw * sinPitch };
+	glm::vec3 zaxis = { sinYaw * cosPitch, -sinPitch, cosPitch * cosYaw };
+
+	// Create a 4x4 view matrix from the right, up, forward and eye position vectors
+	view = {
+		xaxis.x, yaxis.x, zaxis.x, 0,
+		xaxis.y, yaxis.y, zaxis.y, 0,
+		xaxis.z, yaxis.z, zaxis.z, 0,
+		-glm::dot(xaxis, position), -glm::dot(yaxis, position), -glm::dot(zaxis, position), 1
+	};
 }
 
 void Camera::UpdateProjection(){

@@ -104,10 +104,12 @@ void GameObject::setShader(Shader* _shader) {
 	shader = _shader;
 }
 
-void GameObject::setTexture(Texture* _tex, std::vector<GLfloat> _uvCords){
+void GameObject::setTexture(Texture* _tex){
 	tex = _tex;
 	//glGenTextures(1, &_tex->texID);
 	glBindTexture(GL_TEXTURE_3D, _tex->texID);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, _tex->bpp, _tex->width, _tex->height, 0, _tex->type, GL_UNSIGNED_BYTE, _tex->imageData);
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -117,12 +119,6 @@ void GameObject::setTexture(Texture* _tex, std::vector<GLfloat> _uvCords){
 		GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
 		GL_NEAREST);
-
-	glTexImage2D(GL_TEXTURE_2D, 0, _tex->bpp / 8, _tex->width, _tex->height, 0, _tex->type, GL_UNSIGNED_BYTE, _tex->imageData);
-	//glEnableVertexAttribArray(texAttrib);
-	glBindBuffer(GL_ARRAY_BUFFER, _tex->texID);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, (_uvCords.size()) * sizeof(GLfloat), (void*)(sizeof(GLfloat)));
-	uvCords = _uvCords;
 }
 
 void GameObject::attachGameObject(GameObject* _gameObject){
@@ -140,6 +136,7 @@ void GameObject::Update(float _gameTime){
 void GameObject::Draw(){
 	/*glBindBuffer(GL_ARRAY_BUFFER, tex->texID);
 	glDrawElements(GL_TEXTURE_2D, uvCords.size(), GL_UNSIGNED_INT, (void*)0);*/
+	if (mesh == nullptr)return; //Don't do any drawing if there's no mesh attached to the object
 	glBindVertexArray(mesh->getVAO());
 	if (isWireFrameOn){
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -152,17 +149,5 @@ void GameObject::Draw(){
 	if (isWireFrameOn){
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
-	glBindVertexArray(0);
-}
-
-void GameObject::DrawDebug(){
-	glBindVertexArray(mesh->getVAO());
-	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	int indicesSoFar = 0;
-	for (int i = 0; i < drawModeVec.size(); i++){
-		glDrawElements(drawModeVec[i], indiceCountData[i], GL_UNSIGNED_INT, (void*)(indicesSoFar * sizeof(GLuint)));
-		indicesSoFar += indiceCountData[i];
-	}
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	glBindVertexArray(0);
 }

@@ -48,7 +48,7 @@ void Engine::Init(){
 	camera = new Camera();
 	camera->setCameraScreenDimensions(window->getWindowWidth(), window->getWindowHeight());
 	camera->setZoom(10.0f);
-	renderer->setCamera(camera);
+	renderer->setActiveCamera(camera);
 	camera->UpdateCamera(); //Initial camera update
 }
 

@@ -78,6 +78,9 @@
     <ClCompile Include="Collider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PNGTextureLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ShaderManager.h">
@@ -156,6 +159,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ICollider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ITextureLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PNGTextureLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

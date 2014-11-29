@@ -37,14 +37,21 @@ void DemoApp::Init(){
 		{ GL_NONE, NULL }
 	};
 
+	ShaderLoadInfo shaders5[] = {
+		{ GL_VERTEX_SHADER, "texturemodel-vert.glsl" },
+		{ GL_FRAGMENT_SHADER, "texturemodel-frag.glsl" },
+		{ GL_NONE, NULL }
+	};
+
 	shaderManager->addShader(ShaderLoader::LoadShaders(shaders), "TestShader");
 	shaderManager->addShader(ShaderLoader::LoadShaders(shaders2), "TestShader2");
 	shaderManager->addShader(ShaderLoader::LoadShaders(shaders3), "JakeShader");
 	shaderManager->addShader(ShaderLoader::LoadShaders(shaders4), "ColorModel");
+	shaderManager->addShader(ShaderLoader::LoadShaders(shaders5), "TextureModel");
 
 	/*Setting up Textures*/
-	textureManager->loadTexture("de1.tga", "treeTexture");
-	Texture* treeTex = &textureManager->getTexture("treeTexture");
+	textureManager->loadTexture("kitteh.png", "TestTex");
+	Texture* tex = textureManager->getTexture("TestTex");
 
 	/*Setting up Scene*/
 	sceneManager->addScene(new Scene());
@@ -61,12 +68,14 @@ void DemoApp::Init(){
 	//cubeObj->setTexture(treeTex, st);
 	cubeObj->setPosition(0, 0.0f, 0);
 	cubeObj->setVelocity(0.0f, 0.0f, 0.0f);
-	cubeObj->setShader(shaderManager->getShader("TestShader"));
+	cubeObj->setShader(shaderManager->getShader("TextureModel"));
+	cubeObj->setTexture(tex);
 	torusObj = new GameObject();
 	torusObj->setMesh(meshManager->getMesh("Cube"));
 	torusObj->setPosition(1.0f, 1.0f, -1.0f);
 	torusObj->setScale(0.4f, 0.4f, 0.4f);
-	torusObj->setShader(shaderManager->getShader("ColorModel"));
+	torusObj->setShader(shaderManager->getShader("TextureModel"));
+	torusObj->setTexture(tex);
 	torusObj->setCollider(new SphereCollider());
 	torusObj->getCollider()->setScale(2.0f);
 	scene->addGameObject(cubeObj);
@@ -77,6 +86,8 @@ void DemoApp::Init(){
 	logManager->writeLog(LogLevel::LOG_ERROR, "This is an error!");
 
 	renderer->isDebugOn = true;
+
+	camera->attachGameObject(torusObj);
 }
 
 void DemoApp::OnKeyEvent(GLFWwindow* _window, int _key, int _scancode, int _action, int _mods){
@@ -84,6 +95,7 @@ void DemoApp::OnKeyEvent(GLFWwindow* _window, int _key, int _scancode, int _acti
 	if (_action == GLFW_PRESS){
 		if (_key == GLFW_KEY_ESCAPE){
 			printf("Quit");
+			isGameRunning = false;
 		} else if (_key == GLFW_KEY_KP_4){
 			cubeObj->setShader(shaderManager->getShader("TestShader"));
 			torusObj->setShader(shaderManager->getShader("TestShader2"));
@@ -117,9 +129,9 @@ void DemoApp::OnKeyHandle(){
 	} else if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_S) == GLFW_PRESS){
 		camera->Translate(glm::vec3(0.0f, 0.0f, 1.0f) * deltaTime);
 	} else if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_A) == GLFW_PRESS){
-		camera->Rotate(glm::vec3(-0.001, 0.0, 0.0));
+		camera->Rotate(glm::vec3(0.0, 10 * deltaTime, 0.0));
 	} else if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_D) == GLFW_PRESS){
-		camera->Rotate(glm::vec3(0.001, 0.0, 0.0));
+		camera->Rotate(glm::vec3(0.0, -10 * deltaTime, 0.0));
 	} else if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_EQUAL) == GLFW_PRESS){
 		camera->IncrementZoom(2.0f * deltaTime);
 	} else if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_MINUS) == GLFW_PRESS){
