@@ -35,6 +35,14 @@ Matrix4x4 MMath::rotate(float angle, float x, float y, float z){
 	return m;
 }
 
+Matrix4x4 MMath::rotate(float _angle, Vector3& _rotEuler){
+	return rotate(_angle, _rotEuler.x, _rotEuler.y, _rotEuler.z);
+}
+
+Matrix4x4 MMath::rotate(Matrix4x4 _m, float _angle, Vector3& _rotEuler){
+	return _m * rotate(_angle, _rotEuler);
+}
+
 ///Tested Feb 1 2013 SSF
 Matrix4x4 MMath::perspective(float fFov, float fAspect, float zMin, float zMax){
 	Matrix4x4 m;
@@ -79,11 +87,27 @@ Matrix4x4 MMath::translate(float x, float y, float z){
 		x, y, z, 1.0f);
 }
 
+Matrix4x4 MMath::translate(Vector3& _v3){
+	return translate(_v3.x, _v3.y, _v3.z);
+}
+
+Matrix4x4 MMath::translate(Matrix4x4& _m, Vector3& _v3){
+	return _m * translate(_v3.x, _v3.y, _v3.z);
+}
+
 Matrix4x4 MMath::scale(float x, float y, float z){
 	return Matrix4x4(x, 0.0f, 0.0f, 0.0f,
 		0.0f, y, 0.0f, 0.0f,
 		0.0f, 0.0f, z, 0.0f,
 		0.0f, 0.0f, 0.0f, 1.0f);
+}
+
+Matrix4x4 MMath::scale(Vector3& _v3){
+	return scale(_v3.x, _v3.y, _v3.z);
+}
+
+Matrix4x4 MMath::scale(Matrix4x4 _m, Vector3& _v3){
+	return _m * scale(_v3);
 }
 
 Matrix4x4 MMath::transpose(const Matrix4x4& _m){
