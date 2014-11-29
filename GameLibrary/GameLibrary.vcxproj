@@ -73,6 +73,7 @@
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="CollisionMath.cpp" />
     <ClCompile Include="Engine.cpp" />
+    <ClCompile Include="Engine_Math\MMath.cpp" />
     <ClCompile Include="FileReader.cpp" />
     <ClCompile Include="FileWriter.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -97,6 +98,14 @@
     <ClInclude Include="Collider.h" />
     <ClInclude Include="CollisionMath.h" />
     <ClInclude Include="Engine.h" />
+    <ClInclude Include="Engine_Math\MathDefines.h" />
+    <ClInclude Include="Engine_Math\MathIncludes.h" />
+    <ClInclude Include="Engine_Math\Matrix3x3.h" />
+    <ClInclude Include="Engine_Math\Matrix4x4.h" />
+    <ClInclude Include="Engine_Math\MMath.h" />
+    <ClInclude Include="Engine_Math\Quaternion.h" />
+    <ClInclude Include="Engine_Math\Vector.h" />
+    <ClInclude Include="Engine_Math\VMath.h" />
     <ClInclude Include="FileReader.h" />
     <ClInclude Include="FileWriter.h" />
     <ClInclude Include="GameObject.h" />
