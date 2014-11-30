@@ -70,6 +70,7 @@
   <ItemGroup>
     <ClCompile Include="BoxCollider.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Clock.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="CollisionMath.cpp" />
     <ClCompile Include="Engine.cpp" />
@@ -94,6 +95,7 @@
   <ItemGroup>
     <ClInclude Include="BoxCollider.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Clock.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="CollisionMath.h" />
     <ClInclude Include="Engine.h" />

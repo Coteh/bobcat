@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Clock.h"
 #include "Window.h"
 #include "LogManager.h"
 //#include "InputManager.h"

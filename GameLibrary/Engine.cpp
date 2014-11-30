@@ -1,9 +1,9 @@
 #include "Engine.h"
 
-
 Engine::Engine() {
 	logManager = LogManager::getInstance();
 	logManager->setDefaultLogFileName("EngineLog.txt");
+	Clock::init();
 	window = new Window();
 	renderer = new Renderer();
 	meshManager = MeshManager::getInstance();
@@ -70,7 +70,9 @@ void Engine::OnWindowResize(int _width, int _height){
 }
 
 void Engine::Update(){
-	gameTime += deltaTime;
+	float newGameTime = Clock::getCurrentTime();
+	deltaTime = newGameTime - gameTime;
+	gameTime = newGameTime;
 	//if (isKeyPressed){
 		OnKeyHandle();
 	//}
