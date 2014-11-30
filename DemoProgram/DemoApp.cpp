@@ -68,7 +68,7 @@ void DemoApp::Init(){
 	//cubeObj->setTexture(treeTex, st);
 	cubeObj->setPosition(0, 0.0f, 0);
 	cubeObj->setVelocity(0.0f, 0.0f, 0.0f);
-	cubeObj->setShader(shaderManager->getShader("TextureModel"));
+	cubeObj->setShader(shaderManager->getShader("TestShader"));
 	cubeObj->setTexture(tex);
 	torusObj = new GameObject();
 	torusObj->setMesh(meshManager->getMesh("Cube"));

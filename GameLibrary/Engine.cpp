@@ -2,9 +2,9 @@
 
 
 Engine::Engine() {
-	window = new Window();
 	logManager = LogManager::getInstance();
 	logManager->setDefaultLogFileName("EngineLog.txt");
+	window = new Window();
 	renderer = new Renderer();
 	meshManager = MeshManager::getInstance();
 	sceneManager = SceneManager::getInstance();

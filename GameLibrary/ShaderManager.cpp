@@ -2,6 +2,10 @@
 
 ShaderManager* ShaderManager::instance;
 
+ShaderManager::ShaderManager(){
+	logManager = LogManager::getInstance();
+}
+
 ShaderManager::~ShaderManager(){
 	//Wipes out shader map entirely from memory
 	shaderMap.clear();
@@ -52,19 +56,23 @@ void ShaderManager::initShaderAttribs(Shader* _shader){
 	//Grab the attribute locations from the shader
 	_shader->posAttrib = glGetAttribLocation(_shader->shaderProgram, "vPosition");
 	if (_shader->posAttrib < 0){
-		printf("Shader %s position attribute not found!\n", _shader->name.c_str());
+		logManager->writeLog(LogLevel::LOG_WARN, "Shader " + _shader->name + " position attribute not found!");
+		logManager->printLastError();
 	}
 	_shader->normAttrib = glGetAttribLocation(_shader->shaderProgram, "vNormals");
 	if (_shader->normAttrib < 0){
-		printf("Shader %s normal attribute not found!\n", _shader->name.c_str());
+		logManager->writeLog(LogLevel::LOG_WARN, "Shader " + _shader->name + " normal attribute not found!");
+		logManager->printLastError();
 	}
 	_shader->texAttrib = glGetAttribLocation(_shader->shaderProgram, "vTexture");
 	if (_shader->texAttrib < 0){
-		printf("Shader %s texture attribute not found!\n", _shader->name.c_str());
+		logManager->writeLog(LogLevel::LOG_WARN, "Shader " + _shader->name + " texture attribute not found!");
+		logManager->printLastError();
 	}
 	_shader->colAttrib = glGetAttribLocation(_shader->shaderProgram, "vColor");
 	if (_shader->colAttrib < 0){
-		printf("Shader %s color attribute not found!\n", _shader->name.c_str());
+		logManager->writeLog(LogLevel::LOG_WARN, "Shader " + _shader->name + " color attribute not found!");
+		logManager->printLastError();
 	}
 }
 

@@ -4,6 +4,7 @@ LogManager* LogManager::instance;
 
 LogManager::LogManager() {
 	fileWriter = new FileWriter();
+	printPriority = LogLevel::LOG_WARN;
 }
 
 LogManager::~LogManager() {
@@ -39,6 +40,22 @@ void LogManager::setDefaultLogFileName(std::string _fileName){
 	fileWriter->writeToFile(defaultLogFileName, ""); //clear out the log file before we start writing to it.
 }
 
+/* Stores the error message and then writes it to the log file.
+*/
 void LogManager::writeLog(LogLevel _level, std::string _message){
-	fileWriter->appendToFile(defaultLogFileName, getLogLevelString(_level) + _message + "\n");
+	lastErrorStr = getLogLevelString(_level) + _message + "\n";
+	lastErrorLevel = _level;
+	if (_level >= writePriority){ //only write if error level is on write priority bracket
+		fileWriter->appendToFile(defaultLogFileName, lastErrorStr);
+	}
+}
+
+void LogManager::printLastError(){
+	if (lastErrorLevel < printPriority)return; //only print if error level is on print priority bracket
+	int charBufferSize = lastErrorStr.length() + 1;
+	char* errorCharArr = new char[charBufferSize];
+	errno_t errErrCode; //to see if there was an error converting the error string to char array :P
+	errErrCode = strcpy_s(errorCharArr, charBufferSize, lastErrorStr.c_str());
+	if (errErrCode > 0) return;
+	printf("%s", errorCharArr);
 }

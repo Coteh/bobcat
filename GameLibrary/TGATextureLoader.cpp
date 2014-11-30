@@ -1,53 +1,61 @@
-#include "TextureLoader.h"
-
-TGAHeader tgaheader;									// TGA header
-TGA tga;												// TGA image data
+#include "TGATextureLoader.h"
 
 GLubyte uTGAcompare[12] = { 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 };	// Uncompressed TGA Header
-GLubyte cTGAcompare[12] = { 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0 };	// Compressed TGA Header	
+GLubyte cTGAcompare[12] = { 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0 };	// Compressed TGA Header
 
-bool TextureLoader::LoadTGA(Texture * texture, char * filename){
+TGATextureLoader::TGATextureLoader(){
+	
+}
+
+TGATextureLoader::~TGATextureLoader(){
+
+}
+
+void TGATextureLoader::LoadTextureImage(Texture* _texture, char* _fileName){
 	FILE * fTGA;												// File pointer to texture file
 	errno_t errCode;
-	errCode = fopen_s(&fTGA, filename, "rb");
+	errCode = fopen_s(&fTGA, _fileName, "rb");
 	//fTGA = fopen(filename, "rb");								// Open file for reading
 	//fTGA = fopen("textura_perete.tga","rb");
 
-	if (fTGA == NULL)											// If it didn't open....
-	{
-		MessageBoxA(NULL, "Could not open texture file", filename, MB_OK);	// Display an error message
-		return false;														// Exit function
+	if (fTGA == NULL){											// If it didn't open....
+		// Display an error message
+		logManager->writeLog(LogLevel::LOG_ERROR, "Could not open texture file " + std::string(_fileName));
+		logManager->printLastError();
+		return;														// Exit function
 	}
 
-	if (fread(&tgaheader, sizeof(TGAHeader), 1, fTGA) == 0)					// Attempt to read 12 byte header from file
-	{
-		MessageBoxA(NULL, "Could not read file header", filename, MB_OK);		// If it fails, display an error message 
+	if (fread(&tgaHeader, sizeof(TGAHeader), 1, fTGA) == 0)	{				// Attempt to read 12 byte header from file
+		// If it fails, display an error message 
+		logManager->writeLog(LogLevel::LOG_ERROR, "Could not read file header for texture file " + std::string(_fileName));
+		logManager->printLastError();
 		if (fTGA != NULL)													// Check to seeiffile is still open
 		{
 			fclose(fTGA);													// If it is, close it
 		}
-		return false;														// Exit function
+		return;														// Exit function
 	}
 
-	if (memcmp(uTGAcompare, &tgaheader, sizeof(tgaheader)) == 0)				// See if header matches the predefined header of 
+	if (memcmp(uTGAcompare, &tgaHeader, sizeof(tgaHeader)) == 0)				// See if header matches the predefined header of 
 	{																		// an Uncompressed TGA image
-		LoadUncompressedTGA(texture, filename, fTGA);						// If so, jump to Uncompressed TGA loading code
-	} else if (memcmp(cTGAcompare, &tgaheader, sizeof(tgaheader)) == 0)		// See if header matches the predefined header of
+		LoadUncompressedTGA(_texture, _fileName, fTGA);						// If so, jump to Uncompressed TGA loading code
+	} else if (memcmp(cTGAcompare, &tgaHeader, sizeof(tgaHeader)) == 0)		// See if header matches the predefined header of
 	{																		// an RLE compressed TGA image
-		LoadCompressedTGA(texture, filename, fTGA);							// If so, jump to Compressed TGA loading code
-	} else																	// If header matches neither type
-	{
-		MessageBoxA(NULL, "TGA file be type 2 or type 10 ", filename, MB_OK);	// Display an error
+		LoadCompressedTGA(_texture, _fileName, fTGA);							// If so, jump to Compressed TGA loading code
+	} else	{																// If header matches neither type
+		// Display an error
+		logManager->writeLog(LogLevel::LOG_ERROR, "TGA file be type 2 or type 10 for texture image " + std::string(_fileName));
+		logManager->printLastError();
 		fclose(fTGA);
-		return false;																// Exit function
+		return;																// Exit function
 	}
-	return true;
 }
 
-bool TextureLoader::LoadCompressedTGA(Texture * texture, char * filename, FILE * fTGA){
-	if (fread(tga.header, sizeof(tga.header), 1, fTGA) == 0)					// Read TGA header
-	{
-		MessageBoxA(NULL, "Could not read info header", "ERROR", MB_OK);		// Display error
+bool TGATextureLoader::LoadCompressedTGA(Texture * texture, char * filename, FILE * fTGA){
+	if (fread(tga.header, sizeof(tga.header), 1, fTGA) == 0){					// Read TGA header
+		// Display error
+		logManager->writeLog(LogLevel::LOG_ERROR, "Could not read info header for texture image " + std::string(filename));
+		logManager->printLastError();
 		if (fTGA != NULL)													// if file is still open
 		{
 			fclose(fTGA);													// Close it
@@ -64,7 +72,9 @@ bool TextureLoader::LoadCompressedTGA(Texture * texture, char * filename, FILE *
 
 	if ((texture->width <= 0) || (texture->height <= 0) || ((texture->bpp != 24) && (texture->bpp != 32)))	// Make sure all information is valid
 	{
-		MessageBoxA(NULL, "Invalid texture information", filename, MB_OK);	// Display Error
+		// Display Error
+		logManager->writeLog(LogLevel::LOG_ERROR, "Invalid texture information for texture image " + std::string(filename));
+		logManager->printLastError();
 		if (fTGA != NULL)													// Check if file is still open
 		{
 			fclose(fTGA);													// If so, close it
@@ -81,16 +91,19 @@ bool TextureLoader::LoadCompressedTGA(Texture * texture, char * filename, FILE *
 	tga.imageSize = (tga.bytesPerPixel * tga.Width * tga.Height);		// Compute the total amout ofmemory needed to store data
 	texture->imageData = (GLubyte *)malloc(tga.imageSize);					// Allocate that much memory
 
-	if (texture->imageData == NULL)											// If no space was allocated
-	{
-		MessageBoxA(NULL, "Could not allocate memory for image", filename, MB_OK);	// Display Error
+	if (texture->imageData == NULL){											// If no space was allocated
+		// Display Error
+		logManager->writeLog(LogLevel::LOG_ERROR, "Could not allocate memory for texture image " + std::string(filename));
+		logManager->printLastError();
 		fclose(fTGA);														// Close the file
 		return false;														// Return failed
 	}
 
 	if (fread(texture->imageData, 1, tga.imageSize, fTGA) != tga.imageSize)	// Attempt to read image data
 	{
-		MessageBoxA(NULL, "Could not read image data", "ERROR", MB_OK);		// Display Error
+		// Display Error
+		logManager->writeLog(LogLevel::LOG_ERROR, "Could not read image data for texture image " + std::string(filename));
+		logManager->printLastError();
 		if (texture->imageData != NULL)										// If imagedata has data in it
 		{
 			free(texture->imageData);										// Delete data from memory
@@ -110,7 +123,7 @@ bool TextureLoader::LoadCompressedTGA(Texture * texture, char * filename, FILE *
 	return true;
 }
 
-bool TextureLoader::LoadUncompressedTGA(Texture * texture, char * filename, FILE * fTGA){
+bool TGATextureLoader::LoadUncompressedTGA(Texture * texture, char * filename, FILE * fTGA){
 	if (fread(tga.header, sizeof(tga.header), 1, fTGA) == 0)					// Attempt to read header
 	{
 		//MessageBox(NULL, "Could not read info header", "ERROR", MB_OK);		// Display Error
@@ -149,7 +162,9 @@ bool TextureLoader::LoadUncompressedTGA(Texture * texture, char * filename, FILE
 
 	if (texture->imageData == NULL)											// If it wasnt allocated correctly..
 	{
-		MessageBoxA(NULL, "Could not allocate memory for image", filename, MB_OK);	// Display Error
+		// Display Error
+		logManager->writeLog(LogLevel::LOG_ERROR, "Could not allocate memory for texture image " + std::string(filename));
+		logManager->printLastError();
 		fclose(fTGA);														// Close file
 		return false;														// Return failed
 	}
@@ -165,7 +180,9 @@ bool TextureLoader::LoadUncompressedTGA(Texture * texture, char * filename, FILE
 
 		if (fread(&chunkheader, sizeof(GLubyte), 1, fTGA) == 0)				// Read in the 1 byte header
 		{
-			MessageBoxA(NULL, "Could not read RLE header", filename, MB_OK);	// Display Error
+			// Display Error
+			logManager->writeLog(LogLevel::LOG_ERROR, "Could not read RLE header for texture image " + std::string(filename));
+			logManager->printLastError();
 			if (fTGA != NULL)												// If file is open
 			{
 				fclose(fTGA);												// Close file
@@ -184,7 +201,9 @@ bool TextureLoader::LoadUncompressedTGA(Texture * texture, char * filename, FILE
 			{
 				if (fread(colorbuffer, 1, tga.bytesPerPixel, fTGA) != tga.bytesPerPixel) // Try to read 1 pixel
 				{
-					MessageBoxA(NULL, "Could not read image data", filename, MB_OK);		// IF we cant, display an error
+					// IF we cant, display an error
+					logManager->writeLog(LogLevel::LOG_ERROR, "Could not read image data for texture image " + std::string(filename));
+					logManager->printLastError();
 
 					if (fTGA != NULL)													// See if file is open
 					{
@@ -218,7 +237,9 @@ bool TextureLoader::LoadUncompressedTGA(Texture * texture, char * filename, FILE
 
 				if (currentpixel > pixelcount)											// Make sure we havent read too many pixels
 				{
-					MessageBoxA(NULL, "Too many pixels read", filename, NULL);			// if there is too many... Display an error!
+					// if there is too many... Display an error!
+					logManager->writeLog(LogLevel::LOG_ERROR, "Too many pixels read for texture image " + std::string(filename));
+					logManager->printLastError();
 
 					if (fTGA != NULL)													// If there is a file open
 					{
@@ -243,7 +264,9 @@ bool TextureLoader::LoadUncompressedTGA(Texture * texture, char * filename, FILE
 			chunkheader -= 127;															// Subteact 127 to get rid of the ID bit
 			if (fread(colorbuffer, 1, tga.bytesPerPixel, fTGA) != tga.bytesPerPixel)		// Attempt to read following color values
 			{
-				MessageBoxA(NULL, "Could not read from file", filename, MB_OK);			// If attempt fails.. Display error (again)
+				// If attempt fails.. Display error (again)
+				logManager->writeLog(LogLevel::LOG_ERROR, "Could not read from file for texture image " + std::string(filename));
+				logManager->printLastError();
 
 				if (fTGA != NULL)														// If thereis a file open
 				{
@@ -279,7 +302,9 @@ bool TextureLoader::LoadUncompressedTGA(Texture * texture, char * filename, FILE
 
 				if (currentpixel > pixelcount)											// Make sure we havent written too many pixels
 				{
-					MessageBoxA(NULL, "Too many pixels read", filename, NULL);			// if there is too many... Display an error!
+					// if there is too many... Display an error!
+					logManager->writeLog(LogLevel::LOG_ERROR, "Too many pixels read for texture image " + std::string(filename));
+					logManager->printLastError();
 
 					if (fTGA != NULL)													// If there is a file open
 					{

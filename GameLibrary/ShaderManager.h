@@ -8,6 +8,8 @@
 #include "ShaderLoader.h"
 // Include Mesh
 #include "Mesh.h"
+// Include Log Manager
+#include "LogManager.h"
 
 class ShaderManager{
 private:
@@ -15,7 +17,8 @@ private:
 	typedef std::map<const std::string, Shader*> ShaderMap;
 	ShaderMap shaderMap;
 	Shader* currShader;
-	ShaderManager(){}
+	LogManager* logManager;
+	ShaderManager();
 	void determineShaderUniforms(Shader* _shader);
 	void initShaderAttribs(Shader* _shader);
 	void disableShaderAttribs(Shader* _shader);

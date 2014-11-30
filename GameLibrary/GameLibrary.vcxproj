@@ -87,8 +87,8 @@
     <ClCompile Include="ShaderLoader.cpp" />
     <ClCompile Include="ShaderManager.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
-    <ClCompile Include="TextureLoader.cpp" />
     <ClCompile Include="TextureManager.cpp" />
+    <ClCompile Include="TGATextureLoader.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -120,6 +120,7 @@
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureLoader.h" />
     <ClInclude Include="TextureManager.h" />
+    <ClInclude Include="TGATextureLoader.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -1,9 +1,9 @@
 #pragma once
-#include "ITextureLoader.h"
+#include "TextureLoader.h"
 #include "Texture.h"
 #include <SOIL.h>
 
-class PNGTextureLoader : public ITextureLoader {
+class PNGTextureLoader : public TextureLoader {
 public:
 	PNGTextureLoader();
 	virtual ~PNGTextureLoader();
