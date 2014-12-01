@@ -63,8 +63,10 @@ void Renderer::RenderObject(GameObject* _gameObject){
 						colMesh->setBoundShaderProgram(debugShader->shaderProgram);
 					}
 					float colScale = col->getScale();
-					//glm::mat4 debugMat = glm::translate(col->getPosition());
-					glm::mat4 debugMat = glm::scale(mvp, glm::vec3(colScale, colScale, colScale));
+					glm::vec3 dimensions = col->getDimensions();
+					//Let's just assume the collider position is always with the GameObject's position... hehehe :P
+					//so just use the GameObject's MVP and not make a new matrix with its translation
+					glm::mat4 debugMat = glm::scale(mvp, glm::vec3(colScale * dimensions.x, colScale * dimensions.y, colScale * dimensions.z));
 					glUniformMatrix4fv(debugShader->mvpLoc, 1, GL_FALSE, glm::value_ptr(debugMat));
 					RenderDebugMesh(colMesh);
 				}

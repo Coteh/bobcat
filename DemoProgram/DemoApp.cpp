@@ -80,8 +80,9 @@ void DemoApp::Init(){
 	torusObj->setScale(0.4f, 0.4f, 0.4f);
 	torusObj->setShader(shaderManager->getShader("TextureModel"));
 	torusObj->setTexture(tex);
-	torusObj->setCollider(new SphereCollider());
-	torusObj->getCollider()->setScale(2.0f);
+	torusObj->setCollider(new BoxCollider());
+	torusObj->getCollider()->setScale(1.0f);
+	torusObj->getCollider()->setDimensions(1.0f, 1.0f, 1.0f);
 	torusObj->setRotationalVel(5.0f, 0.0f, 5.0f);
 	scene->addGameObject(torusObj);
 
@@ -120,9 +121,9 @@ void DemoApp::OnKeyHandle(){
 	Engine::OnKeyHandle();
 	//Camera Controls
 	if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_W) == GLFW_PRESS){
-		camera->Translate(glm::vec3(0.0f, 0.0f, -1.0f) * deltaTime);
+		camera->Translate(glm::vec3(0.0f, 0.0f, -100.0f) * deltaTime);
 	} else if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_S) == GLFW_PRESS){
-		camera->Translate(glm::vec3(0.0f, 0.0f, 1.0f) * deltaTime);
+		camera->Translate(glm::vec3(0.0f, 0.0f, 100.0f) * deltaTime);
 	} else if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_A) == GLFW_PRESS){
 		camera->Rotate(glm::vec3(0.0, 10 * deltaTime, 0.0));
 	} else if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_D) == GLFW_PRESS){
@@ -157,7 +158,8 @@ void DemoApp::Update(){
 	scene->updateGameObjects(deltaTime);
 	ray->updateRay(camera->getPosition(), camera->getDirection());
 	float dist;
-	if (ray->intersects(cubeObj->getCollider()->getPosition(), cubeObj->getCollider()->getRadius(), &dist)){
+	Collider* col = cubeObj->getCollider();
+	if (ray->intersects(col->getPosition(), col->getRadius() * col->getScale(), &dist)){
 		printf("Intersects!");
 	}
 }

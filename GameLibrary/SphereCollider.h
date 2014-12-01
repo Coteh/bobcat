@@ -8,6 +8,7 @@ public:
 	SphereCollider();
 	~SphereCollider();
 	virtual float getRadius();
-	virtual void setDimensions(float _radius);
+	virtual glm::vec3 getDimensions();
+	virtual void setRadius(float _radius);
 };
 

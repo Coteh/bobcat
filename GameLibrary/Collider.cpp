@@ -20,6 +20,10 @@ float Collider::getRadius(){
 	return NULL;
 }
 
+glm::vec3 Collider::getDimensions(){
+	return glm::vec3(0.0f);
+}
+
 ColliderDebugDrawType Collider::getDebugDrawType(){
 	return drawType;
 }

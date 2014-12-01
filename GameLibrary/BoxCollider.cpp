@@ -10,8 +10,16 @@ BoxCollider::BoxCollider() {
 BoxCollider::~BoxCollider() {
 }
 
+glm::vec3 BoxCollider::getDimensions(){
+	return glm::vec3(width, height, length);
+}
+
 void BoxCollider::setDimensions(float _width, float _height, float _length){
-	width = _width;
-	height = _height;
-	length = _length;
+	setDimensions(glm::vec3(_width, _height, _length));
+}
+
+void BoxCollider::setDimensions(glm::vec3 _dim){
+	width = _dim.x;
+	height = _dim.y;
+	length = _dim.z;
 }

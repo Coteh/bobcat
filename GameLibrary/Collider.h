@@ -14,10 +14,12 @@ public:
 	virtual glm::vec3 getPosition();
 	virtual float getScale();
 	virtual float getRadius();
+	virtual glm::vec3 getDimensions();
 	virtual ColliderDebugDrawType getDebugDrawType();
 	virtual void setPosition(glm::vec3 _pos);
 	virtual void setScale(float _scaleAmt);
+	virtual void setRadius(float _radius){};
 	virtual void setDimensions(float _width, float _height, float _length){};
-	virtual void setDimensions(float _radius){};
+	virtual void setDimensions(glm::vec3 _dim){};
 	virtual void setDebugDrawType(ColliderDebugDrawType _drawType);
 };
