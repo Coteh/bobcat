@@ -72,6 +72,8 @@ void DemoApp::Init(){
 	cubeObj->setTexture(tex);
 	cubeObj->setCollider(new SphereCollider());
 	cubeObj->getCollider()->setScale(1.0f);
+	cubeObj->setRotationalVel(10.0f, 0.0f, 10.0f);
+	scene->addGameObject(cubeObj);
 	torusObj = new GameObject();
 	torusObj->setMesh(meshManager->getMesh("Cube"));
 	torusObj->setPosition(1.0f, 1.0f, -1.0f);
@@ -80,7 +82,7 @@ void DemoApp::Init(){
 	torusObj->setTexture(tex);
 	torusObj->setCollider(new SphereCollider());
 	torusObj->getCollider()->setScale(2.0f);
-	scene->addGameObject(cubeObj);
+	torusObj->setRotationalVel(5.0f, 0.0f, 5.0f);
 	scene->addGameObject(torusObj);
 
 	logManager->writeLog(LogLevel::LOG_NONE, "This is a test log");
@@ -153,9 +155,6 @@ void DemoApp::OnKeyHandle(){
 void DemoApp::Update(){
 	Engine::Update();
 	scene->updateGameObjects(deltaTime);
-	glm::vec3 rot = cubeObj->getRotation();
-	cubeObj->setRotationEuler(rot.x + (10.0f * deltaTime), rot.y + (0.0f * deltaTime), rot.z + (10.0f * deltaTime));
-	torusObj->setRotationEuler(rot.x + (5.0f * deltaTime), rot.y + (0.0f * deltaTime), rot.z + (5.0f * deltaTime));
 	ray->updateRay(camera->getPosition(), camera->getDirection());
 	float dist;
 	if (ray->intersects(cubeObj->getCollider()->getPosition(), cubeObj->getCollider()->getRadius(), &dist)){

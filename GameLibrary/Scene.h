@@ -14,7 +14,7 @@ public:
 	void setRenderer(Renderer* _renderer);
 	void addGameObject(GameObject* _gameObject);
 	GameObject* getGameObject(std::string _name);
-	void updateGameObjects(float _gameTime);
+	void updateGameObjects(float _deltaTime);
 	void renderGameObjects();
 };
 

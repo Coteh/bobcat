@@ -74,7 +74,7 @@ void Renderer::RenderObject(GameObject* _gameObject){
 
 	/*Drawing children*/
 	std::vector<GameObject*> childs = _gameObject->getChildren();
-	for (int i = 0; i < childs.size(); i++){
+	for (size_t i = 0; i < childs.size(); i++){
 		RenderObject(childs[i]);
 	}
 }
@@ -85,7 +85,7 @@ void Renderer::RenderDebugMesh(Mesh* _mesh){
 	std::vector<GLenum> drawModeVec = _mesh->getDrawModes();
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	int indicesSoFar = 0;
-	for (int i = 0; i < drawModeVec.size(); i++){
+	for (size_t i = 0; i < drawModeVec.size(); i++){
 		glDrawElements(drawModeVec[i], indiceCountData[i], GL_UNSIGNED_INT, (void*)(indicesSoFar * sizeof(GLuint)));
 		indicesSoFar += indiceCountData[i];
 	}

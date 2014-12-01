@@ -71,7 +71,7 @@ void Mesh::setBoundShaderProgram(GLuint _shaderProgram){
 }
 
 void Mesh::updateDrawModes(){
-	for (int i = 0; i < indiceCountData.size(); i++){
+	for (size_t i = 0; i < indiceCountData.size(); i++){
 		if (indiceCountData[i] > 3){
 			drawModeVec.push_back(GL_TRIANGLE_FAN);
 		} else{

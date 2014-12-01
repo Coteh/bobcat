@@ -20,6 +20,7 @@ private:
 	glm::vec3 velocity;
 	glm::vec3 force;
 	glm::vec3 rotation;
+	glm::vec3 rotationalVel;
 	glm::vec3 scale;
 	float friction;
 	Collider* collider;
@@ -44,6 +45,8 @@ public:
 
 	glm::vec3 getRotation();
 
+	glm::vec3 getRotationalVel();
+
 	Collider* getCollider();
 
 	Mesh* getMesh();
@@ -62,9 +65,17 @@ public:
 
 	void setVelocity(float _x, float _y, float _z);
 
+	void setVelocity(glm::vec3 _vel);
+
 	void setFriction(float _fric);
 
 	void setRotationEuler(float _x, float _y, float _z);
+
+	void setRotationEuler(glm::vec3 _rotEuler);
+
+	void setRotationalVel(float _x, float _y, float _z);
+
+	void setRotationalVel(glm::vec3 _rotVel);
 
 	void setScale(float _x, float _y, float _z);
 
@@ -74,7 +85,7 @@ public:
 
 	void attachGameObject(GameObject* _gameObject);
 
-	void Update(float _gameTime);
+	void Update(float _deltaTime);
 
 	void Draw();
 

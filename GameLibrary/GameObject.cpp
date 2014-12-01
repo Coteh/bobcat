@@ -12,6 +12,10 @@ GameObject::~GameObject() {
 	
 }
 
+/**
+* GET METHODS
+*/
+
 std::vector<GameObject*> GameObject::getChildren(){
 	return children;
 }
@@ -44,6 +48,10 @@ glm::vec3 GameObject::getRotation(){
 	return rotation;
 }
 
+glm::vec3 GameObject::getRotationalVel(){
+	return rotationalVel;
+}
+
 Collider* GameObject::getCollider(){
 	return collider;
 }
@@ -55,6 +63,10 @@ Mesh* GameObject::getMesh(){
 Shader* GameObject::getShader(){
 	return shader;
 }
+
+/**
+* SET METHODS
+*/
 
 void GameObject::setName(std::string _name){
 	name = _name;
@@ -81,9 +93,11 @@ void GameObject::setPosition(glm::vec3 _pos){
 }
 
 void GameObject::setVelocity(float _x, float _y, float _z){
-	velocity.x = _x;
-	velocity.y = _y;
-	velocity.z = _z;
+	setVelocity(glm::vec3(_x, _y, _z));
+}
+
+void GameObject::setVelocity(glm::vec3 _vel){
+	velocity = _vel;
 }
 
 void GameObject::setFriction(float _fric){
@@ -91,9 +105,19 @@ void GameObject::setFriction(float _fric){
 }
 
 void GameObject::setRotationEuler(float _x, float _y, float _z){
-	rotation.x = _x;
-	rotation.y = _y;
-	rotation.z = _z;
+	setRotationEuler(glm::vec3(_x, _y, _z));
+}
+
+void GameObject::setRotationEuler(glm::vec3 _rotEuler){
+	rotation = _rotEuler;
+}
+
+void GameObject::setRotationalVel(float _x, float _y, float _z){
+	setRotationalVel(glm::vec3(_x, _y, _z));
+}
+
+void GameObject::setRotationalVel(glm::vec3 _rotVel){
+	rotationalVel = _rotVel;
 }
 
 void GameObject::setScale(float _x, float _y, float _z){
@@ -119,15 +143,20 @@ void GameObject::setTexture(Texture* _tex){
 	glBindTexture(GL_TEXTURE_3D, 0);
 }
 
+/**
+* OTHER METHODS
+*/
+
 void GameObject::attachGameObject(GameObject* _gameObject){
 	children.push_back(_gameObject);
 	_gameObject->parent = this;
 }
 
-void GameObject::Update(float _gameTime){
+void GameObject::Update(float _deltaTime){
 	velocity *= friction;
-	for (int i = 0; i < children.size(); i++){
-		children[i]->Update(_gameTime);
+	rotation += rotationalVel * _deltaTime;
+	for (size_t i = 0; i < children.size(); i++){
+		children[i]->Update(_deltaTime);
 	}
 }
 
@@ -140,7 +169,7 @@ void GameObject::Draw(){
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	}
 	int indicesSoFar = 0;
-	for (int i = 0; i < drawModeVec.size(); i++){
+	for (size_t i = 0; i < drawModeVec.size(); i++){
 		glDrawElements(drawModeVec[i], indiceCountData[i], GL_UNSIGNED_INT, (void*)(indicesSoFar * sizeof(GLuint)));
 		indicesSoFar += indiceCountData[i];
 	}

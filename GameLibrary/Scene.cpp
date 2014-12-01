@@ -19,7 +19,7 @@ void Scene::addGameObject(GameObject* _gameObject){
 }
 
 GameObject* Scene::getGameObject(std::string _name){
-	for (int i = 0; i < objectList.size(); i++){
+	for (size_t i = 0; i < objectList.size(); i++){
 		if (objectList[i]->getName() == _name){
 			return objectList[i];
 		}
@@ -27,14 +27,14 @@ GameObject* Scene::getGameObject(std::string _name){
 	return NULL;
 }
 
-void Scene::updateGameObjects(float _gameTime){
-	for (int i = 0; i < objectList.size(); i++){
-		objectList[i]->Update(_gameTime);
+void Scene::updateGameObjects(float _deltaTime){
+	for (size_t i = 0; i < objectList.size(); i++){
+		objectList[i]->Update(_deltaTime);
 	}
 }
 
 void Scene::renderGameObjects(){
-	for (int i = 0; i < objectList.size(); i++){
+	for (size_t i = 0; i < objectList.size(); i++){
 		renderer->RenderObject(objectList[i]);
 	}
 }

@@ -134,7 +134,7 @@ void PLYModelReader::readModel(std::string _fileName){
 						vertFloats.push_back(0.0f);
 					}
 				}
-				for (int i = 0; i < propVec.size(); i++){
+				for (size_t i = 0; i < propVec.size(); i++){
 					try{
 						if (propVec[i]->getName() == "red" || propVec[i]->getName() == "blue" || propVec[i]->getName() == "green"){
 							vertFloats[i] /= 255.0f; //divide the color by 255 so OpenGL will read it
@@ -182,7 +182,7 @@ void PLYModelReader::readModel(std::string _fileName){
 
 std::vector<GLfloat> PLYModelReader::getVertexData(std::string _variableName){
 	try{
-		for (int i = 0; i < propVec.size(); i++){
+		for (size_t i = 0; i < propVec.size(); i++){
 			if (propVec[i]->getName() == _variableName){
 				return ((PLYProperty<GLfloat>*)propVec[i])->getData();
 			}
