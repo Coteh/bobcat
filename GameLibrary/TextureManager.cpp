@@ -1,7 +1,11 @@
 #include "TextureManager.h"
+#include "PNGTextureLoader.h"
+#include "TGATextureLoader.h"
+#include <algorithm>
+#include <iostream>
+#include <sstream>
 
 TextureManager* TextureManager::instance;
-
 
 TextureManager::TextureManager() {
 }
@@ -20,6 +24,28 @@ TextureManager::~TextureManager() {
 	clearMap.swap(texMap);
 }
 
+ITextureLoader* TextureManager::determineTextureLoader(std::string _fileName){
+	std::istringstream iss(_fileName);
+	std::vector<std::string> linesSplit;
+	std::string line;
+	while (std::getline(iss, line, '.')){
+		linesSplit.push_back(line);
+	}
+	if (linesSplit.size() <= 1){ //no file extension provided. Return a nullptr.
+		return nullptr;
+	}
+	std::string fileExtension = linesSplit[linesSplit.size() - 1];
+	std::transform(fileExtension.begin(), fileExtension.end(), fileExtension.begin(), ::tolower);
+
+	if (fileExtension == "png") {
+		return new PNGTextureLoader();
+	}else if (fileExtension == "tga"){
+		return new TGATextureLoader();
+	}else{ //format not supported at this time.
+		return nullptr;
+	}
+}
+
 void TextureManager::loadTexture(std::string _fileName, std::string _texName){
 	//Provide the file name string to the TextureLoader
 	//then load the texture to the brand new texture
@@ -29,8 +55,8 @@ void TextureManager::loadTexture(std::string _fileName, std::string _texName){
 	errno_t errCode;
 	errCode = strcpy_s(fileNameChars, _fileName.length() + 1, _fileName.c_str());
 	//Determine TextureLoader to use
-	//fuck it, we're doing pngs for now
-	textureLoader = new PNGTextureLoader();
+	textureLoader = determineTextureLoader(_fileName);
+	if (textureLoader == nullptr) return; //do not load texture if the texture loader is null
 	GLuint texID;
 	glGenTextures(1, &texID);
 	brandNewTexture->texID = texID;

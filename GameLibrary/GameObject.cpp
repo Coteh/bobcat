@@ -129,6 +129,7 @@ void GameObject::setShader(Shader* _shader) {
 }
 
 void GameObject::setTexture(Texture* _tex){
+	if (_tex == nullptr) return; //can't set a null texture!
 	tex = _tex;
 	glBindTexture(GL_TEXTURE_3D, _tex->texID);
 

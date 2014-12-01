@@ -41,6 +41,9 @@ IModelReader* MeshManager::determineModelReader(std::string _fileName){
 	while (std::getline(iss, line, '.')){
 		linesSplit.push_back(line);
 	}
+	if (linesSplit.size() <= 1){ //no file extension provided. Return a nullptr.
+		return nullptr;
+	}
 	std::string fileExtension = linesSplit[linesSplit.size() - 1];
 	std::transform(fileExtension.begin(), fileExtension.end(), fileExtension.begin(), ::tolower);
 	
@@ -55,7 +58,7 @@ void MeshManager::addMesh(Mesh _mesh){
 
 void MeshManager::addMesh(std::string _fileName, std::string _meshName){
 	modelReader = determineModelReader(_fileName);
-
+	if (modelReader == nullptr) return; //do not read model if model reader is null
 	try{
 		modelReader->readModel(_fileName);
 		std::vector<GLfloat> verts = modelReader->getAllVertexData();

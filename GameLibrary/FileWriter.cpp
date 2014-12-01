@@ -1,4 +1,6 @@
 #include "FileWriter.h"
+#include <iostream>
+#include <fstream>
 
 using namespace FileIO;
 

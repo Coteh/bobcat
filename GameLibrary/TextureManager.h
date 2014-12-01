@@ -1,7 +1,8 @@
 #pragma once
 #include "vgl.h"
-#include "PNGTextureLoader.h"
+#include "TextureLoader.h"
 #include <map>
+
 class TextureManager {
 private:
 	static TextureManager* instance;
@@ -9,6 +10,7 @@ private:
 	TextureMap texMap;
 	ITextureLoader* textureLoader;
 	TextureManager();
+	ITextureLoader* determineTextureLoader(std::string _fileName);
 public:
 	static TextureManager* getInstance();
 	void loadTexture(std::string _fileName, std::string _texName);

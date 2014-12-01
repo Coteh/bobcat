@@ -1,9 +1,6 @@
 #pragma once
 #include "TextureLoader.h"
 #include "LogManager.h"
-//#include <windows.h>
-//#include <windowsx.h>
-//#include <stdlib.h>
 #include <stdio.h>
 
 struct TGAHeader {
@@ -21,7 +18,7 @@ struct TGA {
 	GLuint		Bpp;									// Bits Per Pixel
 };
 
-class TGATextureLoader : TextureLoader {
+class TGATextureLoader : public TextureLoader {
 private:
 	TGAHeader tgaHeader; // TGA Header
 	TGA tga;			// TGA image data

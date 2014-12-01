@@ -103,12 +103,6 @@ void DemoApp::OnKeyEvent(GLFWwindow* _window, int _key, int _scancode, int _acti
 		if (_key == GLFW_KEY_ESCAPE){
 			printf("Quit");
 			isGameRunning = false;
-		} else if (_key == GLFW_KEY_KP_4){
-			cubeObj->setShader(shaderManager->getShader("TestShader"));
-			torusObj->setShader(shaderManager->getShader("TestShader2"));
-		} else if (_key == GLFW_KEY_KP_6){
-			cubeObj->setShader(shaderManager->getShader("TestShader2"));
-			torusObj->setShader(shaderManager->getShader("TestShader"));
 		} else if (_key == GLFW_KEY_1){
 			mode = 0;
 		} else if (_key == GLFW_KEY_2){
@@ -121,13 +115,13 @@ void DemoApp::OnKeyHandle(){
 	Engine::OnKeyHandle();
 	//Camera Controls
 	if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_W) == GLFW_PRESS){
-		camera->Translate(glm::vec3(0.0f, 0.0f, -100.0f) * deltaTime);
+		camera->Translate(glm::vec3(0.0f, 0.0f, -50.0f) * deltaTime);
 	} else if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_S) == GLFW_PRESS){
-		camera->Translate(glm::vec3(0.0f, 0.0f, 100.0f) * deltaTime);
+		camera->Translate(glm::vec3(0.0f, 0.0f, 50.0f) * deltaTime);
 	} else if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_A) == GLFW_PRESS){
-		camera->Rotate(glm::vec3(0.0, 10 * deltaTime, 0.0));
+		camera->Translate(glm::vec3(-50 * deltaTime, 0.0f, 0.0f));
 	} else if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_D) == GLFW_PRESS){
-		camera->Rotate(glm::vec3(0.0, -10 * deltaTime, 0.0));
+		camera->Translate(glm::vec3(50 * deltaTime, 0.0f, 0.0f));
 	} else if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_EQUAL) == GLFW_PRESS){
 		camera->IncrementZoom(2.0f * deltaTime);
 	} else if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_MINUS) == GLFW_PRESS){
@@ -160,7 +154,9 @@ void DemoApp::Update(){
 	float dist;
 	Collider* col = cubeObj->getCollider();
 	if (ray->intersects(col->getPosition(), col->getRadius() * col->getScale(), &dist)){
-		printf("Intersects!");
+		cubeObj->setShader(shaderManager->getShader("TestShader2"));
+	}else{
+		cubeObj->setShader(shaderManager->getShader("TestShader"));
 	}
 }
 
