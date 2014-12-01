@@ -79,17 +79,17 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="LogManager.cpp" />
     <ClCompile Include="Mesh.cpp" />
-    <ClCompile Include="MeshManager.cpp" />
+    <ClCompile Include="Plane.cpp" />
     <ClCompile Include="PLYModelReader.cpp" />
     <ClCompile Include="PNGTextureLoader.cpp" />
     <ClCompile Include="Ray.cpp" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="ShaderLoader.cpp" />
     <ClCompile Include="ShaderManager.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
-    <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="TGATextureLoader.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
@@ -110,11 +110,12 @@
     <ClInclude Include="ITextureLoader.h" />
     <ClInclude Include="LogManager.h" />
     <ClInclude Include="Mesh.h" />
-    <ClInclude Include="MeshManager.h" />
+    <ClInclude Include="Plane.h" />
     <ClInclude Include="PLYModelReader.h" />
     <ClInclude Include="PNGTextureLoader.h" />
     <ClInclude Include="Ray.h" />
     <ClInclude Include="Renderer.h" />
+    <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Shader.h" />
@@ -123,7 +124,6 @@
     <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureLoader.h" />
-    <ClInclude Include="TextureManager.h" />
     <ClInclude Include="TGATextureLoader.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>

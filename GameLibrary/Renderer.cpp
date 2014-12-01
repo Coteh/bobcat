@@ -1,5 +1,8 @@
 #include "Renderer.h"
-#include "MeshManager.h"
+#include "ResourceManager.h"
+#include <glm\gtx\rotate_vector.hpp>
+#include <glm\gtc\matrix_transform.hpp>
+#include <glm\gtc\type_ptr.hpp>
 
 Renderer::Renderer() {
 	
@@ -10,11 +13,11 @@ Renderer::~Renderer() {
 
 void Renderer::Init(){
 	shaderManager = ShaderManager::getInstance();
-	MeshManager* meshManager = MeshManager::getInstance();
-	meshManager->addMesh("Cube.ply", "Debug_ColliderBox");
-	meshManager->addMesh("Sphere.ply", "Debug_ColliderSphere");
-	boxColliderMesh = meshManager->getMesh("Debug_ColliderBox");
-	sphereColliderMesh = meshManager->getMesh("Debug_ColliderSphere");
+	ResourceManager* resourceManager = ResourceManager::getInstance();
+	resourceManager->addMesh("Cube.ply", "Debug_ColliderBox");
+	resourceManager->addMesh("Sphere.ply", "Debug_ColliderSphere");
+	boxColliderMesh = resourceManager->getMesh("Debug_ColliderBox");
+	sphereColliderMesh = resourceManager->getMesh("Debug_ColliderSphere");
 	ShaderLoadInfo debugShaderInfo[] = {
 		{ GL_VERTEX_SHADER, "debug-vert.glsl" },
 		{ GL_FRAGMENT_SHADER, "debug-frag.glsl" },

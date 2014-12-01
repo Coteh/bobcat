@@ -1,5 +1,7 @@
 #include "GameObject.h"
-
+#include <glm\gtx\rotate_vector.hpp>
+#include <glm\gtc\matrix_transform.hpp>
+#include <glm\gtc\type_ptr.hpp>
 
 GameObject::GameObject(){
 	position = glm::vec3(0.0f, 0.0f, 0.0f);
@@ -162,8 +164,6 @@ void GameObject::Update(float _deltaTime){
 }
 
 void GameObject::Draw(){
-	/*glBindBuffer(GL_ARRAY_BUFFER, tex->texID);
-	glDrawElements(GL_TEXTURE_2D, uvCords.size(), GL_UNSIGNED_INT, (void*)0);*/
 	if (mesh == nullptr)return; //Don't do any drawing if there's no mesh attached to the object
 	glBindVertexArray(mesh->getVAO());
 	if (isWireFrameOn){

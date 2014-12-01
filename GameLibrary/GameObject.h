@@ -2,9 +2,6 @@
 
 #include <GL\glew.h>
 #include <glm\glm.hpp>
-#include <glm\gtx\rotate_vector.hpp>
-#include <glm\gtc\matrix_transform.hpp>
-#include <glm\gtc\type_ptr.hpp>
 #include "Mesh.h"
 #include "Collider.h"
 #include "TextureLoader.h"
@@ -20,7 +17,7 @@ private:
 	glm::vec3 velocity;
 	glm::vec3 force;
 	glm::vec3 rotation;
-	glm::vec3 rotationalVel;
+	glm::vec3 rotationalVel; //torque
 	glm::vec3 scale;
 	float friction;
 	Collider* collider;

@@ -50,8 +50,8 @@ void DemoApp::Init(){
 	shaderManager->addShader(ShaderLoader::LoadShaders(shaders5), "TextureModel");
 
 	/*Setting up Textures*/
-	textureManager->loadTexture("kitteh.png", "TestTex");
-	Texture* tex = textureManager->getTexture("TestTex");
+	resourceManager->loadTexture("kitteh.png", "TestTex");
+	Texture* tex = resourceManager->getTexture("TestTex");
 
 	/*Setting up Scene*/
 	sceneManager->addScene(new Scene());
@@ -59,12 +59,12 @@ void DemoApp::Init(){
 	scene->setRenderer(renderer);
 
 	/*Adding meshes*/
-	meshManager->addMesh("Sphere.ply", "Monkey");
-	meshManager->addMesh("Cube.ply", "Cube");
+	resourceManager->addMesh("Sphere.ply", "Monkey");
+	resourceManager->addMesh("Cube.ply", "Cube");
 
 	//Initalize the objects, plugging the meshes into them
 	cubeObj = new GameObject();
-	cubeObj->setMesh(meshManager->getMesh("Monkey"));
+	cubeObj->setMesh(resourceManager->getMesh("Monkey"));
 	//cubeObj->setTexture(treeTex, st);
 	cubeObj->setPosition(0, 0.0f, 0);
 	cubeObj->setVelocity(0.0f, 0.0f, 0.0f);
@@ -75,7 +75,7 @@ void DemoApp::Init(){
 	cubeObj->setRotationalVel(10.0f, 0.0f, 10.0f);
 	scene->addGameObject(cubeObj);
 	torusObj = new GameObject();
-	torusObj->setMesh(meshManager->getMesh("Cube"));
+	torusObj->setMesh(resourceManager->getMesh("Cube"));
 	torusObj->setPosition(1.0f, 1.0f, -1.0f);
 	torusObj->setScale(0.4f, 0.4f, 0.4f);
 	torusObj->setShader(shaderManager->getShader("TextureModel"));

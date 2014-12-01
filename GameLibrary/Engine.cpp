@@ -6,10 +6,9 @@ Engine::Engine() {
 	Clock::init();
 	window = new Window();
 	renderer = new Renderer();
-	meshManager = MeshManager::getInstance();
+	resourceManager = ResourceManager::getInstance();
 	sceneManager = SceneManager::getInstance();
 	shaderManager = ShaderManager::getInstance();
-	textureManager = TextureManager::getInstance();
 	isGameRunning = true;
 }
 
@@ -43,7 +42,7 @@ void Engine::Init(){
 	currActiveWindowInstance = window->getGLFWWindowInstance();
 	renderer->Init();
 
-	meshManager->addMesh("QuestionMark.ply", "QuestionMark");
+	resourceManager->addMesh("QuestionMark.ply", "QuestionMark");
 
 	camera = new Camera();
 	camera->setCameraScreenDimensions(window->getWindowWidth(), window->getWindowHeight());
@@ -95,7 +94,7 @@ void Engine::DrawEnd(){
 Engine::~Engine() {
 	delete window;
 	delete sceneManager;
-	delete meshManager;
+	delete resourceManager;
 	delete shaderManager;
 	glfwTerminate();
 	exit(EXIT_SUCCESS);

@@ -5,9 +5,8 @@
 #include "LogManager.h"
 //#include "InputManager.h"
 #include "Renderer.h"
-#include "MeshManager.h"
+#include "ResourceManager.h"
 #include "SceneManager.h"
-#include "TextureManager.h"
 #include "PLYModelReader.h"
 #include "CollisionMath.h"
 #include "Ray.h"
@@ -26,9 +25,8 @@ protected:
 	Renderer* renderer;
 	Camera* camera;
 	SceneManager* sceneManager;
-	MeshManager* meshManager;
+	ResourceManager* resourceManager;
 	ShaderManager* shaderManager;
-	TextureManager* textureManager;
 
 	GLFWwindow* currActiveWindowInstance;
 	int lastKeyAction;
