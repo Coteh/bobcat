@@ -82,6 +82,7 @@
     <ClCompile Include="MeshManager.cpp" />
     <ClCompile Include="PLYModelReader.cpp" />
     <ClCompile Include="PNGTextureLoader.cpp" />
+    <ClCompile Include="Ray.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
@@ -112,6 +113,7 @@
     <ClInclude Include="MeshManager.h" />
     <ClInclude Include="PLYModelReader.h" />
     <ClInclude Include="PNGTextureLoader.h" />
+    <ClInclude Include="Ray.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />

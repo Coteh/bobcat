@@ -29,6 +29,10 @@ glm::vec3 Camera::getPosition(){
 	return position;
 }
 
+glm::vec3 Camera::getDirection(){
+	return direction;
+}
+
 void Camera::setCameraScreenDimensions(int _width, int _height){
 	screenWidth = _width;
 	screenHeight = _height;

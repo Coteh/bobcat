@@ -15,6 +15,7 @@ public:
 	virtual float getScale();
 	virtual float getRadius();
 	virtual ColliderDebugDrawType getDebugDrawType();
+	virtual void setPosition(glm::vec3 _pos);
 	virtual void setScale(float _scaleAmt);
 	virtual void setDimensions(float _width, float _height, float _length){};
 	virtual void setDimensions(float _radius){};

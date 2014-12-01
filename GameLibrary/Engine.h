@@ -10,6 +10,7 @@
 #include "TextureManager.h"
 #include "PLYModelReader.h"
 #include "CollisionMath.h"
+#include "Ray.h"
 
 #define GAME_RUNNING true
 #define GAME_END false
@@ -37,7 +38,7 @@ protected:
 	bool isGameRunning;
 public:
 	Engine();
-	~Engine();
+	virtual ~Engine();
 	bool getIsGameRunning();
 	bool getIsWindowRunning();
 	void setScreenDimensions(int _width, int _height);

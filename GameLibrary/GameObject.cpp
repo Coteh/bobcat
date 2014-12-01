@@ -68,16 +68,16 @@ void GameObject::setMesh(Mesh* _mesh) {
 
 void GameObject::setCollider(Collider* _collider){
 	collider = _collider;
+	collider->setPosition(position);
 }
 
 void GameObject::setPosition(float _x, float _y, float _z){
-	position.x = _x;
-	position.y = _y;
-	position.z = _z;
+	setPosition(glm::vec3(_x, _y, _z));
 }
 
 void GameObject::setPosition(glm::vec3 _pos){
 	position = _pos;
+	if (collider != nullptr) collider->setPosition(_pos);
 }
 
 void GameObject::setVelocity(float _x, float _y, float _z){

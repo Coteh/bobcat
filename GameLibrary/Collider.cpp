@@ -24,6 +24,10 @@ ColliderDebugDrawType Collider::getDebugDrawType(){
 	return drawType;
 }
 
+void Collider::setPosition(glm::vec3 _pos){
+	position = _pos;
+}
+
 void Collider::setScale(float _scaleAmt){
 	scale = _scaleAmt;
 }

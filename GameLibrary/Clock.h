@@ -1,12 +1,7 @@
 #pragma once
 #include <Windows.h>
 
-namespace Clock{
-	extern LARGE_INTEGER currCounter;
-	extern LARGE_INTEGER ticksPerSecond;
-	extern LARGE_INTEGER counterStart;
-	extern bool isHighResSupported;
-
+namespace Clock {
 	void init();
 
 	double getCurrentTime();

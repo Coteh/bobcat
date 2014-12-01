@@ -3,6 +3,8 @@
 #include <stdio.h> //used for printf
 #include "FileWriter.h"
 
+#define COLON_SEP "> "
+
 using namespace FileIO;
 
 enum LogLevel{

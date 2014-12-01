@@ -18,21 +18,28 @@ LogManager* LogManager::getInstance(){
 }
 
 std::string LogManager::getLogLevelString(LogLevel _logLevel){
+	std::string logLevelString;
 	switch (_logLevel){
 	case LogLevel::LOG_ERROR:
-		return "ERROR: ";
+		logLevelString = "ERROR";
 		break;
 	case LogLevel::LOG_NONE:
-		return "";
+		logLevelString = "";
 		break;
 	case LogLevel::LOG_TRACE:
-		return "TRACE: ";
+		logLevelString = "TRACE";
 		break;
 	case LogLevel::LOG_WARN:
-		return "WARNING: ";
+		logLevelString = "WARNING";
+		break;
+	default:
+		logLevelString = "INFO";
 		break;
 	}
-	return "INFO: ";
+	if (_logLevel > 0){
+		logLevelString += COLON_SEP;
+	}
+	return logLevelString;
 }
 
 void LogManager::setDefaultLogFileName(std::string _fileName){

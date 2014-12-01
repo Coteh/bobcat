@@ -23,6 +23,7 @@ public:
 	glm::mat4 getView();
 	glm::mat4 getProjection();
 	glm::vec3 getPosition();
+	glm::vec3 getDirection();
 	void setCameraScreenDimensions(int _width, int _height);
 	void setZoom(float _zoom);
 	void setPosition(glm::vec3 _position);

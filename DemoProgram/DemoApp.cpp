@@ -2,11 +2,11 @@
 
 
 DemoApp::DemoApp() {
-	
+	mode = 0;
 }
 
-
 DemoApp::~DemoApp() {
+	delete ray;
 }
 
 void DemoApp::Init(){
@@ -70,6 +70,8 @@ void DemoApp::Init(){
 	cubeObj->setVelocity(0.0f, 0.0f, 0.0f);
 	cubeObj->setShader(shaderManager->getShader("TestShader"));
 	cubeObj->setTexture(tex);
+	cubeObj->setCollider(new SphereCollider());
+	cubeObj->getCollider()->setScale(1.0f);
 	torusObj = new GameObject();
 	torusObj->setMesh(meshManager->getMesh("Cube"));
 	torusObj->setPosition(1.0f, 1.0f, -1.0f);
@@ -81,13 +83,15 @@ void DemoApp::Init(){
 	scene->addGameObject(cubeObj);
 	scene->addGameObject(torusObj);
 
-	logManager->writeLog(LogLevel::LOG_INFO, "This is a test log");
+	logManager->writeLog(LogLevel::LOG_NONE, "This is a test log");
 	logManager->writeLog(LogLevel::LOG_INFO, "This is a test log also");
 	logManager->writeLog(LogLevel::LOG_ERROR, "This is an error!");
 
 	renderer->isDebugOn = true;
 
 	camera->attachGameObject(torusObj);
+
+	ray = new Ray(camera->getPosition(), camera->getDirection());
 }
 
 void DemoApp::OnKeyEvent(GLFWwindow* _window, int _key, int _scancode, int _action, int _mods){
@@ -102,23 +106,12 @@ void DemoApp::OnKeyEvent(GLFWwindow* _window, int _key, int _scancode, int _acti
 		} else if (_key == GLFW_KEY_KP_6){
 			cubeObj->setShader(shaderManager->getShader("TestShader2"));
 			torusObj->setShader(shaderManager->getShader("TestShader"));
+		} else if (_key == GLFW_KEY_1){
+			mode = 0;
+		} else if (_key == GLFW_KEY_2){
+			mode = 1;
 		}
 	}
-	glm::vec3 cubePos = cubeObj->getPosition();
-	glm::vec3 cubeVelChange = glm::vec3();
-	if (_key == GLFW_KEY_LEFT){
-		cubeVelChange += glm::vec3(-1.0, 0.0, 0.0);
-	}
-	if (_key == GLFW_KEY_RIGHT){
-		cubeVelChange += glm::vec3(1.0, 0.0, 0.0);
-	}
-	if (_key == GLFW_KEY_UP){
-		cubeVelChange += glm::vec3(0.0, 1.0, 0.0);
-	}
-	if (_key == GLFW_KEY_DOWN){
-		cubeVelChange += glm::vec3(0.0, -1.0, 0.0);
-	}
-	cubeObj->setPosition(cubePos + cubeVelChange * deltaTime);
 }
 
 void DemoApp::OnKeyHandle(){
@@ -137,6 +130,24 @@ void DemoApp::OnKeyHandle(){
 	} else if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_MINUS) == GLFW_PRESS){
 		camera->IncrementZoom(-2.0f * deltaTime);
 	}
+	glm::vec3 cubeVelChange = glm::vec3();
+	if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_LEFT) == GLFW_PRESS){
+		cubeVelChange += glm::vec3(-10.0, 0.0, 0.0);
+	}
+	if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_RIGHT) == GLFW_PRESS){
+		cubeVelChange += glm::vec3(10.0, 0.0, 0.0);
+	}
+	if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_UP) == GLFW_PRESS){
+		cubeVelChange += glm::vec3(0.0, 10.0, 0.0);
+	}
+	if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_DOWN) == GLFW_PRESS){
+		cubeVelChange += glm::vec3(0.0, -10.0, 0.0);
+	}
+	if (mode){
+		camera->setPosition(camera->getPosition() + cubeVelChange * deltaTime);
+	} else{
+		cubeObj->setPosition(cubeObj->getPosition() + cubeVelChange * deltaTime);
+	}
 }
 
 void DemoApp::Update(){
@@ -145,6 +156,11 @@ void DemoApp::Update(){
 	glm::vec3 rot = cubeObj->getRotation();
 	cubeObj->setRotationEuler(rot.x + (10.0f * deltaTime), rot.y + (0.0f * deltaTime), rot.z + (10.0f * deltaTime));
 	torusObj->setRotationEuler(rot.x + (5.0f * deltaTime), rot.y + (0.0f * deltaTime), rot.z + (5.0f * deltaTime));
+	ray->updateRay(camera->getPosition(), camera->getDirection());
+	float dist;
+	if (ray->intersects(cubeObj->getCollider()->getPosition(), cubeObj->getCollider()->getRadius(), &dist)){
+		printf("Intersects!");
+	}
 }
 
 void DemoApp::Draw(){

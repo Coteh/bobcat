@@ -63,8 +63,8 @@ void Renderer::RenderObject(GameObject* _gameObject){
 						colMesh->setBoundShaderProgram(debugShader->shaderProgram);
 					}
 					float colScale = col->getScale();
-					glm::mat4 debugMat = glm::translate(mvp, col->getPosition());
-					debugMat = glm::scale(debugMat, glm::vec3(colScale, colScale, colScale));
+					//glm::mat4 debugMat = glm::translate(col->getPosition());
+					glm::mat4 debugMat = glm::scale(mvp, glm::vec3(colScale, colScale, colScale));
 					glUniformMatrix4fv(debugShader->mvpLoc, 1, GL_FALSE, glm::value_ptr(debugMat));
 					RenderDebugMesh(colMesh);
 				}
