@@ -1,5 +1,6 @@
 #include "DemoApp.h"
 
+#define DEFAULT_SPHERE_TEXTURE "TextureModel"
 
 DemoApp::DemoApp() {
 	mode = 0;
@@ -68,7 +69,7 @@ void DemoApp::Init(){
 	//cubeObj->setTexture(treeTex, st);
 	cubeObj->setPosition(0, 0.0f, 0);
 	cubeObj->setVelocity(0.0f, 0.0f, 0.0f);
-	cubeObj->setShader(shaderManager->getShader("TestShader"));
+	cubeObj->setShader(shaderManager->getShader(DEFAULT_SPHERE_TEXTURE));
 	cubeObj->setTexture(tex);
 	cubeObj->setCollider(new SphereCollider());
 	cubeObj->getCollider()->setScale(1.0f);
@@ -156,7 +157,7 @@ void DemoApp::Update(){
 	if (ray->intersects(col->getPosition(), col->getRadius() * col->getScale(), &dist)){
 		cubeObj->setShader(shaderManager->getShader("TestShader2"));
 	}else{
-		cubeObj->setShader(shaderManager->getShader("TestShader"));
+		cubeObj->setShader(shaderManager->getShader(DEFAULT_SPHERE_TEXTURE));
 	}
 }
 

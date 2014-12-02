@@ -21,7 +21,6 @@ private:
 	glm::vec3 scale;
 	float friction;
 	Collider* collider;
-	GLuint modelLoc;
 	std::vector<GLenum> drawModeVec;
 	std::vector<int> indiceCountData;
 	Shader* shader;
@@ -49,6 +48,8 @@ public:
 	Mesh* getMesh();
 
 	Shader* getShader();
+
+	Texture* getTexture();
 
 	void setName(std::string _name);
 

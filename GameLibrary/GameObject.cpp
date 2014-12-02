@@ -66,6 +66,10 @@ Shader* GameObject::getShader(){
 	return shader;
 }
 
+Texture* GameObject::getTexture(){
+	return tex;
+}
+
 /**
 * SET METHODS
 */
@@ -133,17 +137,6 @@ void GameObject::setShader(Shader* _shader) {
 void GameObject::setTexture(Texture* _tex){
 	if (_tex == nullptr) return; //can't set a null texture!
 	tex = _tex;
-	glBindTexture(GL_TEXTURE_3D, _tex->texID);
-
-	glTexImage2D(GL_TEXTURE_2D, 0, _tex->bpp, _tex->width, _tex->height, 0, _tex->type, GL_UNSIGNED_BYTE, _tex->imageData);
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	//glGenerateMipmap(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_3D, 0);
 }
 
 /**

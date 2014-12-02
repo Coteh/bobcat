@@ -6,11 +6,11 @@ layout(location = 2) in vec2 vTexture;
 layout(location = 3) in vec3 vColor;
 
 out vec4 vertexColor;
-
-uniform sampler2D tex;
+out vec2 texCoords;
 
 void main()
 {
 	gl_Position = MVP * vec4(vPosition, 1.0);
-	vertexColor = texture(tex, vTexture) * vec4(vColor, 1.0);
+	texCoords = vTexture;
+	vertexColor = vec4(vColor, 1.0);
 }

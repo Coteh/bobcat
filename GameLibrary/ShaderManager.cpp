@@ -50,6 +50,7 @@ void ShaderManager::useShader(std::string _name){
 void ShaderManager::determineShaderUniforms(Shader* _shader){
 	//Get model view projection matrix location
 	_shader->mvpLoc = glGetUniformLocation(_shader->shaderProgram, "MVP");
+	_shader->texSamplerAttrib = glGetUniformLocation(_shader->shaderProgram, "tex");
 }
 
 void ShaderManager::initShaderAttribs(Shader* _shader){
