@@ -91,8 +91,11 @@ void Camera::UpdateCamera(){
 		xaxis.z, yaxis.z, zaxis.z, 0,
 		-glm::dot(xaxis, position), -glm::dot(yaxis, position), -glm::dot(zaxis, position), 1
 	};
+	
+	float* viewFloats = glm::value_ptr(view);
+	direction = glm::vec3(viewFloats[2], viewFloats[6], viewFloats[10]);
 }
 
 void Camera::UpdateProjection(){
-	projection = glm::perspective(zoom, 1.0f*screenWidth / screenHeight, 0.1f, 100.0f);
+	projection = glm::perspective(zoom, 1.0f*screenWidth / screenHeight, 0.1f, 1000.0f);
 }

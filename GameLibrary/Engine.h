@@ -46,7 +46,7 @@ public:
 	virtual void Init();
 	virtual void OnKeyEvent(GLFWwindow* _window, int _key, int _scancode, int _action, int _mods);
 	virtual void OnKeyHandle();
-	virtual void OnWindowResize(int _width, int _height);
+	virtual void OnWindowResize(GLFWwindow* _window, int _width, int _height);
 	virtual void Update();
 	void DrawBegin();
 	virtual void Draw();

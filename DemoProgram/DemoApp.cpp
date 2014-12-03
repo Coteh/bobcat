@@ -66,7 +66,6 @@ void DemoApp::Init(){
 	//Initalize the objects, plugging the meshes into them
 	cubeObj = new GameObject();
 	cubeObj->setMesh(resourceManager->getMesh("Monkey"));
-	//cubeObj->setTexture(treeTex, st);
 	cubeObj->setPosition(0, 0.0f, 0);
 	cubeObj->setVelocity(0.0f, 0.0f, 0.0f);
 	cubeObj->setShader(shaderManager->getShader(DEFAULT_SPHERE_TEXTURE));
@@ -74,6 +73,7 @@ void DemoApp::Init(){
 	cubeObj->setCollider(new SphereCollider());
 	cubeObj->getCollider()->setScale(1.0f);
 	cubeObj->setRotationalVel(10.0f, 0.0f, 10.0f);
+	sphereTorque = cubeObj->getRotationalVel();
 	scene->addGameObject(cubeObj);
 	torusObj = new GameObject();
 	torusObj->setMesh(resourceManager->getMesh("Cube"));
@@ -106,8 +106,12 @@ void DemoApp::OnKeyEvent(GLFWwindow* _window, int _key, int _scancode, int _acti
 			isGameRunning = false;
 		} else if (_key == GLFW_KEY_1){
 			mode = 0;
+			cubeObj->setRotationalVel(sphereTorque);
 		} else if (_key == GLFW_KEY_2){
 			mode = 1;
+		} else if (_key == GLFW_KEY_3){
+			mode = 2;
+			cubeObj->setRotationalVel(0.0f, 0.0f, 0.0f);
 		}
 	}
 }
@@ -141,10 +145,16 @@ void DemoApp::OnKeyHandle(){
 	if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_DOWN) == GLFW_PRESS){
 		cubeVelChange += glm::vec3(0.0, -10.0, 0.0);
 	}
-	if (mode){
-		camera->setPosition(camera->getPosition() + cubeVelChange * deltaTime);
-	} else{
+	switch (mode){
+	case 0:
 		cubeObj->setPosition(cubeObj->getPosition() + cubeVelChange * deltaTime);
+		break;
+	case 1:
+		camera->setPosition(camera->getPosition() + cubeVelChange * deltaTime);
+		break;
+	case 2:
+		cubeObj->setRotationEuler(cubeObj->getRotation() + cubeVelChange * deltaTime);
+		break;
 	}
 }
 

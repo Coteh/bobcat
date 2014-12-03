@@ -43,6 +43,7 @@ void Engine::Init(){
 	renderer->Init();
 
 	resourceManager->addMesh("QuestionMark.ply", "QuestionMark");
+	resourceManager->loadTexture("TextureNotFound.png", "TextureNotFound");
 
 	camera = new Camera();
 	camera->setCameraScreenDimensions(window->getWindowWidth(), window->getWindowHeight());
@@ -61,7 +62,7 @@ void Engine::OnKeyHandle(){
 	
 }
 
-void Engine::OnWindowResize(int _width, int _height){
+void Engine::OnWindowResize(GLFWwindow* _window, int _width, int _height){
 	window->setWindowDimensions(_width, _height);
 	glViewport(0,0,_width, _height);
 	camera->setCameraScreenDimensions(_width, _height);

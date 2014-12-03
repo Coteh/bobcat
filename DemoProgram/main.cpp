@@ -4,9 +4,12 @@
 
 Engine* engine;
 
-bool keyWrapper(GLFWwindow* _window, int _key, int _scancode, int _action, int _mods){
+void keyWrapper(GLFWwindow* _window, int _key, int _scancode, int _action, int _mods){
 	engine->OnKeyEvent(_window, _key, _scancode, _action, _mods);
-	return false;
+}
+
+void windowSizeCallback(GLFWwindow* _window, int _width, int _height) {
+	engine->OnWindowResize(_window, _width, _height);
 }
 
 int main(int argc, char const *argv[]) {
@@ -14,6 +17,7 @@ int main(int argc, char const *argv[]) {
 	engine->setScreenDimensions(800, 600);
 	engine->Init();
 	engine->setKeyboardFunc(keyWrapper);
+	engine->setWindowSizeFunc(windowSizeCallback);
 
 	while (engine->getIsGameRunning() && engine->getIsWindowRunning()){
 		engine->Update();

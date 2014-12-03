@@ -8,6 +8,7 @@ GameObject::GameObject(){
 	rotation = glm::vec3(0.0f, 0.0f, 0.0f);
 	setFriction(1.0f);
 	scale = glm::vec3(1.0f, 1.0f, 1.0f);
+	additionalMats = glm::mat4(1.0f);
 }
 
 GameObject::~GameObject() {
@@ -35,6 +36,7 @@ glm::mat4 GameObject::getModelMat(){
 	if (parent){
 		model = parent->getModelMat() * model;
 	}
+	model *= additionalMats;
 	return model;
 }
 
@@ -52,6 +54,10 @@ glm::vec3 GameObject::getRotation(){
 
 glm::vec3 GameObject::getRotationalVel(){
 	return rotationalVel;
+}
+
+glm::vec3 GameObject::getScale(){
+	return scale;
 }
 
 Collider* GameObject::getCollider(){
@@ -130,6 +136,10 @@ void GameObject::setScale(float _x, float _y, float _z){
 	scale = glm::vec3(_x, _y, _z);
 }
 
+void GameObject::setScale(glm::vec3 _scale){
+	scale = _scale;
+}
+
 void GameObject::setShader(Shader* _shader) {
 	shader = _shader;
 }
@@ -148,12 +158,17 @@ void GameObject::attachGameObject(GameObject* _gameObject){
 	_gameObject->parent = this;
 }
 
+void GameObject::addMatrixTransformation(glm::mat4 _mat){
+	additionalMats *= _mat;
+}
+
 void GameObject::Update(float _deltaTime){
-	velocity *= friction;
+	position += velocity * _deltaTime;
 	rotation += rotationalVel * _deltaTime;
 	for (size_t i = 0; i < children.size(); i++){
 		children[i]->Update(_deltaTime);
 	}
+	velocity *= friction;
 }
 
 void GameObject::Draw(){

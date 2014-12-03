@@ -19,6 +19,7 @@ private:
 	glm::vec3 rotation;
 	glm::vec3 rotationalVel; //torque
 	glm::vec3 scale;
+	glm::mat4 additionalMats;
 	float friction;
 	Collider* collider;
 	std::vector<GLenum> drawModeVec;
@@ -42,6 +43,8 @@ public:
 	glm::vec3 getRotation();
 
 	glm::vec3 getRotationalVel();
+
+	glm::vec3 getScale();
 
 	Collider* getCollider();
 
@@ -77,11 +80,15 @@ public:
 
 	void setScale(float _x, float _y, float _z);
 
+	void setScale(glm::vec3 _scale);
+
 	void setShader(Shader* _shader);
 
 	void setTexture(Texture* _tex);
 
 	void attachGameObject(GameObject* _gameObject);
+
+	void addMatrixTransformation(glm::mat4 _mat);
 
 	void Update(float _deltaTime);
 

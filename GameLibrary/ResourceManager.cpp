@@ -129,10 +129,19 @@ void ResourceManager::loadTexture(std::string _fileName, std::string _texName){
 
 	GLuint texID;
 	glGenTextures(1, &texID);
-	glBindTexture(GL_TEXTURE_3D, texID);
+	glBindTexture(GL_TEXTURE_2D, texID);
 	brandNewTexture->texID = texID;
 
 	textureLoader->LoadTextureImage(brandNewTexture, fileNameChars);
+
+	if (brandNewTexture->imageData == nullptr){
+		logManager->writeLog(LogLevel::LOG_ERROR, "Cannot load texture " + _fileName);
+		logManager->printLastError();
+		brandNewTexture = getTexture("TextureNotFound");
+		if (brandNewTexture == nullptr){ //if THAT is null as well
+			return; //exit texture loading
+		}
+	}
 
 	glTexImage2D(GL_TEXTURE_2D, 0, brandNewTexture->bpp, brandNewTexture->width, brandNewTexture->height, 0, brandNewTexture->type, GL_UNSIGNED_BYTE, brandNewTexture->imageData);
 
@@ -141,7 +150,7 @@ void ResourceManager::loadTexture(std::string _fileName, std::string _texName){
 	/*glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);*/
 
-	glBindTexture(GL_TEXTURE_3D, 0);
+	glBindTexture(GL_TEXTURE_2D, 0);
 	//TextureLoader::LoadTGA(brandNewTexture, fileNameChars);
 	//Add brand new texture to the texture map
 	textureMap[_texName] = brandNewTexture;

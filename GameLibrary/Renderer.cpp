@@ -48,10 +48,12 @@ void Renderer::RenderObject(GameObject* _gameObject){
 			}
 			glm::mat4 mvp = activeCamera->getProjection() * activeCamera->getView() * _gameObject->getModelMat();
 			glUniformMatrix4fv(shaderManager->getCurrShader()->mvpLoc, 1, GL_FALSE, glm::value_ptr(mvp));
-			//glBindTexture(GL_TEXTURE_2D, _gameObject->getTexture()->texID);
-			//glUniform1i(_gameObject->getShader()->texSamplerAttrib, 0);
+			if (_gameObject->getTexture() != nullptr){
+				glBindTexture(GL_TEXTURE_2D, _gameObject->getTexture()->texID);
+				glUniform1i(shaderManager->getCurrShader()->texSamplerAttrib, 0);
+			}
 			_gameObject->Draw();
-			//glBindTexture(GL_TEXTURE_2D, 0);
+			glBindTexture(GL_TEXTURE_2D, 0);
 
 			/*Drawing Debug stuff*/
 			if (isDebugOn){

@@ -7,6 +7,7 @@ private:
 	GameObject* cubeObj;
 	GameObject* torusObj;
 	GameObject* circleObj;
+	glm::vec3 sphereTorque;
 	Ray* ray;
 	int mode;
 public:
