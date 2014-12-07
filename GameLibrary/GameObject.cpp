@@ -9,6 +9,7 @@ GameObject::GameObject(){
 	setFriction(1.0f);
 	scale = glm::vec3(1.0f, 1.0f, 1.0f);
 	additionalMats = glm::mat4(1.0f);
+	isRendering = true;
 }
 
 GameObject::~GameObject() {
@@ -149,6 +150,10 @@ void GameObject::setTexture(Texture* _tex){
 	tex = _tex;
 }
 
+void GameObject::setIsRending(bool _expression){
+	isRendering = _expression;
+}
+
 /**
 * OTHER METHODS
 */
@@ -172,7 +177,7 @@ void GameObject::Update(float _deltaTime){
 }
 
 void GameObject::Draw(){
-	if (mesh == nullptr)return; //Don't do any drawing if there's no mesh attached to the object
+	if (mesh == nullptr || !isRendering)return; //Don't do any drawing if there's no mesh attached to the object or if isRendering is set to false
 	glBindVertexArray(mesh->getVAO());
 	if (isWireFrameOn){
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);

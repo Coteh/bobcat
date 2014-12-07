@@ -9,11 +9,10 @@ Camera::Camera() {
 	view = glm::mat4();
 	projection = glm::mat4();
 	zoom = 10.0f;
-	position = glm::vec3(0, 0, 20);
-	direction = glm::vec3(0.0f, 0.0f, -1.0f);
+	position = glm::vec3(0, 0, 0);
+	forward = glm::vec3(0.0f, 0.0f, -1.0f);
 	up = glm::vec3(0.0f, 1.0f, 0.0f);
 }
-
 
 Camera::~Camera() {
 
@@ -31,8 +30,20 @@ glm::vec3 Camera::getPosition(){
 	return position;
 }
 
-glm::vec3 Camera::getDirection(){
-	return direction;
+glm::vec3 Camera::getRotationEuler(){
+	return rotation;
+}
+
+glm::vec3 Camera::getForward(){
+	return forward;
+}
+
+glm::vec3 Camera::getRight(){
+	return right;
+}
+
+glm::vec3 Camera::getUp(){
+	return up;
 }
 
 void Camera::setCameraScreenDimensions(int _width, int _height){
@@ -50,12 +61,17 @@ void Camera::setPosition(glm::vec3 _position){
 	UpdateCamera();
 }
 
+void Camera::setRotationEuler(glm::vec3 _rot){
+	rotation = _rot;
+	UpdateCamera();
+}
+
 void Camera::attachGameObject(GameObject* _gameObject){
 	attachedGameObject = _gameObject;
 }
 
 void Camera::IncrementZoom(float _zoom){
-	float zoomDir = (direction.z / ::abs(direction.z));
+	float zoomDir = (forward.z / ::abs(forward.z));
 	if (zoomDir == 0) zoomDir = 1.0f;
 	zoom += _zoom * zoomDir;
 	UpdateProjection();
@@ -67,33 +83,31 @@ void Camera::Translate(glm::vec3 _offset){
 }
 
 void Camera::Rotate(glm::vec3 _rotEuler){
-	/*direction = glm::rotate(direction, 0.16f, _rotEuler);
-	UpdateCamera();*/
-	rotation += _rotEuler;
+	rotation += _rotEuler * up;
 	UpdateCamera();
 }
 
+/**
+* Update the Camera's View Matrix
+* Thank you Jake for the help!
+*/
 void Camera::UpdateCamera(){
-	//Thank you Jake!
 	float cosPitch = cos(glm::radians(rotation.x));
 	float sinPitch = sin(glm::radians(rotation.x));
 	float cosYaw = cos(glm::radians(rotation.y));
 	float sinYaw = sin(glm::radians(rotation.y));
 
-	glm::vec3 xaxis = { cosYaw, 0, -sinYaw };
-	glm::vec3 yaxis = { sinYaw * sinPitch, cosPitch, cosYaw * sinPitch };
-	glm::vec3 zaxis = { sinYaw * cosPitch, -sinPitch, cosPitch * cosYaw };
+	right = { cosYaw, 0, -sinYaw }; //x axis
+	up = { sinYaw * sinPitch, cosPitch, cosYaw * sinPitch }; //y axis
+	forward = { sinYaw * cosPitch, -sinPitch, cosPitch * cosYaw }; //z axis
 
-	// Create a 4x4 view matrix from the right, up, forward and eye position vectors
+	//Setup the 4x4 view matrix using the right, up, forward, and eye (position) vectors
 	view = {
-		xaxis.x, yaxis.x, zaxis.x, 0,
-		xaxis.y, yaxis.y, zaxis.y, 0,
-		xaxis.z, yaxis.z, zaxis.z, 0,
-		-glm::dot(xaxis, position), -glm::dot(yaxis, position), -glm::dot(zaxis, position), 1
+		right.x, up.x, forward.x, 0,
+		right.y, up.y, forward.y, 0,
+		right.z, up.z, forward.z, 0,
+		-glm::dot(right, position), -glm::dot(up, position), -glm::dot(forward, position), 1
 	};
-	
-	float* viewFloats = glm::value_ptr(view);
-	direction = glm::vec3(viewFloats[2], viewFloats[6], viewFloats[10]);
 }
 
 void Camera::UpdateProjection(){

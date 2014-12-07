@@ -1,6 +1,6 @@
 #include "DemoApp.h"
 
-#define DEFAULT_SPHERE_TEXTURE "TextureModel"
+#define TEXTURE_MODEL "TextureModel"
 
 DemoApp::DemoApp() {
 	mode = 0;
@@ -52,7 +52,9 @@ void DemoApp::Init(){
 
 	/*Setting up Textures*/
 	resourceManager->loadTexture("kitteh.png", "TestTex");
+	resourceManager->loadTexture("Moon.png", "Moon");
 	Texture* tex = resourceManager->getTexture("TestTex");
+	Texture* planeTex = resourceManager->getTexture("Moon");
 
 	/*Setting up Scene*/
 	sceneManager->addScene(new Scene());
@@ -62,13 +64,15 @@ void DemoApp::Init(){
 	/*Adding meshes*/
 	resourceManager->addMesh("Sphere.ply", "Monkey");
 	resourceManager->addMesh("Cube.ply", "Cube");
+	resourceManager->addMesh("Plane.ply", "Plane");
 
 	//Initalize the objects, plugging the meshes into them
 	cubeObj = new GameObject();
 	cubeObj->setMesh(resourceManager->getMesh("Monkey"));
 	cubeObj->setPosition(0, 0.0f, 0);
+	sphereOrigPos = cubeObj->getPosition();
 	cubeObj->setVelocity(0.0f, 0.0f, 0.0f);
-	cubeObj->setShader(shaderManager->getShader(DEFAULT_SPHERE_TEXTURE));
+	cubeObj->setShader(shaderManager->getShader(TEXTURE_MODEL));
 	cubeObj->setTexture(tex);
 	cubeObj->setCollider(new SphereCollider());
 	cubeObj->getCollider()->setScale(1.0f);
@@ -79,7 +83,7 @@ void DemoApp::Init(){
 	torusObj->setMesh(resourceManager->getMesh("Cube"));
 	torusObj->setPosition(1.0f, 1.0f, -1.0f);
 	torusObj->setScale(0.4f, 0.4f, 0.4f);
-	torusObj->setShader(shaderManager->getShader("TextureModel"));
+	torusObj->setShader(shaderManager->getShader(TEXTURE_MODEL));
 	torusObj->setTexture(tex);
 	torusObj->setCollider(new BoxCollider());
 	torusObj->getCollider()->setScale(1.0f);
@@ -87,15 +91,40 @@ void DemoApp::Init(){
 	torusObj->setRotationalVel(5.0f, 0.0f, 5.0f);
 	scene->addGameObject(torusObj);
 
+	torusObj = new GameObject();
+	torusObj->setMesh(resourceManager->getMesh("Cube"));
+	torusObj->setPosition(20.0f, 1.0f, 1.0f);
+	torusObj->setScale(0.4f, 0.4f, 0.4f);
+	torusObj->setShader(shaderManager->getShader("TestShader"));
+	//torusObj->setTexture(tex);
+	torusObj->setCollider(new BoxCollider());
+	torusObj->getCollider()->setScale(1.0f);
+	torusObj->getCollider()->setDimensions(1.0f, 1.0f, 1.0f);
+	torusObj->setRotationalVel(10.0f, 0.0f, 10.0f);
+	scene->addGameObject(torusObj);
+
+	GameObject* planeObj = new GameObject();
+	planeObj->setMesh(resourceManager->getMesh("Plane"));
+	planeObj->setPosition(glm::vec3(0.0f, -10.0f, -10.0f));
+	planeObj->setRotationEuler(90.0f, 0.0f, 0.0f);
+	planeObj->setScale(100.0f, 100.0f, 100.0f);
+	planeObj->setShader(shaderManager->getShader(TEXTURE_MODEL));
+	planeObj->setTexture(planeTex);
+	scene->addGameObject(planeObj);
+
 	logManager->writeLog(LogLevel::LOG_NONE, "This is a test log");
 	logManager->writeLog(LogLevel::LOG_INFO, "This is a test log also");
 	logManager->writeLog(LogLevel::LOG_ERROR, "This is an error!");
 
 	renderer->isDebugOn = true;
 
+	camera->setPosition(glm::vec3(0, 0, 20));
+	origCameraPos = camera->getPosition();
 	camera->attachGameObject(torusObj);
 
-	ray = new Ray(camera->getPosition(), camera->getDirection());
+	
+
+	ray = new Ray(camera->getPosition(), camera->getForward());
 }
 
 void DemoApp::OnKeyEvent(GLFWwindow* _window, int _key, int _scancode, int _action, int _mods){
@@ -106,54 +135,53 @@ void DemoApp::OnKeyEvent(GLFWwindow* _window, int _key, int _scancode, int _acti
 			isGameRunning = false;
 		} else if (_key == GLFW_KEY_1){
 			mode = 0;
-			cubeObj->setRotationalVel(sphereTorque);
 		} else if (_key == GLFW_KEY_2){
 			mode = 1;
-		} else if (_key == GLFW_KEY_3){
-			mode = 2;
-			cubeObj->setRotationalVel(0.0f, 0.0f, 0.0f);
 		}
 	}
 }
 
 void DemoApp::OnKeyHandle(){
 	Engine::OnKeyHandle();
-	//Camera Controls
-	if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_W) == GLFW_PRESS){
-		camera->Translate(glm::vec3(0.0f, 0.0f, -50.0f) * deltaTime);
-	} else if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_S) == GLFW_PRESS){
-		camera->Translate(glm::vec3(0.0f, 0.0f, 50.0f) * deltaTime);
-	} else if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_A) == GLFW_PRESS){
-		camera->Translate(glm::vec3(-50 * deltaTime, 0.0f, 0.0f));
-	} else if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_D) == GLFW_PRESS){
-		camera->Translate(glm::vec3(50 * deltaTime, 0.0f, 0.0f));
-	} else if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_EQUAL) == GLFW_PRESS){
-		camera->IncrementZoom(2.0f * deltaTime);
-	} else if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_MINUS) == GLFW_PRESS){
-		camera->IncrementZoom(-2.0f * deltaTime);
-	}
-	glm::vec3 cubeVelChange = glm::vec3();
-	if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_LEFT) == GLFW_PRESS){
-		cubeVelChange += glm::vec3(-10.0, 0.0, 0.0);
-	}
-	if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_RIGHT) == GLFW_PRESS){
-		cubeVelChange += glm::vec3(10.0, 0.0, 0.0);
-	}
-	if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_UP) == GLFW_PRESS){
-		cubeVelChange += glm::vec3(0.0, 10.0, 0.0);
-	}
-	if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_DOWN) == GLFW_PRESS){
-		cubeVelChange += glm::vec3(0.0, -10.0, 0.0);
-	}
 	switch (mode){
 	case 0:
-		cubeObj->setPosition(cubeObj->getPosition() + cubeVelChange * deltaTime);
+		//Camera Controls
+		if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_UP) == GLFW_PRESS){
+			camera->Translate(-50.0f * camera->getForward() * deltaTime);
+		} else if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_DOWN) == GLFW_PRESS){
+			camera->Translate(50.0f * camera->getForward() * deltaTime);
+		} else if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_LEFT) == GLFW_PRESS){
+			camera->Translate(-50.0f * camera->getRight() * deltaTime);
+		} else if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_RIGHT) == GLFW_PRESS){
+			camera->Translate(50.0f * camera->getRight() * deltaTime);
+		}
+		if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_A) == GLFW_PRESS){
+			camera->Rotate(glm::vec3(0.0f, 100.0f, 0.0f) * deltaTime);
+		} else if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_D) == GLFW_PRESS){
+			camera->Rotate(glm::vec3(0.0f, -100.0f, 0.0f) * deltaTime);
+		} else if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_W) == GLFW_PRESS){
+			camera->Rotate(glm::vec3(100.0f, 0.0f, 0.0f) * deltaTime);
+		} else if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_S) == GLFW_PRESS){
+			camera->Rotate(glm::vec3(-100.0f, 0.0f, 0.0f) * deltaTime);
+		} else if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_R) == GLFW_PRESS){
+			camera->setPosition(origCameraPos);
+			camera->setRotationEuler(glm::vec3(0.0f, 0.0f, -1.0f));
+		}
 		break;
 	case 1:
-		camera->setPosition(camera->getPosition() + cubeVelChange * deltaTime);
-		break;
-	case 2:
-		cubeObj->setRotationEuler(cubeObj->getRotation() + cubeVelChange * deltaTime);
+		//Sphere Controls
+		if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_UP) == GLFW_PRESS){
+			cubeObj->setPosition(cubeObj->getPosition() + glm::vec3(-50.0f, 0.0f, 0.0f) * deltaTime);
+		} else if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_DOWN) == GLFW_PRESS){
+			cubeObj->setPosition(cubeObj->getPosition() + glm::vec3(-50.0f, 0.0f, 0.0f) * deltaTime);
+		} else if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_LEFT) == GLFW_PRESS){
+			cubeObj->setPosition(cubeObj->getPosition() + glm::vec3(-50.0f, 0.0f, 0.0f) * deltaTime);
+		} else if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_RIGHT) == GLFW_PRESS){
+			cubeObj->setPosition(cubeObj->getPosition() + glm::vec3(-50.0f, 0.0f, 0.0f) * deltaTime);
+		} else if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_R) == GLFW_PRESS){
+			cubeObj->setPosition(sphereOrigPos);
+			cubeObj->setRotationEuler(glm::vec3(0.0f, 0.0f, 0.0f));
+		}
 		break;
 	}
 }
@@ -161,13 +189,13 @@ void DemoApp::OnKeyHandle(){
 void DemoApp::Update(){
 	Engine::Update();
 	scene->updateGameObjects(deltaTime);
-	ray->updateRay(camera->getPosition(), camera->getDirection());
+	ray->updateRay(camera->getPosition(), camera->getForward());
 	float dist;
 	Collider* col = cubeObj->getCollider();
 	if (ray->intersects(col->getPosition(), col->getRadius() * col->getScale(), &dist)){
 		cubeObj->setShader(shaderManager->getShader("TestShader2"));
 	}else{
-		cubeObj->setShader(shaderManager->getShader(DEFAULT_SPHERE_TEXTURE));
+		cubeObj->setShader(shaderManager->getShader(TEXTURE_MODEL));
 	}
 }
 

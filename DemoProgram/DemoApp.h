@@ -8,6 +8,8 @@ private:
 	GameObject* torusObj;
 	GameObject* circleObj;
 	glm::vec3 sphereTorque;
+	glm::vec3 origCameraPos;
+	glm::vec3 sphereOrigPos;
 	Ray* ray;
 	int mode;
 public:

@@ -25,6 +25,7 @@ private:
 	std::vector<GLenum> drawModeVec;
 	std::vector<int> indiceCountData;
 	Shader* shader;
+	bool isRendering;
 public:
 	GameObject();
 
@@ -85,6 +86,8 @@ public:
 	void setShader(Shader* _shader);
 
 	void setTexture(Texture* _tex);
+
+	void setIsRending(bool _expression);
 
 	void attachGameObject(GameObject* _gameObject);
 
