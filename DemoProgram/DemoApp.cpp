@@ -1,4 +1,5 @@
 #include "DemoApp.h"
+#include <glm\gtc\type_ptr.hpp>
 
 #define TEXTURE_MODEL "TextureModel"
 
@@ -63,7 +64,7 @@ void DemoApp::Init(){
 
 	/*Adding meshes*/
 	resourceManager->addMesh("Sphere.ply", "Monkey");
-	resourceManager->addMesh("Cube.ply", "Cube");
+	resourceManager->addMesh("Monkey.ply", "Cube");
 	resourceManager->addMesh("Plane.ply", "Plane");
 
 	//Initalize the objects, plugging the meshes into them
@@ -72,7 +73,7 @@ void DemoApp::Init(){
 	cubeObj->setPosition(0, 0.0f, 0);
 	sphereOrigPos = cubeObj->getPosition();
 	cubeObj->setVelocity(0.0f, 0.0f, 0.0f);
-	cubeObj->setShader(shaderManager->getShader(TEXTURE_MODEL));
+	cubeObj->setShader(shaderManager->getShader("TestShader"));
 	cubeObj->setTexture(tex);
 	cubeObj->setCollider(new SphereCollider());
 	cubeObj->getCollider()->setScale(1.0f);
@@ -83,7 +84,7 @@ void DemoApp::Init(){
 	torusObj->setMesh(resourceManager->getMesh("Cube"));
 	torusObj->setPosition(1.0f, 1.0f, -1.0f);
 	torusObj->setScale(0.4f, 0.4f, 0.4f);
-	torusObj->setShader(shaderManager->getShader(TEXTURE_MODEL));
+	torusObj->setShader(shaderManager->getShader("TestShader"));
 	torusObj->setTexture(tex);
 	torusObj->setCollider(new BoxCollider());
 	torusObj->getCollider()->setScale(1.0f);
@@ -116,13 +117,11 @@ void DemoApp::Init(){
 	logManager->writeLog(LogLevel::LOG_INFO, "This is a test log also");
 	logManager->writeLog(LogLevel::LOG_ERROR, "This is an error!");
 
-	renderer->isDebugOn = true;
-
 	camera->setPosition(glm::vec3(0, 0, 20));
 	origCameraPos = camera->getPosition();
 	camera->attachGameObject(torusObj);
 
-	
+	lightSource = glm::vec3(-10.0, 10.0, -10.0);
 
 	ray = new Ray(camera->getPosition(), camera->getForward());
 }
@@ -137,6 +136,8 @@ void DemoApp::OnKeyEvent(GLFWwindow* _window, int _key, int _scancode, int _acti
 			mode = 0;
 		} else if (_key == GLFW_KEY_2){
 			mode = 1;
+		} else if (_key == GLFW_KEY_U){
+			renderer->isDebugOn = !renderer->isDebugOn;
 		}
 	}
 }
@@ -192,10 +193,13 @@ void DemoApp::Update(){
 	ray->updateRay(camera->getPosition(), camera->getForward());
 	float dist;
 	Collider* col = cubeObj->getCollider();
-	if (ray->intersects(col->getPosition(), col->getRadius() * col->getScale(), &dist)){
+	/*if (ray->intersects(col->getPosition(), col->getRadius() * col->getScale(), &dist)){
 		cubeObj->setShader(shaderManager->getShader("TestShader2"));
 	}else{
 		cubeObj->setShader(shaderManager->getShader(TEXTURE_MODEL));
+	}*/
+	if (shaderManager->getCurrShader() != nullptr){
+		glUniform3fv(shaderManager->getCurrShader()->lightingLoc, 1, glm::value_ptr(lightSource));
 	}
 }
 

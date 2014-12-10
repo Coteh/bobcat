@@ -11,6 +11,7 @@ private:
 	glm::vec3 origCameraPos;
 	glm::vec3 sphereOrigPos;
 	Ray* ray;
+	glm::vec3 lightSource;
 	int mode;
 public:
 	DemoApp();

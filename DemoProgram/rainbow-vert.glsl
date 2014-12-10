@@ -5,10 +5,23 @@ attribute vec3 vNormals;
 attribute vec2 vTexture;
 attribute vec3 vColor;
 
-out vec3 VertexColor;
+out vec3 vertexColor;
+//lighting
+out vec3 vertexWorld;
+out vec3 normalWorld;
 
 void main()
 {
+	//Calculate GL position
 	gl_Position = MVP * vec4(vPosition,1.0);
-	VertexColor = vNormals;
+
+	//Transform vertex position into eye coordinates
+	vertexWorld = gl_Position.xyz;
+
+	//Use normals
+	mat3 norm = mat3(MVP);
+	normalWorld = normalize(norm * vNormals);
+
+	//Determine what the color to send to the shader is
+	vertexColor = vNormals + vec3(1.0,1.0,1.0);
 }

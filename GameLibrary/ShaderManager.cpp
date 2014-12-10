@@ -51,6 +51,7 @@ void ShaderManager::determineShaderUniforms(Shader* _shader){
 	//Get model view projection matrix location
 	_shader->mvpLoc = glGetUniformLocation(_shader->shaderProgram, "MVP");
 	_shader->texSamplerAttrib = glGetUniformLocation(_shader->shaderProgram, "tex");
+	_shader->lightingLoc = glGetUniformLocation(_shader->shaderProgram, "lightPos");
 }
 
 void ShaderManager::initShaderAttribs(Shader* _shader){

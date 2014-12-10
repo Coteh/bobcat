@@ -42,8 +42,8 @@ void Engine::Init(){
 	currActiveWindowInstance = window->getGLFWWindowInstance();
 	renderer->Init();
 
-	resourceManager->addMesh("QuestionMark.ply", "QuestionMark");
-	resourceManager->loadTexture("TextureNotFound.png", "TextureNotFound");
+	resourceManager->addMesh(RESOUR_MODELNOTFOUND + std::string(".ply"), RESOUR_MODELNOTFOUND);
+	resourceManager->loadTexture(RESOUR_TEXTURENOTFOUND + std::string(".png"), RESOUR_TEXTURENOTFOUND);
 
 	camera = new Camera();
 	camera->setCameraScreenDimensions(window->getWindowWidth(), window->getWindowHeight());

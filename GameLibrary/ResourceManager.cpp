@@ -35,10 +35,10 @@ ResourceManager::~ResourceManager() {
 
 Mesh* ResourceManager::getMesh(std::string _name){
 	Mesh* meshToReturn = nullptr;
-	if (meshMap.count(_name)){
-		meshToReturn = meshMap.find(_name)->second;
-	} else if (meshMap.count("QuestionMark")){
-		meshToReturn = meshMap.find("QuestionMark")->second;
+	if (meshMap.count(_name)){ //find the model/mesh
+		meshToReturn = meshMap.find(_name)->second; //return it if it exists
+	} else if (meshMap.count(RESOUR_MODELNOTFOUND)){ //if it can't find the mesh, try to find this one...
+		meshToReturn = meshMap.find(RESOUR_MODELNOTFOUND)->second; //load the "Model Not Found" mesh if it exists.
 	}
 	return meshToReturn;
 }
@@ -46,6 +46,8 @@ Mesh* ResourceManager::getMesh(std::string _name){
 Texture* ResourceManager::getTexture(std::string _name){
 	if (textureMap.count(_name)){ //if texture exists...
 		return textureMap[_name]; //return the texture
+	} else if (textureMap.count(RESOUR_TEXTURENOTFOUND)){ //if it can't find the texture, try to find this one...
+		return textureMap[RESOUR_TEXTURENOTFOUND]; //load the "Texture Not Found" texture if it exists.
 	}
 	return nullptr; //otherwise, just return a null pointer
 }
@@ -53,6 +55,8 @@ Texture* ResourceManager::getTexture(std::string _name){
 GLuint ResourceManager::getTextureID(std::string _name){
 	if (textureMap.count(_name)){ //if texture exists...
 		return textureMap[_name]->texID; //return its ID
+	} else if (textureMap.count(RESOUR_TEXTURENOTFOUND)){ //if it can't find the texture, try to find this one...
+		return textureMap[RESOUR_TEXTURENOTFOUND]->texID; //load the "Texture Not Found" texture ID if it exists.
 	}
 	return -1; //otherwise, just return -1
 }
@@ -137,7 +141,7 @@ void ResourceManager::loadTexture(std::string _fileName, std::string _texName){
 	if (brandNewTexture->imageData == nullptr){
 		logManager->writeLog(LogLevel::LOG_ERROR, "Cannot load texture " + _fileName);
 		logManager->printLastError();
-		brandNewTexture = getTexture("TextureNotFound");
+		brandNewTexture = getTexture(RESOUR_TEXTURENOTFOUND);
 		if (brandNewTexture == nullptr){ //if THAT is null as well
 			return; //exit texture loading
 		}
@@ -147,8 +151,13 @@ void ResourceManager::loadTexture(std::string _fileName, std::string _texName){
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	/*glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);*/
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	GLuint minFilter = GL_LINEAR_MIPMAP_LINEAR;
+	// If we're using mipmaps, then we'll generate them here.
+	if (minFilter == GL_LINEAR_MIPMAP_LINEAR || minFilter == GL_LINEAR_MIPMAP_NEAREST || minFilter == GL_NEAREST_MIPMAP_LINEAR || minFilter == GL_NEAREST_MIPMAP_NEAREST) {
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 	//TextureLoader::LoadTGA(brandNewTexture, fileNameChars);

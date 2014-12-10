@@ -7,6 +7,9 @@
 #include "TextureLoader.h"
 #include "LogManager.h"
 
+#define RESOUR_MODELNOTFOUND "QuestionMark"
+#define RESOUR_TEXTURENOTFOUND "TextureNotFound"
+
 class ResourceManager {
 private:
 	static ResourceManager* instance;
