@@ -39,7 +39,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SOIL)\src;$(GLM);$(GLFW_SOURCE)\include;$(OPEN_GL)\include;$(SolutionDIr)\GameLibrary;$(IncludePath)</IncludePath>
+    <IncludePath>$(RAPIDJSON)\include;$(SOIL)\src;$(GLM);$(GLFW_SOURCE)\include;$(OPEN_GL)\include;$(SolutionDIr)\GameLibrary;$(IncludePath)</IncludePath>
     <LibraryPath>$(SOIL)\lib;$(GLFW_BUILT)\lib-msvc120;$(OPEN_GL)\lib;$(SolutionDir)\GameLibrary\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

@@ -13,8 +13,13 @@ void printVersionInfo() {
 }
 
 Window::Window() {
+	configManager = ConfigManager::getInstance();
+	logManager = LogManager::getInstance();
+	//Set default window settings
+	name = "Engine Window";
+	width = 640;
+	height = 640;
 }
-
 
 Window::~Window() {
 	glfwDestroyWindow(window);
@@ -62,22 +67,25 @@ void Window::windowInit(){
 	//Set GLFW error callback
 	glfwSetErrorCallback(error_callback);
 
+	//Get window settings from Config Manager
+	configManager->getWindowSettings(name, width, height);
+
 	//Create the GLFW window
-	window = glfwCreateWindow(640, 640, "GLFW Window", NULL, NULL);
+	window = glfwCreateWindow(width, height, name, NULL, NULL);
 	//Check if window creation was unsuccessful (window is null)
 	if (!window) {
 		glfwTerminate();
+		logManager->writeLog(LogLevel::LOG_ERROR, "Could not initalize window!");
 		exit(EXIT_FAILURE);
 	}
 
 	//Make the window context current
 	glfwMakeContextCurrent(window);
-	//Set the GLFW key callback
-	//glfwSetKeyCallback(window, key_callback);
-	//Get the frame buffer size of the GLFW window (out it to the width and height variables)
-	glfwGetFramebufferSize(window, &width, &height);
 
-	/*Initalizing OpenGL Stuff*/
+	//Currently not in use.
+	//glfwGetFramebufferSize(window, &width, &height);
+
+	/*Initalizing OpenGL Viewport*/
 	glViewport(0, 0, width, height);
 
 	//Turn on GLEW Experimental

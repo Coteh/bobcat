@@ -20,3 +20,12 @@ std::vector<std::string> FileReader::readFromFile(std::string _fileName){
 	file.close();
 	return fileStrVec;
 }
+
+std::string FileReader::readFromFileAsString(std::string _fileName){
+	std::vector<std::string> fileVec = readFromFile(_fileName);
+	std::string retStr;
+	for (size_t i = 0; i < fileVec.size(); i++){
+		retStr.append(fileVec[i]);
+	}
+	return retStr;
+}

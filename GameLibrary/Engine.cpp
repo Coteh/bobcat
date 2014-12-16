@@ -3,6 +3,8 @@
 Engine::Engine() {
 	logManager = LogManager::getInstance();
 	logManager->setDefaultLogFileName("EngineLog.txt");
+	configManager = ConfigManager::getInstance();
+	configManager->readConfigFile("engine.config");
 	Clock::init();
 	window = new Window();
 	renderer = new Renderer();
@@ -94,6 +96,8 @@ void Engine::DrawEnd(){
 
 Engine::~Engine() {
 	delete window;
+	delete logManager;
+	delete configManager;
 	delete sceneManager;
 	delete resourceManager;
 	delete shaderManager;

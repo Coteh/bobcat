@@ -3,6 +3,7 @@
 #include "Clock.h"
 #include "Window.h"
 #include "LogManager.h"
+#include "ConfigManager.h"
 //#include "InputManager.h"
 #include "Renderer.h"
 #include "ResourceManager.h"
@@ -21,6 +22,7 @@ private:
 	bool isKeyPressed;
 protected:
 	LogManager* logManager;
+	ConfigManager* configManager;
 	//InputManager* inputManager;
 	Renderer* renderer;
 	Camera* camera;

@@ -1,5 +1,6 @@
 #pragma once
 #include <stdio.h>
+#include "ConfigManager.h"
 #include "vgl.h";
 // Include GLFW
 #include <GLFW\glfw3.h>
@@ -7,7 +8,10 @@
 class Window {
 private:
 	GLFWwindow* window;
+	const char* name;
 	int width, height;
+	ConfigManager* configManager;
+	LogManager* logManager;
 public:
 	Window();
 	~Window();

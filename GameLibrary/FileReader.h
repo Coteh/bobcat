@@ -9,6 +9,7 @@ namespace FileIO {
 		FileReader();
 		virtual ~FileReader();
 		virtual std::vector<std::string> readFromFile(std::string _fileName);
+		virtual std::string readFromFileAsString(std::string _fileName);
 	};
 
 };

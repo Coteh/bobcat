@@ -73,7 +73,7 @@ void DemoApp::Init(){
 	cubeObj->setPosition(0, 0.0f, 0);
 	sphereOrigPos = cubeObj->getPosition();
 	cubeObj->setVelocity(0.0f, 0.0f, 0.0f);
-	cubeObj->setShader(shaderManager->getShader("TestShader"));
+	cubeObj->setShader(shaderManager->getShader(TEXTURE_MODEL));
 	cubeObj->setTexture(tex);
 	cubeObj->setCollider(new SphereCollider());
 	cubeObj->getCollider()->setScale(1.0f);
@@ -84,7 +84,7 @@ void DemoApp::Init(){
 	torusObj->setMesh(resourceManager->getMesh("Cube"));
 	torusObj->setPosition(1.0f, 1.0f, -1.0f);
 	torusObj->setScale(0.4f, 0.4f, 0.4f);
-	torusObj->setShader(shaderManager->getShader("TestShader"));
+	torusObj->setShader(shaderManager->getShader(TEXTURE_MODEL));
 	torusObj->setTexture(tex);
 	torusObj->setCollider(new BoxCollider());
 	torusObj->getCollider()->setScale(1.0f);
@@ -96,8 +96,8 @@ void DemoApp::Init(){
 	torusObj->setMesh(resourceManager->getMesh("Cube"));
 	torusObj->setPosition(20.0f, 1.0f, 1.0f);
 	torusObj->setScale(0.4f, 0.4f, 0.4f);
-	torusObj->setShader(shaderManager->getShader("TestShader"));
-	//torusObj->setTexture(tex);
+	torusObj->setShader(shaderManager->getShader(TEXTURE_MODEL));
+	torusObj->setTexture(tex);
 	torusObj->setCollider(new BoxCollider());
 	torusObj->getCollider()->setScale(1.0f);
 	torusObj->getCollider()->setDimensions(1.0f, 1.0f, 1.0f);
