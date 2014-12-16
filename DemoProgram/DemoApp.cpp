@@ -147,39 +147,39 @@ void DemoApp::OnKeyHandle(){
 	switch (mode){
 	case 0:
 		//Camera Controls
-		if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_UP) == GLFW_PRESS){
+		if (((GLFWWindower*)window)->getGLFWKeyState(GLFW_KEY_UP) == GLFW_PRESS){
 			camera->Translate(-50.0f * camera->getForward() * deltaTime);
-		} else if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_DOWN) == GLFW_PRESS){
+		} else if (((GLFWWindower*)window)->getGLFWKeyState(GLFW_KEY_DOWN) == GLFW_PRESS){
 			camera->Translate(50.0f * camera->getForward() * deltaTime);
-		} else if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_LEFT) == GLFW_PRESS){
+		} else if (((GLFWWindower*)window)->getGLFWKeyState(GLFW_KEY_LEFT) == GLFW_PRESS){
 			camera->Translate(-50.0f * camera->getRight() * deltaTime);
-		} else if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_RIGHT) == GLFW_PRESS){
+		} else if (((GLFWWindower*)window)->getGLFWKeyState(GLFW_KEY_RIGHT) == GLFW_PRESS){
 			camera->Translate(50.0f * camera->getRight() * deltaTime);
 		}
-		if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_A) == GLFW_PRESS){
+		if (((GLFWWindower*)window)->getGLFWKeyState(GLFW_KEY_A) == GLFW_PRESS){
 			camera->Rotate(glm::vec3(0.0f, 100.0f, 0.0f) * deltaTime);
-		} else if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_D) == GLFW_PRESS){
+		} else if (((GLFWWindower*)window)->getGLFWKeyState(GLFW_KEY_D) == GLFW_PRESS){
 			camera->Rotate(glm::vec3(0.0f, -100.0f, 0.0f) * deltaTime);
-		} else if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_W) == GLFW_PRESS){
+		} else if (((GLFWWindower*)window)->getGLFWKeyState(GLFW_KEY_W) == GLFW_PRESS){
 			camera->Rotate(glm::vec3(100.0f, 0.0f, 0.0f) * deltaTime);
-		} else if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_S) == GLFW_PRESS){
+		} else if (((GLFWWindower*)window)->getGLFWKeyState(GLFW_KEY_S) == GLFW_PRESS){
 			camera->Rotate(glm::vec3(-100.0f, 0.0f, 0.0f) * deltaTime);
-		} else if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_R) == GLFW_PRESS){
+		} else if (((GLFWWindower*)window)->getGLFWKeyState(GLFW_KEY_R) == GLFW_PRESS){
 			camera->setPosition(origCameraPos);
 			camera->setRotationEuler(glm::vec3(0.0f, 0.0f, -1.0f));
 		}
 		break;
 	case 1:
 		//Sphere Controls
-		if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_UP) == GLFW_PRESS){
+		if (((GLFWWindower*)window)->getGLFWKeyState(GLFW_KEY_UP) == GLFW_PRESS){
 			cubeObj->setPosition(cubeObj->getPosition() + glm::vec3(-50.0f, 0.0f, 0.0f) * deltaTime);
-		} else if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_DOWN) == GLFW_PRESS){
+		} else if (((GLFWWindower*)window)->getGLFWKeyState(GLFW_KEY_DOWN) == GLFW_PRESS){
 			cubeObj->setPosition(cubeObj->getPosition() + glm::vec3(-50.0f, 0.0f, 0.0f) * deltaTime);
-		} else if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_LEFT) == GLFW_PRESS){
+		} else if (((GLFWWindower*)window)->getGLFWKeyState(GLFW_KEY_LEFT) == GLFW_PRESS){
 			cubeObj->setPosition(cubeObj->getPosition() + glm::vec3(-50.0f, 0.0f, 0.0f) * deltaTime);
-		} else if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_RIGHT) == GLFW_PRESS){
+		} else if (((GLFWWindower*)window)->getGLFWKeyState(GLFW_KEY_RIGHT) == GLFW_PRESS){
 			cubeObj->setPosition(cubeObj->getPosition() + glm::vec3(-50.0f, 0.0f, 0.0f) * deltaTime);
-		} else if (glfwGetKey(currActiveWindowInstance, GLFW_KEY_R) == GLFW_PRESS){
+		} else if (((GLFWWindower*)window)->getGLFWKeyState(GLFW_KEY_R) == GLFW_PRESS){
 			cubeObj->setPosition(sphereOrigPos);
 			cubeObj->setRotationEuler(glm::vec3(0.0f, 0.0f, 0.0f));
 		}

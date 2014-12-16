@@ -6,7 +6,7 @@ Engine::Engine() {
 	configManager = ConfigManager::getInstance();
 	configManager->readConfigFile("engine.config");
 	Clock::init();
-	window = new Window();
+	window = new GLFWWindower();
 	renderer = new Renderer();
 	resourceManager = ResourceManager::getInstance();
 	sceneManager = SceneManager::getInstance();
@@ -19,7 +19,7 @@ bool Engine::getIsGameRunning(){
 }
 
 bool Engine::getIsWindowRunning(){
-	return !glfwWindowShouldClose(window->getGLFWWindowInstance());
+	return window->isRunning();
 }
 
 void Engine::setScreenDimensions(int _width, int _height){
@@ -31,31 +31,29 @@ void Engine::setGameRunning(bool _expression){
 }
 
 void Engine::setKeyboardFunc(void* _function){
-	window->setKeyboardFunc((GLFWkeyfun)_function);
+	((GLFWWindower*)window)->setKeyboardFunc((GLFWkeyfun)_function);
 }
 
 void Engine::setWindowSizeFunc(void* _function){
-	window->setWindowSizeFunc((GLFWwindowsizefun)_function);
+	((GLFWWindower*)window)->setWindowSizeFunc((GLFWwindowsizefun)_function);
 }
 
 void Engine::Init(){
 	//inputManager = InputManager::getInstance();
-	window->windowInit();
-	currActiveWindowInstance = window->getGLFWWindowInstance();
+	window->init();
 	renderer->Init();
 
 	resourceManager->addMesh(RESOUR_MODELNOTFOUND + std::string(".ply"), RESOUR_MODELNOTFOUND);
 	resourceManager->loadTexture(RESOUR_TEXTURENOTFOUND + std::string(".png"), RESOUR_TEXTURENOTFOUND);
 
 	camera = new Camera();
-	camera->setCameraScreenDimensions(window->getWindowWidth(), window->getWindowHeight());
+	camera->setCameraScreenDimensions(window->getWidth(), window->getHeight());
 	camera->setZoom(10.0f);
 	renderer->setActiveCamera(camera);
 	camera->UpdateCamera(); //Initial camera update
 }
 
 void Engine::OnKeyEvent(GLFWwindow* _window, int _key, int _scancode, int _action, int _mods){
-	currActiveWindowInstance = _window;
 	isKeyPressed = (_action == GLFW_PRESS || _action == GLFW_REPEAT || (_action == GLFW_RELEASE && lastKeyAction == GLFW_PRESS) || (_action == GLFW_RELEASE && lastKeyAction == GLFW_REPEAT));
 	lastKeyAction = _action;
 }
@@ -90,8 +88,7 @@ void Engine::Draw(){
 
 void Engine::DrawEnd(){
 	renderer->EndRender();
-	glfwSwapBuffers(window->getGLFWWindowInstance());
-	glfwPollEvents();
+	window->updateWindow();
 }
 
 Engine::~Engine() {
@@ -101,6 +98,5 @@ Engine::~Engine() {
 	delete sceneManager;
 	delete resourceManager;
 	delete shaderManager;
-	glfwTerminate();
 	exit(EXIT_SUCCESS);
 }

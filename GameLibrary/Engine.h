@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Clock.h"
-#include "Window.h"
+#include "GLFWWindower.h"
 #include "LogManager.h"
 #include "ConfigManager.h"
 //#include "InputManager.h"
@@ -17,10 +17,9 @@
 
 class Engine {
 private:
-	Window* window;
-
 	bool isKeyPressed;
 protected:
+	AbstractWindower* window;
 	LogManager* logManager;
 	ConfigManager* configManager;
 	//InputManager* inputManager;
@@ -30,7 +29,6 @@ protected:
 	ResourceManager* resourceManager;
 	ShaderManager* shaderManager;
 
-	GLFWwindow* currActiveWindowInstance;
 	int lastKeyAction;
 
 	float gameTime = 0.0f;

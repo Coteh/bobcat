@@ -1,4 +1,4 @@
-#include "Window.h"
+#include "GLFWWindower.h"
 
 void error_callback(int error, const char* description) {
 	fputs(description, stderr);
@@ -12,7 +12,7 @@ void printVersionInfo() {
 	printf("============================================================\n\n");
 }
 
-Window::Window() {
+GLFWWindower::GLFWWindower(){
 	configManager = ConfigManager::getInstance();
 	logManager = LogManager::getInstance();
 	//Set default window settings
@@ -21,36 +21,60 @@ Window::Window() {
 	height = 640;
 }
 
-Window::~Window() {
+GLFWWindower::~GLFWWindower(){
 	glfwDestroyWindow(window);
+	glfwTerminate();
 }
 
-GLFWwindow* Window::getGLFWWindowInstance(){
-	return window;
-}
-
-int Window::getWindowWidth(){
+int GLFWWindower::getWidth(){
 	return width;
 }
 
-int Window::getWindowHeight(){
+int GLFWWindower::getHeight(){
 	return height;
 }
 
-void Window::setWindowDimensions(int _width, int _height){
+const char* GLFWWindower::getName(){
+	return name;
+}
+
+bool GLFWWindower::isVisible(){
+	return glfwGetWindowAttrib(window, GLFW_VISIBLE);
+}
+
+bool GLFWWindower::isRunning(){
+	return !glfwWindowShouldClose(window);
+}
+
+void GLFWWindower::setWindowDimensions(int _width, int _height){
+	glfwSetWindowSize(window, _width, _height);
+	glViewport(0, 0, _width, _height);
 	width = _width;
 	height = _height;
 }
 
-void Window::setKeyboardFunc(GLFWkeyfun _keyboardFunc){
+void GLFWWindower::setName(const char* _name){
+	glfwSetWindowTitle(window, _name);
+	name = _name;
+}
+
+void GLFWWindower::setKeyboardFunc(GLFWkeyfun _keyboardFunc){
 	glfwSetKeyCallback(window, _keyboardFunc);
 }
 
-void Window::setWindowSizeFunc(GLFWwindowsizefun _windowFunc){
+void GLFWWindower::setWindowSizeFunc(GLFWwindowsizefun _windowFunc){
 	glfwSetWindowSizeCallback(window, _windowFunc);
 }
 
-void Window::windowInit(){
+void GLFWWindower::showWindow(int _expression){
+	if (!_expression){
+		glfwHideWindow(window);
+	} else{
+		glfwShowWindow(window);
+	}
+}
+
+void GLFWWindower::init(){
 	//Initalize GLFW
 	if (!glfwInit())
 		exit(EXIT_FAILURE);
@@ -85,7 +109,7 @@ void Window::windowInit(){
 	//Currently not in use.
 	//glfwGetFramebufferSize(window, &width, &height);
 
-	/*Initalizing OpenGL Viewport*/
+	//Initalizing OpenGL Viewport
 	glViewport(0, 0, width, height);
 
 	//Turn on GLEW Experimental
@@ -101,6 +125,15 @@ void Window::windowInit(){
 	glDepthFunc(GL_LESS);
 }
 
-void Window::closeWindow(){
+void GLFWWindower::updateWindow(){
+	glfwSwapBuffers(window);
+	glfwPollEvents();
+}
+
+void GLFWWindower::closeWindow(){
 	glfwSetWindowShouldClose(window, GL_TRUE);
+}
+
+int GLFWWindower::getGLFWKeyState(int _key){
+	return glfwGetKey(window, _key);
 }

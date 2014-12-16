@@ -14,7 +14,6 @@ void windowSizeCallback(GLFWwindow* _window, int _width, int _height) {
 
 int main(int argc, char const *argv[]) {
 	engine = new DemoApp();
-	engine->setScreenDimensions(800, 600);
 	engine->Init();
 	engine->setKeyboardFunc(keyWrapper);
 	engine->setWindowSizeFunc(windowSizeCallback);
