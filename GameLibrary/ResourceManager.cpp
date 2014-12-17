@@ -131,9 +131,12 @@ void ResourceManager::loadTexture(std::string _fileName, std::string _texName){
 	textureLoader = determineTextureLoader(_fileName);
 	if (textureLoader == nullptr) return; //do not load texture if the texture loader is null
 
+	//Generate texture ID
 	GLuint texID;
 	glGenTextures(1, &texID);
+	//Bind texture ID
 	glBindTexture(GL_TEXTURE_2D, texID);
+	//Assign the newly created texture ID to the new Texture instance we just made
 	brandNewTexture->texID = texID;
 
 	textureLoader->LoadTextureImage(brandNewTexture, fileNameChars);
@@ -147,17 +150,19 @@ void ResourceManager::loadTexture(std::string _fileName, std::string _texName){
 		}
 	}
 
-	glTexImage2D(GL_TEXTURE_2D, 0, brandNewTexture->bpp, brandNewTexture->width, brandNewTexture->height, 0, brandNewTexture->type, GL_UNSIGNED_BYTE, brandNewTexture->imageData);
-
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
 	GLuint minFilter = GL_LINEAR_MIPMAP_LINEAR;
 	// If we're using mipmaps, then we'll generate them here.
 	if (minFilter == GL_LINEAR_MIPMAP_LINEAR || minFilter == GL_LINEAR_MIPMAP_NEAREST || minFilter == GL_NEAREST_MIPMAP_LINEAR || minFilter == GL_NEAREST_MIPMAP_NEAREST) {
 		glGenerateMipmap(GL_TEXTURE_2D);
 	}
+
+	glTexImage2D(GL_TEXTURE_2D, 0, brandNewTexture->bpp, brandNewTexture->width, brandNewTexture->height, 0, brandNewTexture->type, GL_UNSIGNED_BYTE, brandNewTexture->imageData);
+
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 	//TextureLoader::LoadTGA(brandNewTexture, fileNameChars);

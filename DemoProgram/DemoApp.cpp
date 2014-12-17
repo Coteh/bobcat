@@ -63,13 +63,14 @@ void DemoApp::Init(){
 	scene->setRenderer(renderer);
 
 	/*Adding meshes*/
-	resourceManager->addMesh("Sphere.ply", "Monkey");
-	resourceManager->addMesh("Monkey.ply", "Cube");
+	resourceManager->addMesh("Sphere.ply", "Sphere");
+	resourceManager->addMesh("Monkey.ply", "Monkey");
 	resourceManager->addMesh("Plane.ply", "Plane");
+	resourceManager->addMesh("Cube.ply", "Cube");
 
 	//Initalize the objects, plugging the meshes into them
 	cubeObj = new GameObject();
-	cubeObj->setMesh(resourceManager->getMesh("Monkey"));
+	cubeObj->setMesh(resourceManager->getMesh("Sphere"));
 	cubeObj->setPosition(0, 0.0f, 0);
 	sphereOrigPos = cubeObj->getPosition();
 	cubeObj->setVelocity(0.0f, 0.0f, 0.0f);
@@ -93,7 +94,7 @@ void DemoApp::Init(){
 	scene->addGameObject(torusObj);
 
 	torusObj = new GameObject();
-	torusObj->setMesh(resourceManager->getMesh("Cube"));
+	torusObj->setMesh(resourceManager->getMesh("Monkey"));
 	torusObj->setPosition(20.0f, 1.0f, 1.0f);
 	torusObj->setScale(0.4f, 0.4f, 0.4f);
 	torusObj->setShader(shaderManager->getShader(TEXTURE_MODEL));
