@@ -14,6 +14,12 @@ Engine::Engine() {
 	isGameRunning = true;
 }
 
+Engine::Engine(int _engineCmd) : Engine(){
+	if (_engineCmd){
+		Init();
+	}
+}
+
 bool Engine::getIsGameRunning(){
 	return isGameRunning;
 }
@@ -89,6 +95,15 @@ void Engine::Draw(){
 void Engine::DrawEnd(){
 	renderer->EndRender();
 	window->updateWindow();
+}
+
+void Engine::Run(){
+	while (isGameRunning && window->isRunning()){
+		Update();
+		DrawBegin();
+		Draw();
+		DrawEnd();
+	}
 }
 
 Engine::~Engine() {

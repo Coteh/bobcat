@@ -13,17 +13,11 @@ void windowSizeCallback(GLFWwindow* _window, int _width, int _height) {
 }
 
 int main(int argc, char const *argv[]) {
-	engine = new DemoApp();
-	engine->Init();
+	engine = new DemoApp(ENGINE_INIT);
 	engine->setKeyboardFunc(keyWrapper);
 	engine->setWindowSizeFunc(windowSizeCallback);
 
-	while (engine->getIsGameRunning() && engine->getIsWindowRunning()){
-		engine->Update();
-		engine->DrawBegin();
-		engine->Draw();
-		engine->DrawEnd();
-	}
+	engine->Run();
 
 	delete engine;
 }

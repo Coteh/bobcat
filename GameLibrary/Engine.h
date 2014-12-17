@@ -15,6 +15,9 @@
 #define GAME_RUNNING true
 #define GAME_END false
 
+#define ENGINE_INIT 1
+#define ENGINE_CONSTRUCT 0
+
 class Engine {
 private:
 	bool isKeyPressed;
@@ -36,6 +39,7 @@ protected:
 	bool isGameRunning;
 public:
 	Engine();
+	Engine(int _engineCmd);
 	virtual ~Engine();
 	bool getIsGameRunning();
 	bool getIsWindowRunning();
@@ -51,5 +55,6 @@ public:
 	void DrawBegin();
 	virtual void Draw();
 	void DrawEnd();
+	void Run();
 };
 

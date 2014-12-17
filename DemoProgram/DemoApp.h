@@ -15,6 +15,7 @@ private:
 	int mode;
 public:
 	DemoApp();
+	DemoApp(int _engineCmd);
 	virtual ~DemoApp();
 	virtual void Init();
 	virtual void OnKeyEvent(GLFWwindow* _window, int _key, int _scancode, int _action, int _mods);

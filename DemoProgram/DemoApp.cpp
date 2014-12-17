@@ -7,6 +7,12 @@ DemoApp::DemoApp() {
 	mode = 0;
 }
 
+DemoApp::DemoApp(int _engineCmd) : DemoApp(){
+	if (_engineCmd){
+		Init();
+	}
+}
+
 DemoApp::~DemoApp() {
 	delete ray;
 }
