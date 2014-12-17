@@ -50,7 +50,7 @@ void ShaderManager::useShader(std::string _name){
 void ShaderManager::determineShaderUniforms(Shader* _shader){
 	//Get model view projection matrix location
 	_shader->mvpLoc = glGetUniformLocation(_shader->shaderProgram, "MVP");
-	_shader->texSamplerAttrib = glGetUniformLocation(_shader->shaderProgram, "tex");
+	_shader->texSamplerLoc = glGetUniformLocation(_shader->shaderProgram, "tex");
 	_shader->lightingLoc = glGetUniformLocation(_shader->shaderProgram, "lightPos");
 }
 
@@ -109,12 +109,12 @@ void ShaderManager::updateAttribs(std::string _shaderName, Mesh* _mesh){
 		GL_FALSE, 11 * sizeof(GLfloat), BUFFER_OFFSET(offset));
 	/*Specify that our uv data is going into attribute index 2 (vTexture), and contains
 	two floats per vertex*/
-	offset += (2 * sizeof(GLfloat));
+	offset += (3 * sizeof(GLfloat));
 	glVertexAttribPointer(shader->texAttrib, 2, GL_FLOAT,
 		GL_FALSE, 11 * sizeof(GLfloat), BUFFER_OFFSET(offset));
 	/*Specify that our color data is going into attribute index 3 (vColor), and contains
 	three floats per vertex*/
-	offset += (3 * sizeof(GLfloat));
+	offset += (2 * sizeof(GLfloat));
 	glVertexAttribPointer(shader->colAttrib, 3, GL_FLOAT,
 		GL_FALSE, 11 * sizeof(GLfloat), BUFFER_OFFSET(offset));
 }
