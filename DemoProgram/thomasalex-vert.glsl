@@ -7,5 +7,6 @@ layout(location = 3) in vec3 vColor;
 
 void main()
 {
+	//Calculate GL position
 	gl_Position = MVP * vec4(vPosition, 1.0);
 }

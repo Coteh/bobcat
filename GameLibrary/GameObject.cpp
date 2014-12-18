@@ -8,6 +8,7 @@ GameObject::GameObject(){
 	rotation = glm::vec3(0.0f, 0.0f, 0.0f);
 	setFriction(1.0f);
 	scale = glm::vec3(1.0f, 1.0f, 1.0f);
+	color = glm::vec4(1.0f);
 	additionalMats = glm::mat4(1.0f);
 	isRendering = true;
 }
@@ -59,6 +60,10 @@ glm::vec3 GameObject::getRotationalVel(){
 
 glm::vec3 GameObject::getScale(){
 	return scale;
+}
+
+glm::vec4 GameObject::getColor(){
+	return color;
 }
 
 Collider* GameObject::getCollider(){
@@ -139,6 +144,10 @@ void GameObject::setScale(float _x, float _y, float _z){
 
 void GameObject::setScale(glm::vec3 _scale){
 	scale = _scale;
+}
+
+void GameObject::setColor(glm::vec4 _color){
+	color = _color;
 }
 
 void GameObject::setShader(Shader* _shader) {

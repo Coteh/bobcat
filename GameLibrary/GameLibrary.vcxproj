@@ -92,6 +92,7 @@
     <ClCompile Include="ShaderLoader.cpp" />
     <ClCompile Include="ShaderManager.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
+    <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TGATextureLoader.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -52,6 +52,7 @@ void ShaderManager::determineShaderUniforms(Shader* _shader){
 	_shader->mvpLoc = glGetUniformLocation(_shader->shaderProgram, "MVP");
 	_shader->texSamplerLoc = glGetUniformLocation(_shader->shaderProgram, "tex");
 	_shader->lightingLoc = glGetUniformLocation(_shader->shaderProgram, "lightPos");
+	_shader->colorLoc = glGetUniformLocation(_shader->shaderProgram, "uniColor");
 }
 
 void ShaderManager::initShaderAttribs(Shader* _shader){

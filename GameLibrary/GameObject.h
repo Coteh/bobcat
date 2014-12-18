@@ -19,6 +19,7 @@ private:
 	glm::vec3 rotation;
 	glm::vec3 rotationalVel; //torque
 	glm::vec3 scale;
+	glm::vec4 color;
 	glm::mat4 additionalMats;
 	float friction;
 	Collider* collider;
@@ -46,6 +47,8 @@ public:
 	glm::vec3 getRotationalVel();
 
 	glm::vec3 getScale();
+
+	glm::vec4 getColor();
 
 	Collider* getCollider();
 
@@ -82,6 +85,8 @@ public:
 	void setScale(float _x, float _y, float _z);
 
 	void setScale(glm::vec3 _scale);
+
+	void setColor(glm::vec4 _color);
 
 	void setShader(Shader* _shader);
 

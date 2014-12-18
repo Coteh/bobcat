@@ -150,6 +150,8 @@ void ResourceManager::loadTexture(std::string _fileName, std::string _texName){
 		}
 	}
 
+	glTexImage2D(GL_TEXTURE_2D, 0, brandNewTexture->bpp, brandNewTexture->width, brandNewTexture->height, 0, brandNewTexture->type, GL_UNSIGNED_BYTE, brandNewTexture->imageData);
+
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -161,11 +163,8 @@ void ResourceManager::loadTexture(std::string _fileName, std::string _texName){
 		glGenerateMipmap(GL_TEXTURE_2D);
 	}
 
-	glTexImage2D(GL_TEXTURE_2D, 0, brandNewTexture->bpp, brandNewTexture->width, brandNewTexture->height, 0, brandNewTexture->type, GL_UNSIGNED_BYTE, brandNewTexture->imageData);
-
-
 	glBindTexture(GL_TEXTURE_2D, 0);
-	//TextureLoader::LoadTGA(brandNewTexture, fileNameChars);
+
 	//Add brand new texture to the texture map
 	textureMap[_texName] = brandNewTexture;
 }
