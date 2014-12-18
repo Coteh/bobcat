@@ -7,12 +7,14 @@ private:
 	GameObject* cubeObj;
 	GameObject* torusObj;
 	GameObject* circleObj;
+	GameObject* planeObj;
 	glm::vec3 sphereTorque;
 	glm::vec3 origCameraPos;
 	glm::vec3 sphereOrigPos;
 	Ray* ray;
 	glm::vec3 lightSource;
 	int mode;
+	int renderMode;
 public:
 	DemoApp();
 	virtual ~DemoApp();

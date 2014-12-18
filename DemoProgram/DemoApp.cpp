@@ -5,6 +5,7 @@
 
 DemoApp::DemoApp() {
 	mode = 0;
+	renderMode = 0;
 }
 
 DemoApp::~DemoApp() {
@@ -45,17 +46,24 @@ void DemoApp::Init(){
 		{ GL_NONE, NULL }
 	};
 
+	ShaderLoadInfo shaders6[] = {
+		{ GL_VERTEX_SHADER, "thomasalex-vert.glsl" },
+		{ GL_FRAGMENT_SHADER, "uniformcolor-frag.glsl" },
+		{ GL_NONE, NULL }
+	};
+
 	shaderManager->addShader(ShaderLoader::LoadShaders(shaders), "TestShader");
 	shaderManager->addShader(ShaderLoader::LoadShaders(shaders2), "TestShader2");
 	shaderManager->addShader(ShaderLoader::LoadShaders(shaders3), "JakeShader");
 	shaderManager->addShader(ShaderLoader::LoadShaders(shaders4), "ColorModel");
 	shaderManager->addShader(ShaderLoader::LoadShaders(shaders5), "TextureModel");
+	shaderManager->addShader(ShaderLoader::LoadShaders(shaders6), "UniformColor");
 
 	/*Setting up Textures*/
-	resourceManager->loadTexture("kitteh.png", "TestTex");
-	resourceManager->loadTexture("Moon.png", "Moon");
-	Texture* tex = resourceManager->getTexture("TestTex");
-	Texture* planeTex = resourceManager->getTexture("Moon");
+	resourceManager->loadTexture("kitteh.png", "Moon");
+	resourceManager->loadTexture("OrangeLand.png", "OrangeLand");
+	Texture* tex = resourceManager->getTexture("Moon");
+	Texture* planeTex = resourceManager->getTexture("OrangeLand");
 
 	/*Setting up Scene*/
 	sceneManager->addScene(new Scene());
@@ -79,8 +87,10 @@ void DemoApp::Init(){
 	cubeObj->setCollider(new SphereCollider());
 	cubeObj->getCollider()->setScale(1.0f);
 	cubeObj->setRotationalVel(10.0f, 0.0f, 10.0f);
+	cubeObj->setColor(glm::vec4(1.0, 0.0, 0.0, 1.0));
 	sphereTorque = cubeObj->getRotationalVel();
 	scene->addGameObject(cubeObj);
+
 	torusObj = new GameObject();
 	torusObj->setMesh(resourceManager->getMesh("Cube"));
 	torusObj->setPosition(1.0f, 1.0f, -1.0f);
@@ -93,19 +103,19 @@ void DemoApp::Init(){
 	torusObj->setRotationalVel(5.0f, 0.0f, 5.0f);
 	scene->addGameObject(torusObj);
 
-	torusObj = new GameObject();
-	torusObj->setMesh(resourceManager->getMesh("Monkey"));
-	torusObj->setPosition(20.0f, 1.0f, 1.0f);
-	torusObj->setScale(0.4f, 0.4f, 0.4f);
-	torusObj->setShader(shaderManager->getShader(TEXTURE_MODEL));
-	torusObj->setTexture(tex);
-	torusObj->setCollider(new BoxCollider());
-	torusObj->getCollider()->setScale(1.0f);
-	torusObj->getCollider()->setDimensions(1.0f, 1.0f, 1.0f);
-	torusObj->setRotationalVel(10.0f, 0.0f, 10.0f);
-	scene->addGameObject(torusObj);
+	circleObj = new GameObject();
+	circleObj->setMesh(resourceManager->getMesh("Monkey"));
+	circleObj->setPosition(20.0f, 1.0f, 1.0f);
+	circleObj->setScale(0.4f, 0.4f, 0.4f);
+	circleObj->setShader(shaderManager->getShader(TEXTURE_MODEL));
+	circleObj->setTexture(tex);
+	circleObj->setCollider(new BoxCollider());
+	circleObj->getCollider()->setScale(1.0f);
+	circleObj->getCollider()->setDimensions(1.0f, 1.0f, 1.0f);
+	circleObj->setRotationalVel(10.0f, 0.0f, 10.0f);
+	scene->addGameObject(circleObj);
 
-	GameObject* planeObj = new GameObject();
+	planeObj = new GameObject();
 	planeObj->setMesh(resourceManager->getMesh("Plane"));
 	planeObj->setPosition(glm::vec3(0.0f, -10.0f, -10.0f));
 	planeObj->setRotationEuler(90.0f, 0.0f, 0.0f);
@@ -122,7 +132,7 @@ void DemoApp::Init(){
 	origCameraPos = camera->getPosition();
 	camera->attachGameObject(torusObj);
 
-	lightSource = glm::vec3(-10.0, 10.0, -10.0);
+	lightSource = glm::vec3(0.0, -10.0, -1000.0);
 
 	ray = new Ray(camera->getPosition(), camera->getForward());
 }
@@ -139,6 +149,19 @@ void DemoApp::OnKeyEvent(GLFWwindow* _window, int _key, int _scancode, int _acti
 			mode = 1;
 		} else if (_key == GLFW_KEY_U){
 			renderer->isDebugOn = !renderer->isDebugOn;
+		} else if (_key == GLFW_KEY_Y){
+			renderMode = !renderMode;
+			if (renderMode){
+				cubeObj->setShader(shaderManager->getShader("UniformColor"));
+				torusObj->setShader(shaderManager->getShader("UniformColor"));
+				circleObj->setShader(shaderManager->getShader("UniformColor"));
+				planeObj->setShader(shaderManager->getShader("UniformColor"));
+			} else{
+				cubeObj->setShader(shaderManager->getShader(TEXTURE_MODEL));
+				torusObj->setShader(shaderManager->getShader(TEXTURE_MODEL));
+				circleObj->setShader(shaderManager->getShader(TEXTURE_MODEL));
+				planeObj->setShader(shaderManager->getShader(TEXTURE_MODEL));
+			}
 		}
 	}
 }
@@ -195,9 +218,9 @@ void DemoApp::Update(){
 	float dist;
 	Collider* col = cubeObj->getCollider();
 	/*if (ray->intersects(col->getPosition(), col->getRadius() * col->getScale(), &dist)){
-		cubeObj->setShader(shaderManager->getShader("TestShader2"));
+		//Something will happen here
 	}else{
-		cubeObj->setShader(shaderManager->getShader(TEXTURE_MODEL));
+		//Something else will happen here
 	}*/
 	if (shaderManager->getCurrShader() != nullptr){
 		glUniform3fv(shaderManager->getCurrShader()->lightingLoc, 1, glm::value_ptr(lightSource));
