@@ -15,6 +15,7 @@ private:
 	glm::vec3 lightSource;
 	int mode;
 	int renderMode;
+	bool debugRenderOn;
 public:
 	DemoApp();
 	DemoApp(int _engineCmd);

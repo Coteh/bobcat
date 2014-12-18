@@ -1,17 +1,17 @@
-#include "Renderer.h"
+#include "OpenGLRenderer.h"
 #include "ResourceManager.h"
 #include <glm\gtx\rotate_vector.hpp>
 #include <glm\gtc\matrix_transform.hpp>
 #include <glm\gtc\type_ptr.hpp>
 
-Renderer::Renderer() {
+OpenGLRenderer::OpenGLRenderer() {
 	
 }
 
-Renderer::~Renderer() {
+OpenGLRenderer::~OpenGLRenderer() {
 }
 
-void Renderer::Init(){
+void OpenGLRenderer::Init(){
 	shaderManager = ShaderManager::getInstance();
 	ResourceManager* resourceManager = ResourceManager::getInstance();
 	resourceManager->addMesh("Cube.ply", "Debug_ColliderBox");
@@ -27,15 +27,19 @@ void Renderer::Init(){
 	debugShader = shaderManager->getShader("DebugShader");
 }
 
-void Renderer::setActiveCamera(Camera* _camera){
+void OpenGLRenderer::setActiveCamera(Camera* _camera){
 	activeCamera = _camera;
 }
 
-void Renderer::PreRender(){
+void OpenGLRenderer::setDebugRender(bool _expression){
+	isDebugOn = _expression;
+}
+
+void OpenGLRenderer::PreRender(){
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void Renderer::RenderObject(GameObject* _gameObject){
+void OpenGLRenderer::RenderObject(GameObject* _gameObject){
 	/*Drawing GameObject*/
 	if (_gameObject->getShader() != nullptr){ //don't draw if shader is null
 		if (shaderManager->getCurrShader() == nullptr || _gameObject->getShader()->shaderProgram != shaderManager->getCurrShader()->shaderProgram){
@@ -89,7 +93,7 @@ void Renderer::RenderObject(GameObject* _gameObject){
 	}
 }
 
-void Renderer::RenderDebugMesh(Mesh* _mesh){
+void OpenGLRenderer::RenderDebugMesh(Mesh* _mesh){
 	glBindVertexArray(_mesh->getVAO());
 	std::vector<int> indiceCountData =_mesh->getIndiceCountData();
 	std::vector<GLenum> drawModeVec = _mesh->getDrawModes();
@@ -103,6 +107,6 @@ void Renderer::RenderDebugMesh(Mesh* _mesh){
 	glBindVertexArray(0);
 }
 
-void Renderer::EndRender(){
+void OpenGLRenderer::EndRender(){
 	
 }

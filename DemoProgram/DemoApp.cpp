@@ -141,6 +141,8 @@ void DemoApp::Init(){
 	lightSource = glm::vec3(0.0, -10.0, -1000.0);
 
 	ray = new Ray(camera->getPosition(), camera->getForward());
+
+	renderer->setDebugRender(debugRenderOn);
 }
 
 void DemoApp::OnKeyEvent(GLFWwindow* _window, int _key, int _scancode, int _action, int _mods){
@@ -154,7 +156,8 @@ void DemoApp::OnKeyEvent(GLFWwindow* _window, int _key, int _scancode, int _acti
 		} else if (_key == GLFW_KEY_2){
 			mode = 1;
 		} else if (_key == GLFW_KEY_U){
-			renderer->isDebugOn = !renderer->isDebugOn;
+			debugRenderOn = !debugRenderOn;
+			renderer->setDebugRender(debugRenderOn);
 		} else if (_key == GLFW_KEY_Y){
 			renderMode = !renderMode;
 			if (renderMode){

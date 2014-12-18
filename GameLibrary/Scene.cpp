@@ -10,7 +10,7 @@ Scene::~Scene() {
 	clearVec.swap(objectList);
 }
 
-void Scene::setRenderer(Renderer* _renderer){
+void Scene::setRenderer(AbstractRenderer* _renderer){
 	renderer = _renderer;
 }
 
