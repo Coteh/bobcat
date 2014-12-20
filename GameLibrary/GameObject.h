@@ -5,6 +5,7 @@
 #include "Mesh.h"
 #include "Collider.h"
 #include "TextureLoader.h"
+#include "Transform.h"
 
 class GameObject {
 private:
@@ -13,14 +14,11 @@ private:
 	std::string name;
 	Mesh* mesh;
 	Texture* tex;
-	glm::vec3 position;
+	Transform* transform;
 	glm::vec3 velocity;
 	glm::vec3 force;
-	glm::vec3 rotation;
 	glm::vec3 rotationalVel; //torque
-	glm::vec3 scale;
 	glm::vec4 color;
-	glm::mat4 additionalMats;
 	float friction;
 	Collider* collider;
 	std::vector<GLenum> drawModeVec;
@@ -38,17 +36,13 @@ public:
 
 	glm::mat4 getModelMat();
 
-	glm::vec3 getPosition();
-
 	glm::vec3 getVelocity();
-
-	glm::vec3 getRotation();
 
 	glm::vec3 getRotationalVel();
 
-	glm::vec3 getScale();
-
 	glm::vec4 getColor();
+
+	Transform* getTransform();
 
 	Collider* getCollider();
 
@@ -62,11 +56,9 @@ public:
 
 	void setMesh(Mesh* _mesh);
 
+	void setTransform(Transform* _transform);
+
 	void setCollider(Collider* _collider);
-
-	void setPosition(float _x, float _y, float _z);
-
-	void setPosition(glm::vec3 _pos);
 
 	void setVelocity(float _x, float _y, float _z);
 
@@ -74,17 +66,9 @@ public:
 
 	void setFriction(float _fric);
 
-	void setRotationEuler(float _x, float _y, float _z);
-
-	void setRotationEuler(glm::vec3 _rotEuler);
-
 	void setRotationalVel(float _x, float _y, float _z);
 
 	void setRotationalVel(glm::vec3 _rotVel);
-
-	void setScale(float _x, float _y, float _z);
-
-	void setScale(glm::vec3 _scale);
 
 	void setColor(glm::vec4 _color);
 
@@ -95,8 +79,6 @@ public:
 	void setIsRending(bool _expression);
 
 	void attachGameObject(GameObject* _gameObject);
-
-	void addMatrixTransformation(glm::mat4 _mat);
 
 	void Update(float _deltaTime);
 

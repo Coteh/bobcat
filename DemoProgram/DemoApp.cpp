@@ -83,10 +83,14 @@ void DemoApp::Init(){
 	resourceManager->addMesh("Cube.ply", "Cube");
 
 	//Initalize the objects, plugging the meshes into them
+	Transform* transform;
+	Collider* collider;
 	cubeObj = new GameObject();
 	cubeObj->setMesh(resourceManager->getMesh("Sphere"));
-	cubeObj->setPosition(0, 0.0f, 0);
-	sphereOrigPos = cubeObj->getPosition();
+	transform = new Transform();
+	transform->position = glm::vec3(0, 0.0f, 0);
+	sphereOrigPos = transform->position;
+	cubeObj->setTransform(transform);
 	cubeObj->setVelocity(0.0f, 0.0f, 0.0f);
 	cubeObj->setShader(shaderManager->getShader(TEXTURE_MODEL));
 	cubeObj->setTexture(tex);
@@ -99,8 +103,10 @@ void DemoApp::Init(){
 
 	torusObj = new GameObject();
 	torusObj->setMesh(resourceManager->getMesh("Cube"));
-	torusObj->setPosition(1.0f, 1.0f, -1.0f);
-	torusObj->setScale(0.4f, 0.4f, 0.4f);
+	transform = new Transform();
+	transform->position = glm::vec3(1.0f, 1.0f, -1.0f);
+	transform->scale = glm::vec3(0.4f, 0.4f, 0.4f);
+	torusObj->setTransform(transform);
 	torusObj->setShader(shaderManager->getShader(TEXTURE_MODEL));
 	torusObj->setTexture(tex);
 	torusObj->setCollider(new BoxCollider());
@@ -111,8 +117,10 @@ void DemoApp::Init(){
 
 	circleObj = new GameObject();
 	circleObj->setMesh(resourceManager->getMesh("Monkey"));
-	circleObj->setPosition(20.0f, 1.0f, 1.0f);
-	circleObj->setScale(0.4f, 0.4f, 0.4f);
+	transform = new Transform();
+	transform->position = glm::vec3(20.0f, 1.0f, 1.0f);
+	transform->scale = glm::vec3(0.4f, 0.4f, 0.4f);
+	circleObj->setTransform(transform);
 	circleObj->setShader(shaderManager->getShader(TEXTURE_MODEL));
 	circleObj->setTexture(tex);
 	circleObj->setCollider(new BoxCollider());
@@ -123,9 +131,11 @@ void DemoApp::Init(){
 
 	planeObj = new GameObject();
 	planeObj->setMesh(resourceManager->getMesh("Plane"));
-	planeObj->setPosition(glm::vec3(0.0f, -10.0f, -10.0f));
-	planeObj->setRotationEuler(90.0f, 0.0f, 0.0f);
-	planeObj->setScale(100.0f, 100.0f, 100.0f);
+	transform = new Transform();
+	transform->position = glm::vec3(0.0f, -10.0f, -10.0f);
+	transform->rotation = glm::vec3(90.0f, 0.0f, 0.0f);
+	transform->scale = glm::vec3(100.0f, 100.0f, 100.0f);
+	planeObj->setTransform(transform);
 	planeObj->setShader(shaderManager->getShader(TEXTURE_MODEL));
 	planeObj->setTexture(planeTex);
 	scene->addGameObject(planeObj);
@@ -205,16 +215,16 @@ void DemoApp::OnKeyHandle(){
 	case 1:
 		//Sphere Controls
 		if (((GLFWWindower*)window)->getGLFWKeyState(GLFW_KEY_UP) == GLFW_PRESS){
-			cubeObj->setPosition(cubeObj->getPosition() + glm::vec3(-50.0f, 0.0f, 0.0f) * deltaTime);
+			cubeObj->getTransform()->position = cubeObj->getTransform()->position + glm::vec3(0.0f, 50.0f, 0.0f) * deltaTime;
 		} else if (((GLFWWindower*)window)->getGLFWKeyState(GLFW_KEY_DOWN) == GLFW_PRESS){
-			cubeObj->setPosition(cubeObj->getPosition() + glm::vec3(-50.0f, 0.0f, 0.0f) * deltaTime);
+			cubeObj->getTransform()->position = cubeObj->getTransform()->position + glm::vec3(0.0f, -50.0f, 0.0f) * deltaTime;
 		} else if (((GLFWWindower*)window)->getGLFWKeyState(GLFW_KEY_LEFT) == GLFW_PRESS){
-			cubeObj->setPosition(cubeObj->getPosition() + glm::vec3(-50.0f, 0.0f, 0.0f) * deltaTime);
+			cubeObj->getTransform()->position = cubeObj->getTransform()->position + glm::vec3(-50.0f, 0.0f, 0.0f) * deltaTime;
 		} else if (((GLFWWindower*)window)->getGLFWKeyState(GLFW_KEY_RIGHT) == GLFW_PRESS){
-			cubeObj->setPosition(cubeObj->getPosition() + glm::vec3(-50.0f, 0.0f, 0.0f) * deltaTime);
+			cubeObj->getTransform()->position = cubeObj->getTransform()->position + glm::vec3(50.0f, 0.0f, 0.0f) * deltaTime;
 		} else if (((GLFWWindower*)window)->getGLFWKeyState(GLFW_KEY_R) == GLFW_PRESS){
-			cubeObj->setPosition(sphereOrigPos);
-			cubeObj->setRotationEuler(glm::vec3(0.0f, 0.0f, 0.0f));
+			cubeObj->getTransform()->position = sphereOrigPos;
+			cubeObj->getTransform()->rotation = glm::vec3(0.0f, 0.0f, 0.0f);
 		}
 		break;
 	}

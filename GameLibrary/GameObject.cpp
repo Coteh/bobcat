@@ -4,12 +4,8 @@
 #include <glm\gtc\type_ptr.hpp>
 
 GameObject::GameObject(){
-	position = glm::vec3(0.0f, 0.0f, 0.0f);
-	rotation = glm::vec3(0.0f, 0.0f, 0.0f);
 	setFriction(1.0f);
-	scale = glm::vec3(1.0f, 1.0f, 1.0f);
 	color = glm::vec4(1.0f);
-	additionalMats = glm::mat4(1.0f);
 	isRendering = true;
 }
 
@@ -30,40 +26,35 @@ std::string GameObject::getName(){
 }
 
 glm::mat4 GameObject::getModelMat(){
-	glm::mat4 model = glm::translate(position);
-	model = glm::rotate(model, rotation.x, glm::vec3(1, 0, 0));
-	model = glm::rotate(model, rotation.y, glm::vec3(0, 1, 0));
-	model = glm::rotate(model, rotation.z, glm::vec3(0, 0, 1));
-	model = glm::scale(model, scale);
+	glm::mat4 model = glm::mat4(1.0f);
+	if (transform != nullptr){
+		model = glm::translate(transform->position);
+		glm::vec3 rot = transform->rotation; //to cut down on the amount of times we're getting rotation
+		model = glm::rotate(model, rot.x, glm::vec3(1, 0, 0));
+		model = glm::rotate(model, rot.y, glm::vec3(0, 1, 0));
+		model = glm::rotate(model, rot.z, glm::vec3(0, 0, 1));
+		model = glm::scale(model, transform->scale);
+	}
 	if (parent){
 		model = parent->getModelMat() * model;
 	}
-	model *= additionalMats;
 	return model;
-}
-
-glm::vec3 GameObject::getPosition(){
-	return position;
 }
 
 glm::vec3 GameObject::getVelocity(){
 	return velocity;
 }
 
-glm::vec3 GameObject::getRotation(){
-	return rotation;
-}
-
 glm::vec3 GameObject::getRotationalVel(){
 	return rotationalVel;
 }
 
-glm::vec3 GameObject::getScale(){
-	return scale;
-}
-
 glm::vec4 GameObject::getColor(){
 	return color;
+}
+
+Transform* GameObject::getTransform(){
+	return transform;
 }
 
 Collider* GameObject::getCollider(){
@@ -96,18 +87,22 @@ void GameObject::setMesh(Mesh* _mesh) {
 	drawModeVec = mesh->getDrawModes();
 }
 
+void GameObject::setTransform(Transform* _transform){
+	transform = _transform;
+	transform->gameObject = this;
+	transform->collider = collider;
+	if (collider != nullptr){
+		collider->transform = transform;
+	}
+}
+
 void GameObject::setCollider(Collider* _collider){
 	collider = _collider;
-	collider->setPosition(position);
-}
-
-void GameObject::setPosition(float _x, float _y, float _z){
-	setPosition(glm::vec3(_x, _y, _z));
-}
-
-void GameObject::setPosition(glm::vec3 _pos){
-	position = _pos;
-	if (collider != nullptr) collider->setPosition(_pos);
+	collider->gameObject = this;
+	collider->transform = transform;
+	if (transform != nullptr){
+		transform->collider = collider;
+	}
 }
 
 void GameObject::setVelocity(float _x, float _y, float _z){
@@ -122,28 +117,12 @@ void GameObject::setFriction(float _fric){
 	friction = _fric;
 }
 
-void GameObject::setRotationEuler(float _x, float _y, float _z){
-	setRotationEuler(glm::vec3(_x, _y, _z));
-}
-
-void GameObject::setRotationEuler(glm::vec3 _rotEuler){
-	rotation = _rotEuler;
-}
-
 void GameObject::setRotationalVel(float _x, float _y, float _z){
 	setRotationalVel(glm::vec3(_x, _y, _z));
 }
 
 void GameObject::setRotationalVel(glm::vec3 _rotVel){
 	rotationalVel = _rotVel;
-}
-
-void GameObject::setScale(float _x, float _y, float _z){
-	scale = glm::vec3(_x, _y, _z);
-}
-
-void GameObject::setScale(glm::vec3 _scale){
-	scale = _scale;
 }
 
 void GameObject::setColor(glm::vec4 _color){
@@ -172,13 +151,11 @@ void GameObject::attachGameObject(GameObject* _gameObject){
 	_gameObject->parent = this;
 }
 
-void GameObject::addMatrixTransformation(glm::mat4 _mat){
-	additionalMats *= _mat;
-}
-
 void GameObject::Update(float _deltaTime){
-	position += velocity * _deltaTime;
-	rotation += rotationalVel * _deltaTime;
+	if (transform != nullptr){
+		transform->position += velocity * _deltaTime;
+		transform->rotation += rotationalVel * _deltaTime;
+	}
 	for (size_t i = 0; i < children.size(); i++){
 		children[i]->Update(_deltaTime);
 	}

@@ -1,8 +1,16 @@
 #pragma once
-#include "ICollider.h"
 #include <glm\glm.hpp>
 
-class Collider : public ICollider {
+enum ColliderDebugDrawType{
+	NONE = 0,
+	BOX = 1,
+	SPHERE = 2
+};
+
+class GameObject;
+class Transform;
+
+class Collider {
 private:
 	glm::vec3 position;
 	float scale;
@@ -11,6 +19,8 @@ protected:
 public:
 	Collider();
 	virtual ~Collider();
+	GameObject* gameObject;
+	Transform* transform;
 	virtual glm::vec3 getPosition();
 	virtual float getScale();
 	virtual float getRadius();

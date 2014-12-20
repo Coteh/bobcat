@@ -94,6 +94,7 @@
     <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TGATextureLoader.cpp" />
+    <ClCompile Include="Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AbstractRenderer.h" />
@@ -109,7 +110,6 @@
     <ClInclude Include="FileWriter.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GLFWWindower.h" />
-    <ClInclude Include="ICollider.h" />
     <ClInclude Include="IFileReader.h" />
     <ClInclude Include="IFileWriter.h" />
     <ClInclude Include="IModelReader.h" />
@@ -131,6 +131,7 @@
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureLoader.h" />
     <ClInclude Include="TGATextureLoader.h" />
+    <ClInclude Include="Transform.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
