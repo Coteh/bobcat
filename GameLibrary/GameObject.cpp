@@ -9,6 +9,14 @@ GameObject::GameObject(){
 	isRendering = true;
 }
 
+GameObject::GameObject(GameObjectConstructionInfo* _constructionInfo) : GameObject(){
+	if (_constructionInfo->transform != nullptr) setTransform(_constructionInfo->transform);
+	if (_constructionInfo->collider != nullptr) setCollider(_constructionInfo->collider);
+	if (_constructionInfo->mesh != nullptr) setMesh(_constructionInfo->mesh);
+	if (_constructionInfo->shader != nullptr) setShader(_constructionInfo->shader);
+	if (_constructionInfo->texture != nullptr) setTexture(_constructionInfo->texture);
+}
+
 GameObject::~GameObject() {
 	
 }

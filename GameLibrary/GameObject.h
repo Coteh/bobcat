@@ -6,6 +6,7 @@
 #include "Collider.h"
 #include "TextureLoader.h"
 #include "Transform.h"
+#include "GameObjectConstructionInfo.h"
 
 class GameObject {
 private:
@@ -27,6 +28,8 @@ private:
 	bool isRendering;
 public:
 	GameObject();
+
+	GameObject(GameObjectConstructionInfo* _constructionInfo);
 
 	~GameObject();
 

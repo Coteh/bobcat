@@ -109,6 +109,7 @@
     <ClInclude Include="FileReader.h" />
     <ClInclude Include="FileWriter.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="GameObjectConstructionInfo.h" />
     <ClInclude Include="GLFWWindower.h" />
     <ClInclude Include="IFileReader.h" />
     <ClInclude Include="IFileWriter.h" />
