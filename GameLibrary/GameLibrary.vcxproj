@@ -81,7 +81,8 @@
     <ClCompile Include="GLFWWindower.cpp" />
     <ClCompile Include="LogManager.cpp" />
     <ClCompile Include="Mesh.cpp" />
-    <ClCompile Include="OpenGLRenderer.cpp" />
+    <ClCompile Include="MeshRenderer.cpp" />
+    <ClCompile Include="OpenGLRenderSystem.cpp" />
     <ClCompile Include="Plane.cpp" />
     <ClCompile Include="PLYModelReader.cpp" />
     <ClCompile Include="PNGTextureLoader.cpp" />
@@ -97,7 +98,7 @@
     <ClCompile Include="Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AbstractRenderer.h" />
+    <ClInclude Include="AbstractRenderSystem.h" />
     <ClInclude Include="AbstractWindower.h" />
     <ClInclude Include="BoxCollider.h" />
     <ClInclude Include="Camera.h" />
@@ -117,7 +118,8 @@
     <ClInclude Include="ITextureLoader.h" />
     <ClInclude Include="LogManager.h" />
     <ClInclude Include="Mesh.h" />
-    <ClInclude Include="OpenGLRenderer.h" />
+    <ClInclude Include="MeshRenderer.h" />
+    <ClInclude Include="OpenGLRenderSystem.h" />
     <ClInclude Include="Plane.h" />
     <ClInclude Include="PLYModelReader.h" />
     <ClInclude Include="PNGTextureLoader.h" />

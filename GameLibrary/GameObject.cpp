@@ -6,7 +6,6 @@
 GameObject::GameObject(){
 	setFriction(1.0f);
 	color = glm::vec4(1.0f);
-	isRendering = true;
 }
 
 GameObject::GameObject(GameObjectConstructionInfo* _constructionInfo) : GameObject(){
@@ -69,8 +68,8 @@ Collider* GameObject::getCollider(){
 	return collider;
 }
 
-Mesh* GameObject::getMesh(){
-	return mesh;
+MeshRenderer* GameObject::getMeshRenderer(){
+	return meshRenderer;
 }
 
 Shader* GameObject::getShader(){
@@ -89,10 +88,15 @@ void GameObject::setName(std::string _name){
 	name = _name;
 }
 
+/**
+* I wanted to get rid of the Mesh from GameObject but looks
+* like it's not gone yet! :P
+*/
 void GameObject::setMesh(Mesh* _mesh) {
-	mesh = _mesh;
-	indiceCountData = mesh->getIndiceCountData();
-	drawModeVec = mesh->getDrawModes();
+	meshRenderer = new MeshRenderer();
+	meshRenderer->mesh = _mesh;
+	meshRenderer->CalibrateMeshData();
+	meshRenderer->isEnabled = true;
 }
 
 void GameObject::setTransform(Transform* _transform){
@@ -146,10 +150,6 @@ void GameObject::setTexture(Texture* _tex){
 	tex = _tex;
 }
 
-void GameObject::setIsRending(bool _expression){
-	isRendering = _expression;
-}
-
 /**
 * OTHER METHODS
 */
@@ -171,18 +171,7 @@ void GameObject::Update(float _deltaTime){
 }
 
 void GameObject::Draw(){
-	if (mesh == nullptr || !isRendering)return; //Don't do any drawing if there's no mesh attached to the object or if isRendering is set to false
-	glBindVertexArray(mesh->getVAO());
-	if (isWireFrameOn){
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	if (meshRenderer->mesh != nullptr){
+		meshRenderer->Render();
 	}
-	int indicesSoFar = 0;
-	for (size_t i = 0; i < drawModeVec.size(); i++){
-		glDrawElements(drawModeVec[i], indiceCountData[i], GL_UNSIGNED_INT, (void*)(indicesSoFar * sizeof(GLuint)));
-		indicesSoFar += indiceCountData[i];
-	}
-	if (isWireFrameOn){
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	}
-	glBindVertexArray(0);
 }

@@ -1,7 +1,7 @@
 #pragma once
 #include "Camera.h"
 
-class AbstractRenderer {
+class AbstractRenderSystem {
 public:
 	virtual void setActiveCamera(Camera* _camera) = 0;
 	virtual void setDebugRender(bool _expression) = 0;
@@ -9,5 +9,5 @@ public:
 	virtual void PreRender() = 0;
 	virtual void RenderObject(GameObject* _gameObject) = 0;
 	virtual void EndRender() = 0;
-	virtual ~AbstractRenderer(){};
+	virtual ~AbstractRenderSystem(){};
 };

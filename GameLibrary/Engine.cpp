@@ -7,7 +7,7 @@ Engine::Engine() {
 	configManager->readConfigFile("engine.config");
 	Clock::init();
 	window = new GLFWWindower();
-	renderer = new OpenGLRenderer();
+	renderer = new OpenGLRenderSystem();
 	resourceManager = ResourceManager::getInstance();
 	sceneManager = SceneManager::getInstance();
 	shaderManager = ShaderManager::getInstance();

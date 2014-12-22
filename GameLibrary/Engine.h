@@ -5,7 +5,7 @@
 #include "LogManager.h"
 #include "ConfigManager.h"
 //#include "InputManager.h"
-#include "OpenGLRenderer.h"
+#include "OpenGLRenderSystem.h"
 #include "ResourceManager.h"
 #include "SceneManager.h"
 #include "PLYModelReader.h"
@@ -26,7 +26,7 @@ protected:
 	LogManager* logManager;
 	ConfigManager* configManager;
 	//InputManager* inputManager;
-	AbstractRenderer* renderer;
+	AbstractRenderSystem* renderer;
 	Camera* camera;
 	SceneManager* sceneManager;
 	ResourceManager* resourceManager;

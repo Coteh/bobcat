@@ -6,6 +6,7 @@
 #include "Collider.h"
 #include "TextureLoader.h"
 #include "Transform.h"
+#include "MeshRenderer.h"
 #include "GameObjectConstructionInfo.h"
 
 class GameObject {
@@ -22,10 +23,8 @@ private:
 	glm::vec4 color;
 	float friction;
 	Collider* collider;
-	std::vector<GLenum> drawModeVec;
-	std::vector<int> indiceCountData;
 	Shader* shader;
-	bool isRendering;
+	MeshRenderer* meshRenderer;
 public:
 	GameObject();
 
@@ -49,7 +48,7 @@ public:
 
 	Collider* getCollider();
 
-	Mesh* getMesh();
+	MeshRenderer* getMeshRenderer();
 
 	Shader* getShader();
 
@@ -78,8 +77,6 @@ public:
 	void setShader(Shader* _shader);
 
 	void setTexture(Texture* _tex);
-
-	void setIsRending(bool _expression);
 
 	void attachGameObject(GameObject* _gameObject);
 
