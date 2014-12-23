@@ -88,34 +88,34 @@ void DemoApp::Init(){
 	GameObjectConstructionInfo cubeObjInfo;
 	cubeObjInfo.setTransformValues();
 	cubeObjInfo.setCollider(new SphereCollider());
+	cubeObjInfo.setRigidbodyValues(glm::vec3(0.0f), glm::vec3(10.0f, 0.0f, 10.0f), 1.0f);
 	cubeObjInfo.setMesh(resourceManager->getMesh("Sphere"));
 	cubeObjInfo.setShader(shaderManager->getShader(TEXTURE_MODEL));
 	cubeObjInfo.setTexture(tex);
 	cubeObj = new GameObject(&cubeObjInfo);
-	cubeObj->setVelocity(0.0f, 0.0f, 0.0f);
-	cubeObj->setRotationalVel(10.0f, 0.0f, 10.0f);
-	cubeObj->setColor(glm::vec4(1.0, 0.0, 0.0, 1.0));
-	sphereTorque = cubeObj->getRotationalVel();
+	cubeObj->getMeshRenderer()->setColor(glm::vec4(1.0, 0.0, 0.0, 1.0));
+	sphereTorque = cubeObj->getRigidbody()->rotationalVel;
 	scene->addGameObject(cubeObj);
 
 	GameObjectConstructionInfo torusObjInfo;
 	torusObjInfo.setTransformValues(glm::vec3(1.0f, 1.0f, -1.0f), glm::vec3(0.0f), glm::vec3(0.4f));
 	torusObjInfo.setCollider(new BoxCollider());
+	torusObjInfo.setRigidbodyValues(glm::vec3(0.0f), glm::vec3(5.0f, 0.0f, 5.0f), 1.0f);
 	torusObjInfo.setMesh(resourceManager->getMesh("Cube"));
 	torusObjInfo.setShader(shaderManager->getShader(TEXTURE_MODEL));
 	torusObjInfo.setTexture(tex);
 	torusObj = new GameObject(&torusObjInfo);
-	torusObj->setRotationalVel(5.0f, 0.0f, 5.0f);
+	torusObj->getMeshRenderer()->setColor(glm::vec4(0.0, 1.0, 1.0, 1.0));
 	scene->addGameObject(torusObj);
 
 	GameObjectConstructionInfo circleObjInfo;
 	circleObjInfo.setTransformValues(glm::vec3(20.0f, 1.0f, 1.0f), glm::vec3(0.0f), glm::vec3(0.4f));
 	circleObjInfo.setCollider(new BoxCollider());
+	circleObjInfo.setRigidbodyValues(glm::vec3(0.0f), glm::vec3(10.0f, 0.0f, 10.0f), 1.0f);
 	circleObjInfo.setMesh(resourceManager->getMesh("Monkey"));
 	circleObjInfo.setShader(shaderManager->getShader(TEXTURE_MODEL));
 	circleObjInfo.setTexture(tex);
 	circleObj = new GameObject(&circleObjInfo);
-	circleObj->setRotationalVel(10.0f, 0.0f, 10.0f);
 	scene->addGameObject(circleObj);
 
 	GameObjectConstructionInfo planeObjInfo;

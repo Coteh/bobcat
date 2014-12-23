@@ -4,13 +4,13 @@
 #include <glm\gtc\type_ptr.hpp>
 
 GameObject::GameObject(){
-	setFriction(1.0f);
-	color = glm::vec4(1.0f);
+	
 }
 
 GameObject::GameObject(GameObjectConstructionInfo* _constructionInfo) : GameObject(){
 	if (_constructionInfo->transform != nullptr) setTransform(_constructionInfo->transform);
 	if (_constructionInfo->collider != nullptr) setCollider(_constructionInfo->collider);
+	if (_constructionInfo->rigidbody != nullptr) setRigidbody(_constructionInfo->rigidbody);
 	if (_constructionInfo->mesh != nullptr) setMesh(_constructionInfo->mesh);
 	if (_constructionInfo->shader != nullptr) setShader(_constructionInfo->shader);
 	if (_constructionInfo->texture != nullptr) setTexture(_constructionInfo->texture);
@@ -48,24 +48,16 @@ glm::mat4 GameObject::getModelMat(){
 	return model;
 }
 
-glm::vec3 GameObject::getVelocity(){
-	return velocity;
-}
-
-glm::vec3 GameObject::getRotationalVel(){
-	return rotationalVel;
-}
-
-glm::vec4 GameObject::getColor(){
-	return color;
-}
-
 Transform* GameObject::getTransform(){
 	return transform;
 }
 
 Collider* GameObject::getCollider(){
 	return collider;
+}
+
+Rigidbody* GameObject::getRigidbody(){
+	return rigidbody;
 }
 
 MeshRenderer* GameObject::getMeshRenderer(){
@@ -96,6 +88,7 @@ void GameObject::setMesh(Mesh* _mesh) {
 	meshRenderer = new MeshRenderer();
 	meshRenderer->mesh = _mesh;
 	meshRenderer->CalibrateMeshData();
+	meshRenderer->gameObject = this;
 	meshRenderer->isEnabled = true;
 }
 
@@ -117,28 +110,10 @@ void GameObject::setCollider(Collider* _collider){
 	}
 }
 
-void GameObject::setVelocity(float _x, float _y, float _z){
-	setVelocity(glm::vec3(_x, _y, _z));
-}
-
-void GameObject::setVelocity(glm::vec3 _vel){
-	velocity = _vel;
-}
-
-void GameObject::setFriction(float _fric){
-	friction = _fric;
-}
-
-void GameObject::setRotationalVel(float _x, float _y, float _z){
-	setRotationalVel(glm::vec3(_x, _y, _z));
-}
-
-void GameObject::setRotationalVel(glm::vec3 _rotVel){
-	rotationalVel = _rotVel;
-}
-
-void GameObject::setColor(glm::vec4 _color){
-	color = _color;
+void GameObject::setRigidbody(Rigidbody* _rigidbody){
+	rigidbody = _rigidbody;
+	rigidbody->gameObject = this;
+	rigidbody->transform = transform;
 }
 
 void GameObject::setShader(Shader* _shader) {
@@ -160,18 +135,14 @@ void GameObject::attachGameObject(GameObject* _gameObject){
 }
 
 void GameObject::Update(float _deltaTime){
-	if (transform != nullptr){
-		transform->position += velocity * _deltaTime;
-		transform->rotation += rotationalVel * _deltaTime;
-	}
+	if (rigidbody != nullptr) rigidbody->Update(_deltaTime);
 	for (size_t i = 0; i < children.size(); i++){
 		children[i]->Update(_deltaTime);
 	}
-	velocity *= friction;
 }
 
 void GameObject::Draw(){
 	if (meshRenderer->mesh != nullptr){
-		meshRenderer->Render();
+		meshRenderer->Render(shader);
 	}
 }

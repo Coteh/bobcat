@@ -1,4 +1,5 @@
 #pragma once
+#include <glm\glm.hpp>
 #include "Mesh.h"
 
 class GameObject;
@@ -12,11 +13,14 @@ private:
 public:
 	MeshRenderer();
 	~MeshRenderer();
-	void Render();
+	void setColor(glm::vec4 _color);
+	void Render(Shader* _shader);
 
 	Mesh* mesh;
 	GameObject* gameObject;
 	bool isEnabled;
 	bool isWireFrameOn;
+
+	glm::vec4 color;
 };
 

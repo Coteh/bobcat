@@ -54,8 +54,6 @@ void OpenGLRenderSystem::RenderObject(GameObject* _gameObject){
 				shaderManager->updateAttribs(_gameObject->getShader()->name, _gameObject->getMeshRenderer()->mesh);
 				_gameObject->getMeshRenderer()->mesh->setBoundShaderProgram(shaderManager->getCurrShader()->shaderProgram);
 			}
-			//Send uniform color information to the shader
-			glUniform4fv(shaderManager->getCurrShader()->colorLoc, 1, glm::value_ptr(_gameObject->getColor()));
 			//Send Model View Projection to the shader
 			glUniformMatrix4fv(shaderManager->getCurrShader()->mvpLoc, 1, GL_FALSE, glm::value_ptr(mvp));
 			//Bind GameObject's Texture if it exists

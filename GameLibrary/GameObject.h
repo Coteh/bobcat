@@ -6,6 +6,7 @@
 #include "Collider.h"
 #include "TextureLoader.h"
 #include "Transform.h"
+#include "Rigidbody.h"
 #include "MeshRenderer.h"
 #include "GameObjectConstructionInfo.h"
 
@@ -17,11 +18,7 @@ private:
 	Mesh* mesh;
 	Texture* tex;
 	Transform* transform;
-	glm::vec3 velocity;
-	glm::vec3 force;
-	glm::vec3 rotationalVel; //torque
-	glm::vec4 color;
-	float friction;
+	Rigidbody* rigidbody;
 	Collider* collider;
 	Shader* shader;
 	MeshRenderer* meshRenderer;
@@ -38,15 +35,11 @@ public:
 
 	glm::mat4 getModelMat();
 
-	glm::vec3 getVelocity();
-
-	glm::vec3 getRotationalVel();
-
-	glm::vec4 getColor();
-
 	Transform* getTransform();
 
 	Collider* getCollider();
+
+	Rigidbody* getRigidbody();
 
 	MeshRenderer* getMeshRenderer();
 
@@ -62,17 +55,7 @@ public:
 
 	void setCollider(Collider* _collider);
 
-	void setVelocity(float _x, float _y, float _z);
-
-	void setVelocity(glm::vec3 _vel);
-
-	void setFriction(float _fric);
-
-	void setRotationalVel(float _x, float _y, float _z);
-
-	void setRotationalVel(glm::vec3 _rotVel);
-
-	void setColor(glm::vec4 _color);
+	void setRigidbody(Rigidbody* _rigidbody);
 
 	void setShader(Shader* _shader);
 

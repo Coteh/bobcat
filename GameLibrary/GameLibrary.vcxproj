@@ -88,6 +88,7 @@
     <ClCompile Include="PNGTextureLoader.cpp" />
     <ClCompile Include="Ray.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
+    <ClCompile Include="Rigidbody.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="ShaderLoader.cpp" />
@@ -125,6 +126,7 @@
     <ClInclude Include="PNGTextureLoader.h" />
     <ClInclude Include="Ray.h" />
     <ClInclude Include="ResourceManager.h" />
+    <ClInclude Include="Rigidbody.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Shader.h" />
