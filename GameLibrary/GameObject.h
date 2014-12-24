@@ -15,12 +15,9 @@ private:
 	GameObject* parent;
 	std::vector<GameObject*> children;
 	std::string name;
-	Mesh* mesh;
-	Texture* tex;
 	Transform* transform;
 	Rigidbody* rigidbody;
 	Collider* collider;
-	Shader* shader;
 	MeshRenderer* meshRenderer;
 public:
 	GameObject();
@@ -43,10 +40,6 @@ public:
 
 	MeshRenderer* getMeshRenderer();
 
-	Shader* getShader();
-
-	Texture* getTexture();
-
 	void setName(std::string _name);
 
 	void setMesh(Mesh* _mesh);
@@ -56,10 +49,6 @@ public:
 	void setCollider(Collider* _collider);
 
 	void setRigidbody(Rigidbody* _rigidbody);
-
-	void setShader(Shader* _shader);
-
-	void setTexture(Texture* _tex);
 
 	void attachGameObject(GameObject* _gameObject);
 

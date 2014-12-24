@@ -118,6 +118,7 @@
     <ClInclude Include="IModelReader.h" />
     <ClInclude Include="ITextureLoader.h" />
     <ClInclude Include="LogManager.h" />
+    <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshRenderer.h" />
     <ClInclude Include="OpenGLRenderSystem.h" />

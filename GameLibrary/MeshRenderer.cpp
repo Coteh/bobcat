@@ -1,9 +1,7 @@
 #include "MeshRenderer.h"
-#include <glm\gtc\type_ptr.hpp>
 
 MeshRenderer::MeshRenderer() {
 	mesh = nullptr;
-	color = glm::vec4(1.0f);
 }
 
 MeshRenderer::~MeshRenderer() {
@@ -19,14 +17,15 @@ void MeshRenderer::CalibrateMeshData(){
 	indiceCountData = mesh->getIndiceCountData();
 }
 
-void MeshRenderer::setColor(glm::vec4 _color){
-	color = _color;
+bool MeshRenderer::CheckShaderMatchup(){
+	return (mesh->getBoundShaderProgram() == material->shader->shaderProgram);
 }
 
-void MeshRenderer::Render(Shader* _shader){
-	if (mesh == nullptr || !isEnabled)return; //Don't do any drawing if there's no mesh attached to the object or if isRendering is set to false
-	//Send uniform color information to the shader
-	glUniform4fv(_shader->colorLoc, 1, glm::value_ptr(color));
+void MeshRenderer::Render(){
+	if (mesh == nullptr || material == nullptr || !isEnabled)return; //Don't do any drawing if there's no mesh attached to the object or if isRendering is set to false
+	//Material Binding
+	material->Bind();
+	//Mesh Drawing
 	glBindVertexArray(mesh->getVAO());
 	if (isWireFrameOn){
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -40,4 +39,6 @@ void MeshRenderer::Render(Shader* _shader){
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 	glBindVertexArray(0);
+	//Material Unbinding
+	material->Unbind();
 }

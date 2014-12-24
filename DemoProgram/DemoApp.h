@@ -12,6 +12,8 @@ private:
 	glm::vec3 origCameraPos;
 	glm::vec3 sphereOrigPos;
 	Ray* ray;
+	Material* mat;
+	Material* noTexMat;
 	glm::vec3 lightSource;
 	int mode;
 	int renderMode;

@@ -12,8 +12,6 @@ GameObject::GameObject(GameObjectConstructionInfo* _constructionInfo) : GameObje
 	if (_constructionInfo->collider != nullptr) setCollider(_constructionInfo->collider);
 	if (_constructionInfo->rigidbody != nullptr) setRigidbody(_constructionInfo->rigidbody);
 	if (_constructionInfo->mesh != nullptr) setMesh(_constructionInfo->mesh);
-	if (_constructionInfo->shader != nullptr) setShader(_constructionInfo->shader);
-	if (_constructionInfo->texture != nullptr) setTexture(_constructionInfo->texture);
 }
 
 GameObject::~GameObject() {
@@ -64,14 +62,6 @@ MeshRenderer* GameObject::getMeshRenderer(){
 	return meshRenderer;
 }
 
-Shader* GameObject::getShader(){
-	return shader;
-}
-
-Texture* GameObject::getTexture(){
-	return tex;
-}
-
 /**
 * SET METHODS
 */
@@ -116,15 +106,6 @@ void GameObject::setRigidbody(Rigidbody* _rigidbody){
 	rigidbody->transform = transform;
 }
 
-void GameObject::setShader(Shader* _shader) {
-	shader = _shader;
-}
-
-void GameObject::setTexture(Texture* _tex){
-	if (_tex == nullptr) return; //can't set a null texture!
-	tex = _tex;
-}
-
 /**
 * OTHER METHODS
 */
@@ -142,7 +123,7 @@ void GameObject::Update(float _deltaTime){
 }
 
 void GameObject::Draw(){
-	if (meshRenderer->mesh != nullptr){
-		meshRenderer->Render(shader);
+	if (meshRenderer != nullptr){
+		meshRenderer->Render();
 	}
 }

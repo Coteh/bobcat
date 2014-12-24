@@ -40,54 +40,53 @@ void OpenGLRenderSystem::PreRender(){
 }
 
 void OpenGLRenderSystem::RenderObject(GameObject* _gameObject){
+	//Calculate Model View Projection for the GameObject
+	glm::mat4 mvp = activeCamera->getProjection() * activeCamera->getView() * _gameObject->getModelMat();
+
 	/*Drawing GameObject*/
-	if (_gameObject->getShader() != nullptr){ //don't draw if shader is null
-		//Make sure OpenGL is always using the shader program that the GameObject is using
-		if (shaderManager->getCurrShader() == nullptr || _gameObject->getShader()->shaderProgram != shaderManager->getCurrShader()->shaderProgram){
-			shaderManager->useShader(_gameObject->getShader()->name);
-		}
-		//Calculate Model View Projection for the GameObject
-		glm::mat4 mvp = activeCamera->getProjection() * activeCamera->getView() * _gameObject->getModelMat();
-		if (_gameObject->getMeshRenderer()->mesh != nullptr){ //don't draw if mesh is null
-			//Update Mesh attributes if the GameObject's shader is different than the one the mesh has at the moment
-			if (_gameObject->getMeshRenderer()->mesh->getBoundShaderProgram() != _gameObject->getShader()->shaderProgram){
-				shaderManager->updateAttribs(_gameObject->getShader()->name, _gameObject->getMeshRenderer()->mesh);
-				_gameObject->getMeshRenderer()->mesh->setBoundShaderProgram(shaderManager->getCurrShader()->shaderProgram);
+	if (_gameObject->getMeshRenderer() != nullptr){ //don't draw if mesh renderer is null
+		Material* mat = _gameObject->getMeshRenderer()->material; //get a reference to the material
+		if (mat != nullptr){
+			//Make sure OpenGL is always using the shader program that the GameObject is using
+			if (shaderManager->getCurrShader() == nullptr || mat->shader->shaderProgram != shaderManager->getCurrShader()->shaderProgram){
+				shaderManager->useShader(mat->shader->name);
 			}
-			//Send Model View Projection to the shader
-			glUniformMatrix4fv(shaderManager->getCurrShader()->mvpLoc, 1, GL_FALSE, glm::value_ptr(mvp));
-			//Bind GameObject's Texture if it exists
-			if (_gameObject->getTexture() != nullptr){
-				_gameObject->getTexture()->Bind(shaderManager->getCurrShader()->texSamplerLoc);
-			}
-			//Now render the GameObject!
-			_gameObject->Draw();
-			//Unbind GameObject Texture when done
-			glBindTexture(GL_TEXTURE_2D, 0);
-		}
-		/*Drawing Debug stuff*/
-		if (isDebugOn){
-			Collider* col = _gameObject->getCollider();
-			if (col != nullptr){
-				Mesh* colMesh;
-				if (col->getDebugDrawType() == ColliderDebugDrawType::SPHERE){
-					colMesh = sphereColliderMesh;
-				} else{
-					colMesh = boxColliderMesh;
+			if (_gameObject->getMeshRenderer()->mesh != nullptr){ //don't draw if mesh is null
+				//Update Mesh attributes if the GameObject's shader is different than the one the mesh has at the moment
+				if (!_gameObject->getMeshRenderer()->CheckShaderMatchup()){
+					shaderManager->updateAttribs(mat->shader->name, _gameObject->getMeshRenderer()->mesh);
+					_gameObject->getMeshRenderer()->mesh->setBoundShaderProgram(shaderManager->getCurrShader()->shaderProgram);
 				}
-				shaderManager->useShader(debugShader->name);
-				if (colMesh->getBoundShaderProgram() != debugShader->shaderProgram){
-					shaderManager->updateAttribs(debugShader->name, colMesh);
-					colMesh->setBoundShaderProgram(debugShader->shaderProgram);
-				}
-				float colScale = col->getScale();
-				glm::vec3 dimensions = col->getDimensions();
-				//Let's just assume the collider position is always with the GameObject's position... hehehe :P
-				//so just use the GameObject's MVP and not make a new matrix with its translation
-				glm::mat4 debugMat = glm::scale(mvp, glm::vec3(colScale * dimensions.x, colScale * dimensions.y, colScale * dimensions.z));
-				glUniformMatrix4fv(debugShader->mvpLoc, 1, GL_FALSE, glm::value_ptr(debugMat));
-				RenderDebugMesh(colMesh);
+				//Send Model View Projection to the shader
+				glUniformMatrix4fv(shaderManager->getCurrShader()->mvpLoc, 1, GL_FALSE, glm::value_ptr(mvp));
+				//Render the GameObject
+				_gameObject->Draw();
 			}
+		}
+	}
+
+	/*Drawing Debug stuff*/
+	if (isDebugOn){
+		Collider* col = _gameObject->getCollider();
+		if (col != nullptr){
+			Mesh* colMesh;
+			if (col->getDebugDrawType() == ColliderDebugDrawType::SPHERE){
+				colMesh = sphereColliderMesh;
+			} else{
+				colMesh = boxColliderMesh;
+			}
+			shaderManager->useShader(debugShader->name);
+			if (colMesh->getBoundShaderProgram() != debugShader->shaderProgram){
+				shaderManager->updateAttribs(debugShader->name, colMesh);
+				colMesh->setBoundShaderProgram(debugShader->shaderProgram);
+			}
+			float colScale = col->getScale();
+			glm::vec3 dimensions = col->getDimensions();
+			//Let's just assume the collider position is always with the GameObject's position... hehehe :P
+			//so just use the GameObject's MVP and not make a new matrix with its translation
+			glm::mat4 debugMat = glm::scale(mvp, glm::vec3(colScale * dimensions.x, colScale * dimensions.y, colScale * dimensions.z));
+			glUniformMatrix4fv(debugShader->mvpLoc, 1, GL_FALSE, glm::value_ptr(debugMat));
+			RenderDebugMesh(colMesh);
 		}
 	}
 

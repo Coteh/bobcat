@@ -16,6 +16,8 @@ DemoApp::DemoApp(int _engineCmd) : DemoApp(){
 
 DemoApp::~DemoApp() {
 	delete ray;
+	delete mat;
+	delete noTexMat;
 }
 
 void DemoApp::Init(){
@@ -82,18 +84,23 @@ void DemoApp::Init(){
 	resourceManager->addMesh("Plane.ply", "Plane");
 	resourceManager->addMesh("Cube.ply", "Cube");
 
+	/*Adding Materials*/
+	mat = new Material();
+	mat->color = glm::vec4(1.0, 0.0, 0.0, 1.0);
+	mat->shader = shaderManager->getShader(TEXTURE_MODEL);
+	mat->texture = tex;
+	noTexMat = new Material();
+	noTexMat->color = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
+	noTexMat->shader = shaderManager->getShader("UniformColor");
+
 	//Initalize the objects, plugging the meshes into them
-	Transform* transform;
-	Collider* collider;
 	GameObjectConstructionInfo cubeObjInfo;
 	cubeObjInfo.setTransformValues();
 	cubeObjInfo.setCollider(new SphereCollider());
 	cubeObjInfo.setRigidbodyValues(glm::vec3(0.0f), glm::vec3(10.0f, 0.0f, 10.0f), 1.0f);
 	cubeObjInfo.setMesh(resourceManager->getMesh("Sphere"));
-	cubeObjInfo.setShader(shaderManager->getShader(TEXTURE_MODEL));
-	cubeObjInfo.setTexture(tex);
 	cubeObj = new GameObject(&cubeObjInfo);
-	cubeObj->getMeshRenderer()->setColor(glm::vec4(1.0, 0.0, 0.0, 1.0));
+	cubeObj->getMeshRenderer()->material = mat;
 	sphereTorque = cubeObj->getRigidbody()->rotationalVel;
 	scene->addGameObject(cubeObj);
 
@@ -102,10 +109,8 @@ void DemoApp::Init(){
 	torusObjInfo.setCollider(new BoxCollider());
 	torusObjInfo.setRigidbodyValues(glm::vec3(0.0f), glm::vec3(5.0f, 0.0f, 5.0f), 1.0f);
 	torusObjInfo.setMesh(resourceManager->getMesh("Cube"));
-	torusObjInfo.setShader(shaderManager->getShader(TEXTURE_MODEL));
-	torusObjInfo.setTexture(tex);
 	torusObj = new GameObject(&torusObjInfo);
-	torusObj->getMeshRenderer()->setColor(glm::vec4(0.0, 1.0, 1.0, 1.0));
+	torusObj->getMeshRenderer()->material = mat;
 	scene->addGameObject(torusObj);
 
 	GameObjectConstructionInfo circleObjInfo;
@@ -113,17 +118,15 @@ void DemoApp::Init(){
 	circleObjInfo.setCollider(new BoxCollider());
 	circleObjInfo.setRigidbodyValues(glm::vec3(0.0f), glm::vec3(10.0f, 0.0f, 10.0f), 1.0f);
 	circleObjInfo.setMesh(resourceManager->getMesh("Monkey"));
-	circleObjInfo.setShader(shaderManager->getShader(TEXTURE_MODEL));
-	circleObjInfo.setTexture(tex);
 	circleObj = new GameObject(&circleObjInfo);
+	circleObj->getMeshRenderer()->material = mat;
 	scene->addGameObject(circleObj);
 
 	GameObjectConstructionInfo planeObjInfo;
 	planeObjInfo.setTransformValues(glm::vec3(0.0f, -10.0f, -10.0f), glm::vec3(90.0f, 0.0f, 0.0f), glm::vec3(100.0f, 100.0f, 100.0f));
 	planeObjInfo.setMesh(resourceManager->getMesh("Plane"));
-	planeObjInfo.setShader(shaderManager->getShader(TEXTURE_MODEL));
-	planeObjInfo.setTexture(planeTex);
 	planeObj = new GameObject(&planeObjInfo);
+	planeObj->getMeshRenderer()->material = mat;
 	scene->addGameObject(planeObj);
 
 	logManager->writeLog(LogLevel::LOG_NONE, "This is a test log");
@@ -157,15 +160,15 @@ void DemoApp::OnKeyEvent(GLFWwindow* _window, int _key, int _scancode, int _acti
 		} else if (_key == GLFW_KEY_Y){
 			renderMode = !renderMode;
 			if (renderMode){
-				cubeObj->setShader(shaderManager->getShader("UniformColor"));
-				torusObj->setShader(shaderManager->getShader("UniformColor"));
-				circleObj->setShader(shaderManager->getShader("UniformColor"));
-				planeObj->setShader(shaderManager->getShader("UniformColor"));
+				cubeObj->getMeshRenderer()->material = noTexMat;
+				torusObj->getMeshRenderer()->material = noTexMat;
+				circleObj->getMeshRenderer()->material = noTexMat;
+				planeObj->getMeshRenderer()->material = noTexMat;
 			} else{
-				cubeObj->setShader(shaderManager->getShader(TEXTURE_MODEL));
-				torusObj->setShader(shaderManager->getShader(TEXTURE_MODEL));
-				circleObj->setShader(shaderManager->getShader(TEXTURE_MODEL));
-				planeObj->setShader(shaderManager->getShader(TEXTURE_MODEL));
+				cubeObj->getMeshRenderer()->material = mat;
+				torusObj->getMeshRenderer()->material = mat;
+				circleObj->getMeshRenderer()->material = mat;
+				planeObj->getMeshRenderer()->material = mat;
 			}
 		}
 	}
