@@ -1,6 +1,7 @@
 #include "Rigidbody.h"
 
 Rigidbody::Rigidbody() {
+	name = "Rigidbody";
 	velocity = glm::vec3(0.0f);
 	rotationalVel = glm::vec3(0.0f);
 	friction = 1.0f;

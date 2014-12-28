@@ -29,3 +29,8 @@ public:
 	virtual void Draw();
 };
 
+class TestComponent : public Component {
+public:
+	int testNum;
+	TestComponent(){ name = "TestComponent"; testNum = 10; }
+};

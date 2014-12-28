@@ -1,22 +1,18 @@
 #pragma once
 #include <glm\glm.hpp>
+#include "Component.h"
 #include "Transform.h"
 
-class GameObject;
-
-class Rigidbody {
+class Rigidbody : public Component {
 public:
 	Rigidbody();
 	~Rigidbody();
-
-	GameObject* gameObject;
-	Transform* transform;
 
 	glm::vec3 velocity;
 	glm::vec3 rotationalVel;
 	glm::vec3 force;
 	float friction;
 
-	void Update(float _deltaTime);
+	virtual void Update(float _deltaTime);
 };
 

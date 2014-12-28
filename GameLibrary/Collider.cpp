@@ -1,7 +1,7 @@
 #include "Collider.h"
 
 Collider::Collider(){
-
+	name = "Collider";
 }
 
 Collider::~Collider(){

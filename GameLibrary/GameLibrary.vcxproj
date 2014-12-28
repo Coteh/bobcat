@@ -73,6 +73,7 @@
     <ClCompile Include="Clock.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="CollisionMath.cpp" />
+    <ClCompile Include="ComponentHolder.cpp" />
     <ClCompile Include="ConfigManager.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="FileReader.cpp" />
@@ -106,6 +107,8 @@
     <ClInclude Include="Clock.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="CollisionMath.h" />
+    <ClInclude Include="Component.h" />
+    <ClInclude Include="ComponentHolder.h" />
     <ClInclude Include="ConfigManager.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="FileReader.h" />

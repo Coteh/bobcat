@@ -1,4 +1,5 @@
 #pragma once
+#include "Component.h"
 #include <glm\glm.hpp>
 
 enum ColliderDebugDrawType{
@@ -7,10 +8,7 @@ enum ColliderDebugDrawType{
 	SPHERE = 2
 };
 
-class GameObject;
-class Transform;
-
-class Collider {
+class Collider : public Component {
 private:
 	glm::vec3 position;
 	float scale;
@@ -19,8 +17,6 @@ protected:
 public:
 	Collider();
 	virtual ~Collider();
-	GameObject* gameObject;
-	Transform* transform;
 	virtual glm::vec3 getPosition();
 	virtual float getScale();
 	virtual float getRadius();

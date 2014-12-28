@@ -128,6 +128,7 @@ void DemoApp::Init(){
 	planeObj = new GameObject(&planeObjInfo);
 	planeObj->getMeshRenderer()->material = mat;
 	scene->addGameObject(planeObj);
+	printf("%d", planeObj->AddComponent<TestComponent>()->testNum);
 
 	logManager->writeLog(LogLevel::LOG_NONE, "This is a test log");
 	logManager->writeLog(LogLevel::LOG_INFO, "This is a test log also");

@@ -1,11 +1,10 @@
 #pragma once
 #include <glm\glm.hpp>
+#include "Component.h"
 #include "Mesh.h"
 #include "Material.h"
 
-class GameObject;
-
-class MeshRenderer {
+class MeshRenderer : public Component {
 	friend class GameObject;
 private:
 	std::vector<GLenum> drawModeVec;
@@ -14,14 +13,13 @@ private:
 public:
 	MeshRenderer();
 	~MeshRenderer();
-	bool CheckShaderMatchup();
-	void Render();
 
 	Mesh* mesh;
-	GameObject* gameObject;
+	Material* material;
 	bool isEnabled;
 	bool isWireFrameOn;
 
-	Material* material;
+	bool CheckShaderMatchup();
+	void Render();
 };
 

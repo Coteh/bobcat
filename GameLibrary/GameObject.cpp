@@ -4,7 +4,7 @@
 #include <glm\gtc\type_ptr.hpp>
 
 GameObject::GameObject(){
-	
+
 }
 
 GameObject::GameObject(GameObjectConstructionInfo* _constructionInfo) : GameObject(){
@@ -76,34 +76,47 @@ void GameObject::setName(std::string _name){
 */
 void GameObject::setMesh(Mesh* _mesh) {
 	meshRenderer = new MeshRenderer();
+
+	AddComponent(meshRenderer);
+	//iterate through all components and set the meshrenderer of each to this
+	ComponentMap::iterator it = componentHolder->getBegin();
+	for (it; it != componentHolder->getEnd(); ++it){
+		it->second->renderer = meshRenderer;
+	}
+
 	meshRenderer->mesh = _mesh;
 	meshRenderer->CalibrateMeshData();
-	meshRenderer->gameObject = this;
 	meshRenderer->isEnabled = true;
 }
 
 void GameObject::setTransform(Transform* _transform){
+	AddComponent(_transform);
 	transform = _transform;
-	transform->gameObject = this;
-	transform->collider = collider;
-	if (collider != nullptr){
-		collider->transform = transform;
+	//iterate through all components and set the transform of each to this
+	ComponentMap::iterator it = componentHolder->getBegin();
+	for (it; it != componentHolder->getEnd(); ++it){
+		it->second->transform = _transform;
 	}
 }
 
 void GameObject::setCollider(Collider* _collider){
+	AddComponent(_collider);
 	collider = _collider;
-	collider->gameObject = this;
-	collider->transform = transform;
-	if (transform != nullptr){
-		transform->collider = collider;
+	//iterate through all components and set the collider of each to this
+	ComponentMap::iterator it = componentHolder->getBegin();
+	for (it; it != componentHolder->getEnd(); ++it){
+		it->second->collider = _collider;
 	}
 }
 
 void GameObject::setRigidbody(Rigidbody* _rigidbody){
+	AddComponent(_rigidbody);
 	rigidbody = _rigidbody;
-	rigidbody->gameObject = this;
-	rigidbody->transform = transform;
+	//iterate through all components and set the rigidbody of each to this
+	ComponentMap::iterator it = componentHolder->getBegin();
+	for (it; it != componentHolder->getEnd(); ++it){
+		it->second->rigidbody = _rigidbody;
+	}
 }
 
 /**
@@ -113,6 +126,18 @@ void GameObject::setRigidbody(Rigidbody* _rigidbody){
 void GameObject::attachGameObject(GameObject* _gameObject){
 	children.push_back(_gameObject);
 	_gameObject->parent = this;
+}
+
+void GameObject::AddComponent(Component* _component){
+	if (componentHolder == nullptr){
+		componentHolder = new ComponentHolder();
+	}
+	componentHolder->AddComponent(_component);
+	_component->gameObject = this;
+	_component->transform = transform;
+	_component->collider = collider;
+	_component->rigidbody = rigidbody;
+	_component->renderer = meshRenderer;
 }
 
 void GameObject::Update(float _deltaTime){
