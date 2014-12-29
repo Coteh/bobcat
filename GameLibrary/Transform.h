@@ -1,6 +1,5 @@
 #pragma once
 #include "Component.h"
-#include "Collider.h"
 #include <glm\glm.hpp>
 
 class Transform : public Component {

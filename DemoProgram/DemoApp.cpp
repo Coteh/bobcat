@@ -96,37 +96,37 @@ void DemoApp::Init(){
 	//Initalize the objects, plugging the meshes into them
 	GameObjectConstructionInfo cubeObjInfo;
 	cubeObjInfo.setTransformValues();
-	cubeObjInfo.setCollider(new SphereCollider());
+	cubeObjInfo.setColliderMode(ColliderMode::SPHERE);
 	cubeObjInfo.setRigidbodyValues(glm::vec3(0.0f), glm::vec3(10.0f, 0.0f, 10.0f), 1.0f);
 	cubeObjInfo.setMesh(resourceManager->getMesh("Sphere"));
-	cubeObj = new GameObject(&cubeObjInfo);
-	cubeObj->getMeshRenderer()->material = mat;
-	sphereTorque = cubeObj->getRigidbody()->rotationalVel;
+	cubeObj = GameObjectCreator::ConstructFrom(cubeObjInfo);
+	cubeObj->renderer->material = mat;
+	sphereTorque = cubeObj->rigidbody->rotationalVel;
 	scene->addGameObject(cubeObj);
 
 	GameObjectConstructionInfo torusObjInfo;
 	torusObjInfo.setTransformValues(glm::vec3(1.0f, 1.0f, -1.0f), glm::vec3(0.0f), glm::vec3(0.4f));
-	torusObjInfo.setCollider(new BoxCollider());
+	torusObjInfo.setColliderMode(ColliderMode::BOX);
 	torusObjInfo.setRigidbodyValues(glm::vec3(0.0f), glm::vec3(5.0f, 0.0f, 5.0f), 1.0f);
 	torusObjInfo.setMesh(resourceManager->getMesh("Cube"));
-	torusObj = new GameObject(&torusObjInfo);
-	torusObj->getMeshRenderer()->material = mat;
+	torusObj = GameObjectCreator::ConstructFrom(torusObjInfo);
+	torusObj->renderer->material = mat;
 	scene->addGameObject(torusObj);
 
 	GameObjectConstructionInfo circleObjInfo;
 	circleObjInfo.setTransformValues(glm::vec3(20.0f, 1.0f, 1.0f), glm::vec3(0.0f), glm::vec3(0.4f));
-	circleObjInfo.setCollider(new BoxCollider());
+	circleObjInfo.setColliderMode(ColliderMode::BOX);
 	circleObjInfo.setRigidbodyValues(glm::vec3(0.0f), glm::vec3(10.0f, 0.0f, 10.0f), 1.0f);
 	circleObjInfo.setMesh(resourceManager->getMesh("Monkey"));
-	circleObj = new GameObject(&circleObjInfo);
-	circleObj->getMeshRenderer()->material = mat;
+	circleObj = GameObjectCreator::ConstructFrom(circleObjInfo);
+	circleObj->renderer->material = mat;
 	scene->addGameObject(circleObj);
 
 	GameObjectConstructionInfo planeObjInfo;
 	planeObjInfo.setTransformValues(glm::vec3(0.0f, -10.0f, -10.0f), glm::vec3(90.0f, 0.0f, 0.0f), glm::vec3(100.0f, 100.0f, 100.0f));
 	planeObjInfo.setMesh(resourceManager->getMesh("Plane"));
-	planeObj = new GameObject(&planeObjInfo);
-	planeObj->getMeshRenderer()->material = mat;
+	planeObj = GameObjectCreator::ConstructFrom(planeObjInfo);
+	planeObj->renderer->material = mat;
 	scene->addGameObject(planeObj);
 	printf("%d", planeObj->AddComponent<TestComponent>()->testNum);
 
@@ -161,16 +161,18 @@ void DemoApp::OnKeyEvent(GLFWwindow* _window, int _key, int _scancode, int _acti
 		} else if (_key == GLFW_KEY_Y){
 			renderMode = !renderMode;
 			if (renderMode){
-				cubeObj->getMeshRenderer()->material = noTexMat;
-				torusObj->getMeshRenderer()->material = noTexMat;
-				circleObj->getMeshRenderer()->material = noTexMat;
-				planeObj->getMeshRenderer()->material = noTexMat;
+				cubeObj->renderer->material = noTexMat;
+				torusObj->renderer->material = noTexMat;
+				circleObj->renderer->material = noTexMat;
+				planeObj->renderer->material = noTexMat;
 			} else{
-				cubeObj->getMeshRenderer()->material = mat;
-				torusObj->getMeshRenderer()->material = mat;
-				circleObj->getMeshRenderer()->material = mat;
-				planeObj->getMeshRenderer()->material = mat;
+				cubeObj->renderer->material = mat;
+				torusObj->renderer->material = mat;
+				circleObj->renderer->material = mat;
+				planeObj->renderer->material = mat;
 			}
+		} else if (_key == GLFW_KEY_C){
+			planeObj->RemoveComponent<TestComponent>();
 		}
 	}
 }
@@ -205,16 +207,16 @@ void DemoApp::OnKeyHandle(){
 	case 1:
 		//Sphere Controls
 		if (((GLFWWindower*)window)->getGLFWKeyState(GLFW_KEY_UP) == GLFW_PRESS){
-			cubeObj->getTransform()->position = cubeObj->getTransform()->position + glm::vec3(0.0f, 50.0f, 0.0f) * deltaTime;
+			cubeObj->transform->position = cubeObj->transform->position + glm::vec3(0.0f, 50.0f, 0.0f) * deltaTime;
 		} else if (((GLFWWindower*)window)->getGLFWKeyState(GLFW_KEY_DOWN) == GLFW_PRESS){
-			cubeObj->getTransform()->position = cubeObj->getTransform()->position + glm::vec3(0.0f, -50.0f, 0.0f) * deltaTime;
+			cubeObj->transform->position = cubeObj->transform->position + glm::vec3(0.0f, -50.0f, 0.0f) * deltaTime;
 		} else if (((GLFWWindower*)window)->getGLFWKeyState(GLFW_KEY_LEFT) == GLFW_PRESS){
-			cubeObj->getTransform()->position = cubeObj->getTransform()->position + glm::vec3(-50.0f, 0.0f, 0.0f) * deltaTime;
+			cubeObj->transform->position = cubeObj->transform->position + glm::vec3(-50.0f, 0.0f, 0.0f) * deltaTime;
 		} else if (((GLFWWindower*)window)->getGLFWKeyState(GLFW_KEY_RIGHT) == GLFW_PRESS){
-			cubeObj->getTransform()->position = cubeObj->getTransform()->position + glm::vec3(50.0f, 0.0f, 0.0f) * deltaTime;
+			cubeObj->transform->position = cubeObj->transform->position + glm::vec3(50.0f, 0.0f, 0.0f) * deltaTime;
 		} else if (((GLFWWindower*)window)->getGLFWKeyState(GLFW_KEY_R) == GLFW_PRESS){
-			cubeObj->getTransform()->position = sphereOrigPos;
-			cubeObj->getTransform()->rotation = glm::vec3(0.0f, 0.0f, 0.0f);
+			cubeObj->transform->position = sphereOrigPos;
+			cubeObj->transform->rotation = glm::vec3(0.0f, 0.0f, 0.0f);
 		}
 		break;
 	}
@@ -225,7 +227,7 @@ void DemoApp::Update(){
 	scene->updateGameObjects(deltaTime);
 	ray->updateRay(camera->getPosition(), camera->getForward());
 	float dist;
-	Collider* col = cubeObj->getCollider();
+	Collider* col = cubeObj->collider;
 	/*if (ray->intersects(col->getPosition(), col->getRadius() * col->getScale(), &dist)){
 		//Something will happen here
 	}else{

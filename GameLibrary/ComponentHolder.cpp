@@ -4,18 +4,15 @@ ComponentHolder::ComponentHolder() {
 }
 
 ComponentHolder::~ComponentHolder() {
-	//Wipes out component map from memory
-	components.clear();
-	ComponentMap clearMap;
-	clearMap.swap(components);
+	RemoveAll();
 }
 
-void ComponentHolder::AddComponent(Component* _component){
-	components[_component->name] = _component;
+void ComponentHolder::AddComponent(Component* _component, std::type_index _index){
+	components[_index] = _component;
 }
 
-Component* ComponentHolder::GetComponent(std::string _name){
-	return components[_name];
+Component* ComponentHolder::GetComponent(std::type_index _index){
+	return components[_index];
 }
 
 ComponentMap::iterator ComponentHolder::getBegin() {
@@ -24,4 +21,15 @@ ComponentMap::iterator ComponentHolder::getBegin() {
 
 ComponentMap::iterator ComponentHolder::getEnd() {
 	return components.end();
+}
+
+void ComponentHolder::RemoveComponent(std::type_index _index){
+	components.erase(_index);
+}
+
+void ComponentHolder::RemoveAll(){
+	//Wipe out component map data from memory
+	components.clear();
+	ComponentMap clearMap;
+	clearMap.swap(components);
 }

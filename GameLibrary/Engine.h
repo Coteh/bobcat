@@ -11,6 +11,7 @@
 #include "PLYModelReader.h"
 #include "CollisionMath.h"
 #include "Ray.h"
+#include "GameObjectCreator.h"
 
 #define GAME_RUNNING true
 #define GAME_END false

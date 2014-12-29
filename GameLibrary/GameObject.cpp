@@ -7,13 +7,6 @@ GameObject::GameObject(){
 
 }
 
-GameObject::GameObject(GameObjectConstructionInfo* _constructionInfo) : GameObject(){
-	if (_constructionInfo->transform != nullptr) setTransform(_constructionInfo->transform);
-	if (_constructionInfo->collider != nullptr) setCollider(_constructionInfo->collider);
-	if (_constructionInfo->rigidbody != nullptr) setRigidbody(_constructionInfo->rigidbody);
-	if (_constructionInfo->mesh != nullptr) setMesh(_constructionInfo->mesh);
-}
-
 GameObject::~GameObject() {
 	
 }
@@ -46,22 +39,6 @@ glm::mat4 GameObject::getModelMat(){
 	return model;
 }
 
-Transform* GameObject::getTransform(){
-	return transform;
-}
-
-Collider* GameObject::getCollider(){
-	return collider;
-}
-
-Rigidbody* GameObject::getRigidbody(){
-	return rigidbody;
-}
-
-MeshRenderer* GameObject::getMeshRenderer(){
-	return meshRenderer;
-}
-
 /**
 * SET METHODS
 */
@@ -75,48 +52,27 @@ void GameObject::setName(std::string _name){
 * like it's not gone yet! :P
 */
 void GameObject::setMesh(Mesh* _mesh) {
-	meshRenderer = new MeshRenderer();
-
-	AddComponent(meshRenderer);
-	//iterate through all components and set the meshrenderer of each to this
-	ComponentMap::iterator it = componentHolder->getBegin();
-	for (it; it != componentHolder->getEnd(); ++it){
-		it->second->renderer = meshRenderer;
-	}
-
-	meshRenderer->mesh = _mesh;
-	meshRenderer->CalibrateMeshData();
-	meshRenderer->isEnabled = true;
+	renderer = AddComponent<MeshRenderer>();
+	renderer->mesh = _mesh;
+	renderer->CalibrateMeshData();
+	renderer->isEnabled = true;
 }
 
-void GameObject::setTransform(Transform* _transform){
-	AddComponent(_transform);
-	transform = _transform;
-	//iterate through all components and set the transform of each to this
-	ComponentMap::iterator it = componentHolder->getBegin();
-	for (it; it != componentHolder->getEnd(); ++it){
-		it->second->transform = _transform;
+/**
+* COMPONENT METHODS
+*/
+
+void GameObject::AddComponent(Component* _component, std::type_index _index){
+	if (componentHolder == nullptr){
+		componentHolder = new ComponentHolder();
 	}
+	componentHolder->AddComponent(_component, _index);
+	_component->gameObject = this;
 }
 
-void GameObject::setCollider(Collider* _collider){
-	AddComponent(_collider);
-	collider = _collider;
-	//iterate through all components and set the collider of each to this
-	ComponentMap::iterator it = componentHolder->getBegin();
-	for (it; it != componentHolder->getEnd(); ++it){
-		it->second->collider = _collider;
-	}
-}
-
-void GameObject::setRigidbody(Rigidbody* _rigidbody){
-	AddComponent(_rigidbody);
-	rigidbody = _rigidbody;
-	//iterate through all components and set the rigidbody of each to this
-	ComponentMap::iterator it = componentHolder->getBegin();
-	for (it; it != componentHolder->getEnd(); ++it){
-		it->second->rigidbody = _rigidbody;
-	}
+void GameObject::RemoveAllComponents(){
+	if (componentHolder == nullptr) return;
+	componentHolder->RemoveAll();
 }
 
 /**
@@ -128,27 +84,22 @@ void GameObject::attachGameObject(GameObject* _gameObject){
 	_gameObject->parent = this;
 }
 
-void GameObject::AddComponent(Component* _component){
-	if (componentHolder == nullptr){
-		componentHolder = new ComponentHolder();
-	}
-	componentHolder->AddComponent(_component);
-	_component->gameObject = this;
-	_component->transform = transform;
-	_component->collider = collider;
-	_component->rigidbody = rigidbody;
-	_component->renderer = meshRenderer;
-}
-
 void GameObject::Update(float _deltaTime){
-	if (rigidbody != nullptr) rigidbody->Update(_deltaTime);
+	//Update all the Components
+	if (componentHolder != nullptr){
+		ComponentMap::iterator it = componentHolder->getBegin();
+		for (it; it != componentHolder->getEnd(); ++it){
+			it->second->Update(_deltaTime);
+		}
+	}
+	//Update children
 	for (size_t i = 0; i < children.size(); i++){
 		children[i]->Update(_deltaTime);
 	}
 }
 
 void GameObject::Draw(){
-	if (meshRenderer != nullptr){
-		meshRenderer->Render();
+	if (renderer != nullptr){
+		renderer->Render();
 	}
 }

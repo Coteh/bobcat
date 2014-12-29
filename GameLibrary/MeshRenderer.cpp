@@ -1,7 +1,6 @@
 #include "MeshRenderer.h"
 
 MeshRenderer::MeshRenderer() {
-	name = "MeshRenderer";
 	mesh = nullptr;
 }
 

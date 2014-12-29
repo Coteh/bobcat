@@ -44,18 +44,18 @@ void OpenGLRenderSystem::RenderObject(GameObject* _gameObject){
 	glm::mat4 mvp = activeCamera->getProjection() * activeCamera->getView() * _gameObject->getModelMat();
 
 	/*Drawing GameObject*/
-	if (_gameObject->getMeshRenderer() != nullptr){ //don't draw if mesh renderer is null
-		Material* mat = _gameObject->getMeshRenderer()->material; //get a reference to the material
+	if (_gameObject->renderer != nullptr){ //don't draw if mesh renderer is null
+		Material* mat = _gameObject->renderer->material; //get a reference to the material
 		if (mat != nullptr){
 			//Make sure OpenGL is always using the shader program that the GameObject is using
 			if (shaderManager->getCurrShader() == nullptr || mat->shader->shaderProgram != shaderManager->getCurrShader()->shaderProgram){
 				shaderManager->useShader(mat->shader->name);
 			}
-			if (_gameObject->getMeshRenderer()->mesh != nullptr){ //don't draw if mesh is null
+			if (_gameObject->renderer->mesh != nullptr){ //don't draw if mesh is null
 				//Update Mesh attributes if the GameObject's shader is different than the one the mesh has at the moment
-				if (!_gameObject->getMeshRenderer()->CheckShaderMatchup()){
-					shaderManager->updateAttribs(mat->shader->name, _gameObject->getMeshRenderer()->mesh);
-					_gameObject->getMeshRenderer()->mesh->setBoundShaderProgram(shaderManager->getCurrShader()->shaderProgram);
+				if (!_gameObject->renderer->CheckShaderMatchup()){
+					shaderManager->updateAttribs(mat->shader->name, _gameObject->renderer->mesh);
+					_gameObject->renderer->mesh->setBoundShaderProgram(shaderManager->getCurrShader()->shaderProgram);
 				}
 				//Send Model View Projection to the shader
 				glUniformMatrix4fv(shaderManager->getCurrShader()->mvpLoc, 1, GL_FALSE, glm::value_ptr(mvp));
@@ -67,7 +67,7 @@ void OpenGLRenderSystem::RenderObject(GameObject* _gameObject){
 
 	/*Drawing Debug stuff*/
 	if (isDebugOn){
-		Collider* col = _gameObject->getCollider();
+		Collider* col = _gameObject->collider;
 		if (col != nullptr){
 			Mesh* colMesh;
 			if (col->getDebugDrawType() == ColliderDebugDrawType::SPHERE){

@@ -79,6 +79,7 @@
     <ClCompile Include="FileReader.cpp" />
     <ClCompile Include="FileWriter.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="GameObjectCreator.cpp" />
     <ClCompile Include="GLFWWindower.cpp" />
     <ClCompile Include="LogManager.cpp" />
     <ClCompile Include="Mesh.cpp" />
@@ -115,6 +116,7 @@
     <ClInclude Include="FileWriter.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameObjectConstructionInfo.h" />
+    <ClInclude Include="GameObjectCreator.h" />
     <ClInclude Include="GLFWWindower.h" />
     <ClInclude Include="IFileReader.h" />
     <ClInclude Include="IFileWriter.h" />

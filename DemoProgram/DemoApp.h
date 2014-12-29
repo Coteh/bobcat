@@ -32,5 +32,11 @@ public:
 class TestComponent : public Component {
 public:
 	int testNum;
-	TestComponent(){ name = "TestComponent"; testNum = 10; }
+	TestComponent(){ testNum = 10; }
+	virtual void Update(float _deltaTime){
+		TestDisplay();
+	}
+	void TestDisplay(){
+		printf("%d", testNum);
+	}
 };
