@@ -36,8 +36,6 @@ public:
 
 	void setName(std::string _name);
 
-	void setMesh(Mesh* _mesh);
-
 	void attachGameObject(GameObject* _gameObject);
 
 	template <typename T>
@@ -74,7 +72,7 @@ T* GameObject::AddComponent() {
 template <typename T>
 T* GameObject::GetComponent() {
 	if (componentHolder == nullptr) return nullptr;
-	return (T*)componentHolder->GetComponent(_name);
+	return (T*)componentHolder->GetComponent(typeid(T*));
 }
 
 template <typename T>

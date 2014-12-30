@@ -125,6 +125,7 @@
     <ClInclude Include="LogManager.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />
+    <ClInclude Include="MeshFilter.h" />
     <ClInclude Include="MeshRenderer.h" />
     <ClInclude Include="OpenGLRenderSystem.h" />
     <ClInclude Include="Plane.h" />

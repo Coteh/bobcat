@@ -236,5 +236,8 @@
     <ClInclude Include="GameObjectCreator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MeshFilter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

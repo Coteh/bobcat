@@ -1,35 +1,29 @@
 #include "MeshRenderer.h"
 
 MeshRenderer::MeshRenderer() {
-	mesh = nullptr;
+	meshFilter = nullptr;
 }
 
 MeshRenderer::~MeshRenderer() {
 
 }
 
-/**
-* Saving copies of various mesh information
-* in order to increase performance.
-*/
-void MeshRenderer::CalibrateMeshData(){
-	drawModeVec = mesh->getDrawModes();
-	indiceCountData = mesh->getIndiceCountData();
-}
-
 bool MeshRenderer::CheckShaderMatchup(){
-	return (mesh->getBoundShaderProgram() == material->shader->shaderProgram);
+	if (meshFilter == nullptr) return false;
+	return (meshFilter->mesh->getBoundShaderProgram() == material->shader->shaderProgram);
 }
 
 void MeshRenderer::Render(){
-	if (mesh == nullptr || material == nullptr || !isEnabled)return; //Don't do any drawing if there's no mesh attached to the object or if isRendering is set to false
+	if (meshFilter == nullptr || material == nullptr || !isEnabled)return; //Don't do any drawing if there's no mesh attached to the object or if isRendering is set to false
 	//Material Binding
 	material->Bind();
 	//Mesh Drawing
-	glBindVertexArray(mesh->getVAO());
+	glBindVertexArray(meshFilter->mesh->getVAO());
 	if (isWireFrameOn){
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	}
+	std::vector<GLenum> drawModeVec = meshFilter->mesh->getDrawModes();
+	std::vector<int> indiceCountData = meshFilter->mesh->getIndiceCountData();
 	int indicesSoFar = 0;
 	for (size_t i = 0; i < drawModeVec.size(); i++){
 		glDrawElements(drawModeVec[i], indiceCountData[i], GL_UNSIGNED_INT, (void*)(indicesSoFar * sizeof(GLuint)));

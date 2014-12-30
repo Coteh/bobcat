@@ -12,7 +12,10 @@ void ComponentHolder::AddComponent(Component* _component, std::type_index _index
 }
 
 Component* ComponentHolder::GetComponent(std::type_index _index){
-	return components[_index];
+	if (components.count(_index) > 0){
+		return components.at(_index);
+	}
+	return nullptr;
 }
 
 ComponentMap::iterator ComponentHolder::getBegin() {

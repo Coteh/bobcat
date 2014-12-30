@@ -51,11 +51,11 @@ void OpenGLRenderSystem::RenderObject(GameObject* _gameObject){
 			if (shaderManager->getCurrShader() == nullptr || mat->shader->shaderProgram != shaderManager->getCurrShader()->shaderProgram){
 				shaderManager->useShader(mat->shader->name);
 			}
-			if (_gameObject->renderer->mesh != nullptr){ //don't draw if mesh is null
+			if (_gameObject->renderer->meshFilter->mesh != nullptr){ //don't draw if mesh is null
 				//Update Mesh attributes if the GameObject's shader is different than the one the mesh has at the moment
 				if (!_gameObject->renderer->CheckShaderMatchup()){
-					shaderManager->updateAttribs(mat->shader->name, _gameObject->renderer->mesh);
-					_gameObject->renderer->mesh->setBoundShaderProgram(shaderManager->getCurrShader()->shaderProgram);
+					shaderManager->updateAttribs(mat->shader->name, _gameObject->renderer->meshFilter->mesh);
+					_gameObject->renderer->meshFilter->mesh->setBoundShaderProgram(shaderManager->getCurrShader()->shaderProgram);
 				}
 				//Send Model View Projection to the shader
 				glUniformMatrix4fv(shaderManager->getCurrShader()->mvpLoc, 1, GL_FALSE, glm::value_ptr(mvp));

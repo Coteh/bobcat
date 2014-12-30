@@ -34,6 +34,10 @@ GameObject* GameObjectCreator::ConstructFrom(GameObjectConstructionInfo _info){
 	rigidBody->rotationalVel = _info.rotationalVel;
 	rigidBody->friction = _info.friction;
 	go->rigidbody = rigidBody;
-	go->setMesh(_info.mesh);
+	go->renderer = go->AddComponent<MeshRenderer>();
+	MeshFilter* meshFilter = go->AddComponent<MeshFilter>();
+	meshFilter->mesh = _info.mesh;
+	go->renderer->meshFilter = meshFilter;
+	go->renderer->isEnabled = true;
 	return go;
 }

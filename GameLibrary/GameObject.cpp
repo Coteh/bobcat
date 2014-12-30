@@ -48,17 +48,6 @@ void GameObject::setName(std::string _name){
 }
 
 /**
-* I wanted to get rid of the Mesh from GameObject but looks
-* like it's not gone yet! :P
-*/
-void GameObject::setMesh(Mesh* _mesh) {
-	renderer = AddComponent<MeshRenderer>();
-	renderer->mesh = _mesh;
-	renderer->CalibrateMeshData();
-	renderer->isEnabled = true;
-}
-
-/**
 * COMPONENT METHODS
 */
 
