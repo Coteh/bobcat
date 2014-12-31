@@ -1,8 +1,8 @@
 #pragma once
-#include "GameObject.h"
+#include "Component.h"
 #include <glm\glm.hpp>
 
-class Camera {
+class Camera : public Component {
 private:
 	glm::mat4 view;
 	glm::mat4 projection;
@@ -13,7 +13,6 @@ private:
 	glm::vec3 right;
 	int screenWidth, screenHeight;
 	float zoom;
-	GameObject* attachedGameObject;
 public:
 	Camera();
 	~Camera();
@@ -28,11 +27,11 @@ public:
 	void setZoom(float _zoom);
 	void setPosition(glm::vec3 _position);
 	void setRotationEuler(glm::vec3 _rot);
-	void attachGameObject(GameObject* _gameObject);
 	void IncrementZoom(float _zoom);
 	void Translate(glm::vec3 _offset);
 	void Rotate(glm::vec3 _rotEuler);
 	void UpdateCamera();
 	void UpdateProjection();
+	virtual void Update(float _deltaTime);
 };
 

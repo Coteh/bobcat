@@ -135,13 +135,18 @@ void DemoApp::Init(){
 	logManager->writeLog(LogLevel::LOG_INFO, "This is a test log also");
 	logManager->writeLog(LogLevel::LOG_ERROR, "This is an error!");
 
-	camera->setPosition(glm::vec3(0, 0, 20));
-	origCameraPos = camera->getPosition();
-	camera->attachGameObject(torusObj);
+	GameObjectConstructionInfo cameraObjInfo;
+	cameraObjInfo.setTransformValues(glm::vec3(0, 0, 20), glm::vec3(0.0f), glm::vec3(1.0f));
+	cameraObjInfo.setRigidbodyValues(glm::vec3(0), glm::vec3(0.0f, 35.0f, 0.0f), 0.0f);
+	cameraObj = GameObjectCreator::ConstructFrom(cameraObjInfo);
+	MainCamera = cameraObj->AddComponent<Camera>();
+	scene->addGameObject(cameraObj);
+
+	origCameraPos = cameraObj->transform->position;
 
 	lightSource = glm::vec3(0.0, -10.0, -1000.0);
 
-	ray = new Ray(camera->getPosition(), camera->getForward());
+	ray = new Ray(MainCamera->getPosition(), MainCamera->getForward());
 
 	renderer->setDebugRender(debugRenderOn);
 }
@@ -184,25 +189,35 @@ void DemoApp::OnKeyHandle(){
 	case 0:
 		//Camera Controls
 		if (((GLFWWindower*)window)->getGLFWKeyState(GLFW_KEY_UP) == GLFW_PRESS){
-			camera->Translate(-50.0f * camera->getForward() * deltaTime);
+			//camera->Translate(-50.0f * camera->getForward() * deltaTime);
+			cameraObj->transform->position += -50.0f * MainCamera->getForward() * deltaTime;
 		} else if (((GLFWWindower*)window)->getGLFWKeyState(GLFW_KEY_DOWN) == GLFW_PRESS){
-			camera->Translate(50.0f * camera->getForward() * deltaTime);
+			//camera->Translate(50.0f * camera->getForward() * deltaTime);
+			cameraObj->transform->position += 50.0f * MainCamera->getForward() * deltaTime;
 		} else if (((GLFWWindower*)window)->getGLFWKeyState(GLFW_KEY_LEFT) == GLFW_PRESS){
-			camera->Translate(-50.0f * camera->getRight() * deltaTime);
+			//camera->Translate(-50.0f * camera->getRight() * deltaTime);
+			cameraObj->transform->position += -50.0f * MainCamera->getRight() * deltaTime;
 		} else if (((GLFWWindower*)window)->getGLFWKeyState(GLFW_KEY_RIGHT) == GLFW_PRESS){
-			camera->Translate(50.0f * camera->getRight() * deltaTime);
+			//camera->Translate(50.0f * camera->getRight() * deltaTime);
+			cameraObj->transform->position += 50.0f * MainCamera->getRight() * deltaTime;
 		}
 		if (((GLFWWindower*)window)->getGLFWKeyState(GLFW_KEY_A) == GLFW_PRESS){
-			camera->Rotate(glm::vec3(0.0f, 100.0f, 0.0f) * deltaTime);
+			//camera->Rotate(glm::vec3(0.0f, 100.0f, 0.0f) * deltaTime);
+			cameraObj->transform->rotation += glm::vec3(0.0f, 100.0f, 0.0f) * deltaTime * MainCamera->getUp();
 		} else if (((GLFWWindower*)window)->getGLFWKeyState(GLFW_KEY_D) == GLFW_PRESS){
-			camera->Rotate(glm::vec3(0.0f, -100.0f, 0.0f) * deltaTime);
+			//camera->Rotate(glm::vec3(0.0f, -100.0f, 0.0f) * deltaTime);
+			cameraObj->transform->rotation += glm::vec3(0.0f, -100.0f, 0.0f) * deltaTime * MainCamera->getUp();
 		} else if (((GLFWWindower*)window)->getGLFWKeyState(GLFW_KEY_W) == GLFW_PRESS){
-			camera->Rotate(glm::vec3(100.0f, 0.0f, 0.0f) * deltaTime);
+			//camera->Rotate(glm::vec3(100.0f, 0.0f, 0.0f) * deltaTime);
+			cameraObj->transform->rotation += glm::vec3(100.0f, 0.0f, 0.0f) * deltaTime * MainCamera->getUp();
 		} else if (((GLFWWindower*)window)->getGLFWKeyState(GLFW_KEY_S) == GLFW_PRESS){
-			camera->Rotate(glm::vec3(-100.0f, 0.0f, 0.0f) * deltaTime);
+			//camera->Rotate(glm::vec3(-100.0f, 0.0f, 0.0f) * deltaTime);
+			cameraObj->transform->rotation += glm::vec3(-100.0f, 0.0f, 0.0f) * deltaTime * MainCamera->getUp();
 		} else if (((GLFWWindower*)window)->getGLFWKeyState(GLFW_KEY_R) == GLFW_PRESS){
-			camera->setPosition(origCameraPos);
-			camera->setRotationEuler(glm::vec3(0.0f, 0.0f, -1.0f));
+			//camera->setPosition(origCameraPos);
+			//camera->setRotationEuler(glm::vec3(0.0f, 0.0f, -1.0f));
+			cameraObj->transform->position = origCameraPos;
+			cameraObj->transform->rotation = glm::vec3(0.0f, 0.0f, -1.0f);
 		}
 		break;
 	case 1:
@@ -226,7 +241,7 @@ void DemoApp::OnKeyHandle(){
 void DemoApp::Update(){
 	Engine::Update();
 	scene->updateGameObjects(deltaTime);
-	ray->updateRay(camera->getPosition(), camera->getForward());
+	ray->updateRay(MainCamera->getPosition(), MainCamera->getForward());
 	float dist;
 	Collider* col = cubeObj->collider;
 	/*if (ray->intersects(col->getPosition(), col->getRadius() * col->getScale(), &dist)){

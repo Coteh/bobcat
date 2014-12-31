@@ -1,4 +1,5 @@
 #include "Camera.h"
+#include "GameObject.h"
 #include <glm\gtc\matrix_transform.hpp>
 #include <glm\gtx\rotate_vector.hpp>
 #include <glm\gtc\type_ptr.hpp>
@@ -66,10 +67,6 @@ void Camera::setRotationEuler(glm::vec3 _rot){
 	UpdateCamera();
 }
 
-void Camera::attachGameObject(GameObject* _gameObject){
-	attachedGameObject = _gameObject;
-}
-
 void Camera::IncrementZoom(float _zoom){
 	float zoomDir = (forward.z / ::abs(forward.z));
 	if (zoomDir == 0) zoomDir = 1.0f;
@@ -112,4 +109,13 @@ void Camera::UpdateCamera(){
 
 void Camera::UpdateProjection(){
 	projection = glm::perspective(zoom, 1.0f*screenWidth / screenHeight, 0.1f, 1000.0f);
+}
+
+void Camera::Update(float _deltaTime){
+	//If there's a change in transform position or rotation, update the camera accordingly
+	if (gameObject->transform->position != position || gameObject->transform->rotation != rotation){
+		position = gameObject->transform->position;
+		rotation = gameObject->transform->rotation;
+		UpdateCamera();
+	}
 }

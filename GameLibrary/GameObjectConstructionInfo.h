@@ -13,12 +13,14 @@ namespace ColliderMode{
 struct GameObjectConstructionInfo {
 	friend class GameObjectCreator;
 private:
+	bool isTransformSet = false;
 	glm::vec3 position;
 	glm::vec3 rotation;
 	glm::vec3 scale;
 
 	ColliderMode::ColliderMode colliderMode;
 
+	bool isRigidbodySet = false;
 	glm::vec3 velocity;
 	glm::vec3 rotationalVel;
 	float friction;
@@ -33,6 +35,7 @@ public:
 		position = _pos;
 		rotation = _rot;
 		scale = _scl;
+		isTransformSet = true;
 	}
 
 	inline void setTransformValues(){
@@ -47,6 +50,7 @@ public:
 		velocity = _velocity;
 		rotationalVel = _rotationalVel;
 		friction = _friction;
+		isRigidbodySet = true;
 	}
 
 	inline void setRigidbodyValues(){

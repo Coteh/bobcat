@@ -21,6 +21,7 @@
 
 class Engine {
 private:
+	Camera* mainCamera;
 	bool isKeyPressed;
 protected:
 	AbstractWindower* window;
@@ -28,10 +29,13 @@ protected:
 	ConfigManager* configManager;
 	//InputManager* inputManager;
 	AbstractRenderSystem* renderer;
-	Camera* camera;
 	SceneManager* sceneManager;
 	ResourceManager* resourceManager;
 	ShaderManager* shaderManager;
+
+	Camera* getMainCamera();
+	void setMainCamera(Camera* _camera);
+	__declspec(property(get = getMainCamera, put = setMainCamera)) Camera* MainCamera;
 
 	int lastKeyAction;
 

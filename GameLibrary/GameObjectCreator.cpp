@@ -7,11 +7,13 @@
 
 GameObject* GameObjectCreator::ConstructFrom(GameObjectConstructionInfo _info){
 	GameObject* go = new GameObject();
-	Transform* transform = go->AddComponent<Transform>();
-	transform->position = _info.position;
-	transform->rotation = _info.rotation;
-	transform->scale = _info.scale;
-	go->transform = transform;
+	if (_info.isTransformSet){
+		Transform* transform = go->AddComponent<Transform>();
+		transform->position = _info.position;
+		transform->rotation = _info.rotation;
+		transform->scale = _info.scale;
+		go->transform = transform;
+	}
 	if (_info.colliderMode > 0){
 		Collider* collider;
 		switch (_info.colliderMode){
@@ -29,15 +31,19 @@ GameObject* GameObjectCreator::ConstructFrom(GameObjectConstructionInfo _info){
 		collider->setDimensions(1.0f, 1.0f, 1.0f);
 		go->collider = collider;
 	}
-	Rigidbody* rigidBody = go->AddComponent<Rigidbody>();
-	rigidBody->velocity = _info.velocity;
-	rigidBody->rotationalVel = _info.rotationalVel;
-	rigidBody->friction = _info.friction;
-	go->rigidbody = rigidBody;
-	go->renderer = go->AddComponent<MeshRenderer>();
-	MeshFilter* meshFilter = go->AddComponent<MeshFilter>();
-	meshFilter->mesh = _info.mesh;
-	go->renderer->meshFilter = meshFilter;
-	go->renderer->isEnabled = true;
+	if (_info.isRigidbodySet){
+		Rigidbody* rigidBody = go->AddComponent<Rigidbody>();
+		rigidBody->velocity = _info.velocity;
+		rigidBody->rotationalVel = _info.rotationalVel;
+		rigidBody->friction = _info.friction;
+		go->rigidbody = rigidBody;
+	}
+	if (_info.mesh != nullptr){
+		go->renderer = go->AddComponent<MeshRenderer>();
+		MeshFilter* meshFilter = go->AddComponent<MeshFilter>();
+		meshFilter->mesh = _info.mesh;
+		go->renderer->meshFilter = meshFilter;
+		go->renderer->isEnabled = true;
+	}
 	return go;
 }

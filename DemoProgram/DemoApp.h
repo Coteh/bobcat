@@ -8,6 +8,7 @@ private:
 	GameObject* torusObj;
 	GameObject* circleObj;
 	GameObject* planeObj;
+	GameObject* cameraObj;
 	glm::vec3 sphereTorque;
 	glm::vec3 origCameraPos;
 	glm::vec3 sphereOrigPos;

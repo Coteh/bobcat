@@ -28,6 +28,10 @@ bool Engine::getIsWindowRunning(){
 	return window->isRunning();
 }
 
+Camera* Engine::getMainCamera(){
+	return mainCamera;
+}
+
 void Engine::setScreenDimensions(int _width, int _height){
 	window->setWindowDimensions(_width, _height);
 }
@@ -44,6 +48,14 @@ void Engine::setWindowSizeFunc(void* _function){
 	((GLFWWindower*)window)->setWindowSizeFunc((GLFWwindowsizefun)_function);
 }
 
+void Engine::setMainCamera(Camera* _camera){
+	mainCamera = _camera;
+	mainCamera->setCameraScreenDimensions(window->getWidth(), window->getHeight());
+	renderer->setActiveCamera(mainCamera);
+	mainCamera->UpdateProjection(); //Initial camera projection update
+	mainCamera->UpdateCamera(); //Initial camera view update
+}
+
 void Engine::Init(){
 	//inputManager = InputManager::getInstance();
 	window->init();
@@ -51,12 +63,6 @@ void Engine::Init(){
 
 	resourceManager->addMesh(RESOUR_MODELNOTFOUND + std::string(".ply"), RESOUR_MODELNOTFOUND);
 	resourceManager->loadTexture(RESOUR_TEXTURENOTFOUND + std::string(".png"), RESOUR_TEXTURENOTFOUND);
-
-	camera = new Camera();
-	camera->setCameraScreenDimensions(window->getWidth(), window->getHeight());
-	camera->setZoom(10.0f);
-	renderer->setActiveCamera(camera);
-	camera->UpdateCamera(); //Initial camera update
 }
 
 void Engine::OnKeyEvent(GLFWwindow* _window, int _key, int _scancode, int _action, int _mods){
@@ -71,8 +77,8 @@ void Engine::OnKeyHandle(){
 void Engine::OnWindowResize(GLFWwindow* _window, int _width, int _height){
 	window->setWindowDimensions(_width, _height);
 	glViewport(0,0,_width, _height);
-	camera->setCameraScreenDimensions(_width, _height);
-	camera->UpdateProjection();
+	mainCamera->setCameraScreenDimensions(_width, _height);
+	mainCamera->UpdateProjection();
 }
 
 void Engine::Update(){
