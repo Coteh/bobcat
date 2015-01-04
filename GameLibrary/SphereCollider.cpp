@@ -1,7 +1,7 @@
 #include "SphereCollider.h"
 
 SphereCollider::SphereCollider() {
-	radius = 1.0f;
+	m_radius = 1.0f;
 	drawType = ColliderDebugDrawType::SPHERE;
 }
 
@@ -9,13 +9,13 @@ SphereCollider::~SphereCollider() {
 }
 
 float SphereCollider::getRadius(){
-	return radius;
+	return m_radius;
 }
 
 glm::vec3 SphereCollider::getDimensions(){
-	return glm::vec3(radius, radius, radius);
+	return glm::vec3(m_radius, m_radius, m_radius);
 }
 
 void SphereCollider::setRadius(float _radius){
-	radius = _radius;
+	m_radius = _radius;
 }

@@ -10,8 +10,8 @@ enum ColliderDebugDrawType{
 
 class Collider : public Component {
 private:
-	glm::vec3 position;
-	float scale;
+	glm::vec3 m_position;
+	float m_scale;
 protected:
 	ColliderDebugDrawType drawType;
 public:
@@ -28,4 +28,8 @@ public:
 	virtual void setDimensions(float _width, float _height, float _length){};
 	virtual void setDimensions(glm::vec3 _dim){};
 	virtual void setDebugDrawType(ColliderDebugDrawType _drawType);
+
+	__declspec(property(get = getPosition, put = setPosition)) glm::vec3 position;
+	__declspec(property(get = getRadius, put = setRadius)) float radius;
+	__declspec(property(get = getScale, put = setScale)) float scale;
 };

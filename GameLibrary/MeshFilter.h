@@ -4,13 +4,13 @@
 
 class MeshFilter : public Component {
 private:
-	Mesh* mesh_;
+	Mesh* m_mesh;
 public:
 	Mesh* getMesh(){
-		return mesh_;
+		return m_mesh;
 	}
 	void setMesh(Mesh* _mesh){
-		mesh_ = _mesh;
+		m_mesh = _mesh;
 	}
 	__declspec(property(get = getMesh, put = setMesh)) Mesh* mesh;
 

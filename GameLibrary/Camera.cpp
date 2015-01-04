@@ -10,9 +10,6 @@ Camera::Camera() {
 	view = glm::mat4();
 	projection = glm::mat4();
 	zoom = 10.0f;
-	position = glm::vec3(0, 0, 0);
-	forward = glm::vec3(0.0f, 0.0f, -1.0f);
-	up = glm::vec3(0.0f, 1.0f, 0.0f);
 }
 
 Camera::~Camera() {
@@ -27,26 +24,6 @@ glm::mat4 Camera::getProjection(){
 	return projection;
 }
 
-glm::vec3 Camera::getPosition(){
-	return position;
-}
-
-glm::vec3 Camera::getRotationEuler(){
-	return rotation;
-}
-
-glm::vec3 Camera::getForward(){
-	return forward;
-}
-
-glm::vec3 Camera::getRight(){
-	return right;
-}
-
-glm::vec3 Camera::getUp(){
-	return up;
-}
-
 void Camera::setCameraScreenDimensions(int _width, int _height){
 	screenWidth = _width;
 	screenHeight = _height;
@@ -57,31 +34,12 @@ void Camera::setZoom(float _zoom){
 	UpdateProjection();
 }
 
-void Camera::setPosition(glm::vec3 _position){
-	position = _position;
-	UpdateCamera();
-}
-
-void Camera::setRotationEuler(glm::vec3 _rot){
-	rotation = _rot;
-	UpdateCamera();
-}
-
 void Camera::IncrementZoom(float _zoom){
-	float zoomDir = (forward.z / ::abs(forward.z));
+	float zFor = (gameObject->transform != nullptr) ? gameObject->transform->forward.z : 1.0f;
+	float zoomDir = (zFor / ::abs(zFor));
 	if (zoomDir == 0) zoomDir = 1.0f;
 	zoom += _zoom * zoomDir;
 	UpdateProjection();
-}
-
-void Camera::Translate(glm::vec3 _offset){
-	position += _offset;
-	UpdateCamera();
-}
-
-void Camera::Rotate(glm::vec3 _rotEuler){
-	rotation += _rotEuler * up;
-	UpdateCamera();
 }
 
 /**
@@ -89,21 +47,20 @@ void Camera::Rotate(glm::vec3 _rotEuler){
 * Thank you Jake for the help!
 */
 void Camera::UpdateCamera(){
-	float cosPitch = cos(glm::radians(rotation.x));
-	float sinPitch = sin(glm::radians(rotation.x));
-	float cosYaw = cos(glm::radians(rotation.y));
-	float sinYaw = sin(glm::radians(rotation.y));
-
-	right = { cosYaw, 0, -sinYaw }; //x axis
-	up = { sinYaw * sinPitch, cosPitch, cosYaw * sinPitch }; //y axis
-	forward = { sinYaw * cosPitch, -sinPitch, cosPitch * cosYaw }; //z axis
+	//We need the game object's transform for its position and rotation
+	Transform* transform = gameObject->transform;
+	//If it isn't there, make view an identity matrix and exit
+	if (transform == nullptr){
+		view = glm::mat4(1.0f);
+		return;
+	}
 
 	//Setup the 4x4 view matrix using the right, up, forward, and eye (position) vectors
 	view = {
-		right.x, up.x, forward.x, 0,
-		right.y, up.y, forward.y, 0,
-		right.z, up.z, forward.z, 0,
-		-glm::dot(right, position), -glm::dot(up, position), -glm::dot(forward, position), 1
+		transform->right.x, transform->up.x, transform->forward.x, 0,
+		transform->right.y, transform->up.y, transform->forward.y, 0,
+		transform->right.z, transform->up.z, transform->forward.z, 0,
+		-glm::dot(transform->right, transform->position), -glm::dot(transform->up, transform->position), -glm::dot(transform->forward, transform->position), 1
 	};
 }
 
@@ -112,10 +69,5 @@ void Camera::UpdateProjection(){
 }
 
 void Camera::Update(float _deltaTime){
-	//If there's a change in transform position or rotation, update the camera accordingly
-	if (gameObject->transform->position != position || gameObject->transform->rotation != rotation){
-		position = gameObject->transform->position;
-		rotation = gameObject->transform->rotation;
-		UpdateCamera();
-	}
+	UpdateCamera();
 }

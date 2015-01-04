@@ -9,13 +9,17 @@ private:
 	GameObject* circleObj;
 	GameObject* planeObj;
 	GameObject* cameraObj;
+
 	glm::vec3 sphereTorque;
 	glm::vec3 origCameraPos;
 	glm::vec3 sphereOrigPos;
+
 	Ray* ray;
+
 	Material* mat;
 	Material* noTexMat;
 	glm::vec3 lightSource;
+
 	int mode;
 	int renderMode;
 	bool debugRenderOn;
@@ -28,6 +32,7 @@ public:
 	virtual void OnKeyHandle();
 	virtual void Update();
 	virtual void Draw();
+	void Quit();
 };
 
 class TestComponent : public Component {

@@ -9,11 +9,11 @@ Collider::~Collider(){
 }
 
 glm::vec3 Collider::getPosition(){
-	return position;
+	return m_position;
 }
 
 float Collider::getScale(){
-	return scale;
+	return m_scale;
 }
 
 float Collider::getRadius(){
@@ -29,11 +29,11 @@ ColliderDebugDrawType Collider::getDebugDrawType(){
 }
 
 void Collider::setPosition(glm::vec3 _pos){
-	position = _pos;
+	m_position = _pos;
 }
 
 void Collider::setScale(float _scaleAmt){
-	scale = _scaleAmt;
+	m_scale = _scaleAmt;
 }
 
 void Collider::setDebugDrawType(ColliderDebugDrawType _drawType){
