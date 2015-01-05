@@ -2,7 +2,7 @@
 #include "vgl.h"
 #include "DemoApp.h"
 
-#include "GLFWInputSystem.h"
+#include "GLFWAPIHolder.h"
 
 Engine* engine;
 
@@ -16,9 +16,9 @@ void onWindowChanged(int _width, int _height){
 
 int main(int argc, char const *argv[]) {
 	engine = new DemoApp(ENGINE_INIT);
-	engine->setKeyboardCallback(GLFWInputSystem::GLFWKeyFun);
+	engine->setKeyboardCallback(GLFWAPIHolder::GLFWKeyFun);
 	engine->getInputSystem()->registerListener(keyListener);
-	engine->setWindowChangedCallback(GLFWWindower::GLFWWindowSizeCallback);
+	engine->setWindowChangedCallback(GLFWAPIHolder::GLFWWindowSizeCallback);
 	((GLFWWindower*)engine->getWindower())->registerListener(onWindowChanged);
 
 	engine->Run();

@@ -20,8 +20,6 @@ class AbstractInputSystem {
 protected:
 	virtual int translateKeyCodeInput(int _keyCode) = 0;
 	virtual int translateInputStateOutput(int _inputState) = 0;
-
-	static AbstractInputSystem* currentInputSystem;
 public:
 	virtual int getInputState(int _keyCode) = 0;
 	virtual void setKeyboardCallback(void* _function) = 0;
@@ -30,13 +28,6 @@ public:
 
 	virtual void registerListener(void* _listenerFunc) = 0;
 	virtual void notifyListeners() = 0;
-
-	static AbstractInputSystem* getCurrentInputSystem() {
-		return currentInputSystem;
-	}
-	static void setCurrentInputSystem(AbstractInputSystem* _inputSystem){
-		currentInputSystem = _inputSystem;
-	}
 
 	virtual ~AbstractInputSystem(){};
 };

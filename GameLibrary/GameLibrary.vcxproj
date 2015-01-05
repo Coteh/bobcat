@@ -80,6 +80,7 @@
     <ClCompile Include="FileWriter.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameObjectCreator.cpp" />
+    <ClCompile Include="GLFWAPIHolder.cpp" />
     <ClCompile Include="GLFWInputSystem.cpp" />
     <ClCompile Include="GLFWWindower.cpp" />
     <ClCompile Include="LogManager.cpp" />
@@ -119,6 +120,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameObjectConstructionInfo.h" />
     <ClInclude Include="GameObjectCreator.h" />
+    <ClInclude Include="GLFWAPIHolder.h" />
     <ClInclude Include="GLFWInputSystem.h" />
     <ClInclude Include="GLFWWindower.h" />
     <ClInclude Include="IFileReader.h" />

@@ -1,7 +1,5 @@
 #include "GLFWWindower.h"
 
-GLFWWindower* GLFWWindower::currentlyActiveGLFWWindow;
-
 void error_callback(int error, const char* description) {
 	fputs(description, stderr);
 }
@@ -21,7 +19,6 @@ GLFWWindower::GLFWWindower(){
 	name = "Engine Window";
 	width = 640;
 	height = 640;
-	GLFWWindower::setCurrentlyActiveGLFWWindow(this);
 }
 
 GLFWWindower::~GLFWWindower(){
@@ -151,16 +148,7 @@ void GLFWWindower::notifyListeners() {
 	}
 }
 
-GLFWWindower* GLFWWindower::getCurrentlyActiveGLFWWindow() {
-	return currentlyActiveGLFWWindow;
-}
-
-void GLFWWindower::setCurrentlyActiveGLFWWindow(GLFWWindower* _glfwWindower) {
-	currentlyActiveGLFWWindow = _glfwWindower;
-}
-
 void GLFWWindower::OnWindowChanged(GLFWwindow* _window, int _width, int _height) {
 	setWindowDimensions(_width, _height);
-	glViewport(0, 0, _width, _height);
 	notifyListeners();
 }

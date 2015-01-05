@@ -28,12 +28,6 @@ public:
 
 	void GLFWKeyboardEvent(GLFWwindow* _window, int _key, int _scancode, int _action, int _mods);
 
-	static void GLFWKeyFun(GLFWwindow* _window, int _key, int _scancode, int _action, int _mods) {
-		if (currentInputSystem != nullptr){
-			((GLFWInputSystem*)currentInputSystem)->GLFWKeyboardEvent(_window, _key, _scancode, _action, _mods);
-		}
-	}
-
 	virtual ~GLFWInputSystem();
 };
 

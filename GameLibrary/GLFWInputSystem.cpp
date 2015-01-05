@@ -1,10 +1,7 @@
 #include "GLFWInputSystem.h"
 
-AbstractInputSystem* AbstractInputSystem::currentInputSystem;
-
 GLFWInputSystem::GLFWInputSystem(GLFWWindower* _glfwWindower) {
 	setGLFWWindower(_glfwWindower);
-	setCurrentInputSystem(this);
 }
 
 GLFWInputSystem::~GLFWInputSystem() {

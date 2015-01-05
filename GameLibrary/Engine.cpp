@@ -2,6 +2,7 @@
 #include "GLFWWindower.h"
 #include "GLFWInputSystem.h"
 #include "OpenGLRenderSystem.h"
+#include "GLFWAPIHolder.h"
 
 Engine::Engine() {
 	logManager = LogManager::getInstance();
@@ -11,6 +12,7 @@ Engine::Engine() {
 	Clock::init();
 	window = new GLFWWindower();
 	inputSystem = new GLFWInputSystem((GLFWWindower*)window);
+	GLFWAPIHolder::registerGLFWSystems((GLFWWindower*)window, (GLFWInputSystem*)inputSystem);
 	renderer = new OpenGLRenderSystem();
 	resourceManager = ResourceManager::getInstance();
 	sceneManager = SceneManager::getInstance();

@@ -18,8 +18,6 @@ private:
 	std::vector<void*> listenerFuncVec;
 
 	void setKeyboardCallback(GLFWkeyfun _keyboardFunc);
-
-	static GLFWWindower* currentlyActiveGLFWWindow;
 public:
 	GLFWWindower();
 	virtual ~GLFWWindower();
@@ -42,14 +40,5 @@ public:
 
 	virtual void registerListener(void* _listenerFunc);
 	virtual void notifyListeners();
-
-	static GLFWWindower* getCurrentlyActiveGLFWWindow();
-	static void setCurrentlyActiveGLFWWindow(GLFWWindower* _glfwWindower);
-
-	static void GLFWWindowSizeCallback(GLFWwindow* _window, int _width, int _height) {
-		if (currentlyActiveGLFWWindow != nullptr) {
-			currentlyActiveGLFWWindow->OnWindowChanged(_window, _width, _height);
-		}
-	}
 };
 
