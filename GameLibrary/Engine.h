@@ -1,11 +1,12 @@
 #pragma once
 
 #include "Clock.h"
-#include "GLFWWindower.h"
+#include "AbstractWindower.h"
 #include "LogManager.h"
 #include "ConfigManager.h"
-//#include "InputManager.h"
-#include "OpenGLRenderSystem.h"
+#include "AbstractInputSystem.h"
+#include "AbstractRenderSystem.h"
+#include "ShaderManager.h"
 #include "ResourceManager.h"
 #include "SceneManager.h"
 #include "PLYModelReader.h"
@@ -21,13 +22,12 @@
 
 class Engine {
 private:
-	Camera* mainCamera;
-	bool isKeyPressed;
+	Camera* m_mainCamera;
 protected:
 	AbstractWindower* window;
 	LogManager* logManager;
 	ConfigManager* configManager;
-	//InputManager* inputManager;
+	AbstractInputSystem* inputSystem;
 	AbstractRenderSystem* renderer;
 	SceneManager* sceneManager;
 	ResourceManager* resourceManager;
@@ -35,9 +35,7 @@ protected:
 
 	Camera* getMainCamera();
 	void setMainCamera(Camera* _camera);
-	__declspec(property(get = getMainCamera, put = setMainCamera)) Camera* MainCamera;
-
-	int lastKeyAction;
+	__declspec(property(get = getMainCamera, put = setMainCamera)) Camera* mainCamera;
 
 	float gameTime = 0.0f;
 	float deltaTime = 0.016f;
@@ -50,16 +48,19 @@ public:
 	bool getIsWindowRunning();
 	void setScreenDimensions(int _width, int _height);
 	void setGameRunning(bool _expression);
-	void setKeyboardFunc(void* _function);
-	void setWindowSizeFunc(void* _function);
+	void setKeyboardCallback(void* _keyboardFunc);
+	void setWindowChangedCallback(void* _windowFunc);
 	virtual void Init();
-	virtual void OnKeyEvent(GLFWwindow* _window, int _key, int _scancode, int _action, int _mods);
-	virtual void OnKeyHandle();
-	virtual void OnWindowResize(GLFWwindow* _window, int _width, int _height);
+	virtual void OnKeyEvent();
+	virtual void OnWindowResize(int _width, int _height);
 	virtual void Update();
+	virtual void InputUpdate();
 	void DrawBegin();
 	virtual void Draw();
 	void DrawEnd();
 	void Run();
+
+	AbstractInputSystem* getInputSystem();
+	AbstractWindower* getWindower();
 };
 

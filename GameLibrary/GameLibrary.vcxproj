@@ -80,6 +80,7 @@
     <ClCompile Include="FileWriter.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameObjectCreator.cpp" />
+    <ClCompile Include="GLFWInputSystem.cpp" />
     <ClCompile Include="GLFWWindower.cpp" />
     <ClCompile Include="LogManager.cpp" />
     <ClCompile Include="Mesh.cpp" />
@@ -101,6 +102,7 @@
     <ClCompile Include="Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AbstractInputSystem.h" />
     <ClInclude Include="AbstractRenderSystem.h" />
     <ClInclude Include="AbstractWindower.h" />
     <ClInclude Include="BoxCollider.h" />
@@ -117,6 +119,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameObjectConstructionInfo.h" />
     <ClInclude Include="GameObjectCreator.h" />
+    <ClInclude Include="GLFWInputSystem.h" />
     <ClInclude Include="GLFWWindower.h" />
     <ClInclude Include="IFileReader.h" />
     <ClInclude Include="IFileWriter.h" />

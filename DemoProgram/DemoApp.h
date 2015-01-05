@@ -28,21 +28,20 @@ public:
 	DemoApp(int _engineCmd);
 	virtual ~DemoApp();
 	virtual void Init();
-	virtual void OnKeyEvent(GLFWwindow* _window, int _key, int _scancode, int _action, int _mods);
-	virtual void OnKeyHandle();
+	virtual void OnKeyEvent();
 	virtual void Update();
+	virtual void InputUpdate();
 	virtual void Draw();
 	void Quit();
 };
 
-class TestComponent : public Component {
+class TestDisplayPosition : public Component {
 public:
-	int testNum;
-	TestComponent(){ testNum = 10; }
+	TestDisplayPosition(){}
 	virtual void Update(float _deltaTime){
 		TestDisplay();
 	}
 	void TestDisplay(){
-		printf("%d", testNum);
+		printf("(%f, %f, %f)\n", gameObject->transform->position.x, gameObject->transform->position.y, gameObject->transform->position.z);
 	}
 };

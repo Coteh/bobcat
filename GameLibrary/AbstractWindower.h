@@ -11,6 +11,7 @@ public:
 	virtual bool isVisible() = 0;
 	virtual bool isRunning() = 0;
 	virtual void setWindowDimensions(int _width, int _height) = 0;
+	virtual void setWindowChangedCallback(void* _function) = 0;
 	virtual void setName(const char* _name) = 0;
 	virtual void showWindow(int _expression) = 0;
 	virtual void init() = 0;

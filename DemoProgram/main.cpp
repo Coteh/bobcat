@@ -2,20 +2,24 @@
 #include "vgl.h"
 #include "DemoApp.h"
 
+#include "GLFWInputSystem.h"
+
 Engine* engine;
 
-void keyWrapper(GLFWwindow* _window, int _key, int _scancode, int _action, int _mods){
-	engine->OnKeyEvent(_window, _key, _scancode, _action, _mods);
+void keyListener(){
+	engine->OnKeyEvent();
 }
 
-void windowSizeCallback(GLFWwindow* _window, int _width, int _height) {
-	engine->OnWindowResize(_window, _width, _height);
+void onWindowChanged(int _width, int _height){
+	engine->OnWindowResize(_width, _height);
 }
 
 int main(int argc, char const *argv[]) {
 	engine = new DemoApp(ENGINE_INIT);
-	engine->setKeyboardFunc(keyWrapper);
-	engine->setWindowSizeFunc(windowSizeCallback);
+	engine->setKeyboardCallback(GLFWInputSystem::GLFWKeyFun);
+	engine->getInputSystem()->registerListener(keyListener);
+	engine->setWindowChangedCallback(GLFWWindower::GLFWWindowSizeCallback);
+	((GLFWWindower*)engine->getWindower())->registerListener(onWindowChanged);
 
 	engine->Run();
 

@@ -1,4 +1,7 @@
 #include "Engine.h"
+#include "GLFWWindower.h"
+#include "GLFWInputSystem.h"
+#include "OpenGLRenderSystem.h"
 
 Engine::Engine() {
 	logManager = LogManager::getInstance();
@@ -7,6 +10,7 @@ Engine::Engine() {
 	configManager->readConfigFile("engine.config");
 	Clock::init();
 	window = new GLFWWindower();
+	inputSystem = new GLFWInputSystem((GLFWWindower*)window);
 	renderer = new OpenGLRenderSystem();
 	resourceManager = ResourceManager::getInstance();
 	sceneManager = SceneManager::getInstance();
@@ -29,7 +33,7 @@ bool Engine::getIsWindowRunning(){
 }
 
 Camera* Engine::getMainCamera(){
-	return mainCamera;
+	return m_mainCamera;
 }
 
 void Engine::setScreenDimensions(int _width, int _height){
@@ -40,20 +44,20 @@ void Engine::setGameRunning(bool _expression){
 	isGameRunning = _expression;
 }
 
-void Engine::setKeyboardFunc(void* _function){
-	((GLFWWindower*)window)->setKeyboardFunc((GLFWkeyfun)_function);
+void Engine::setKeyboardCallback(void* _keyboardFunc){
+	inputSystem->setKeyboardCallback(_keyboardFunc);
 }
 
-void Engine::setWindowSizeFunc(void* _function){
-	((GLFWWindower*)window)->setWindowSizeFunc((GLFWwindowsizefun)_function);
+void Engine::setWindowChangedCallback(void* _windowFunc){
+	window->setWindowChangedCallback(_windowFunc);
 }
 
 void Engine::setMainCamera(Camera* _camera){
-	mainCamera = _camera;
-	mainCamera->setCameraScreenDimensions(window->getWidth(), window->getHeight());
-	renderer->setActiveCamera(mainCamera);
-	mainCamera->UpdateProjection(); //Initial camera projection update
-	mainCamera->UpdateCamera(); //Initial camera view update
+	m_mainCamera = _camera;
+	m_mainCamera->setCameraScreenDimensions(window->getWidth(), window->getHeight());
+	renderer->setActiveCamera(m_mainCamera);
+	m_mainCamera->UpdateProjection(); //Initial camera projection update
+	m_mainCamera->UpdateCamera(); //Initial camera view update
 }
 
 void Engine::Init(){
@@ -65,29 +69,22 @@ void Engine::Init(){
 	resourceManager->loadTexture(RESOUR_TEXTURENOTFOUND + std::string(".png"), RESOUR_TEXTURENOTFOUND);
 }
 
-void Engine::OnKeyEvent(GLFWwindow* _window, int _key, int _scancode, int _action, int _mods){
-	isKeyPressed = (_action == GLFW_PRESS || _action == GLFW_REPEAT || (_action == GLFW_RELEASE && lastKeyAction == GLFW_PRESS) || (_action == GLFW_RELEASE && lastKeyAction == GLFW_REPEAT));
-	lastKeyAction = _action;
+void Engine::InputUpdate() {
+
 }
 
-void Engine::OnKeyHandle(){
-	
-}
+void Engine::OnKeyEvent() {}
 
-void Engine::OnWindowResize(GLFWwindow* _window, int _width, int _height){
-	window->setWindowDimensions(_width, _height);
-	glViewport(0,0,_width, _height);
-	mainCamera->setCameraScreenDimensions(_width, _height);
-	mainCamera->UpdateProjection();
+void Engine::OnWindowResize(int _width, int _height){
+	m_mainCamera->setCameraScreenDimensions(_width, _height);
+	m_mainCamera->UpdateProjection();
 }
 
 void Engine::Update(){
 	float newGameTime = Clock::getCurrentTime();
 	deltaTime = newGameTime - gameTime;
 	gameTime = newGameTime;
-	//if (isKeyPressed){
-		OnKeyHandle();
-	//}
+	InputUpdate();
 }
 
 void Engine::DrawBegin(){
@@ -110,6 +107,14 @@ void Engine::Run(){
 		Draw();
 		DrawEnd();
 	}
+}
+
+AbstractInputSystem* Engine::getInputSystem() {
+	return inputSystem;
+}
+
+AbstractWindower* Engine::getWindower() {
+	return window;
 }
 
 Engine::~Engine() {

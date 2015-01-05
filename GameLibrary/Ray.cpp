@@ -9,7 +9,7 @@ bool Ray::intersects(glm::vec3 _pos, float _radius, float *_dist){
 	rayToSphereDir = _pos - origin;
 	rayToSphereLength = glm::dot(rayToSphereDir, rayToSphereDir);
 
-	intersectPoint = glm::dot(rayToSphereDir, direction);
+	intersectPoint = glm::dot(rayToSphereDir, -direction);
 
 	if (intersectPoint < 0){
 		return false;

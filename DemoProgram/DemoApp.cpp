@@ -6,6 +6,8 @@
 #define MOVE_SPEED 25.0f
 #define ROTATE_SPEED 100.0f
 
+#define RAY_DIST_LIMIT 10.0f
+
 DemoApp::DemoApp() {
 	mode = 0;
 	renderMode = 0;
@@ -131,8 +133,6 @@ void DemoApp::Init(){
 	planeObj = GameObjectCreator::ConstructFrom(planeObjInfo);
 	planeObj->renderer->material = mat;
 	scene->addGameObject(planeObj);
-	planeObj->AddComponent<TestComponent>();
-	printf("This component says %d\n", planeObj->GetComponent<TestComponent>()->testNum);
 
 	logManager->writeLog(LogLevel::LOG_NONE, "This is a test log");
 	logManager->writeLog(LogLevel::LOG_INFO, "This is a test log also");
@@ -142,110 +142,109 @@ void DemoApp::Init(){
 	cameraObjInfo.setTransformValues(glm::vec3(0, 0, 20), glm::vec3(0.0f), glm::vec3(1.0f));
 	//cameraObjInfo.setRigidbodyValues(glm::vec3(0), glm::vec3(0.0f, 35.0f, 0.0f), 0.0f);
 	cameraObj = GameObjectCreator::ConstructFrom(cameraObjInfo);
-	MainCamera = cameraObj->AddComponent<Camera>();
+	mainCamera = cameraObj->AddComponent<Camera>();
+	cameraObj->AddComponent<TestDisplayPosition>();
 	scene->addGameObject(cameraObj);
 
 	origCameraPos = cameraObj->transform->position;
 
 	lightSource = glm::vec3(0.0, -10.0, -1000.0);
 
-	ray = new Ray(MainCamera->gameObject->transform->position, MainCamera->gameObject->transform->forward);
+	ray = new Ray(mainCamera->gameObject->transform->position, mainCamera->gameObject->transform->forward);
 
 	renderer->setDebugRender(debugRenderOn);
 }
 
-void DemoApp::OnKeyEvent(GLFWwindow* _window, int _key, int _scancode, int _action, int _mods){
-	Engine::OnKeyEvent(_window, _key, _scancode, _action, _mods);
-	if (_action == GLFW_PRESS){
-		if (_key == GLFW_KEY_ESCAPE){
-			Quit();
-		} else if (_key == GLFW_KEY_1){
-			mode = 0;
-		} else if (_key == GLFW_KEY_2){
-			mode = 1;
-		} else if (_key == GLFW_KEY_U){
-			debugRenderOn = !debugRenderOn;
-			renderer->setDebugRender(debugRenderOn);
-		} else if (_key == GLFW_KEY_Y){
-			renderMode = !renderMode;
-			if (renderMode){
-				cubeObj->renderer->material = noTexMat;
-				torusObj->renderer->material = noTexMat;
-				circleObj->renderer->material = noTexMat;
-				planeObj->renderer->material = noTexMat;
-			} else{
-				cubeObj->renderer->material = mat;
-				torusObj->renderer->material = mat;
-				circleObj->renderer->material = mat;
-				planeObj->renderer->material = mat;
-			}
-		} else if (_key == GLFW_KEY_C){
-			planeObj->RemoveComponent<TestComponent>();
+void DemoApp::OnKeyEvent(){
+	Engine::OnKeyEvent();
+	if (inputSystem->getInputState(InputEnums::KeyCode::KEY_ESCAPE) == InputEnums::InputState::INPUT_PRESSED){
+		Quit();
+	} else if (inputSystem->getInputState(InputEnums::KeyCode::KEY_1) == InputEnums::InputState::INPUT_PRESSED){
+		mode = 0;
+	} else if (inputSystem->getInputState(InputEnums::KeyCode::KEY_2) == InputEnums::InputState::INPUT_PRESSED){
+		mode = 1;
+	} else if (inputSystem->getInputState(InputEnums::KeyCode::KEY_U) == InputEnums::InputState::INPUT_PRESSED){
+		debugRenderOn = !debugRenderOn;
+		renderer->setDebugRender(debugRenderOn);
+	} else if (inputSystem->getInputState(InputEnums::KeyCode::KEY_Y) == InputEnums::InputState::INPUT_PRESSED){
+		renderMode = !renderMode;
+		if (renderMode){
+			cubeObj->renderer->material = noTexMat;
+			torusObj->renderer->material = noTexMat;
+			circleObj->renderer->material = noTexMat;
+			planeObj->renderer->material = noTexMat;
+		} else{
+			cubeObj->renderer->material = mat;
+			torusObj->renderer->material = mat;
+			circleObj->renderer->material = mat;
+			planeObj->renderer->material = mat;
 		}
+	} else if (inputSystem->getInputState(InputEnums::KeyCode::KEY_C) == InputEnums::InputState::INPUT_PRESSED){
+		cameraObj->RemoveComponent<TestDisplayPosition>();
 	}
 }
 
-void DemoApp::OnKeyHandle(){
-	Engine::OnKeyHandle();
+void DemoApp::InputUpdate(){
+	Engine::InputUpdate();
 	switch (mode){
 	case 0:
 		//Camera Controls
-		if (((GLFWWindower*)window)->getGLFWKeyState(GLFW_KEY_UP) == GLFW_PRESS){
+		if (inputSystem->getInputState(InputEnums::KeyCode::KEY_UP) == InputEnums::InputState::INPUT_PRESSED){
 			cameraObj->transform->position += -MOVE_SPEED * cameraObj->transform->forward * deltaTime;
 		}
-		if (((GLFWWindower*)window)->getGLFWKeyState(GLFW_KEY_DOWN) == GLFW_PRESS){
+		if (inputSystem->getInputState(InputEnums::KeyCode::KEY_DOWN) == InputEnums::InputState::INPUT_PRESSED){
 			cameraObj->transform->position += MOVE_SPEED * cameraObj->transform->forward * deltaTime;
 		}
-		if (((GLFWWindower*)window)->getGLFWKeyState(GLFW_KEY_LEFT) == GLFW_PRESS){
+		if (inputSystem->getInputState(InputEnums::KeyCode::KEY_LEFT) == InputEnums::InputState::INPUT_PRESSED){
 			cameraObj->transform->position += -MOVE_SPEED * cameraObj->transform->right * deltaTime;
 		}
-		if (((GLFWWindower*)window)->getGLFWKeyState(GLFW_KEY_RIGHT) == GLFW_PRESS){
+		if (inputSystem->getInputState(InputEnums::KeyCode::KEY_RIGHT) == InputEnums::InputState::INPUT_PRESSED){
 			cameraObj->transform->position += MOVE_SPEED * cameraObj->transform->right * deltaTime;
 		}
-		if (((GLFWWindower*)window)->getGLFWKeyState(GLFW_KEY_A) == GLFW_PRESS){
+		if (inputSystem->getInputState(InputEnums::KeyCode::KEY_A) == InputEnums::InputState::INPUT_PRESSED){
 			cameraObj->transform->rotation += ROTATE_SPEED * cameraObj->transform->up * deltaTime;
 		}
-		if (((GLFWWindower*)window)->getGLFWKeyState(GLFW_KEY_D) == GLFW_PRESS){
+		if (inputSystem->getInputState(InputEnums::KeyCode::KEY_D) == InputEnums::InputState::INPUT_PRESSED){
 			cameraObj->transform->rotation += -ROTATE_SPEED * cameraObj->transform->up * deltaTime;
 		}
-		if (((GLFWWindower*)window)->getGLFWKeyState(GLFW_KEY_W) == GLFW_PRESS){
-			cameraObj->transform->rotation += ROTATE_SPEED * cameraObj->transform->right * deltaTime;
+		if (inputSystem->getInputState(InputEnums::KeyCode::KEY_W) == InputEnums::InputState::INPUT_PRESSED){
+			cameraObj->transform->rotation += ROTATE_SPEED * glm::normalize(glm::abs(cameraObj->transform->right)) * deltaTime;
 		}
-		if (((GLFWWindower*)window)->getGLFWKeyState(GLFW_KEY_S) == GLFW_PRESS){
-			cameraObj->transform->rotation += -ROTATE_SPEED * cameraObj->transform->right * deltaTime;
+		if (inputSystem->getInputState(InputEnums::KeyCode::KEY_S) == InputEnums::InputState::INPUT_PRESSED){
+			cameraObj->transform->rotation += -ROTATE_SPEED * glm::normalize(glm::abs(cameraObj->transform->right)) * deltaTime;
 		}
-		if (((GLFWWindower*)window)->getGLFWKeyState(GLFW_KEY_R) == GLFW_PRESS){
+		if (inputSystem->getInputState(InputEnums::KeyCode::KEY_R) == InputEnums::InputState::INPUT_PRESSED){
 			cameraObj->transform->position = origCameraPos;
 			cameraObj->transform->rotation = glm::vec3(0.0f, 0.0f, 0.0f);
 		}
 		break;
 	case 1:
 		//Sphere Controls
-		if (((GLFWWindower*)window)->getGLFWKeyState(GLFW_KEY_UP) == GLFW_PRESS){
+		if (inputSystem->getInputState(InputEnums::KeyCode::KEY_UP) == InputEnums::InputState::INPUT_PRESSED){
 			cubeObj->transform->position += glm::vec3(0.0f, MOVE_SPEED, 0.0f) * deltaTime;
 		}
-		if (((GLFWWindower*)window)->getGLFWKeyState(GLFW_KEY_DOWN) == GLFW_PRESS){
+		if (inputSystem->getInputState(InputEnums::KeyCode::KEY_DOWN) == InputEnums::InputState::INPUT_PRESSED){
 			cubeObj->transform->position += glm::vec3(0.0f, -MOVE_SPEED, 0.0f) * deltaTime;
 		}
-		if (((GLFWWindower*)window)->getGLFWKeyState(GLFW_KEY_LEFT) == GLFW_PRESS){
+		if (inputSystem->getInputState(InputEnums::KeyCode::KEY_LEFT) == InputEnums::InputState::INPUT_PRESSED){
 			cubeObj->transform->position += glm::vec3(-MOVE_SPEED, 0.0f, 0.0f) * deltaTime;
 		}
-		if (((GLFWWindower*)window)->getGLFWKeyState(GLFW_KEY_RIGHT) == GLFW_PRESS){
+		if (inputSystem->getInputState(InputEnums::KeyCode::KEY_RIGHT) == InputEnums::InputState::INPUT_PRESSED){
 			cubeObj->transform->position += glm::vec3(MOVE_SPEED, 0.0f, 0.0f) * deltaTime;
 		} 
-		if (((GLFWWindower*)window)->getGLFWKeyState(GLFW_KEY_A) == GLFW_PRESS){
+		if (inputSystem->getInputState(InputEnums::KeyCode::KEY_A) == InputEnums::InputState::INPUT_PRESSED){
 			cubeObj->transform->rotation += glm::vec3(0.0f, -ROTATE_SPEED, 0.0f) * deltaTime;
 		}
-		if (((GLFWWindower*)window)->getGLFWKeyState(GLFW_KEY_D) == GLFW_PRESS){
+		if (inputSystem->getInputState(InputEnums::KeyCode::KEY_D) == InputEnums::InputState::INPUT_PRESSED){
 			cubeObj->transform->rotation += glm::vec3(0.0f, ROTATE_SPEED, 0.0f) * deltaTime;
 		}
-		if (((GLFWWindower*)window)->getGLFWKeyState(GLFW_KEY_W) == GLFW_PRESS){
+		if (inputSystem->getInputState(InputEnums::KeyCode::KEY_W) == InputEnums::InputState::INPUT_PRESSED){
 			cubeObj->transform->rotation += glm::vec3(ROTATE_SPEED, 0.0f, 0.0f) * deltaTime;
 		}
-		if (((GLFWWindower*)window)->getGLFWKeyState(GLFW_KEY_S) == GLFW_PRESS){
+		if (inputSystem->getInputState(InputEnums::KeyCode::KEY_S) == InputEnums::InputState::INPUT_PRESSED){
 			cubeObj->transform->rotation += glm::vec3(-ROTATE_SPEED, 0.0f, 0.0f) * deltaTime;
 		}
-		if (((GLFWWindower*)window)->getGLFWKeyState(GLFW_KEY_R) == GLFW_PRESS){
+		if (inputSystem->getInputState(InputEnums::KeyCode::KEY_R) == InputEnums::InputState::INPUT_PRESSED){
 			cubeObj->transform->position = sphereOrigPos;
 			cubeObj->transform->rotation = glm::vec3(0.0f, 0.0f, 0.0f);
 		}
@@ -256,12 +255,12 @@ void DemoApp::OnKeyHandle(){
 void DemoApp::Update(){
 	Engine::Update();
 	scene->updateGameObjects(deltaTime);
-	ray->updateRay(MainCamera->gameObject->transform->position, MainCamera->gameObject->transform->forward);
+	ray->updateRay(mainCamera->gameObject->transform->position, mainCamera->gameObject->transform->forward);
 	float dist;
 	Collider* col = cubeObj->collider;
-	if (ray->intersects(col->position, col->radius * col->scale, &dist)){
+	if (ray->intersects(col->position, col->radius * col->scale, &dist) && (RAY_DIST_LIMIT == 0.0f ^ dist <= RAY_DIST_LIMIT)){
 		//Something will happen here
-		printf("Hit!");
+		printf("Hit! at dist %f", dist);
 	}else{
 		//Something else will happen here
 	}

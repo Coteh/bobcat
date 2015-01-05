@@ -1,5 +1,7 @@
 #include "GLFWWindower.h"
 
+GLFWWindower* GLFWWindower::currentlyActiveGLFWWindow;
+
 void error_callback(int error, const char* description) {
 	fputs(description, stderr);
 }
@@ -19,6 +21,7 @@ GLFWWindower::GLFWWindower(){
 	name = "Engine Window";
 	width = 640;
 	height = 640;
+	GLFWWindower::setCurrentlyActiveGLFWWindow(this);
 }
 
 GLFWWindower::~GLFWWindower(){
@@ -53,17 +56,17 @@ void GLFWWindower::setWindowDimensions(int _width, int _height){
 	height = _height;
 }
 
-void GLFWWindower::setName(const char* _name){
-	glfwSetWindowTitle(window, _name);
-	name = _name;
+void GLFWWindower::setWindowChangedCallback(void* _windowFunc) {
+	glfwSetWindowSizeCallback(window, (GLFWwindowsizefun)_windowFunc);
 }
 
-void GLFWWindower::setKeyboardFunc(GLFWkeyfun _keyboardFunc){
+void GLFWWindower::setKeyboardCallback(GLFWkeyfun _keyboardFunc) {
 	glfwSetKeyCallback(window, _keyboardFunc);
 }
 
-void GLFWWindower::setWindowSizeFunc(GLFWwindowsizefun _windowFunc){
-	glfwSetWindowSizeCallback(window, _windowFunc);
+void GLFWWindower::setName(const char* _name){
+	glfwSetWindowTitle(window, _name);
+	name = _name;
 }
 
 void GLFWWindower::showWindow(int _expression){
@@ -136,4 +139,28 @@ void GLFWWindower::closeWindow(){
 
 int GLFWWindower::getGLFWKeyState(int _key){
 	return glfwGetKey(window, _key);
+}
+
+void GLFWWindower::registerListener(void* _listenerFunc) {
+	listenerFuncVec.push_back(_listenerFunc);
+}
+
+void GLFWWindower::notifyListeners() {
+	for (size_t i = 0; i < listenerFuncVec.size(); i++){
+		((void(*)(int, int))listenerFuncVec[i])(width, height);
+	}
+}
+
+GLFWWindower* GLFWWindower::getCurrentlyActiveGLFWWindow() {
+	return currentlyActiveGLFWWindow;
+}
+
+void GLFWWindower::setCurrentlyActiveGLFWWindow(GLFWWindower* _glfwWindower) {
+	currentlyActiveGLFWWindow = _glfwWindower;
+}
+
+void GLFWWindower::OnWindowChanged(GLFWwindow* _window, int _width, int _height) {
+	setWindowDimensions(_width, _height);
+	glViewport(0, 0, _width, _height);
+	notifyListeners();
 }
