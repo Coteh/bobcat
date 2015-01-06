@@ -12,5 +12,7 @@ public:
 	static void GLFWWindowSizeCallback(GLFWwindow* _window, int _width, int _height);
 
 	static void GLFWKeyFun(GLFWwindow* _window, int _key, int _scancode, int _action, int _mods);
+
+	static void GLFWErrorCallback(int _error, const char* _descrip);
 };
 

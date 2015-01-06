@@ -1,5 +1,6 @@
 #include "Engine.h"
 #include "GLFWWindower.h"
+#include "SFMLWindower.h"
 #include "GLFWInputSystem.h"
 #include "OpenGLRenderSystem.h"
 #include "GLFWAPIHolder.h"
@@ -10,9 +11,15 @@ Engine::Engine() {
 	configManager = ConfigManager::getInstance();
 	configManager->readConfigFile("engine.config");
 	Clock::init();
+#ifdef WINDOWING_GLFW
 	window = new GLFWWindower();
 	inputSystem = new GLFWInputSystem((GLFWWindower*)window);
 	GLFWAPIHolder::registerGLFWSystems((GLFWWindower*)window, (GLFWInputSystem*)inputSystem);
+#endif
+#ifdef WINDOWING_SFML
+	window = new SFMLWindower();
+	inputSystem = nullptr; //for now
+#endif
 	renderer = new OpenGLRenderSystem();
 	resourceManager = ResourceManager::getInstance();
 	sceneManager = SceneManager::getInstance();
@@ -44,14 +51,6 @@ void Engine::setScreenDimensions(int _width, int _height){
 
 void Engine::setGameRunning(bool _expression){
 	isGameRunning = _expression;
-}
-
-void Engine::setKeyboardCallback(void* _keyboardFunc){
-	inputSystem->setKeyboardCallback(_keyboardFunc);
-}
-
-void Engine::setWindowChangedCallback(void* _windowFunc){
-	window->setWindowChangedCallback(_windowFunc);
 }
 
 void Engine::setMainCamera(Camera* _camera){

@@ -19,3 +19,7 @@ void GLFWAPIHolder::GLFWKeyFun(GLFWwindow* _window, int _key, int _scancode, int
 		glfwInputSystem->GLFWKeyboardEvent(_window, _key, _scancode, _action, _mods);
 	}
 }
+
+void GLFWAPIHolder::GLFWErrorCallback(int _error, const char* _descrip) {
+	fputs(_descrip, stderr);
+}

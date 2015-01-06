@@ -91,7 +91,7 @@ void DemoApp::Init(){
 
 	/*Adding Materials*/
 	mat = new Material();
-	mat->color = glm::vec4(1.0, 0.0, 0.0, 1.0);
+	mat->color = glm::vec4(0.0, 0.0, 1.0, 1.0);
 	mat->shader = shaderManager->getShader(TEXTURE_MODEL);
 	mat->texture = tex;
 	noTexMat = new Material();
@@ -185,6 +185,7 @@ void DemoApp::OnKeyEvent(){
 }
 
 void DemoApp::InputUpdate(){
+	if (inputSystem == nullptr) return;
 	Engine::InputUpdate();
 	switch (mode){
 	case 0:

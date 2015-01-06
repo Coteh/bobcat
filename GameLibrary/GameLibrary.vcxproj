@@ -39,8 +39,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(RAPIDJSON)\include;$(SOIL)\src;$(GLM);$(GLFW_SOURCE)\include;$(OPEN_GL)\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SOIL)\lib;$(GLFW_BUILT)\lib-msvc120;$(OPEN_GL)\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SFML_SOURCE)\include;$(RAPIDJSON)\include;$(SOIL)\src;$(GLM);$(GLFW_SOURCE)\include;$(OPEN_GL)\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SFML_BUILT)\lib\Release;$(SOIL)\lib;$(GLFW_BUILT)\lib-msvc120;$(OPEN_GL)\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -86,6 +86,8 @@
     <ClCompile Include="LogManager.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshRenderer.cpp" />
+    <ClCompile Include="Notifier.cpp" />
+    <ClCompile Include="OpenGLHelpers.cpp" />
     <ClCompile Include="OpenGLRenderSystem.cpp" />
     <ClCompile Include="Plane.cpp" />
     <ClCompile Include="PLYModelReader.cpp" />
@@ -95,6 +97,7 @@
     <ClCompile Include="Rigidbody.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="SFMLWindower.cpp" />
     <ClCompile Include="ShaderLoader.cpp" />
     <ClCompile Include="ShaderManager.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
@@ -104,6 +107,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AbstractInputSystem.h" />
+    <ClInclude Include="AbstractNotifier.h" />
     <ClInclude Include="AbstractRenderSystem.h" />
     <ClInclude Include="AbstractWindower.h" />
     <ClInclude Include="BoxCollider.h" />
@@ -132,6 +136,8 @@
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshFilter.h" />
     <ClInclude Include="MeshRenderer.h" />
+    <ClInclude Include="Notifier.h" />
+    <ClInclude Include="OpenGLHelpers.h" />
     <ClInclude Include="OpenGLRenderSystem.h" />
     <ClInclude Include="Plane.h" />
     <ClInclude Include="PLYModelReader.h" />
@@ -141,6 +147,7 @@
     <ClInclude Include="Rigidbody.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="SFMLWindower.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderLoader.h" />
     <ClInclude Include="ShaderManager.h" />

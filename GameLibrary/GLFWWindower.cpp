@@ -1,16 +1,6 @@
 #include "GLFWWindower.h"
-
-void error_callback(int error, const char* description) {
-	fputs(description, stderr);
-}
-
-void printVersionInfo() {
-	printf("============================================================\n");
-	printf("Renderer: %s\n", glGetString(GL_RENDERER));
-	printf("OpenGL Version: %s\n", glGetString(GL_VERSION));
-	printf("OpenGL Shading Language Version: %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
-	printf("============================================================\n\n");
-}
+#include "GLFWAPIHolder.h"
+#include "OpenGLHelpers.h"
 
 GLFWWindower::GLFWWindower(){
 	configManager = ConfigManager::getInstance();
@@ -53,14 +43,6 @@ void GLFWWindower::setWindowDimensions(int _width, int _height){
 	height = _height;
 }
 
-void GLFWWindower::setWindowChangedCallback(void* _windowFunc) {
-	glfwSetWindowSizeCallback(window, (GLFWwindowsizefun)_windowFunc);
-}
-
-void GLFWWindower::setKeyboardCallback(GLFWkeyfun _keyboardFunc) {
-	glfwSetKeyCallback(window, _keyboardFunc);
-}
-
 void GLFWWindower::setName(const char* _name){
 	glfwSetWindowTitle(window, _name);
 	name = _name;
@@ -89,7 +71,7 @@ void GLFWWindower::init(){
 	//glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	//Set GLFW error callback
-	glfwSetErrorCallback(error_callback);
+	glfwSetErrorCallback(GLFWAPIHolder::GLFWErrorCallback);
 
 	//Get window settings from Config Manager
 	configManager->getWindowSettings(name, width, height);
@@ -99,8 +81,10 @@ void GLFWWindower::init(){
 	//Check if window creation was unsuccessful (window is null)
 	if (!window) {
 		glfwTerminate();
-		logManager->writeLog(LogLevel::LOG_ERROR, "Could not initalize window!");
+		logManager->writeLog(LogLevel::LOG_ERROR, "Could not initalize GLFW window!");
 		exit(EXIT_FAILURE);
+	} else {
+		logManager->writeLog(LogLevel::LOG_INFO, "GLFW window initalized successfully!");
 	}
 
 	//Make the window context current
@@ -117,12 +101,18 @@ void GLFWWindower::init(){
 	glewInit();
 
 	//Print Info of OpenGL and graphics card drivers (for testing)
-	printVersionInfo();
+	OpenGLHelpers::printVersionInfo();
 
 	//Enable the GL Depth Test
 	glEnable(GL_DEPTH_TEST);
 	//Set GL Depth Function
 	glDepthFunc(GL_LESS);
+
+	//Set GLFW Window Changed Callback
+	glfwSetWindowSizeCallback(window, GLFWAPIHolder::GLFWWindowSizeCallback);
+
+	//Set GLFW Keyboard Callback
+	glfwSetKeyCallback(window, GLFWAPIHolder::GLFWKeyFun);
 }
 
 void GLFWWindower::updateWindow(){
@@ -138,17 +128,13 @@ int GLFWWindower::getGLFWKeyState(int _key){
 	return glfwGetKey(window, _key);
 }
 
-void GLFWWindower::registerListener(void* _listenerFunc) {
-	listenerFuncVec.push_back(_listenerFunc);
-}
-
-void GLFWWindower::notifyListeners() {
-	for (size_t i = 0; i < listenerFuncVec.size(); i++){
-		((void(*)(int, int))listenerFuncVec[i])(width, height);
+void GLFWWindower::notifyObservers() {
+	for (size_t i = 0; i < observerFuncVec.size(); i++){
+		((void(*)(int, int))observerFuncVec[i])(width, height);
 	}
 }
 
 void GLFWWindower::OnWindowChanged(GLFWwindow* _window, int _width, int _height) {
 	setWindowDimensions(_width, _height);
-	notifyListeners();
+	notifyObservers();
 }

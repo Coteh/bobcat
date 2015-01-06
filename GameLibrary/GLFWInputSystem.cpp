@@ -12,10 +12,6 @@ void GLFWInputSystem::setGLFWWindower(GLFWWindower* _glfwWindower) {
 	m_glfwWindower = _glfwWindower;
 }
 
-void GLFWInputSystem::setKeyboardCallback(void* _keyboardFunc) {
-	m_glfwWindower->setKeyboardCallback((GLFWkeyfun)_keyboardFunc);
-}
-
 int GLFWInputSystem::translateKeyCodeInput(int _keyCode) {
 	switch (_keyCode){
 	case InputEnums::KeyCode::KEY_0:			return GLFW_KEY_0;
@@ -86,18 +82,8 @@ bool GLFWInputSystem::isKeyPressed() {
 	return m_isKeyPressed;
 }
 
-void GLFWInputSystem::registerListener(void* _listenerFunc) {
-	listenerFuncVec.push_back(_listenerFunc);
-}
-
-void GLFWInputSystem::notifyListeners() {
-	for (size_t i = 0; i < listenerFuncVec.size(); i++){
-		((void(*)(void))listenerFuncVec[i])();
-	}
-}
-
 void GLFWInputSystem::GLFWKeyboardEvent(GLFWwindow* _window, int _key, int _scancode, int _action, int _mods){
 	m_isKeyPressed = (_action == GLFW_PRESS || _action == GLFW_REPEAT || (_action == GLFW_RELEASE && m_lastKeyAction == GLFW_PRESS) || (_action == GLFW_RELEASE && m_lastKeyAction == GLFW_REPEAT));
-	notifyListeners();
+	notifyObservers();
 	m_lastKeyAction = _action;
 }

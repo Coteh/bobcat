@@ -2,38 +2,40 @@
 #include "AbstractWindower.h"
 #include "Notifier.h"
 #include "ConfigManager.h"
+// Include SFML
+#include <SFML\Window.hpp>
 // Include OpenGL
 #include "vgl.h";
-// Include GLFW
-#include <GLFW\glfw3.h>
 
-class GLFWWindower : public AbstractWindower, public Notifier {
-	friend class GLFWInputSystem;
+class SFMLWindower : public AbstractWindower, public Notifier {
 private:
-	GLFWwindow* window;
 	const char* name;
 	int width, height;
+	bool visibility;
+
 	ConfigManager* configManager;
 	LogManager* logManager;
-protected:
-	virtual void notifyObservers();
+
+	sf::Context sfmlContext;
+	sf::Window* window;
+	sf::VideoMode videoMode;
 public:
-	GLFWWindower();
-	virtual ~GLFWWindower();
+	SFMLWindower();
+	~SFMLWindower();
+
 	virtual int getWidth();
 	virtual int getHeight();
 	virtual const char* getName();
 	virtual bool isVisible();
 	virtual bool isRunning();
 	virtual void setWindowDimensions(int _width, int _height);
+	virtual void setWindowChangedCallback(void* _function);
 	virtual void setName(const char* _name);
 	virtual void showWindow(int _expression);
 	virtual void init();
 	virtual void updateWindow();
 	virtual void closeWindow();
 
-	int getGLFWKeyState(int _key);
-
-	void OnWindowChanged(GLFWwindow* _window, int _width, int _height);
+	virtual void notifyObservers();
 };
 

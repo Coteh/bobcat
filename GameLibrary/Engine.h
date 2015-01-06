@@ -20,6 +20,9 @@
 #define ENGINE_INIT 1
 #define ENGINE_CONSTRUCT 0
 
+//#define WINDOWING_GLFW
+#define WINDOWING_SFML
+
 class Engine {
 private:
 	Camera* m_mainCamera;
@@ -48,8 +51,6 @@ public:
 	bool getIsWindowRunning();
 	void setScreenDimensions(int _width, int _height);
 	void setGameRunning(bool _expression);
-	void setKeyboardCallback(void* _keyboardFunc);
-	void setWindowChangedCallback(void* _windowFunc);
 	virtual void Init();
 	virtual void OnKeyEvent();
 	virtual void OnWindowResize(int _width, int _height);

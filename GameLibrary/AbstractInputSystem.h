@@ -1,4 +1,5 @@
 #pragma once
+#include "AbstractNotifier.h"
 
 namespace InputEnums {
 	enum InputState {
@@ -16,18 +17,14 @@ namespace InputEnums {
 	};
 }
 
-class AbstractInputSystem {
+class AbstractInputSystem : public virtual AbstractNotifier {
 protected:
 	virtual int translateKeyCodeInput(int _keyCode) = 0;
 	virtual int translateInputStateOutput(int _inputState) = 0;
 public:
 	virtual int getInputState(int _keyCode) = 0;
-	virtual void setKeyboardCallback(void* _function) = 0;
 
 	virtual bool isKeyPressed() = 0;
-
-	virtual void registerListener(void* _listenerFunc) = 0;
-	virtual void notifyListeners() = 0;
 
 	virtual ~AbstractInputSystem(){};
 };
