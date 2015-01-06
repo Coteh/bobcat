@@ -4,6 +4,7 @@
 SFMLWindower::SFMLWindower() {
 	configManager = ConfigManager::getInstance();
 	logManager = LogManager::getInstance();
+	sfEventListener = nullptr;
 }
 
 SFMLWindower::~SFMLWindower() {
@@ -92,6 +93,10 @@ void SFMLWindower::updateWindow() {
 		} else if (event.type == sf::Event::Resized) {
 			setWindowDimensions(event.size.width, event.size.height);
 			notifyObservers();
+		}
+		//Pass the event to the event listener now
+		if (sfEventListener != nullptr){
+			((void(*)(sf::Event))sfEventListener)(event);
 		}
 	}
 	window->display();

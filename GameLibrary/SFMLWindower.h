@@ -8,6 +8,7 @@
 #include "vgl.h";
 
 class SFMLWindower : public AbstractWindower, public Notifier {
+	friend class SFMLInputSystem;
 private:
 	const char* name;
 	int width, height;
@@ -19,6 +20,8 @@ private:
 	sf::Context sfmlContext;
 	sf::Window* window;
 	sf::VideoMode videoMode;
+
+	void* sfEventListener;
 public:
 	SFMLWindower();
 	~SFMLWindower();

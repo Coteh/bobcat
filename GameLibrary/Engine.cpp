@@ -2,6 +2,7 @@
 #include "GLFWWindower.h"
 #include "SFMLWindower.h"
 #include "GLFWInputSystem.h"
+#include "SFMLInputSystem.h"
 #include "OpenGLRenderSystem.h"
 #include "GLFWAPIHolder.h"
 
@@ -18,7 +19,7 @@ Engine::Engine() {
 #endif
 #ifdef WINDOWING_SFML
 	window = new SFMLWindower();
-	inputSystem = nullptr; //for now
+	inputSystem = new SFMLInputSystem((SFMLWindower*)window);
 #endif
 	renderer = new OpenGLRenderSystem();
 	resourceManager = ResourceManager::getInstance();
