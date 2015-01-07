@@ -14,6 +14,7 @@ SFMLInputSystem::~SFMLInputSystem() {
 }
 
 bool SFMLInputSystem::isKeyPressed() {
+	if (currEvent.type == sf::Event::KeyPressed) return true;
 	return false;
 }
 
@@ -72,9 +73,6 @@ int SFMLInputSystem::translateKeyCodeInput(int _keyCode) {
 int SFMLInputSystem::translateInputStateOutput(int _inputState) {
 	int currState = -1;
 	switch (_inputState) {
-	case 0:
-		currState = InputEnums::InputState::INPUT_RELEASED;
-		break;
 	case 1:
 		currState = InputEnums::InputState::INPUT_PRESSED;
 		break;
@@ -82,7 +80,6 @@ int SFMLInputSystem::translateInputStateOutput(int _inputState) {
 		currState = InputEnums::InputState::INPUT_NONE;
 		break;
 	}
-	m_prevState = currState;
 	return currState;
 }
 
@@ -92,7 +89,8 @@ int SFMLInputSystem::getInputState(int _keyCode) {
 }
 
 void SFMLInputSystem::handleEvent(sf::Event _evt) {
-	if (_evt.type == sf::Event::KeyPressed || _evt.type == sf::Event::KeyReleased) {
+	currEvent = _evt;
+	if (currEvent.type == sf::Event::KeyPressed || currEvent.type == sf::Event::KeyReleased){
 		notifyObservers();
 	}
 }

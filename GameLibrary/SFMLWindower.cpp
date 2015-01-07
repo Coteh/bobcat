@@ -69,6 +69,9 @@ void SFMLWindower::init() {
 		logManager->writeLog(LogLevel::LOG_INFO, "SFML window initalized successfully!");
 	}
 
+	//Disable key repetition
+	window->setKeyRepeatEnabled(false);
+
 	//Initalizing OpenGL Viewport
 	glViewport(0, 0, width, height);
 

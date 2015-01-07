@@ -83,7 +83,7 @@ bool GLFWInputSystem::isKeyPressed() {
 }
 
 void GLFWInputSystem::GLFWKeyboardEvent(GLFWwindow* _window, int _key, int _scancode, int _action, int _mods){
-	m_isKeyPressed = (_action == GLFW_PRESS || _action == GLFW_REPEAT || (_action == GLFW_RELEASE && m_lastKeyAction == GLFW_PRESS) || (_action == GLFW_RELEASE && m_lastKeyAction == GLFW_REPEAT));
-	notifyObservers();
+	m_isKeyPressed = (_action == GLFW_PRESS || (_action == GLFW_RELEASE && m_lastKeyAction == GLFW_PRESS) || (_action == GLFW_RELEASE && m_lastKeyAction == GLFW_REPEAT));
+	if (m_isKeyPressed) notifyObservers();
 	m_lastKeyAction = _action;
 }

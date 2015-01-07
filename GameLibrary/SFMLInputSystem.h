@@ -6,6 +6,7 @@
 class SFMLInputSystem : public AbstractInputSystem, public Notifier {
 private:
 	SFMLWindower* m_sfmlWindower;
+	sf::Event currEvent;
 	int m_prevState;
 
 	static SFMLInputSystem* currSFMLInputSystem;
