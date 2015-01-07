@@ -7,6 +7,10 @@
 // Include OpenGL
 #include "vgl.h";
 
+/**
+* The SFML implementation of AbstractWindower.
+* It is used to interface directly with the SFML windowing system.
+*/
 class SFMLWindower : public AbstractWindower, public Notifier {
 	friend class SFMLInputSystem;
 private:

@@ -5,6 +5,10 @@
 #include "ShaderManager.h"
 #include "GameObject.h"
 
+/**
+* The OpenGL-specific implementation of AbstractRenderSystem.
+* Facilitates OpenGL rendering tasks.
+*/
 class OpenGLRenderSystem : public AbstractRenderSystem {
 private:
 	Camera* activeCamera;

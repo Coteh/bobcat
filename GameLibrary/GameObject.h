@@ -15,6 +15,9 @@
 
 #include "ComponentHolder.h"
 
+/**
+* A GameObject is an entity in a scene.
+*/
 class GameObject {
 private:
 	GameObject* parent;
@@ -28,36 +31,79 @@ public:
 
 	~GameObject();
 
+	/**
+	* Get a list of this GameObject's children.
+	* @return A STL vector containing a collection of child GameObject references.
+	*/
 	std::vector<GameObject*> getChildren();
 
+	/**
+	* Get the GameObject's name.
+	* @return A STL string containing the GameObject's name.
+	*/
 	std::string getName();
 
+	/**
+	* Get the Model Matrix for this GameObject.
+	* @return A Matrix4x4 of the Model Matrix.
+	*/
 	glm::mat4 getModelMat();
 
+	/**
+	* Set a name for this GameObject.
+	* @param _name Name to give to the GameObject.
+	*/
 	void setName(std::string _name);
 
+	/**
+	* Attach a GameObject to this GameObject as a child.
+	* @param _gameObject GameObject to attach.
+	*/
 	void attachGameObject(GameObject* _gameObject);
 
+	/**
+	* Add a Component of a particular Component type to this GameObject.
+	* @tparam T Type of Component to add.
+	*/
 	template <typename T>
 	T* AddComponent();
 
+	/**
+	* Get a Component of a particular Component type from this GameObject.
+	* @tparam T Type of Component to retrieve.
+	* @return T type Component.
+	*/
 	template <typename T>
 	T* GetComponent();
 
+	/**
+	* Remove a Component of a particular Component type from this GameObject.
+	* @tparam T Type of Component to remove.
+	*/
 	template <typename T>
 	void RemoveComponent();
 
+	/**
+	* Remove all Components from this GameObject.
+	*/
 	void RemoveAllComponents();
 
+	/**
+	* Update the GameObject.
+	* @param deltaTime Delta Time from the game engine.
+	*/
 	void Update(float _deltaTime);
 
+	/**
+	* Call GameObject drawing methods.
+	*/
 	void Draw();
 
-	Transform* transform;
-	Collider* collider;
-	Rigidbody* rigidbody;
-	MeshRenderer* renderer;
-	bool isWireFrameOn;
+	Transform* transform; /**< Public reference to Transform component if it exists. */
+	Collider* collider; /**< Public reference to Collider component if it exists. */
+	Rigidbody* rigidbody; /**< Public reference to Rigidbody component if it exists. */
+	MeshRenderer* renderer; /**< Public reference to MeshRenderer component if it exists. */
+	bool isWireFrameOn; /**< Set GameObject wireframe on/off. */
 };
 
 template <typename T>

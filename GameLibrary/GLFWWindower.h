@@ -7,6 +7,10 @@
 // Include GLFW
 #include <GLFW\glfw3.h>
 
+/**
+* The GLFW implementation of AbstractWindower.
+* It is used to interface directly with the GLFW windowing system.
+*/
 class GLFWWindower : public AbstractWindower, public Notifier {
 	friend class GLFWInputSystem;
 private:
@@ -16,6 +20,12 @@ private:
 	ConfigManager* configManager;
 	LogManager* logManager;
 protected:
+	/**
+	* Get GLFW-specific key state of supplied key.
+	* @note This is used to supply key state information to GLFWInputSystem.
+	*/
+	int getGLFWKeyState(int _key);
+
 	virtual void notifyObservers();
 public:
 	GLFWWindower();
@@ -32,8 +42,9 @@ public:
 	virtual void updateWindow();
 	virtual void closeWindow();
 
-	int getGLFWKeyState(int _key);
-
+	/**
+	* Receives the Window Changed callback from the GLFW API.
+	*/
 	void OnWindowChanged(GLFWwindow* _window, int _width, int _height);
 };
 

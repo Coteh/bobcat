@@ -111,12 +111,12 @@ void Engine::Run(){
 	}
 }
 
-AbstractInputSystem* Engine::getInputSystem() {
-	return inputSystem;
-}
-
 AbstractWindower* Engine::getWindower() {
 	return window;
+}
+
+AbstractInputSystem* Engine::getInputSystem() {
+	return inputSystem;
 }
 
 Engine::~Engine() {
