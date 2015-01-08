@@ -10,7 +10,7 @@ Engine::Engine() {
 	logManager = LogManager::getInstance();
 	logManager->setDefaultLogFileName("EngineLog.txt");
 	configManager = ConfigManager::getInstance();
-	configManager->readConfigFile("engine.config");
+	configManager->readConfigFile(CONFIG_FILE);
 	Clock::init();
 #ifdef WINDOWING_GLFW
 	window = new GLFWWindower();

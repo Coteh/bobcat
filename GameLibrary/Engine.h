@@ -23,6 +23,8 @@
 //#define WINDOWING_GLFW
 #define WINDOWING_SFML
 
+#define CONFIG_FILE "bobcat.config"
+
 /**
 * The heart of the game engine.
 * Centralizes all the main parts of the engine as
