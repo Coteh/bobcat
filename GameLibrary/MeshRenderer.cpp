@@ -1,5 +1,7 @@
 #include "MeshRenderer.h"
 
+using namespace bobcat;
+
 MeshRenderer::MeshRenderer() {
 	meshFilter = nullptr;
 }

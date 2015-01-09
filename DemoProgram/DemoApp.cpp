@@ -8,6 +8,8 @@
 
 #define RAY_DIST_LIMIT 10.0f
 
+using namespace bobcat;
+
 DemoApp::DemoApp() {
 	mode = 0;
 	renderMode = 0;

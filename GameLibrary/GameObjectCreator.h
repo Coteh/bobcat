@@ -1,17 +1,20 @@
 #pragma once
 #include "GameObjectConstructionInfo.h"
 
-class GameObject;
+namespace bobcat {
 
-/**
-* Helper functions for creating GameObjects.
-*/
-class GameObjectCreator {
-public:
+	class GameObject;
+
 	/**
-	* Construct a GameObject from predefined info.
-	* @param _info GameObjectConstructionInfo instance containing info to apply to a new GameObject.
+	* Helper functions for creating GameObjects.
 	*/
-	static GameObject* ConstructFrom(GameObjectConstructionInfo _info);
-};
+	class GameObjectCreator {
+	public:
+		/**
+		* Construct a GameObject from predefined info.
+		* @param _info GameObjectConstructionInfo instance containing info to apply to a new GameObject.
+		*/
+		static GameObject* ConstructFrom(GameObjectConstructionInfo _info);
+	};
 
+}

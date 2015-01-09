@@ -3,51 +3,54 @@
 #include <map>
 #include "Component.h"
 
-typedef std::map<std::type_index, Component*> ComponentMap;
+namespace bobcat {
 
-/**
-* A container that holds Components for a GameObject.
-*/
-class ComponentHolder {
-	friend class GameObject;
-private:
-	ComponentMap components;
-public:
-	ComponentHolder();
-	~ComponentHolder();
+	typedef std::map<std::type_index, Component*> ComponentMap;
 
 	/**
-	* Add a Component to the ComponentHolder.
-	* @param _component Component to be added.
-	* @param _index The type of Component being added.
+	* A container that holds Components for a GameObject.
 	*/
-	void AddComponent(Component* _component, std::type_index _index);
+	class ComponentHolder {
+		friend class GameObject;
+	private:
+		ComponentMap components;
+	public:
+		ComponentHolder();
+		~ComponentHolder();
 
-	/**
-	* Get a Component from the ComponentHolder.
-	* @param _index The type of Component to return.
-	*/
-	Component* GetComponent(std::type_index _index);
+		/**
+		* Add a Component to the ComponentHolder.
+		* @param _component Component to be added.
+		* @param _index The type of Component being added.
+		*/
+		void AddComponent(Component* _component, std::type_index _index);
 
-	/**
-	* Remove a Component from the ComponentHolder.
-	* @param _index The type of Component to remove.
-	*/
-	void RemoveComponent(std::type_index _index);
+		/**
+		* Get a Component from the ComponentHolder.
+		* @param _index The type of Component to return.
+		*/
+		Component* GetComponent(std::type_index _index);
 
-	/**
-	* Remove all Components from a ComponentHolder.
-	*/
-	void RemoveAll();
+		/**
+		* Remove a Component from the ComponentHolder.
+		* @param _index The type of Component to remove.
+		*/
+		void RemoveComponent(std::type_index _index);
 
-	/**
-	* Get the beginning iterator of the ComponentHolder.
-	*/
-	ComponentMap::iterator getBegin();
+		/**
+		* Remove all Components from a ComponentHolder.
+		*/
+		void RemoveAll();
 
-	/**
-	* Get the ending iterator of the ComponentHolder.
-	*/
-	ComponentMap::iterator getEnd();
-};
+		/**
+		* Get the beginning iterator of the ComponentHolder.
+		*/
+		ComponentMap::iterator getBegin();
 
+		/**
+		* Get the ending iterator of the ComponentHolder.
+		*/
+		ComponentMap::iterator getEnd();
+	};
+
+}

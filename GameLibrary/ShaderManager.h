@@ -11,23 +11,27 @@
 // Include Log Manager
 #include "LogManager.h"
 
-class ShaderManager{
-private:
-	static ShaderManager* instance;
-	typedef std::map<const std::string, Shader*> ShaderMap;
-	ShaderMap shaderMap;
-	Shader* currShader;
-	LogManager* logManager;
-	ShaderManager();
-	void determineShaderUniforms(Shader* _shader);
-	void initShaderAttribs(Shader* _shader);
-	void disableShaderAttribs(Shader* _shader);
-public:
-	~ShaderManager();
-	static ShaderManager* getInstance();
-	void addShader(GLuint _shaderProgram, std::string _name);
-	Shader* getShader(std::string _name);
-	Shader* getCurrShader();
-	void useShader(std::string _name);
-	void updateAttribs(std::string _shaderName, Mesh* _mesh);
-};
+namespace bobcat {
+
+	class ShaderManager {
+	private:
+		static ShaderManager* instance;
+		typedef std::map<const std::string, Shader*> ShaderMap;
+		ShaderMap shaderMap;
+		Shader* currShader;
+		LogManager* logManager;
+		ShaderManager();
+		void determineShaderUniforms(Shader* _shader);
+		void initShaderAttribs(Shader* _shader);
+		void disableShaderAttribs(Shader* _shader);
+	public:
+		~ShaderManager();
+		static ShaderManager* getInstance();
+		void addShader(GLuint _shaderProgram, std::string _name);
+		Shader* getShader(std::string _name);
+		Shader* getCurrShader();
+		void useShader(std::string _name);
+		void updateAttribs(std::string _shaderName, Mesh* _mesh);
+	};
+
+}

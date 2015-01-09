@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 
+using namespace bobcat;
 using namespace FileIO;
 
 FileWriter::FileWriter() {

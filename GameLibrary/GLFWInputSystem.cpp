@@ -1,5 +1,7 @@
 #include "GLFWInputSystem.h"
 
+using namespace bobcat;
+
 GLFWInputSystem::GLFWInputSystem(GLFWWindower* _glfwWindower) {
 	setGLFWWindower(_glfwWindower);
 }

@@ -25,135 +25,138 @@
 
 #define CONFIG_FILE "bobcat.config"
 
-/**
-* The heart of the game engine.
-* Centralizes all the main parts of the engine as
-* well as contains the proper initalization methods to start.
-*/
-class Engine {
-private:
-	Camera* m_mainCamera; /**< Private reference to the main camera of the Engine. Can be publicly accessed from the mainCamera property. */
-protected:
-	AbstractWindower* window; /**< The current window in use by the engine. */
-	LogManager* logManager; /**< The log manager instance used by the engine. */
-	ConfigManager* configManager; /**< The config manager instance used by the engine. */
-	AbstractInputSystem* inputSystem; /**< The current input system in use by the engine. */
-	AbstractRenderSystem* renderer; /**< The current rendering system used by the engine. */
-	SceneManager* sceneManager; /**< The scene manager used by the engine. */
-	ResourceManager* resourceManager; /**< The resource manager used by the engine. */
-	ShaderManager* shaderManager; /**< The shader manager used by the engine. */
+namespace bobcat {
 
 	/**
-	* Returns the main camera of the Engine.
-	* @note This is used in the mainCamera property and can also be called from there.
+	* The heart of the game engine.
+	* Centralizes all the main parts of the engine as
+	* well as contains the proper initalization methods to start.
 	*/
-	Camera* getMainCamera();
-	/**
-	* Sets the main camera of the Engine.
-	* @note This is used in the mainCamera property and can also be called from there.
-	*/
-	void setMainCamera(Camera* _camera);
-	/**
-	* Property to access the main camera used in the Engine.
-	*/
-	__declspec(property(get = getMainCamera, put = setMainCamera)) Camera* mainCamera;
+	class Engine {
+	private:
+		Camera* m_mainCamera; /**< Private reference to the main camera of the Engine. Can be publicly accessed from the mainCamera property. */
+	protected:
+		AbstractWindower* window; /**< The current window in use by the engine. */
+		LogManager* logManager; /**< The log manager instance used by the engine. */
+		ConfigManager* configManager; /**< The config manager instance used by the engine. */
+		AbstractInputSystem* inputSystem; /**< The current input system in use by the engine. */
+		AbstractRenderSystem* renderer; /**< The current rendering system used by the engine. */
+		SceneManager* sceneManager; /**< The scene manager used by the engine. */
+		ResourceManager* resourceManager; /**< The resource manager used by the engine. */
+		ShaderManager* shaderManager; /**< The shader manager used by the engine. */
 
-	float gameTime = 0.0f; /**< Total game time since the engine started. */
-	float deltaTime = 0.016f; /**< Total time for the current frame. */
-	bool isGameRunning; /**< Is the engine/game currently running? */
-public:
-	/**
-	* Default constructor for the engine.
-	* Will construct the engine with default settings.
-	*/
-	Engine();
+		/**
+		* Returns the main camera of the Engine.
+		* @note This is used in the mainCamera property and can also be called from there.
+		*/
+		Camera* getMainCamera();
+		/**
+		* Sets the main camera of the Engine.
+		* @note This is used in the mainCamera property and can also be called from there.
+		*/
+		void setMainCamera(Camera* _camera);
+		/**
+		* Property to access the main camera used in the Engine.
+		*/
+		__declspec(property(get = getMainCamera, put = setMainCamera)) Camera* mainCamera;
 
-	/**
-	* Run the default constructor as well as provide
-	* custom settings for the engine upon construction.
-	*/
-	Engine(int _engineCmd);
+		float gameTime = 0.0f; /**< Total game time since the engine started. */
+		float deltaTime = 0.016f; /**< Total time for the current frame. */
+		bool isGameRunning; /**< Is the engine/game currently running? */
+	public:
+		/**
+		* Default constructor for the engine.
+		* Will construct the engine with default settings.
+		*/
+		Engine();
 
-	/**
-	* Engine destructor.
-	*/
-	virtual ~Engine();
+		/**
+		* Run the default constructor as well as provide
+		* custom settings for the engine upon construction.
+		*/
+		Engine(int _engineCmd);
 
-	/**
-	* Returns a bool indicating whether the game is running or not.
-	*/
-	bool getIsGameRunning();
+		/**
+		* Engine destructor.
+		*/
+		virtual ~Engine();
 
-	/**
-	* Returns a bool indicating whether there is a window running or not.
-	*/
-	bool getIsWindowRunning();
+		/**
+		* Returns a bool indicating whether the game is running or not.
+		*/
+		bool getIsGameRunning();
 
-	/**
-	* Set screen dimensions of a window directly from the Engine.
-	*/
-	void setScreenDimensions(int _width, int _height);
+		/**
+		* Returns a bool indicating whether there is a window running or not.
+		*/
+		bool getIsWindowRunning();
 
-	/**
-	* Set the Game Running boolean state.
-	*/
-	void setGameRunning(bool _expression);
+		/**
+		* Set screen dimensions of a window directly from the Engine.
+		*/
+		void setScreenDimensions(int _width, int _height);
 
-	/**
-	* Initalize the game engine.
-	*/
-	virtual void Init();
+		/**
+		* Set the Game Running boolean state.
+		*/
+		void setGameRunning(bool _expression);
 
-	/**
-	* Key Event callback method.
-	*/
-	virtual void OnKeyEvent();
+		/**
+		* Initalize the game engine.
+		*/
+		virtual void Init();
 
-	/**
-	* Window Resize callback method.
-	*/
-	virtual void OnWindowResize(int _width, int _height);
+		/**
+		* Key Event callback method.
+		*/
+		virtual void OnKeyEvent();
 
-	/**
-	* Update method for the game engine.
-	*/
-	virtual void Update();
+		/**
+		* Window Resize callback method.
+		*/
+		virtual void OnWindowResize(int _width, int _height);
 
-	/**
-	* Separate update method for input checking.
-	*/
-	virtual void InputUpdate();
+		/**
+		* Update method for the game engine.
+		*/
+		virtual void Update();
 
-	/**
-	* Calls that will be made before rendering begins.
-	*/
-	void DrawBegin();
+		/**
+		* Separate update method for input checking.
+		*/
+		virtual void InputUpdate();
 
-	/**
-	* The main draw/rendering method.
-	*/
-	virtual void Draw();
+		/**
+		* Calls that will be made before rendering begins.
+		*/
+		void DrawBegin();
 
-	/**
-	* Calls that will be made after rendering finishes.
-	*/
-	void DrawEnd();
+		/**
+		* The main draw/rendering method.
+		*/
+		virtual void Draw();
 
-	/**
-	* Call the game loop.
-	*/
-	void Run();
+		/**
+		* Calls that will be made after rendering finishes.
+		*/
+		void DrawEnd();
 
-	/**
-	* Returns the Windowing System currently in use.
-	* @note Right now it's really only used to set observers.
-	*/
-	AbstractWindower* getWindower();
+		/**
+		* Call the game loop.
+		*/
+		void Run();
 
-	/**
-	* Returns the Input System currently in use.
-	* @note Right now it's really only used to set observers.
-	*/
-	AbstractInputSystem* getInputSystem();
-};
+		/**
+		* Returns the Windowing System currently in use.
+		* @note Right now it's really only used to set observers.
+		*/
+		AbstractWindower* getWindower();
 
+		/**
+		* Returns the Input System currently in use.
+		* @note Right now it's really only used to set observers.
+		*/
+		AbstractInputSystem* getInputSystem();
+	};
+
+}

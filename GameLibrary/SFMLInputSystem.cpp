@@ -1,6 +1,8 @@
 #include "SFMLInputSystem.h"
 #include <SFML\Window\Keyboard.hpp>
 
+using namespace bobcat;
+
 SFMLInputSystem* SFMLInputSystem::currSFMLInputSystem;
 
 SFMLInputSystem::SFMLInputSystem(SFMLWindower* _sfmlWindower) {

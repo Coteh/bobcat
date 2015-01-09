@@ -1,5 +1,7 @@
 #include "Notifier.h"
 
+using namespace bobcat;
+
 Notifier::Notifier() {
 
 }

@@ -1,5 +1,7 @@
 #include "ComponentHolder.h"
 
+using namespace bobcat;
+
 ComponentHolder::ComponentHolder() {
 }
 

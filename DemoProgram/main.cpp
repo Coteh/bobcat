@@ -2,7 +2,7 @@
 #include "vgl.h"
 #include "DemoApp.h"
 
-Engine* engine;
+bobcat::Engine* engine;
 
 void keyListener(){
 	engine->OnKeyEvent();

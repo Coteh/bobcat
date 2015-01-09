@@ -1,6 +1,8 @@
 #include "Rigidbody.h"
 #include "GameObject.h"
 
+using namespace bobcat;
+
 Rigidbody::Rigidbody() {
 	m_velocity = glm::vec3(0.0f);
 	m_rotationalVel = glm::vec3(0.0f);

@@ -2,39 +2,140 @@
 #include "Component.h"
 #include <glm\glm.hpp>
 
-class Transform : public Component {
-private:
-	glm::vec3 m_position;
-	glm::vec3 m_rotation;
-	glm::vec3 m_scale;
-	glm::vec3 m_forward;
-	glm::vec3 m_up;
-	glm::vec3 m_right;
+namespace bobcat {
 
-	void determineDirections();
-public:
-	Transform();
-	~Transform();
+	/**
+	* Transform is a component that gives a GameObject a position, rotation, and scale that can be used
+	* to represent the object within the game world.
+	*/
+	class Transform : public Component {
+	private:
+		glm::vec3 m_position;
+		glm::vec3 m_rotation;
+		glm::vec3 m_scale;
+		glm::vec3 m_forward;
+		glm::vec3 m_up;
+		glm::vec3 m_right;
 
-	glm::vec3 getPosition();
-	glm::vec3 getRotation();
-	glm::vec3 getScale();
-	glm::vec3 getForward();
-	glm::vec3 getUp();
-	glm::vec3 getRight();
+		void determineDirections();
+	public:
+		Transform();
 
-	void setPosition(glm::vec3 _pos);
-	void setRotation(glm::vec3 _rot);
-	void setScale(glm::vec3 _sca);
-	void setForward(glm::vec3 _fwd);
-	void setUp(glm::vec3 _up);
-	void setRight(glm::vec3 _rgt);
+		~Transform();
 
-	__declspec(property(get = getPosition, put = setPosition)) glm::vec3 position;
-	__declspec(property(get = getRotation, put = setRotation)) glm::vec3 rotation;
-	__declspec(property(get = getScale, put = setScale)) glm::vec3 scale;
-	__declspec(property(get = getForward, put = setForward)) glm::vec3 forward;
-	__declspec(property(get = getUp, put = setUp)) glm::vec3 up;
-	__declspec(property(get = getRight, put = setRight)) glm::vec3 right;
-};
+		/**
+		* Get the position of the GameObject.
+		* @return Vector3 that represents the GameObject's position.
+		* @note This is used in the position property and can also be called from there.
+		*/
+		glm::vec3 getPosition();
 
+		/**
+		* Get the rotation of the GameObject.
+		* @return Vector3 that represents the GameObject's rotation.
+		* @note This is used in the rotation property and can also be called from there.
+		*/
+		glm::vec3 getRotation();
+
+		/**
+		* Get the scale of the GameObject.
+		* @return Vector3 that represents the GameObject's scale.
+		* @note This is used in the scale property and can also be called from there.
+		*/
+		glm::vec3 getScale();
+
+		/**
+		* Get the forward direction of the GameObject.
+		* @return Vector3 that represents the GameObject's forward direction.
+		* @note This is used in the forward property and can also be called from there.
+		*/
+		glm::vec3 getForward();
+
+		/**
+		* Get the up direction of the GameObject.
+		* @return Vector3 that represents the GameObject's up direction.
+		* @note This is used in the up property and can also be called from there.
+		*/
+		glm::vec3 getUp();
+
+		/**
+		* Get the right direction of the GameObject.
+		* @return Vector3 that represents the GameObject's right direction.
+		* @note This is used in the right property and can also be called from there.
+		*/
+		glm::vec3 getRight();
+
+		/**
+		* Set the position of the GameObject.
+		* @param _pos Vector3 that would represent the GameObject's position.
+		* @note This is used in the position property and can also be called from there.
+		*/
+		void setPosition(glm::vec3 _pos);
+
+		/**
+		* Set the rotation of the GameObject.
+		* @param _rot Vector3 that would represent the GameObject's rotation.
+		* @note This is used in the rotation property and can also be called from there.
+		*/
+		void setRotation(glm::vec3 _rot);
+
+		/**
+		* Set the scale of the GameObject.
+		* @param _sca Vector3 that would represent the GameObject's scale.
+		* @note This is used in the scale property and can also be called from there.
+		*/
+		void setScale(glm::vec3 _sca);
+
+		/**
+		* Set the forward direction of the GameObject.
+		* @param _fwd Vector3 that would represent the GameObject's forward direction.
+		* @note This is used in the forward property and can also be called from there.
+		*/
+		void setForward(glm::vec3 _fwd);
+
+		/**
+		* Set the up direction of the GameObject.
+		* @param _up Vector3 that would represent the GameObject's up direction.
+		* @note This is used in the up property and can also be called from there.
+		*/
+		void setUp(glm::vec3 _up);
+
+		/**
+		* Set the right direction of the GameObject.
+		* @param _rgt Vector3 that would represent the GameObject's right direction.
+		* @note This is used in the right property and can also be called from there.
+		*/
+		void setRight(glm::vec3 _rgt);
+
+		/**
+		* Property to access the Transform position.
+		*/
+		__declspec(property(get = getPosition, put = setPosition)) glm::vec3 position;
+
+		/**
+		* Property to access the Transform rotation.
+		*/
+		__declspec(property(get = getRotation, put = setRotation)) glm::vec3 rotation;
+
+		/**
+		* Property to access the Transform scale.
+		*/
+		__declspec(property(get = getScale, put = setScale)) glm::vec3 scale;
+
+		/**
+		* Property to access the Transform forward vector.
+		*/
+		__declspec(property(get = getForward, put = setForward)) glm::vec3 forward;
+
+		/**
+		* Property to access the Transform up vector.
+		*/
+		__declspec(property(get = getUp, put = setUp)) glm::vec3 up;
+
+		/**
+		* Property to access the Transform right vector.
+		*/
+		__declspec(property(get = getRight, put = setRight)) glm::vec3 right;
+	};
+
+}

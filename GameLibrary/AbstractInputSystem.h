@@ -23,38 +23,42 @@ namespace InputEnums {
 	};
 }
 
-/**
-* An abstract class that all Input Systems must derive from and use.
-* Input Systems have methods that allow for direct interfacing
-* with external input APIs.
-*/
-class AbstractInputSystem : public virtual AbstractNotifier {
-protected:
-	/**
-	* Translate InputSystem KeyCode to the equivalent
-	* version from the input system being interfaced.
-	* @param _keyCode KeyCode to translate.
-	*/
-	virtual int translateKeyCodeInput(int _keyCode) = 0;
+namespace bobcat {
 
 	/**
-	* Translate Input State outputted from the interfaced
-	* system into an equivalent state from InputSystem.
-	* @param _inputState Input State to translate.
+	* An abstract class that all Input Systems must derive from and use.
+	* Input Systems have methods that allow for direct interfacing
+	* with external input APIs.
 	*/
-	virtual int translateInputStateOutput(int _inputState) = 0;
-public:
-	/**
-	* Get the input state of the supplied KeyCode.
-	* @param _keyCode KeyCode to get input state from.
-	*/
-	virtual int getInputState(int _keyCode) = 0;
+	class AbstractInputSystem : public virtual AbstractNotifier {
+	protected:
+		/**
+		* Translate InputSystem KeyCode to the equivalent
+		* version from the input system being interfaced.
+		* @param _keyCode KeyCode to translate.
+		*/
+		virtual int translateKeyCodeInput(int _keyCode) = 0;
 
-	/**
-	* Checks if there is a key pressed.
-	* @note It's kind of a useless command right now though.
-	*/
-	virtual bool isKeyPressed() = 0;
+		/**
+		* Translate Input State outputted from the interfaced
+		* system into an equivalent state from InputSystem.
+		* @param _inputState Input State to translate.
+		*/
+		virtual int translateInputStateOutput(int _inputState) = 0;
+	public:
+		/**
+		* Get the input state of the supplied KeyCode.
+		* @param _keyCode KeyCode to get input state from.
+		*/
+		virtual int getInputState(int _keyCode) = 0;
 
-	virtual ~AbstractInputSystem(){};
-};
+		/**
+		* Checks if there is a key pressed.
+		* @note It's kind of a useless command right now though.
+		*/
+		virtual bool isKeyPressed() = 0;
+
+		virtual ~AbstractInputSystem(){};
+	};
+
+}

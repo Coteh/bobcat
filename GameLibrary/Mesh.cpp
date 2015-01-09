@@ -1,5 +1,7 @@
 #include "Mesh.h"
 
+using namespace bobcat;
+
 Mesh::Mesh(std::vector<GLfloat> _vertices, std::vector<GLuint> _elements, std::string _name, std::vector<int> _indiceCountData){
 	name = _name;
 	count = _elements.size();

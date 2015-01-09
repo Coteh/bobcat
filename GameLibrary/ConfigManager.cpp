@@ -3,6 +3,7 @@
 #include <rapidjson\stringbuffer.h>
 #include <rapidjson\prettywriter.h>
 
+using namespace bobcat;
 using namespace rapidjson;
 
 ConfigManager* ConfigManager::instance;

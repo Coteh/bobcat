@@ -6,6 +6,8 @@
 #include <iostream>
 #include <sstream>
 
+using namespace bobcat;
+
 ResourceManager* ResourceManager::instance;
 
 ResourceManager::ResourceManager() {

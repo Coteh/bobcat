@@ -1,9 +1,11 @@
 #include "LogManager.h"
 
+using namespace bobcat;
+
 LogManager* LogManager::instance;
 
 LogManager::LogManager() {
-	fileWriter = new FileWriter();
+	fileWriter = new FileIO::FileWriter();
 	printPriority = LogLevel::LOG_WARN;
 }
 

@@ -1,23 +1,23 @@
 #pragma once
 #include "Engine.h"
 
-class DemoApp : public Engine {
+class DemoApp : public bobcat::Engine {
 private:
-	Scene* scene;
-	GameObject* cubeObj;
-	GameObject* torusObj;
-	GameObject* circleObj;
-	GameObject* planeObj;
-	GameObject* cameraObj;
+	bobcat::Scene* scene;
+	bobcat::GameObject* cubeObj;
+	bobcat::GameObject* torusObj;
+	bobcat::GameObject* circleObj;
+	bobcat::GameObject* planeObj;
+	bobcat::GameObject* cameraObj;
 
 	glm::vec3 sphereTorque;
 	glm::vec3 origCameraPos;
 	glm::vec3 sphereOrigPos;
 
-	Ray* ray;
+	bobcat::Ray* ray;
 
-	Material* mat;
-	Material* noTexMat;
+	bobcat::Material* mat;
+	bobcat::Material* noTexMat;
 	glm::vec3 lightSource;
 
 	int mode;
@@ -35,7 +35,7 @@ public:
 	void Quit();
 };
 
-class TestDisplayPosition : public Component {
+class TestDisplayPosition : public bobcat::Component {
 public:
 	TestDisplayPosition(){}
 	virtual void Update(float _deltaTime){

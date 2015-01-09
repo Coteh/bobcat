@@ -1,6 +1,8 @@
 #include "ShaderLoader.h"
 #include <iostream>
 
+using namespace bobcat;
+
 const GLchar* ShaderLoader::ReadShader(const char* _fileName){
 	FILE* inFile;
 	fopen_s(&inFile, _fileName, "rb");

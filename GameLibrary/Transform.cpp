@@ -1,5 +1,7 @@
 #include "Transform.h"
 
+using namespace bobcat;
+
 Transform::Transform() {
 	m_position = glm::vec3(0.0f);
 	m_rotation = glm::vec3(0.0f);

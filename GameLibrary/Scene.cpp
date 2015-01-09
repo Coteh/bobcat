@@ -1,5 +1,6 @@
 #include "Scene.h"
 
+using namespace bobcat;
 
 Scene::Scene() {
 }

@@ -2,6 +2,8 @@
 #include "GLFWAPIHolder.h"
 #include "OpenGLHelpers.h"
 
+using namespace bobcat;
+
 GLFWWindower::GLFWWindower(){
 	configManager = ConfigManager::getInstance();
 	logManager = LogManager::getInstance();

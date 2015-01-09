@@ -1,5 +1,7 @@
 #include "Collider.h"
 
+using namespace bobcat;
+
 Collider::Collider(){
 
 }

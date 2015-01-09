@@ -1,5 +1,7 @@
 #include "SphereCollider.h"
 
+using namespace bobcat;
+
 SphereCollider::SphereCollider() {
 	m_radius = 1.0f;
 	drawType = ColliderDebugDrawType::SPHERE;

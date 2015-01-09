@@ -1,5 +1,7 @@
 #include "GLFWAPIHolder.h"
 
+using namespace bobcat;
+
 GLFWWindower* GLFWAPIHolder::glfwWindower;
 GLFWInputSystem* GLFWAPIHolder::glfwInputSystem;
 

@@ -4,6 +4,8 @@
 #include <glm\gtx\rotate_vector.hpp>
 #include <glm\gtc\type_ptr.hpp>
 
+using namespace bobcat;
+
 Camera::Camera() {
 	screenWidth = 1.0f;
 	screenHeight = 1.0f;

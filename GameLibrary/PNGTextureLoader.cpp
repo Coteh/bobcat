@@ -1,5 +1,7 @@
 #include "PNGTextureLoader.h"
 
+using namespace bobcat;
+
 PNGTextureLoader::PNGTextureLoader(){
 
 }

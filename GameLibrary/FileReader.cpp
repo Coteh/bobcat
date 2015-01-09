@@ -1,5 +1,6 @@
 #include "FileReader.h"
 
+using namespace bobcat;
 using namespace FileIO;
 
 FileReader::FileReader(){

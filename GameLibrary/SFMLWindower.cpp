@@ -1,6 +1,8 @@
 #include "SFMLWindower.h"
 #include "OpenGLHelpers.h"
 
+using namespace bobcat;
+
 SFMLWindower::SFMLWindower() {
 	configManager = ConfigManager::getInstance();
 	logManager = LogManager::getInstance();

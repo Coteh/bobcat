@@ -2,14 +2,20 @@
 #include <vector>
 #include "AbstractNotifier.h"
 
-class Notifier : public virtual AbstractNotifier {
-protected:
-	std::vector<void*> observerFuncVec;
-	virtual void notifyObservers();
-public:
-	Notifier();
-	virtual ~Notifier();
+namespace bobcat {
 
-	virtual void registerObserver(void* _observerFunc);
-};
+	/**
+	* Notifier is a concrete representation of AbstractNotifier. Holds a collection of observer methods and can notify them all upon command.
+	*/
+	class Notifier : public virtual AbstractNotifier {
+	protected:
+		std::vector<void*> observerFuncVec;
+		virtual void notifyObservers();
+	public:
+		Notifier();
+		virtual ~Notifier();
 
+		virtual void registerObserver(void* _observerFunc);
+	};
+
+}

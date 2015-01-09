@@ -5,37 +5,38 @@
 
 #define COLON_SEP "> "
 
-using namespace FileIO;
+namespace bobcat {
 
-enum LogLevel{
-	LOG_NONE,
-	LOG_INFO,
-	LOG_TRACE,
-	LOG_WARN,
-	LOG_ERROR
-};
+	enum LogLevel{
+		LOG_NONE,
+		LOG_INFO,
+		LOG_TRACE,
+		LOG_WARN,
+		LOG_ERROR
+	};
 
-class LogManager {
-private:
-	static LogManager* instance;
+	class LogManager {
+	private:
+		static LogManager* instance;
 
-	std::string defaultLogFileName;
+		std::string defaultLogFileName;
 
-	std::string lastErrorStr;
-	LogLevel lastErrorLevel;
+		std::string lastErrorStr;
+		LogLevel lastErrorLevel;
 
-	IFileWriter* fileWriter;
+		FileIO::IFileWriter* fileWriter;
 
-	LogLevel writePriority;
-	LogLevel printPriority;
+		LogLevel writePriority;
+		LogLevel printPriority;
 
-	std::string getLogLevelString(LogLevel _logLevel);
-	LogManager();
-public:
-	static LogManager* getInstance();
-	void setDefaultLogFileName(std::string _fileName);
-	void writeLog(LogLevel _level, std::string _message);
-	void printLastError();
-	~LogManager();
-};
+		std::string getLogLevelString(LogLevel _logLevel);
+		LogManager();
+	public:
+		static LogManager* getInstance();
+		void setDefaultLogFileName(std::string _fileName);
+		void writeLog(LogLevel _level, std::string _message);
+		void printLastError();
+		~LogManager();
+	};
 
+}

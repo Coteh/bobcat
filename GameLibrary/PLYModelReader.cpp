@@ -3,6 +3,8 @@
 #include <sstream>
 #include "PLYModelReader.h"
 
+using namespace bobcat;
+
 PLYModelReader::PLYModelReader() {
 	isFirstTime = true;
 }

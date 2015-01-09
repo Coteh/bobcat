@@ -7,42 +7,45 @@
 // Include OpenGL
 #include "vgl.h";
 
-/**
-* The SFML implementation of AbstractWindower.
-* It is used to interface directly with the SFML windowing system.
-*/
-class SFMLWindower : public AbstractWindower, public Notifier {
-	friend class SFMLInputSystem;
-private:
-	const char* name;
-	int width, height;
-	bool visibility;
+namespace bobcat {
 
-	ConfigManager* configManager;
-	LogManager* logManager;
+	/**
+	* The SFML implementation of AbstractWindower.
+	* It is used to interface directly with the SFML windowing system.
+	*/
+	class SFMLWindower : public AbstractWindower, public Notifier {
+		friend class SFMLInputSystem;
+	private:
+		const char* name;
+		int width, height;
+		bool visibility;
 
-	sf::Context sfmlContext;
-	sf::Window* window;
-	sf::VideoMode videoMode;
+		ConfigManager* configManager;
+		LogManager* logManager;
 
-	void* sfEventListener;
-public:
-	SFMLWindower();
-	~SFMLWindower();
+		sf::Context sfmlContext;
+		sf::Window* window;
+		sf::VideoMode videoMode;
 
-	virtual int getWidth();
-	virtual int getHeight();
-	virtual const char* getName();
-	virtual bool isVisible();
-	virtual bool isRunning();
-	virtual void setWindowDimensions(int _width, int _height);
-	virtual void setWindowChangedCallback(void* _function);
-	virtual void setName(const char* _name);
-	virtual void showWindow(int _expression);
-	virtual void init();
-	virtual void updateWindow();
-	virtual void closeWindow();
+		void* sfEventListener;
+	public:
+		SFMLWindower();
+		~SFMLWindower();
 
-	virtual void notifyObservers();
-};
+		virtual int getWidth();
+		virtual int getHeight();
+		virtual const char* getName();
+		virtual bool isVisible();
+		virtual bool isRunning();
+		virtual void setWindowDimensions(int _width, int _height);
+		virtual void setWindowChangedCallback(void* _function);
+		virtual void setName(const char* _name);
+		virtual void showWindow(int _expression);
+		virtual void init();
+		virtual void updateWindow();
+		virtual void closeWindow();
 
+		virtual void notifyObservers();
+	};
+
+}

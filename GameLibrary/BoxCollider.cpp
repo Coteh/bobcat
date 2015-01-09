@@ -1,5 +1,7 @@
 #include "BoxCollider.h"
 
+using namespace bobcat;
+
 BoxCollider::BoxCollider() {
 	m_width = 0;
 	m_height = 0;

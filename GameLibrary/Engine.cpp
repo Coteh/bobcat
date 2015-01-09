@@ -6,6 +6,8 @@
 #include "OpenGLRenderSystem.h"
 #include "GLFWAPIHolder.h"
 
+using namespace bobcat;
+
 Engine::Engine() {
 	logManager = LogManager::getInstance();
 	logManager->setDefaultLogFileName("EngineLog.txt");

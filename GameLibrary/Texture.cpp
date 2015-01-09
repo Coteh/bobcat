@@ -1,5 +1,7 @@
 #include "Texture.h"
 
+using namespace bobcat;
+
 Texture::Texture(){
 
 }

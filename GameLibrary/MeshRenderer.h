@@ -4,17 +4,20 @@
 #include "MeshFilter.h"
 #include "Material.h"
 
-class MeshRenderer : public Component {
-public:
-	MeshRenderer();
-	~MeshRenderer();
+namespace bobcat {
 
-	MeshFilter* meshFilter;
-	Material* material;
-	bool isEnabled;
-	bool isWireFrameOn;
+	class MeshRenderer : public Component {
+	public:
+		MeshRenderer();
+		~MeshRenderer();
 
-	bool CheckShaderMatchup();
-	void Render();
-};
+		MeshFilter* meshFilter;
+		Material* material;
+		bool isEnabled;
+		bool isWireFrameOn;
 
+		bool CheckShaderMatchup();
+		void Render();
+	};
+
+}

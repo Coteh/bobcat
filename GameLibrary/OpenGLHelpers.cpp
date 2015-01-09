@@ -1,6 +1,8 @@
 #include "OpenGLHelpers.h"
 #include <stdio.h>
 
+using namespace bobcat;
+
 void OpenGLHelpers::printVersionInfo() {
 	printf("============================================================\n");
 	printf("Renderer: %s\n", glGetString(GL_RENDERER));

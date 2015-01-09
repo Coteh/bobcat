@@ -5,6 +5,8 @@
 #include "SphereCollider.h"
 #include "Rigidbody.h"
 
+using namespace bobcat;
+
 GameObject* GameObjectCreator::ConstructFrom(GameObjectConstructionInfo _info){
 	GameObject* go = new GameObject();
 	if (_info.isTransformSet){

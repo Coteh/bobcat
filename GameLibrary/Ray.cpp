@@ -1,5 +1,7 @@
 #include "Ray.h"
 
+using namespace bobcat;
+
 bool Ray::intersects(glm::vec3 _pos, float _radius, float *_dist){
 	glm::vec3 rayToSphereDir;
 	float rayToSphereLength = 0.0f;

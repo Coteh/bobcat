@@ -1,5 +1,7 @@
 #include "ShaderManager.h"
 
+using namespace bobcat;
+
 ShaderManager* ShaderManager::instance;
 
 ShaderManager::ShaderManager(){

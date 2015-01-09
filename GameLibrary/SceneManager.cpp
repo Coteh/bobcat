@@ -1,5 +1,7 @@
 #include "SceneManager.h"
 
+using namespace bobcat;
+
 static SceneManager* instance;
 
 SceneManager::SceneManager() {
