@@ -145,8 +145,15 @@ void DemoApp::Init(){
 	//cameraObjInfo.setRigidbodyValues(glm::vec3(0), glm::vec3(0.0f, 35.0f, 0.0f), 0.0f);
 	cameraObj = GameObjectCreator::ConstructFrom(cameraObjInfo);
 	mainCamera = cameraObj->AddComponent<Camera>();
-	cameraObj->AddComponent<TestDisplayPosition>();
 	scene->addGameObject(cameraObj);
+
+	GameObjectConstructionInfo cameraObjChildInfo;
+	cameraObjChildInfo.setTransformValues(glm::vec3(0, 0, 40), glm::vec3(0.0f), glm::vec3(1.0f));
+	//cameraObjInfo.setRigidbodyValues(glm::vec3(0), glm::vec3(0.0f, 35.0f, 0.0f), 0.0f);
+	cameraChildObj = GameObjectCreator::ConstructFrom(cameraObjChildInfo);
+	cameraChildObj->AddComponent<Camera>();
+	cameraChildObj->AddComponent<TestDisplayPosition>();
+	cameraObj->attachGameObject(cameraChildObj);
 
 	origCameraPos = cameraObj->transform->position;
 
@@ -165,6 +172,10 @@ void DemoApp::OnKeyEvent(){
 		mode = 0;
 	} else if (inputSystem->getInputState(InputEnums::KeyCode::KEY_2) == InputEnums::InputState::INPUT_PRESSED){
 		mode = 1;
+	} else if (inputSystem->getInputState(InputEnums::KeyCode::KEY_3) == InputEnums::InputState::INPUT_PRESSED) {
+		mainCamera = cameraChildObj->GetComponent<Camera>();
+	} else if (inputSystem->getInputState(InputEnums::KeyCode::KEY_4) == InputEnums::InputState::INPUT_PRESSED) {
+		mainCamera = cameraObj->GetComponent<Camera>();
 	} else if (inputSystem->getInputState(InputEnums::KeyCode::KEY_U) == InputEnums::InputState::INPUT_PRESSED){
 		debugRenderOn = !debugRenderOn;
 		renderer->setDebugRender(debugRenderOn);
@@ -193,32 +204,33 @@ void DemoApp::InputUpdate(){
 	case 0:
 		//Camera Controls
 		if (inputSystem->getInputState(InputEnums::KeyCode::KEY_UP) == InputEnums::InputState::INPUT_PRESSED){
-			cameraObj->transform->position += -MOVE_SPEED * cameraObj->transform->forward * deltaTime;
+			mainCamera->gameObject->transform->position += -MOVE_SPEED * mainCamera->gameObject->transform->forward * deltaTime;
 		}
 		if (inputSystem->getInputState(InputEnums::KeyCode::KEY_DOWN) == InputEnums::InputState::INPUT_PRESSED){
-			cameraObj->transform->position += MOVE_SPEED * cameraObj->transform->forward * deltaTime;
+			mainCamera->gameObject->transform->position += MOVE_SPEED * mainCamera->gameObject->transform->forward * deltaTime;
 		}
 		if (inputSystem->getInputState(InputEnums::KeyCode::KEY_LEFT) == InputEnums::InputState::INPUT_PRESSED){
-			cameraObj->transform->position += -MOVE_SPEED * cameraObj->transform->right * deltaTime;
+			mainCamera->gameObject->transform->position += -MOVE_SPEED * mainCamera->gameObject->transform->right * deltaTime;
 		}
 		if (inputSystem->getInputState(InputEnums::KeyCode::KEY_RIGHT) == InputEnums::InputState::INPUT_PRESSED){
-			cameraObj->transform->position += MOVE_SPEED * cameraObj->transform->right * deltaTime;
+			mainCamera->gameObject->transform->position += MOVE_SPEED * mainCamera->gameObject->transform->right * deltaTime;
 		}
 		if (inputSystem->getInputState(InputEnums::KeyCode::KEY_A) == InputEnums::InputState::INPUT_PRESSED){
-			cameraObj->transform->rotation += ROTATE_SPEED * cameraObj->transform->up * deltaTime;
+			mainCamera->gameObject->transform->rotation += ROTATE_SPEED * mainCamera->gameObject->transform->up * deltaTime;
 		}
 		if (inputSystem->getInputState(InputEnums::KeyCode::KEY_D) == InputEnums::InputState::INPUT_PRESSED){
-			cameraObj->transform->rotation += -ROTATE_SPEED * cameraObj->transform->up * deltaTime;
+			mainCamera->gameObject->transform->rotation += -ROTATE_SPEED * mainCamera->gameObject->transform->up * deltaTime;
 		}
 		if (inputSystem->getInputState(InputEnums::KeyCode::KEY_W) == InputEnums::InputState::INPUT_PRESSED){
-			cameraObj->transform->rotation += ROTATE_SPEED * glm::normalize(glm::abs(cameraObj->transform->right)) * deltaTime;
+			mainCamera->gameObject->transform->rotation += ROTATE_SPEED * glm::normalize(glm::abs(mainCamera->gameObject->transform->right)) * deltaTime;
 		}
 		if (inputSystem->getInputState(InputEnums::KeyCode::KEY_S) == InputEnums::InputState::INPUT_PRESSED){
-			cameraObj->transform->rotation += -ROTATE_SPEED * glm::normalize(glm::abs(cameraObj->transform->right)) * deltaTime;
+			mainCamera->gameObject->transform->rotation += -ROTATE_SPEED * glm::normalize(glm::abs(mainCamera->gameObject->transform->right)) * deltaTime;
 		}
 		if (inputSystem->getInputState(InputEnums::KeyCode::KEY_R) == InputEnums::InputState::INPUT_PRESSED){
-			cameraObj->transform->position = origCameraPos;
-			cameraObj->transform->rotation = glm::vec3(0.0f, 0.0f, 0.0f);
+			mainCamera->gameObject->transform->position = origCameraPos;
+			mainCamera->gameObject->transform->rotation = glm::vec3(0.0f, 0.0f, 0.0f);
+			mainCamera = cameraObj->GetComponent<Camera>();
 		}
 		break;
 	case 1:

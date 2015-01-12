@@ -15,6 +15,8 @@ namespace bobcat {
 		glm::mat4 projection;
 		int screenWidth, screenHeight;
 		float zoom;
+
+		Camera* parentCamera;
 	public:
 		Camera();
 

@@ -9,6 +9,7 @@ namespace bobcat {
 	class OpenGLHelpers {
 	public:
 		static void printVersionInfo();
+		static void printVersionMajorMinor();
 	};
 
 }

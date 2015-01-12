@@ -35,10 +35,14 @@ glm::mat4 GameObject::getModelMat(){
 		model = glm::rotate(model, rot.z, glm::vec3(0, 0, 1));
 		model = glm::scale(model, transform->scale);
 	}
-	if (parent){
-		model = parent->getModelMat() * model;
+	if (m_parent && relativeTo == RELATIVE_TO::PARENT){
+		model = m_parent->getModelMat() * model;
 	}
 	return model;
+}
+
+GameObject* GameObject::getParent() {
+	return m_parent;
 }
 
 /**
@@ -47,6 +51,10 @@ glm::mat4 GameObject::getModelMat(){
 
 void GameObject::setName(std::string _name){
 	name = _name;
+}
+
+void GameObject::setParent(GameObject* _parent){
+	m_parent = _parent;
 }
 
 /**
@@ -72,7 +80,7 @@ void GameObject::RemoveAllComponents(){
 
 void GameObject::attachGameObject(GameObject* _gameObject){
 	children.push_back(_gameObject);
-	_gameObject->parent = this;
+	_gameObject->setParent(this);
 }
 
 void GameObject::Update(float _deltaTime){

@@ -64,6 +64,15 @@ void Camera::UpdateCamera(){
 		transform->right.z, transform->up.z, transform->forward.z, 0,
 		-glm::dot(transform->right, transform->position), -glm::dot(transform->up, transform->position), -glm::dot(transform->forward, transform->position), 1
 	};
+
+	//Get the parent camera
+	if (gameObject->parent && gameObject->relativeTo == RELATIVE_TO::PARENT) {
+		if (!parentCamera) {
+			parentCamera = gameObject->parent->GetComponent<Camera>();
+		}
+		//Multiply the parent's view
+		view = parentCamera->getView() * view;
+	}
 }
 
 void Camera::UpdateProjection(){

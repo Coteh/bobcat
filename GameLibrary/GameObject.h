@@ -17,12 +17,17 @@
 
 namespace bobcat {
 
+	enum RELATIVE_TO {
+		PARENT = 0,
+		WORLD = 1
+	};
+
 	/**
 	* A GameObject is an entity in a scene.
 	*/
 	class GameObject {
 	private:
-		GameObject* parent;
+		GameObject* m_parent;
 		std::vector<GameObject*> children;
 		std::string name;
 		ComponentHolder* componentHolder;
@@ -51,6 +56,8 @@ namespace bobcat {
 		*/
 		glm::mat4 getModelMat();
 
+		GameObject* getParent();
+
 		/**
 		* Set a name for this GameObject.
 		* @param _name Name to give to the GameObject.
@@ -62,6 +69,8 @@ namespace bobcat {
 		* @param _gameObject GameObject to attach.
 		*/
 		void attachGameObject(GameObject* _gameObject);
+
+		void setParent(GameObject* _parent);
 
 		/**
 		* Add a Component of a particular Component type to this GameObject.
@@ -105,7 +114,11 @@ namespace bobcat {
 		Collider* collider; /**< Public reference to Collider component if it exists. */
 		Rigidbody* rigidbody; /**< Public reference to Rigidbody component if it exists. */
 		MeshRenderer* renderer; /**< Public reference to MeshRenderer component if it exists. */
+
+		__declspec(property(get = getParent, put = setParent)) GameObject* parent;
+
 		bool isWireFrameOn; /**< Set GameObject wireframe on/off. */
+		RELATIVE_TO relativeTo;
 	};
 
 	template <typename T>

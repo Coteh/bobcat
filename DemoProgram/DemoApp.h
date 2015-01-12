@@ -9,6 +9,7 @@ private:
 	bobcat::GameObject* circleObj;
 	bobcat::GameObject* planeObj;
 	bobcat::GameObject* cameraObj;
+	bobcat::GameObject* cameraChildObj;
 
 	glm::vec3 sphereTorque;
 	glm::vec3 origCameraPos;
