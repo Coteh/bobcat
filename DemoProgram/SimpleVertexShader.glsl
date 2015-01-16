@@ -15,5 +15,5 @@ void main() {
     gl_Position = MVP * vec4(vPosition, 1);
 
     // The color of each vertex will be interpolated to produce the color of each fragment.
-    v2f_color = vec4(vNormals * vColor, 1);
+    v2f_color = vec4(vColor, 1);
 }

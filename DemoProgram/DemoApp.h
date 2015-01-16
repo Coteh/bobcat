@@ -19,11 +19,15 @@ private:
 
 	bobcat::Material* mat;
 	bobcat::Material* noTexMat;
+	std::vector<glm::vec3> cubeObjColor;
 	glm::vec3 lightSource;
 
 	int mode;
 	int renderMode;
 	bool debugRenderOn;
+
+	float ballShatteringTime;
+	int ballIndex;
 public:
 	DemoApp();
 	DemoApp(int _engineCmd);

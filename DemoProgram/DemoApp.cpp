@@ -8,11 +8,14 @@
 
 #define RAY_DIST_LIMIT 10.0f
 
+#define BALL_SHATTERING_MAX_DELAY 1.0f
+
 using namespace bobcat;
 
 DemoApp::DemoApp() {
 	mode = 0;
 	renderMode = 0;
+	ballIndex = 0;
 }
 
 DemoApp::DemoApp(int _engineCmd) : DemoApp(){
@@ -93,12 +96,12 @@ void DemoApp::Init(){
 
 	/*Adding Materials*/
 	mat = new Material();
-	mat->color = glm::vec4(0.0, 0.0, 1.0, 1.0);
+	mat->color = glm::vec4(1.0, 1.0, 1.0, 1.0);
 	mat->shader = shaderManager->getShader(TEXTURE_MODEL);
 	mat->texture = tex;
 	noTexMat = new Material();
 	noTexMat->color = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
-	noTexMat->shader = shaderManager->getShader("UniformColor");
+	noTexMat->shader = shaderManager->getShader("JakeShader");
 
 	//Initalize the objects, plugging the meshes into them
 	GameObjectConstructionInfo cubeObjInfo;
@@ -108,6 +111,29 @@ void DemoApp::Init(){
 	cubeObjInfo.setMesh(resourceManager->getMesh("Sphere"));
 	cubeObj = GameObjectCreator::ConstructFrom(cubeObjInfo);
 	cubeObj->renderer->material = mat;
+
+	/*std::vector<glm::vec3> cubeObjNorms = cubeObj->renderer->meshFilter->mesh->normals;
+	for (size_t i = 0; i < cubeObjNorms.size(); i++) {
+		cubeObjNorms[i].x = -0.7f;
+		cubeObjNorms[i].y = 0.8f;
+	}
+	cubeObj->renderer->meshFilter->mesh->normals = cubeObjNorms;*/
+
+	std::vector<glm::vec2> cubeObjUVs = cubeObj->renderer->meshFilter->mesh->uv;
+	for (size_t i = 0; i < cubeObjUVs.size(); i++) {
+		cubeObjUVs[i].x = 0.0f + (i * 0.0005f);
+		cubeObjUVs[i].y = 0.0f + (i * 0.0005f);
+	}
+	cubeObj->renderer->meshFilter->mesh->uv = cubeObjUVs;
+
+	cubeObjColor = cubeObj->renderer->meshFilter->mesh->color;
+	for (size_t i = 0; i < cubeObjColor.size(); i++) {
+		cubeObjColor[i].x = 0.0f;
+		cubeObjColor[i].y = 0.0f + (i * 0.0005f);
+		cubeObjColor[i].z = 0.0f + (i * 0.0005f);
+	}
+	cubeObj->renderer->meshFilter->mesh->color = cubeObjColor;
+	
 	sphereTorque = cubeObj->rigidbody->rotationalVel;
 	scene->addGameObject(cubeObj);
 
@@ -152,7 +178,7 @@ void DemoApp::Init(){
 	//cameraObjInfo.setRigidbodyValues(glm::vec3(0), glm::vec3(0.0f, 35.0f, 0.0f), 0.0f);
 	cameraChildObj = GameObjectCreator::ConstructFrom(cameraObjChildInfo);
 	cameraChildObj->AddComponent<Camera>();
-	cameraChildObj->AddComponent<TestDisplayPosition>();
+	//cameraChildObj->AddComponent<TestDisplayPosition>();
 	cameraObj->attachGameObject(cameraChildObj);
 
 	origCameraPos = cameraObj->transform->position;
@@ -279,6 +305,20 @@ void DemoApp::Update(){
 	}else{
 		//Something else will happen here
 	}
+	
+	/*if (ballShatteringTime >= BALL_SHATTERING_MAX_DELAY) {
+		std::vector<glm::vec3> cubeObjPos = cubeObj->renderer->meshFilter->mesh->positions;
+		cubeObjPos[ballIndex] = glm::vec3(0.0f, 0.0f, 0.0f);
+		cubeObj->renderer->meshFilter->mesh->positions = cubeObjPos;
+		ballShatteringTime = 0.0f;
+		ballIndex++;
+		if (ballIndex >= cubeObjPos.size()) {
+			ballIndex = 0;
+		}
+	} else {
+		ballShatteringTime += deltaTime;
+	}*/
+	
 	if (shaderManager->getCurrShader() != nullptr){
 		glUniform3fv(shaderManager->getCurrShader()->lightingLoc, 1, glm::value_ptr(lightSource));
 	}

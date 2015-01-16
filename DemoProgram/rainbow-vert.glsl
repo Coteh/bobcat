@@ -23,5 +23,5 @@ void main()
 	normalWorld = normalize(norm * vNormals);
 
 	//Determine what the color to send to the shader is
-	vertexColor = vNormals + vec3(1.0,1.0,1.0);
+	vertexColor = vNormals;
 }
