@@ -47,7 +47,7 @@ void Rigidbody::setFriction(float _fric){
 void Rigidbody::Update(float _deltaTime){
 	if (gameObject->transform != nullptr){
 		gameObject->transform->position += m_velocity * _deltaTime;
-		gameObject->transform->rotation += m_rotationalVel * _deltaTime;
+		gameObject->transform->Rotate(m_rotationalVel * _deltaTime);
 	}
 	m_velocity *= m_friction;
 }

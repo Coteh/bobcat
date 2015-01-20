@@ -78,10 +78,10 @@ void DemoApp::Init(){
 	shaderManager->addShader(ShaderLoader::LoadShaders(shaders6), "UniformColor");
 
 	/*Setting up Textures*/
-	resourceManager->loadTexture("kitteh.png", "Moon");
-	resourceManager->loadTexture("OrangeLand.png", "OrangeLand");
-	Texture* tex = resourceManager->getTexture("Moon");
-	Texture* planeTex = resourceManager->getTexture("OrangeLand");
+	resourceManager->loadTexture("kitteh.png", "Cat");
+	resourceManager->loadTexture("Moon.png", "Moon");
+	Texture* tex = resourceManager->getTexture("Cat");
+	Texture* planeTex = resourceManager->getTexture("Moon");
 
 	/*Setting up Scene*/
 	sceneManager->addScene(new Scene());
@@ -93,24 +93,29 @@ void DemoApp::Init(){
 	resourceManager->addMesh("Monkey.ply", "Monkey");
 	resourceManager->addMesh("Plane.ply", "Plane");
 	resourceManager->addMesh("Cube.ply", "Cube");
+	resourceManager->addMesh("Teapot.ply", "Teapot");
 
 	/*Adding Materials*/
 	mat = new Material();
 	mat->color = glm::vec4(1.0, 1.0, 1.0, 1.0);
 	mat->shader = shaderManager->getShader(TEXTURE_MODEL);
 	mat->texture = tex;
+	moonMat = new Material();
+	moonMat->color = glm::vec4(1.0, 1.0, 1.0, 1.0);
+	moonMat->shader = shaderManager->getShader(TEXTURE_MODEL);
+	moonMat->texture = planeTex;
 	noTexMat = new Material();
 	noTexMat->color = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
 	noTexMat->shader = shaderManager->getShader("JakeShader");
 
 	//Initalize the objects, plugging the meshes into them
 	GameObjectConstructionInfo cubeObjInfo;
-	cubeObjInfo.setTransformValues();
+	cubeObjInfo.setTransformValues(glm::vec3(0.0f), glm::vec3(0.0f), glm::vec3(0.5f));
 	cubeObjInfo.setColliderMode(ColliderMode::SPHERE);
 	cubeObjInfo.setRigidbodyValues(glm::vec3(0.0f), glm::vec3(0.0f, 0.0f, 0.0f), 1.0f);
-	cubeObjInfo.setMesh(resourceManager->getMesh("Sphere"));
+	cubeObjInfo.setMesh(resourceManager->getMesh("Teapot"));
 	cubeObj = GameObjectCreator::ConstructFrom(cubeObjInfo);
-	cubeObj->renderer->material = mat;
+	cubeObj->renderer->material = moonMat;
 
 	/*std::vector<glm::vec3> cubeObjNorms = cubeObj->renderer->meshFilter->mesh->normals;
 	for (size_t i = 0; i < cubeObjNorms.size(); i++) {
@@ -126,13 +131,13 @@ void DemoApp::Init(){
 	}
 	cubeObj->renderer->meshFilter->mesh->uv = cubeObjUVs;
 
-	cubeObjColor = cubeObj->renderer->meshFilter->mesh->color;
+	/*cubeObjColor = cubeObj->renderer->meshFilter->mesh->color;
 	for (size_t i = 0; i < cubeObjColor.size(); i++) {
 		cubeObjColor[i].x = 0.0f;
 		cubeObjColor[i].y = 0.0f + (i * 0.0005f);
 		cubeObjColor[i].z = 0.0f + (i * 0.0005f);
 	}
-	cubeObj->renderer->meshFilter->mesh->color = cubeObjColor;
+	cubeObj->renderer->meshFilter->mesh->color = cubeObjColor;*/
 	
 	sphereTorque = cubeObj->rigidbody->rotationalVel;
 	scene->addGameObject(cubeObj);
@@ -159,7 +164,7 @@ void DemoApp::Init(){
 	planeObjInfo.setTransformValues(glm::vec3(0.0f, -10.0f, -10.0f), glm::vec3(90.0f, 0.0f, 0.0f), glm::vec3(100.0f, 100.0f, 100.0f));
 	planeObjInfo.setMesh(resourceManager->getMesh("Plane"));
 	planeObj = GameObjectCreator::ConstructFrom(planeObjInfo);
-	planeObj->renderer->material = mat;
+	planeObj->renderer->material = moonMat;
 	scene->addGameObject(planeObj);
 
 	logManager->writeLog(LogLevel::LOG_NONE, "This is a test log");
@@ -242,20 +247,20 @@ void DemoApp::InputUpdate(){
 			mainCamera->gameObject->transform->position += MOVE_SPEED * mainCamera->gameObject->transform->right * deltaTime;
 		}
 		if (inputSystem->getInputState(InputEnums::KeyCode::KEY_A) == InputEnums::InputState::INPUT_PRESSED){
-			mainCamera->gameObject->transform->rotation += ROTATE_SPEED * mainCamera->gameObject->transform->up * deltaTime;
+			mainCamera->gameObject->transform->Rotate(ROTATE_SPEED * mainCamera->gameObject->transform->up * deltaTime);
 		}
 		if (inputSystem->getInputState(InputEnums::KeyCode::KEY_D) == InputEnums::InputState::INPUT_PRESSED){
-			mainCamera->gameObject->transform->rotation += -ROTATE_SPEED * mainCamera->gameObject->transform->up * deltaTime;
+			mainCamera->gameObject->transform->Rotate(-ROTATE_SPEED * mainCamera->gameObject->transform->up * deltaTime);
 		}
 		if (inputSystem->getInputState(InputEnums::KeyCode::KEY_W) == InputEnums::InputState::INPUT_PRESSED){
-			mainCamera->gameObject->transform->rotation += ROTATE_SPEED * glm::normalize(glm::abs(mainCamera->gameObject->transform->right)) * deltaTime;
+			mainCamera->gameObject->transform->Rotate(ROTATE_SPEED * glm::normalize(glm::abs(mainCamera->gameObject->transform->right)) * deltaTime);
 		}
 		if (inputSystem->getInputState(InputEnums::KeyCode::KEY_S) == InputEnums::InputState::INPUT_PRESSED){
-			mainCamera->gameObject->transform->rotation += -ROTATE_SPEED * glm::normalize(glm::abs(mainCamera->gameObject->transform->right)) * deltaTime;
+			mainCamera->gameObject->transform->Rotate(-ROTATE_SPEED * glm::normalize(glm::abs(mainCamera->gameObject->transform->right)) * deltaTime);
 		}
 		if (inputSystem->getInputState(InputEnums::KeyCode::KEY_R) == InputEnums::InputState::INPUT_PRESSED){
 			mainCamera->gameObject->transform->position = origCameraPos;
-			mainCamera->gameObject->transform->rotation = glm::vec3(0.0f, 0.0f, 0.0f);
+			mainCamera->gameObject->transform->ResetOrientation();
 			mainCamera = cameraObj->GetComponent<Camera>();
 		}
 		break;
@@ -274,20 +279,26 @@ void DemoApp::InputUpdate(){
 			cubeObj->transform->position += glm::vec3(MOVE_SPEED, 0.0f, 0.0f) * deltaTime;
 		} 
 		if (inputSystem->getInputState(InputEnums::KeyCode::KEY_A) == InputEnums::InputState::INPUT_PRESSED){
-			cubeObj->transform->rotation += glm::vec3(0.0f, -ROTATE_SPEED, 0.0f) * deltaTime;
+			cubeObj->transform->Rotate(glm::vec3(0.0f, -ROTATE_SPEED, 0.0f) * deltaTime);
 		}
 		if (inputSystem->getInputState(InputEnums::KeyCode::KEY_D) == InputEnums::InputState::INPUT_PRESSED){
-			cubeObj->transform->rotation += glm::vec3(0.0f, ROTATE_SPEED, 0.0f) * deltaTime;
+			cubeObj->transform->Rotate(glm::vec3(0.0f, ROTATE_SPEED, 0.0f) * deltaTime);
 		}
 		if (inputSystem->getInputState(InputEnums::KeyCode::KEY_W) == InputEnums::InputState::INPUT_PRESSED){
-			cubeObj->transform->rotation += glm::vec3(ROTATE_SPEED, 0.0f, 0.0f) * deltaTime;
+			cubeObj->transform->Rotate(glm::vec3(ROTATE_SPEED, 0.0f, 0.0f) * deltaTime);
 		}
 		if (inputSystem->getInputState(InputEnums::KeyCode::KEY_S) == InputEnums::InputState::INPUT_PRESSED){
-			cubeObj->transform->rotation += glm::vec3(-ROTATE_SPEED, 0.0f, 0.0f) * deltaTime;
+			cubeObj->transform->Rotate(glm::vec3(-ROTATE_SPEED, 0.0f, 0.0f) * deltaTime);
+		}
+		if (inputSystem->getInputState(InputEnums::KeyCode::KEY_Q) == InputEnums::InputState::INPUT_PRESSED){
+			cubeObj->transform->Rotate(glm::vec3(0.0f, 0.0f, ROTATE_SPEED) * deltaTime);
+		}
+		if (inputSystem->getInputState(InputEnums::KeyCode::KEY_E) == InputEnums::InputState::INPUT_PRESSED){
+			cubeObj->transform->Rotate(glm::vec3(0.0f, 0.0f, -ROTATE_SPEED) * deltaTime);
 		}
 		if (inputSystem->getInputState(InputEnums::KeyCode::KEY_R) == InputEnums::InputState::INPUT_PRESSED){
 			cubeObj->transform->position = sphereOrigPos;
-			cubeObj->transform->rotation = glm::vec3(0.0f, 0.0f, 0.0f);
+			cubeObj->transform->ResetOrientation();
 		}
 		break;
 	}

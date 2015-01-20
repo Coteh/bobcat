@@ -12,7 +12,7 @@ GameObject* GameObjectCreator::ConstructFrom(GameObjectConstructionInfo _info){
 	if (_info.isTransformSet){
 		Transform* transform = go->AddComponent<Transform>();
 		transform->position = _info.position;
-		transform->rotation = _info.rotation;
+		transform->Rotate(_info.rotation);
 		transform->scale = _info.scale;
 		go->transform = transform;
 	}

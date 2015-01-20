@@ -10,6 +10,7 @@ namespace bobcat {
 	*/
 	class Transform : public Component {
 	private:
+		glm::mat4 m_orientation;
 		glm::vec3 m_position;
 		glm::vec3 m_rotation;
 		glm::vec3 m_scale;
@@ -35,7 +36,7 @@ namespace bobcat {
 		* @return Vector3 that represents the GameObject's rotation.
 		* @note This is used in the rotation property and can also be called from there.
 		*/
-		glm::vec3 getRotation();
+		//glm::vec3 getRotation();
 
 		/**
 		* Get the scale of the GameObject.
@@ -65,19 +66,14 @@ namespace bobcat {
 		*/
 		glm::vec3 getRight();
 
+		glm::mat4 getOrientation();
+
 		/**
 		* Set the position of the GameObject.
 		* @param _pos Vector3 that would represent the GameObject's position.
 		* @note This is used in the position property and can also be called from there.
 		*/
 		void setPosition(glm::vec3 _pos);
-
-		/**
-		* Set the rotation of the GameObject.
-		* @param _rot Vector3 that would represent the GameObject's rotation.
-		* @note This is used in the rotation property and can also be called from there.
-		*/
-		void setRotation(glm::vec3 _rot);
 
 		/**
 		* Set the scale of the GameObject.
@@ -107,6 +103,10 @@ namespace bobcat {
 		*/
 		void setRight(glm::vec3 _rgt);
 
+		void Rotate(glm::vec3 _euler);
+
+		void ResetOrientation();
+
 		/**
 		* Property to access the Transform position.
 		*/
@@ -115,7 +115,7 @@ namespace bobcat {
 		/**
 		* Property to access the Transform rotation.
 		*/
-		__declspec(property(get = getRotation, put = setRotation)) glm::vec3 rotation;
+		/*__declspec(property(get = getRotation)) glm::vec3 rotation;*/
 
 		/**
 		* Property to access the Transform scale.
@@ -136,6 +136,8 @@ namespace bobcat {
 		* Property to access the Transform right vector.
 		*/
 		__declspec(property(get = getRight, put = setRight)) glm::vec3 right;
+
+		__declspec(property(get = getOrientation)) glm::mat4 orientation;
 	};
 
 }

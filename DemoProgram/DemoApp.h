@@ -18,6 +18,7 @@ private:
 	bobcat::Ray* ray;
 
 	bobcat::Material* mat;
+	bobcat::Material* moonMat;
 	bobcat::Material* noTexMat;
 	std::vector<glm::vec3> cubeObjColor;
 	glm::vec3 lightSource;

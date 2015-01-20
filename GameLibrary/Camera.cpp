@@ -46,7 +46,6 @@ void Camera::IncrementZoom(float _zoom){
 
 /**
 * Update the Camera's View Matrix
-* Thank you Jake for the help!
 */
 void Camera::UpdateCamera(){
 	//We need the game object's transform for its position and rotation
