@@ -8,8 +8,6 @@
 
 #define RAY_DIST_LIMIT 10.0f
 
-#define BALL_SHATTERING_MAX_DELAY 1.0f
-
 using namespace bobcat;
 
 DemoApp::DemoApp() {
@@ -70,12 +68,26 @@ void DemoApp::Init(){
 		{ GL_NONE, NULL }
 	};
 
+	ShaderLoadInfo shaders7[] = {
+		{ GL_VERTEX_SHADER, "scottshader-vert.glsl" },
+		{ GL_FRAGMENT_SHADER, "scottshader-frag.glsl" },
+		{ GL_NONE, NULL }
+	};
+
+	ShaderLoadInfo shaders8[] = {
+		{ GL_VERTEX_SHADER, "scotttextureshader-vert.glsl" },
+		{ GL_FRAGMENT_SHADER, "scotttextureshader-frag.glsl" },
+		{ GL_NONE, NULL }
+	};
+
 	shaderManager->addShader(ShaderLoader::LoadShaders(shaders), "TestShader");
 	shaderManager->addShader(ShaderLoader::LoadShaders(shaders2), "TestShader2");
 	shaderManager->addShader(ShaderLoader::LoadShaders(shaders3), "JakeShader");
 	shaderManager->addShader(ShaderLoader::LoadShaders(shaders4), "ColorModel");
 	shaderManager->addShader(ShaderLoader::LoadShaders(shaders5), "TextureModel");
 	shaderManager->addShader(ShaderLoader::LoadShaders(shaders6), "UniformColor");
+	shaderManager->addShader(ShaderLoader::LoadShaders(shaders7), "ScottShader");
+	shaderManager->addShader(ShaderLoader::LoadShaders(shaders8), "ScottTextureShader");
 
 	/*Setting up Textures*/
 	resourceManager->loadTexture("kitteh.png", "Cat");
@@ -106,7 +118,7 @@ void DemoApp::Init(){
 	moonMat->texture = planeTex;
 	noTexMat = new Material();
 	noTexMat->color = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
-	noTexMat->shader = shaderManager->getShader("JakeShader");
+	noTexMat->shader = shaderManager->getShader(TEXTURE_MODEL);
 
 	//Initalize the objects, plugging the meshes into them
 	GameObjectConstructionInfo cubeObjInfo;
@@ -115,7 +127,7 @@ void DemoApp::Init(){
 	cubeObjInfo.setRigidbodyValues(glm::vec3(0.0f), glm::vec3(0.0f, 0.0f, 0.0f), 1.0f);
 	cubeObjInfo.setMesh(resourceManager->getMesh("Teapot"));
 	cubeObj = GameObjectCreator::ConstructFrom(cubeObjInfo);
-	cubeObj->renderer->material = moonMat;
+	cubeObj->renderer->material = mat;
 
 	/*std::vector<glm::vec3> cubeObjNorms = cubeObj->renderer->meshFilter->mesh->normals;
 	for (size_t i = 0; i < cubeObjNorms.size(); i++) {
@@ -124,12 +136,12 @@ void DemoApp::Init(){
 	}
 	cubeObj->renderer->meshFilter->mesh->normals = cubeObjNorms;*/
 
-	std::vector<glm::vec2> cubeObjUVs = cubeObj->renderer->meshFilter->mesh->uv;
+	/*std::vector<glm::vec2> cubeObjUVs = cubeObj->renderer->meshFilter->mesh->uv;
 	for (size_t i = 0; i < cubeObjUVs.size(); i++) {
 		cubeObjUVs[i].x = 0.0f + (i * 0.0005f);
 		cubeObjUVs[i].y = 0.0f + (i * 0.0005f);
 	}
-	cubeObj->renderer->meshFilter->mesh->uv = cubeObjUVs;
+	cubeObj->renderer->meshFilter->mesh->uv = cubeObjUVs;*/
 
 	/*cubeObjColor = cubeObj->renderer->meshFilter->mesh->color;
 	for (size_t i = 0; i < cubeObjColor.size(); i++) {
@@ -316,19 +328,6 @@ void DemoApp::Update(){
 	}else{
 		//Something else will happen here
 	}
-	
-	/*if (ballShatteringTime >= BALL_SHATTERING_MAX_DELAY) {
-		std::vector<glm::vec3> cubeObjPos = cubeObj->renderer->meshFilter->mesh->positions;
-		cubeObjPos[ballIndex] = glm::vec3(0.0f, 0.0f, 0.0f);
-		cubeObj->renderer->meshFilter->mesh->positions = cubeObjPos;
-		ballShatteringTime = 0.0f;
-		ballIndex++;
-		if (ballIndex >= cubeObjPos.size()) {
-			ballIndex = 0;
-		}
-	} else {
-		ballShatteringTime += deltaTime;
-	}*/
 	
 	if (shaderManager->getCurrShader() != nullptr){
 		glUniform3fv(shaderManager->getCurrShader()->lightingLoc, 1, glm::value_ptr(lightSource));

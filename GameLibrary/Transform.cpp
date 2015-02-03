@@ -77,6 +77,7 @@ void Transform::Rotate(glm::vec3 _euler) {
 void Transform::ResetOrientation() {
 	m_rotation = glm::vec3(0.0f);
 	m_orientation = glm::mat4(1.0f);
+	determineDirections();
 }
 
 void Transform::determineDirections(){

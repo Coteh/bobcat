@@ -47,7 +47,7 @@ void OpenGLRenderSystem::RenderObject(GameObject* _gameObject){
 	/*Drawing GameObject*/
 	if (_gameObject->renderer != nullptr){ //don't draw if mesh renderer is null
 		Material* mat = _gameObject->renderer->material; //get a reference to the material
-		if (mat != nullptr){
+		if (mat != nullptr && mat->shader != nullptr){
 			//Make sure OpenGL is always using the shader program that the GameObject is using
 			if (shaderManager->getCurrShader() == nullptr || mat->shader->shaderProgram != shaderManager->getCurrShader()->shaderProgram){
 				shaderManager->useShader(mat->shader->name);

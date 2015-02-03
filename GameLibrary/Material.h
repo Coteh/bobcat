@@ -3,15 +3,30 @@
 #include <glm\gtc\type_ptr.hpp>
 #include "Shader.h"
 #include "Texture.h"
+#include "LogManager.h"
 
 namespace bobcat {
 
 	class Material {
+	private:
+		Shader* m_shader;
 	public:
 		Material(){};
 		~Material(){};
 
-		Shader* shader;
+		Shader* getShader(){
+			return m_shader;
+		}
+		void setShader(Shader* _shader){
+			m_shader = _shader;
+			if (_shader == nullptr){
+				LogManager* logManager = LogManager::getInstance();
+				logManager->writeLog(LogLevel::LOG_ERROR, "ERROR: Shader provided for material is NULL!");
+				logManager->printLastError();
+			}
+		}
+
+		__declspec(property(get = getShader, put = setShader)) Shader* shader;
 		glm::vec4 color;
 		Texture* texture;
 
