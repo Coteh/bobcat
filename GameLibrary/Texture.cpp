@@ -10,8 +10,12 @@ Texture::~Texture(){
 
 }
 
-void Texture::Bind(GLuint _samplerLoc){
+void Texture::Bind(int _mode, GLuint _samplerLoc) {
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, texID);
+	glBindTexture(_mode, texID);
 	glUniform1i(_samplerLoc, 0);
+}
+
+void Texture::Bind(GLuint _samplerLoc){
+	Bind(GL_TEXTURE_2D, _samplerLoc);
 }

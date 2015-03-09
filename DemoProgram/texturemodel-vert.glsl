@@ -2,6 +2,7 @@
 uniform mat4 Model;
 uniform mat4 View;
 uniform mat4 Projection;
+uniform vec3 lightPos;
 layout(location = 0) in vec3 vPosition;
 layout(location = 1) in vec3 vNormals;
 layout(location = 2) in vec2 vTexture;

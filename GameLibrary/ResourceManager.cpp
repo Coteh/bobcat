@@ -112,7 +112,7 @@ ITextureLoader* ResourceManager::determineTextureLoader(std::string _fileName){
 	std::string fileExtension = linesSplit[linesSplit.size() - 1];
 	std::transform(fileExtension.begin(), fileExtension.end(), fileExtension.begin(), ::tolower);
 
-	if (fileExtension == "png") {
+	if (fileExtension == "png" || fileExtension == "jpg") {
 		return new PNGTextureLoader();
 	} else if (fileExtension == "tga"){
 		return new TGATextureLoader();

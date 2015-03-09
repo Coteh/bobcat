@@ -14,6 +14,7 @@ namespace bobcat {
 
 		Texture();
 		~Texture();
+		void Bind(int _mode, GLuint _samplerLoc);
 		void Bind(GLuint _samplerLoc);
 	};
 

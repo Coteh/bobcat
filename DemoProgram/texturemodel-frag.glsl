@@ -23,7 +23,7 @@ void main()
 	//diffuse brightness
 	float Kd = dot(lightVectorWorld, normalize(normalWorld));
 	vec4 diffuse = Kd * vec4(1.0,1.0,1.0,1.0);
-	vec3 lcolor = clamp(diffuse.xyz, 0, 1);
+	vec3 diffuseClamped = clamp(diffuse.xyz, 0, 1);
 
-	fColor = texture(tex, texCoords) * uniColor * vec4(lcolor, 1.0);
+	fColor = texture(tex, texCoords) * uniColor/* * vec4(diffuseClamped, 1)*/;
 }
