@@ -35,6 +35,13 @@ ResourceManager::~ResourceManager() {
 	textureClearMap.swap(textureMap);
 }
 
+void ResourceManager::provideAssetPaths(std::string _modelPath, std::string _texPath) {
+	//Providing model path
+	modelPath = _modelPath;
+	//Providing texture path
+	texPath = _texPath;
+}
+
 Mesh* ResourceManager::getMesh(std::string _name){
 	Mesh* meshToReturn = nullptr;
 	if (meshMap.count(_name)){ //find the model/mesh
@@ -89,7 +96,7 @@ void ResourceManager::addMesh(std::string _fileName, std::string _meshName){
 	IModelReader* modelReader = determineModelReader(_fileName);
 	if (modelReader == nullptr) return; //do not read model if model reader is null
 	try{
-		modelReader->readModel(_fileName);
+		modelReader->readModel(modelPath + _fileName);
 		std::vector<GLfloat> verts = modelReader->getAllVertexData();
 		std::vector<GLuint> indices = modelReader->getIndices();
 		std::vector<int> indiceCountData = modelReader->getIndiceCountData();
@@ -125,10 +132,6 @@ void ResourceManager::loadTexture(std::string _fileName, std::string _texName){
 	//Provide the file name string to the TextureLoader
 	//then load the texture to the brand new texture
 	Texture* brandNewTexture = new Texture();
-	//Convert string to char array
-	char* fileNameChars = new char[_fileName.length() + 1];
-	errno_t errCode;
-	errCode = strcpy_s(fileNameChars, _fileName.length() + 1, _fileName.c_str());
 	//Determine TextureLoader to use
 	textureLoader = determineTextureLoader(_fileName);
 	if (textureLoader == nullptr) return; //do not load texture if the texture loader is null
@@ -141,6 +144,13 @@ void ResourceManager::loadTexture(std::string _fileName, std::string _texName){
 	//Assign the newly created texture ID to the new Texture instance we just made
 	brandNewTexture->texID = texID;
 
+	//Convert path + filename to char array
+	std::string concatStr = texPath + _fileName;
+	size_t memSize = concatStr.length() + 1;
+	char* fileNameChars = new char[memSize];
+	errno_t errCode;
+	errCode = strcpy_s(fileNameChars, memSize, concatStr.c_str());
+	//Load texture using that concatenated filepath
 	textureLoader->LoadTextureImage(brandNewTexture, fileNameChars);
 
 	if (brandNewTexture->imageData == nullptr){

@@ -14,9 +14,9 @@ namespace bobcat {
 	public:
 		/**
 		* Read model from file.
-		* @param _fileName Name of model file to read.
+		* @param _filePath Path of model file to read.
 		*/
-		virtual void readModel(std::string _fileName) = 0;
+		virtual void readModel(std::string _filePath) = 0;
 
 		/**
 		* Get all vertex data from a model file.

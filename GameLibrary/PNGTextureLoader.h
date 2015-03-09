@@ -9,7 +9,7 @@ namespace bobcat {
 	public:
 		PNGTextureLoader();
 		virtual ~PNGTextureLoader();
-		virtual void LoadTextureImage(Texture* _texture, char* _fileName);
+		virtual void LoadTextureImage(Texture* _texture, char* _filePath);
 	};
 
 }

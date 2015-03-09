@@ -27,9 +27,9 @@ namespace bobcat {
 	public:
 		TGATextureLoader();
 		virtual ~TGATextureLoader();
-		virtual void LoadTextureImage(Texture* _texture, char* _fileName);
-		bool LoadCompressedTGA(Texture * texture, char * filename, FILE * fTGA);
-		bool LoadUncompressedTGA(Texture * texture, char * filename, FILE * fTGA);
+		virtual void LoadTextureImage(Texture* _texture, char* _filePath);
+		bool LoadCompressedTGA(Texture *_texture, char *_filePath, FILE *_fTGA);
+		bool LoadUncompressedTGA(Texture *_texture, char *_filePath, FILE *_fTGA);
 	};
 
 }

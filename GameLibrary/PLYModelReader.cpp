@@ -29,7 +29,7 @@ void PLYModelReader::clearVectors(){
 * Processes the PLY file
 and removes any blank lines and/or comment lines
 */
-void PLYModelReader::readModel(std::string _fileName){
+void PLYModelReader::readModel(std::string _filePath){
 	//Is it the first time reading a model with PLY Model Reader?
 	if (!isFirstTime){
 		//If not, clear all the data out from previous read
@@ -37,7 +37,7 @@ void PLYModelReader::readModel(std::string _fileName){
 	}
 	isFirstTime = false;
 	//Contents of the model file
-	fileContents = std::vector<std::string>(readFromFile(_fileName));
+	fileContents = std::vector<std::string>(readFromFile(_filePath));
 
 	if (fileContents.size() == 0){
 		//file not read, throw an error

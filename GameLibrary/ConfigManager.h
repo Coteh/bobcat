@@ -4,8 +4,15 @@
 #include <rapidjson\document.h>
 
 #define CFG_KEY_WINDOW "window"
+#define CFG_KEY_ASSETPATHS "content-paths"
 
 namespace bobcat {
+
+	struct AssetPaths {
+		std::string modelPath;
+		std::string texPath;
+		std::string shadersPath;
+	};
 
 	/**
 	* A singleton class that can open up a JSON configuration file and read properties from it.
@@ -28,9 +35,9 @@ namespace bobcat {
 
 		/**
 		* Read a configuration file.
-		* @param _fileName File name of the configuration file to read.
+		* @param _filePath File path of the configuration file to read.
 		*/
-		void readConfigFile(const char* _fileName);
+		void readConfigFile(const char* _filePath);
 
 		/*bool writeConfigFile(const char* _fileName);*/
 
@@ -41,6 +48,8 @@ namespace bobcat {
 		* @param &_height Reference to height variable to overwrite.
 		*/
 		void getWindowSettings(const char* &_name, int &_width, int &_height);
+
+		void getAssetLoadPaths(AssetPaths* _assetPaths);
 	};
 
 }

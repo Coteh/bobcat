@@ -44,9 +44,9 @@ std::string LogManager::getLogLevelString(LogLevel _logLevel){
 	return logLevelString;
 }
 
-void LogManager::setDefaultLogFileName(std::string _fileName){
-	defaultLogFileName = _fileName;
-	fileWriter->writeToFile(defaultLogFileName, ""); //clear out the log file before we start writing to it.
+void LogManager::setLogfile(std::string _filePath){
+	defaultLogFilePath = _filePath;
+	fileWriter->writeToFile(defaultLogFilePath, ""); //clear out the log file before we start writing to it.
 }
 
 /* Stores the error message and then writes it to the log file.
@@ -55,7 +55,7 @@ void LogManager::writeLog(LogLevel _level, std::string _message){
 	lastErrorStr = getLogLevelString(_level) + _message + "\n";
 	lastErrorLevel = _level;
 	if (_level >= writePriority){ //only write if error level is on write priority bracket
-		fileWriter->appendToFile(defaultLogFileName, lastErrorStr);
+		fileWriter->appendToFile(defaultLogFilePath, lastErrorStr);
 	}
 }
 

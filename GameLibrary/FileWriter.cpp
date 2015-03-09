@@ -11,25 +11,25 @@ FileWriter::FileWriter() {
 FileWriter::~FileWriter() {
 }
 
-void FileWriter::writeToFile(std::string _fileName, std::vector<std::string> _data){
+void FileWriter::writeToFile(std::string _filePath, std::vector<std::string> _data){
 	std::ofstream file;
-	file.open(_fileName);
+	file.open(_filePath);
 	for (size_t i = 0; i < _data.size(); i++){
 		file << _data[i];
 	}
 	file.close();
 }
 
-void FileWriter::writeToFile(std::string _fileName, std::string _line){
+void FileWriter::writeToFile(std::string _filePath, std::string _line){
 	std::ofstream file;
-	file.open(_fileName);
+	file.open(_filePath);
 	file << _line;
 	file.close();
 }
 
-void FileWriter::appendToFile(std::string _fileName, std::string _line){
+void FileWriter::appendToFile(std::string _filePath, std::string _line){
 	std::ofstream file;
-	file.open(_fileName, std::ios_base::app);
+	file.open(_filePath, std::ios_base::app);
 	file << _line;
 	file.close();
 }

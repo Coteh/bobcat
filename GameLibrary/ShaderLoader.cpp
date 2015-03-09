@@ -3,6 +3,8 @@
 
 using namespace bobcat;
 
+std::string ShaderLoader::shadersLoadPath;
+
 const GLchar* ShaderLoader::ReadShader(const char* _fileName){
 	FILE* inFile;
 	fopen_s(&inFile, _fileName, "rb");
@@ -40,8 +42,10 @@ GLuint ShaderLoader::LoadShaders(ShaderLoadInfo* _shaders){
 		GLuint shader = glCreateShader(entry->type);
 		//Save the shader ID to the ShaderLoadInfo's shaderID property
 		entry->shaderID = shader;
+		//Concatenate shader path with filename
+		std::string concatStr = std::string(shadersLoadPath) + entry->filename;
 		//Read specified filename of the shader type
-		const GLchar* source = ReadShader(entry->filename);
+		const GLchar* source = ReadShader(concatStr.c_str());
 		//Check if shader file was loaded
 		if (source == NULL) {
 			//If shader file wasn't loaded, delete all shaders
@@ -113,4 +117,9 @@ GLuint ShaderLoader::LoadShaders(ShaderLoadInfo* _shaders){
 	}
 	//Return the loaded program ID
 	return program;
+}
+
+void ShaderLoader::ProvideShaderLoadPath(std::string _shadersLoadPath) {
+	//Set the path
+	shadersLoadPath = _shadersLoadPath;
 }

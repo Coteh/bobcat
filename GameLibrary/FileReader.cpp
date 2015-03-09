@@ -11,8 +11,8 @@ FileReader::~FileReader(){
 	
 }
 
-std::vector<std::string> FileReader::readFromFile(std::string _fileName){
-	std::ifstream file(_fileName);
+std::vector<std::string> FileReader::readFromFile(std::string _filePath){
+	std::ifstream file(_filePath);
 	std::string readStr;
 	std::vector<std::string> fileStrVec;
 	while (std::getline(file, readStr)){
@@ -22,8 +22,8 @@ std::vector<std::string> FileReader::readFromFile(std::string _fileName){
 	return fileStrVec;
 }
 
-std::string FileReader::readFromFileAsString(std::string _fileName){
-	std::vector<std::string> fileVec = readFromFile(_fileName);
+std::string FileReader::readFromFileAsString(std::string _filePath){
+	std::vector<std::string> fileVec = readFromFile(_filePath);
 	std::string retStr;
 	for (size_t i = 0; i < fileVec.size(); i++){
 		retStr.append(fileVec[i]);

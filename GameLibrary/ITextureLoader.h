@@ -13,9 +13,9 @@ namespace bobcat {
 		/**
 		* Load a texture image from file.
 		* @param _texture Reference to the Texture instance that will receive the image data.
-		* @param _fileName Name of the image file to be read.
+		* @param _filePath Path of the image file to be read.
 		*/
-		virtual void LoadTextureImage(Texture* _texture, char* _fileName) = 0;
+		virtual void LoadTextureImage(Texture* _texture, char* _filePath) = 0;
 
 		virtual ~ITextureLoader(){};
 	};

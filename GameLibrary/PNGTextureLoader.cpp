@@ -10,9 +10,9 @@ PNGTextureLoader::~PNGTextureLoader(){
 
 }
 
-void PNGTextureLoader::LoadTextureImage(Texture* _texture, char* _fileName){
+void PNGTextureLoader::LoadTextureImage(Texture* _texture, char* _filePath){
 	int width, height;
-	unsigned char* image = SOIL_load_image(_fileName, &width, &height, 0, SOIL_LOAD_RGBA);
+	unsigned char* image = SOIL_load_image(_filePath, &width, &height, 0, SOIL_LOAD_RGBA);
 	_texture->width = width;
 	_texture->height = height;
 	_texture->type = GL_RGBA;

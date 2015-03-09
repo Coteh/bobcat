@@ -34,6 +34,9 @@ namespace bobcat {
 		IModelReader* determineModelReader(std::string _fileName);
 		ITextureLoader* determineTextureLoader(std::string _fileName);
 
+		std::string modelPath;
+		std::string texPath;
+
 		ResourceManager();
 	public:
 		/**
@@ -41,6 +44,8 @@ namespace bobcat {
 		* @return ResourceManager singleton instance.
 		*/
 		static ResourceManager* getInstance();
+
+		void provideAssetPaths(std::string _modelPath, std::string _texPath);
 		
 		/**
 		* Get a mesh of a particular name.

@@ -19,7 +19,7 @@ namespace bobcat {
 	private:
 		static LogManager* instance;
 
-		std::string defaultLogFileName;
+		std::string defaultLogFilePath;
 
 		std::string lastErrorStr;
 		LogLevel lastErrorLevel;
@@ -33,7 +33,7 @@ namespace bobcat {
 		LogManager();
 	public:
 		static LogManager* getInstance();
-		void setDefaultLogFileName(std::string _fileName);
+		void setLogfile(std::string _filePath);
 		void writeLog(LogLevel _level, std::string _message);
 		void printLastError();
 		~LogManager();

@@ -10,8 +10,8 @@ namespace bobcat {
 		public:
 			FileReader();
 			virtual ~FileReader();
-			virtual std::vector<std::string> readFromFile(std::string _fileName);
-			virtual std::string readFromFileAsString(std::string _fileName);
+			virtual std::vector<std::string> readFromFile(std::string _filePath);
+			virtual std::string readFromFileAsString(std::string _filePath);
 		};
 
 	};

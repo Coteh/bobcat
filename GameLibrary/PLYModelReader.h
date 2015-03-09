@@ -84,7 +84,7 @@ namespace bobcat {
 	public:
 		PLYModelReader();
 		virtual ~PLYModelReader();
-		virtual void readModel(std::string _fileName);
+		virtual void readModel(std::string _filePath);
 		std::vector<GLfloat> getVertexData(std::string _variableName);
 		std::vector<GLfloat> getVertices(std::string _xName, std::string _yName, std::string _zName);
 		std::vector<GLfloat> getVertices(std::string _xName, std::string _yName);

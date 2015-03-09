@@ -9,11 +9,14 @@
 using namespace bobcat;
 
 Engine::Engine() {
+	//Setting up Engine I/O
 	logManager = LogManager::getInstance();
-	logManager->setDefaultLogFileName("EngineLog.txt");
+	logManager->setLogfile("EngineLog.txt");
 	configManager = ConfigManager::getInstance();
 	configManager->readConfigFile(CONFIG_FILE);
+	//Setting up clock
 	Clock::init();
+	//Setting up windowing
 #ifdef WINDOWING_GLFW
 	window = new GLFWWindower();
 	inputSystem = new GLFWInputSystem((GLFWWindower*)window);
@@ -23,8 +26,14 @@ Engine::Engine() {
 	window = new SFMLWindower();
 	inputSystem = new SFMLInputSystem((SFMLWindower*)window);
 #endif
-	renderer = new OpenGLRenderSystem();
+	//Setting up content paths (This must be done before the next step!)
 	resourceManager = ResourceManager::getInstance();
+	AssetPaths assetPaths;
+	configManager->getAssetLoadPaths(&assetPaths);
+	resourceManager->provideAssetPaths(assetPaths.modelPath, assetPaths.texPath);
+	ShaderLoader::ProvideShaderLoadPath(assetPaths.shadersPath);
+	//Setting up everything else
+	renderer = new OpenGLRenderSystem();
 	sceneManager = SceneManager::getInstance();
 	shaderManager = ShaderManager::getInstance();
 	isGameRunning = true;
