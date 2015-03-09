@@ -91,9 +91,9 @@ void DemoApp::Init(){
 
 	/*Setting up Textures*/
 	resourceManager->loadTexture("kitteh.png", "Cat");
-	resourceManager->loadTexture("Moon.png", "Moon");
+	resourceManager->loadTexture("Grass.png", "Grass");
 	Texture* tex = resourceManager->getTexture("Cat");
-	Texture* planeTex = resourceManager->getTexture("Moon");
+	Texture* planeTex = resourceManager->getTexture("Grass");
 
 	/*Setting up Scene*/
 	sceneManager->addScene(new Scene());
@@ -128,28 +128,6 @@ void DemoApp::Init(){
 	cubeObjInfo.setMesh(resourceManager->getMesh("Teapot"));
 	cubeObj = GameObjectCreator::ConstructFrom(cubeObjInfo);
 	cubeObj->renderer->material = mat;
-
-	/*std::vector<glm::vec3> cubeObjNorms = cubeObj->renderer->meshFilter->mesh->normals;
-	for (size_t i = 0; i < cubeObjNorms.size(); i++) {
-		cubeObjNorms[i].x = -0.7f;
-		cubeObjNorms[i].y = 0.8f;
-	}
-	cubeObj->renderer->meshFilter->mesh->normals = cubeObjNorms;*/
-
-	/*std::vector<glm::vec2> cubeObjUVs = cubeObj->renderer->meshFilter->mesh->uv;
-	for (size_t i = 0; i < cubeObjUVs.size(); i++) {
-		cubeObjUVs[i].x = 0.0f + (i * 0.0005f);
-		cubeObjUVs[i].y = 0.0f + (i * 0.0005f);
-	}
-	cubeObj->renderer->meshFilter->mesh->uv = cubeObjUVs;*/
-
-	/*cubeObjColor = cubeObj->renderer->meshFilter->mesh->color;
-	for (size_t i = 0; i < cubeObjColor.size(); i++) {
-		cubeObjColor[i].x = 0.0f;
-		cubeObjColor[i].y = 0.0f + (i * 0.0005f);
-		cubeObjColor[i].z = 0.0f + (i * 0.0005f);
-	}
-	cubeObj->renderer->meshFilter->mesh->color = cubeObjColor;*/
 	
 	sphereTorque = cubeObj->rigidbody->rotationalVel;
 	scene->addGameObject(cubeObj);
