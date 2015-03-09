@@ -1,4 +1,4 @@
-#include "DemoApp.h"
+#include "BobcatDemo.h"
 #include <glm\gtc\type_ptr.hpp>
 
 #define TEXTURE_MODEL "TextureModel"
@@ -10,25 +10,25 @@
 
 using namespace bobcat;
 
-DemoApp::DemoApp() {
+BobcatDemo::BobcatDemo() {
 	mode = 0;
 	renderMode = 0;
 	ballIndex = 0;
 }
 
-DemoApp::DemoApp(int _engineCmd) : DemoApp(){
+BobcatDemo::BobcatDemo(int _engineCmd) : BobcatDemo(){
 	if (_engineCmd){
 		Init();
 	}
 }
 
-DemoApp::~DemoApp() {
+BobcatDemo::~BobcatDemo() {
 	delete ray;
 	delete mat;
 	delete noTexMat;
 }
 
-void DemoApp::Init(){
+void BobcatDemo::Init(){
 	Engine::Init();
 
 	/*Setting up Shaders*/
@@ -128,7 +128,7 @@ void DemoApp::Init(){
 	cubeObjInfo.setMesh(resourceManager->getMesh("Teapot"));
 	cubeObj = GameObjectCreator::ConstructFrom(cubeObjInfo);
 	cubeObj->renderer->material = mat;
-	
+
 	sphereTorque = cubeObj->rigidbody->rotationalVel;
 	scene->addGameObject(cubeObj);
 
@@ -185,7 +185,7 @@ void DemoApp::Init(){
 	renderer->setDebugRender(debugRenderOn);
 }
 
-void DemoApp::OnKeyEvent(){
+void BobcatDemo::OnKeyEvent(){
 	Engine::OnKeyEvent();
 	if (inputSystem->getInputState(InputEnums::KeyCode::KEY_ESCAPE) == InputEnums::InputState::INPUT_PRESSED){
 		Quit();
@@ -218,7 +218,7 @@ void DemoApp::OnKeyEvent(){
 	}
 }
 
-void DemoApp::InputUpdate(){
+void BobcatDemo::InputUpdate(){
 	if (inputSystem == nullptr) return;
 	Engine::InputUpdate();
 	switch (mode){
@@ -267,7 +267,7 @@ void DemoApp::InputUpdate(){
 		}
 		if (inputSystem->getInputState(InputEnums::KeyCode::KEY_RIGHT) == InputEnums::InputState::INPUT_PRESSED){
 			cubeObj->transform->position += glm::vec3(MOVE_SPEED, 0.0f, 0.0f) * deltaTime;
-		} 
+		}
 		if (inputSystem->getInputState(InputEnums::KeyCode::KEY_A) == InputEnums::InputState::INPUT_PRESSED){
 			cubeObj->transform->Rotate(glm::vec3(0.0f, -ROTATE_SPEED, 0.0f) * deltaTime);
 		}
@@ -294,7 +294,7 @@ void DemoApp::InputUpdate(){
 	}
 }
 
-void DemoApp::Update(){
+void BobcatDemo::Update(){
 	Engine::Update();
 	scene->updateGameObjects(deltaTime);
 	ray->updateRay(mainCamera->gameObject->transform->position, mainCamera->gameObject->transform->forward);
@@ -303,21 +303,21 @@ void DemoApp::Update(){
 	if (ray->intersects(col->position, col->radius * col->scale, &dist) && (RAY_DIST_LIMIT == 0.0f ^ dist <= RAY_DIST_LIMIT)){
 		//Something will happen here
 		printf("Hit! at dist %f", dist);
-	}else{
+	} else{
 		//Something else will happen here
 	}
-	
+
 	if (shaderManager->getCurrShader() != nullptr){
 		glUniform3fv(shaderManager->getCurrShader()->lightingLoc, 1, glm::value_ptr(lightSource));
 	}
 }
 
-void DemoApp::Draw(){
+void BobcatDemo::Draw(){
 	Engine::Draw();
 	scene->renderGameObjects();
 }
 
-void DemoApp::Quit(){
+void BobcatDemo::Quit(){
 	printf("Quit");
 	isGameRunning = false;
 }

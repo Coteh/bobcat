@@ -12,7 +12,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{F3461B79-25B4-4EF8-9294-E31B89907DD2}</ProjectGuid>
-    <RootNamespace>DemoProgram</RootNamespace>
+    <RootNamespace>BobcatDemo</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -39,8 +39,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SFML_SOURCE)\include;$(RAPIDJSON)\include;$(SOIL)\src;$(GLM);$(GLFW_SOURCE)\include;$(OPEN_GL)\include;$(SolutionDIr)\GameLibrary;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SFML_BUILT)\lib\Release;$(SOIL)\lib;$(GLFW_BUILT)\lib-msvc120;$(OPEN_GL)\lib;$(SolutionDir)\GameLibrary\Debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SFML_SOURCE)\include;$(RAPIDJSON)\include;$(SOIL)\src;$(GLM);$(GLFW_SOURCE)\include;$(OPEN_GL)\include;..\..\bobcat\bobcat;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SFML_BUILT)\lib\Release;$(SOIL)\lib;$(GLFW_BUILT)\lib-msvc120;$(OPEN_GL)\lib;..\..\bobcat\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -51,7 +51,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SOIL.lib;glfw3.lib;glfw3dll.lib;sfml-window.lib;sfml-main.lib;sfml-system.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>bobcat.lib;SOIL.lib;glfw3.lib;glfw3dll.lib;sfml-window.lib;sfml-main.lib;sfml-system.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -69,21 +69,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="DemoApp.cpp" />
+    <ClCompile Include="BobcatDemo.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DemoApp.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\GameLibrary\GameLibrary.vcxproj">
-      <Project>{8c974785-0389-4da2-a831-85de6c800c40}</Project>
-      <Private>false</Private>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
-      <LinkLibraryDependencies>true</LinkLibraryDependencies>
-      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
-    </ProjectReference>
+    <ClInclude Include="BobcatDemo.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

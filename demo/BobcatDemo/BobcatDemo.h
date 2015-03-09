@@ -1,7 +1,7 @@
 #pragma once
 #include "Engine.h"
 
-class DemoApp : public bobcat::Engine {
+class BobcatDemo : public bobcat::Engine {
 private:
 	bobcat::Scene* scene;
 	bobcat::GameObject* cubeObj;
@@ -30,9 +30,9 @@ private:
 	float ballShatteringTime;
 	int ballIndex;
 public:
-	DemoApp();
-	DemoApp(int _engineCmd);
-	virtual ~DemoApp();
+	BobcatDemo();
+	BobcatDemo(int _engineCmd);
+	virtual ~BobcatDemo();
 	virtual void Init();
 	virtual void OnKeyEvent();
 	virtual void Update();

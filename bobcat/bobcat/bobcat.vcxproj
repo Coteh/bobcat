@@ -11,8 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{8C974785-0389-4DA2-A831-85DE6C800C40}</ProjectGuid>
-    <RootNamespace>GameLibrary</RootNamespace>
+    <ProjectGuid>{2A3B4CA0-79E1-4324-A057-88EB6CAC5B38}</ProjectGuid>
+    <RootNamespace>bobcat</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

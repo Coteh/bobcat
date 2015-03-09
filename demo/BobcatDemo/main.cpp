@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include "vgl.h"
-#include "DemoApp.h"
+#include "BobcatDemo.h"
 
 bobcat::Engine* engine;
 
@@ -13,7 +13,7 @@ void onWindowChanged(int _width, int _height){
 }
 
 int main(int argc, char const *argv[]) {
-	engine = new DemoApp(ENGINE_INIT);
+	engine = new BobcatDemo(ENGINE_INIT);
 	engine->getInputSystem()->registerObserver(keyListener);
 	engine->getWindower()->registerObserver(onWindowChanged);
 
