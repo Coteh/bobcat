@@ -1,6 +1,6 @@
 #include "ResourceManager.h"
 #include "PLYModelReader.h"
-#include "PNGTextureLoader.h"
+#include "SOILTextureLoader.h"
 #include "TGATextureLoader.h"
 #include <algorithm>
 #include <iostream>
@@ -120,7 +120,7 @@ ITextureLoader* ResourceManager::determineTextureLoader(std::string _fileName){
 	std::transform(fileExtension.begin(), fileExtension.end(), fileExtension.begin(), ::tolower);
 
 	if (fileExtension == "png" || fileExtension == "jpg") {
-		return new PNGTextureLoader();
+		return new SOILTextureLoader();
 	} else if (fileExtension == "tga"){
 		return new TGATextureLoader();
 	} else{ //format not supported at this time.

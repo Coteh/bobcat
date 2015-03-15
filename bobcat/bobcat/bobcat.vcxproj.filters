@@ -120,9 +120,6 @@
     <ClInclude Include="PLYModelReader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PNGTextureLoader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Ray.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -166,6 +163,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Transform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SOILTextureLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -239,9 +239,6 @@
     <ClCompile Include="PLYModelReader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PNGTextureLoader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Ray.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -279,6 +276,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Transform.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SOILTextureLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

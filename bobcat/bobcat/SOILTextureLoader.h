@@ -1,14 +1,13 @@
 #pragma once
 #include "TextureLoader.h"
 #include "Texture.h"
-#include <SOIL.h>
 
 namespace bobcat {
 
-	class PNGTextureLoader : public TextureLoader {
+	class SOILTextureLoader : public TextureLoader {
 	public:
-		PNGTextureLoader();
-		virtual ~PNGTextureLoader();
+		SOILTextureLoader();
+		virtual ~SOILTextureLoader();
 		virtual void LoadTextureImage(Texture* _texture, char* _filePath);
 	};
 

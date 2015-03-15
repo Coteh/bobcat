@@ -1,16 +1,17 @@
-#include "PNGTextureLoader.h"
+#include "SOILTextureLoader.h"
+#include <SOIL.h>
 
 using namespace bobcat;
 
-PNGTextureLoader::PNGTextureLoader(){
+SOILTextureLoader::SOILTextureLoader(){
 
 }
 
-PNGTextureLoader::~PNGTextureLoader(){
+SOILTextureLoader::~SOILTextureLoader(){
 
 }
 
-void PNGTextureLoader::LoadTextureImage(Texture* _texture, char* _filePath){
+void SOILTextureLoader::LoadTextureImage(Texture* _texture, char* _filePath){
 	int width, height;
 	unsigned char* image = SOIL_load_image(_filePath, &width, &height, 0, SOIL_LOAD_RGBA);
 	_texture->width = width;

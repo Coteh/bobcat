@@ -91,7 +91,7 @@
     <ClCompile Include="OpenGLRenderSystem.cpp" />
     <ClCompile Include="Plane.cpp" />
     <ClCompile Include="PLYModelReader.cpp" />
-    <ClCompile Include="PNGTextureLoader.cpp" />
+    <ClCompile Include="SOILTextureLoader.cpp" />
     <ClCompile Include="Ray.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Rigidbody.cpp" />
@@ -142,7 +142,7 @@
     <ClInclude Include="OpenGLRenderSystem.h" />
     <ClInclude Include="Plane.h" />
     <ClInclude Include="PLYModelReader.h" />
-    <ClInclude Include="PNGTextureLoader.h" />
+    <ClInclude Include="SOILTextureLoader.h" />
     <ClInclude Include="Ray.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Rigidbody.h" />
