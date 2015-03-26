@@ -16,6 +16,8 @@ Engine::Engine() {
 	configManager->readConfigFile(CONFIG_FILE);
 	//Setting up clock
 	Clock::init();
+	deltaTime = 0.0f;
+	gameTime = 0.0f;
 	//Setting up windowing
 #ifdef WINDOWING_GLFW
 	window = new GLFWWindower();
@@ -94,9 +96,6 @@ void Engine::OnWindowResize(int _width, int _height){
 }
 
 void Engine::Update(){
-	float newGameTime = Clock::getCurrentTime();
-	deltaTime = newGameTime - gameTime;
-	gameTime = newGameTime;
 	InputUpdate();
 }
 
@@ -119,6 +118,9 @@ void Engine::Run(){
 		DrawBegin();
 		Draw();
 		DrawEnd();
+		float newGameTime = Clock::getCurrentTime();
+		deltaTime = newGameTime - gameTime;
+		gameTime = newGameTime;
 	}
 }
 

@@ -63,6 +63,7 @@ namespace bobcat {
 
 		void clearBuffers();
 		void updateDrawModes();
+		void updateDrawModes(int _glDrawMode);
 	};
 
 }

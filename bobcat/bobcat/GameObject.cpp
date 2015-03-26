@@ -64,6 +64,7 @@ void GameObject::AddComponent(Component* _component, std::type_index _index){
 	}
 	componentHolder->AddComponent(_component, _index);
 	_component->gameObject = this;
+	_component->Awake();
 }
 
 void GameObject::RemoveAllComponents(){

@@ -182,11 +182,21 @@ void Mesh::setBoundShaderProgram(GLuint _shaderProgram){
 }
 
 void Mesh::updateDrawModes(){
+	drawModeVec = std::vector<GLenum>(0);
 	for (size_t i = 0; i < indiceCountData.size(); i++){
 		if (indiceCountData[i] > 3){
 			drawModeVec.push_back(GL_TRIANGLE_FAN);
-		} else{
+		} else if (indiceCountData[i] == 3){
 			drawModeVec.push_back(GL_TRIANGLES);
+		} else {
+			drawModeVec.push_back(GL_POINTS);
 		}
+	}
+}
+
+void Mesh::updateDrawModes(int _glDrawMode){
+	drawModeVec = std::vector<GLenum>(0);
+	for (size_t i = 0; i < indiceCountData.size(); i++){
+		drawModeVec.push_back(_glDrawMode);
 	}
 }

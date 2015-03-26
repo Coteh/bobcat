@@ -3,6 +3,7 @@
 #include <map>
 #include "vgl.h"
 #include "Mesh.h"
+#include "Material.h"
 #include "IModelReader.h"
 #include "TextureLoader.h"
 #include "LogManager.h"
@@ -22,9 +23,11 @@ namespace bobcat {
 
 		typedef std::map<const std::string, Mesh*> MeshMapType;
 		typedef std::map<const std::string, Texture*> TextureMapType;
+		typedef std::map<const std::string, Material*> MaterialMapType;
 
 		MeshMapType meshMap;
 		TextureMapType textureMap;
+		MaterialMapType materialMap;
 
 		IModelReader* modelReader;
 		ITextureLoader* textureLoader;
@@ -68,6 +71,8 @@ namespace bobcat {
 		*/
 		GLuint getTextureID(std::string _name);
 
+		Material* getMaterial(std::string _name);
+
 		/**
 		* Add a mesh.
 		* @param _mesh Mesh instance to add.
@@ -87,6 +92,8 @@ namespace bobcat {
 		* @param _texName Name to give to the texture as a key.
 		*/
 		void loadTexture(std::string _fileName, std::string _texName);
+
+		void addMaterial(Material* _material, std::string _materialName);
 
 		~ResourceManager();
 	};

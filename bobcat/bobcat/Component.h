@@ -9,8 +9,11 @@ namespace bobcat {
 	* A Component provides additional functionality to a GameObject that can be hotswapped in and out.
 	*/
 	class Component {
+		friend class GameObject;
 	private:
 		GameObject* m_gameObject;
+	protected:
+		virtual void Awake(){}
 	public:
 		Component(){}
 		~Component(){}

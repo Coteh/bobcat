@@ -33,6 +33,10 @@ ResourceManager::~ResourceManager() {
 	textureMap.clear();
 	TextureMapType textureClearMap;
 	textureClearMap.swap(textureMap);
+	//Wipes out material map entirely from memory
+	materialMap.clear();
+	MaterialMapType materialClearMap;
+	materialClearMap.swap(materialMap);
 }
 
 void ResourceManager::provideAssetPaths(std::string _modelPath, std::string _texPath) {
@@ -58,7 +62,7 @@ Texture* ResourceManager::getTexture(std::string _name){
 	} else if (textureMap.count(RESOUR_TEXTURENOTFOUND)){ //if it can't find the texture, try to find this one...
 		return textureMap[RESOUR_TEXTURENOTFOUND]; //load the "Texture Not Found" texture if it exists.
 	}
-	return nullptr; //otherwise, just return a null pointer
+	return nullptr; //otherwise, just return null pointer
 }
 
 GLuint ResourceManager::getTextureID(std::string _name){
@@ -68,6 +72,13 @@ GLuint ResourceManager::getTextureID(std::string _name){
 		return textureMap[RESOUR_TEXTURENOTFOUND]->texID; //load the "Texture Not Found" texture ID if it exists.
 	}
 	return -1; //otherwise, just return -1
+}
+
+Material* ResourceManager::getMaterial(std::string _name){
+	if (materialMap.count(_name)){ //if material exists...
+		return materialMap[_name]; //return the material
+	}
+	return nullptr; //otherwise, just return null pointer
 }
 
 IModelReader* ResourceManager::determineModelReader(std::string _fileName){
@@ -179,4 +190,9 @@ void ResourceManager::loadTexture(std::string _fileName, std::string _texName){
 
 	//Add brand new texture to the texture map
 	textureMap[_texName] = brandNewTexture;
+}
+
+void ResourceManager::addMaterial(Material* _material, std::string _materialName){
+	//Add brand new material to the material map
+	materialMap[_materialName] = _material;
 }
