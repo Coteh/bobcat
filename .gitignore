@@ -27,6 +27,16 @@
 *.out
 *.app
 
+# Visual Studio files and user-specific files
+*.sdf
+*.suo
+*.opensdf
+*.log
+*.tlog
+*.idb
+*.pdb
+*.user
+
 # Model files I'm not using right now
 *.blend
 *.blend1
