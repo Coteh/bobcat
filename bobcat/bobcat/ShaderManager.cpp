@@ -28,7 +28,6 @@ void ShaderManager::addShader(GLuint _shaderProgram, std::string _name){
 	shad->name = _name;
 	shaderMap[_name] = shad;
 	initShaderAttribs(shad);
-	determineShaderUniforms(shad);
 }
 
 Shader* ShaderManager::getShader(std::string _name){
@@ -47,16 +46,6 @@ void ShaderManager::useShader(std::string _name){
 	Shader* shaderToUse = getShader(_name);
 	glUseProgram(shaderToUse->shaderProgram);
 	currShader = shaderToUse;
-}
-
-void ShaderManager::determineShaderUniforms(Shader* _shader){
-	//Get model view projection matrix location
-	_shader->modelLoc = glGetUniformLocation(_shader->shaderProgram, "Model");
-	_shader->viewLoc = glGetUniformLocation(_shader->shaderProgram, "View");
-	_shader->projectionLoc = glGetUniformLocation(_shader->shaderProgram, "Projection");
-	_shader->texSamplerLoc = glGetUniformLocation(_shader->shaderProgram, "tex");
-	_shader->lightingLoc = glGetUniformLocation(_shader->shaderProgram, "lightPos");
-	_shader->colorLoc = glGetUniformLocation(_shader->shaderProgram, "uniColor");
 }
 
 void ShaderManager::initShaderAttribs(Shader* _shader){

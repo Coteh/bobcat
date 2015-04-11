@@ -21,7 +21,6 @@ namespace bobcat {
 		Shader* currShader;
 		LogManager* logManager;
 		ShaderManager();
-		void determineShaderUniforms(Shader* _shader);
 		void initShaderAttribs(Shader* _shader);
 		void disableShaderAttribs(Shader* _shader);
 	public:

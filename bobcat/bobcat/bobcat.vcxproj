@@ -102,6 +102,7 @@
     <ClCompile Include="SFMLWindower.cpp" />
     <ClCompile Include="ShaderLoader.cpp" />
     <ClCompile Include="ShaderManager.cpp" />
+    <ClCompile Include="Shader.cpp" />
     <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TGATextureLoader.cpp" />

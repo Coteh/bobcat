@@ -1,13 +1,20 @@
 #pragma once
 #include "vgl.h"
+#include <string>
 
 namespace bobcat {
 
 	struct Shader {
 	public:
-		GLuint shaderProgram, modelLoc, viewLoc, projectionLoc, lightingLoc, texSamplerLoc, colorLoc;
-		GLint posAttrib, normAttrib, texAttrib, colAttrib;
+		GLuint shaderProgram;
 		std::string name;
+
+		GLint posAttrib, normAttrib, texAttrib, colAttrib;
+
+		Shader();
+		~Shader();
+		
+		GLuint getShaderUniform(const char* _name);
 	};
 
 }

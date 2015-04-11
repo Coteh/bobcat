@@ -24,20 +24,25 @@ namespace bobcat {
 				logManager->writeLog(LogLevel::LOG_ERROR, "ERROR: Shader provided for material is NULL!");
 				logManager->printLastError();
 			}
+			//Getting relevant uniforms from shader
+			colorLoc = m_shader->getShaderUniform("uniColor");
+			texSamplerLoc = m_shader->getShaderUniform("tex");
 		}
 
 		__declspec(property(get = getShader, put = setShader)) Shader* shader;
 		glm::vec4 color;
 		Texture* texture;
 
+		GLuint colorLoc, texSamplerLoc;
+
 		inline void Bind(){
 			if (shader == nullptr) return; //do not bind if shader isn't present
 			/*Send uniforms to the shader*/
 			//Color
-			glUniform4fv(shader->colorLoc, 1, glm::value_ptr(color));
+			glUniform4fv(colorLoc, 1, glm::value_ptr(color));
 			//Texture
 			if (texture != nullptr){
-				texture->Bind(shader->texSamplerLoc);
+				texture->Bind(texSamplerLoc);
 			}
 		}
 

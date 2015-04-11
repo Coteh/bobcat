@@ -14,12 +14,17 @@ namespace bobcat {
 	class OpenGLRenderSystem : public AbstractRenderSystem {
 	private:
 		Camera* activeCamera;
+
 		ShaderManager* shaderManager;
 		Shader* currShader;
+		GLuint modelLoc, viewLoc, projectionLoc;
+
 		glm::mat4 cam;
 		glm::mat4 proj;
+
 		Mesh* boxColliderMesh;
 		Mesh* sphereColliderMesh;
+
 		Shader* debugShader;
 		bool isDebugOn;
 		void RenderDebugMesh(Mesh* _mesh);

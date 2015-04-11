@@ -57,11 +57,15 @@ void OpenGLRenderSystem::RenderObject(GameObject* _gameObject){
 				if (!_gameObject->renderer->CheckShaderMatchup()){
 					shaderManager->updateAttribs(mat->shader->name, _gameObject->renderer->meshFilter->mesh);
 					_gameObject->renderer->meshFilter->mesh->setBoundShaderProgram(shaderManager->getCurrShader()->shaderProgram);
+					currShader = shaderManager->getCurrShader();
+					modelLoc = currShader->getShaderUniform("Model");
+					viewLoc = currShader->getShaderUniform("View");
+					projectionLoc = currShader->getShaderUniform("Projection");
 				}
 				//Send Model View Projection to the shader
-				glUniformMatrix4fv(shaderManager->getCurrShader()->modelLoc, 1, GL_FALSE, glm::value_ptr(modelMat));
-				glUniformMatrix4fv(shaderManager->getCurrShader()->viewLoc, 1, GL_FALSE, glm::value_ptr(activeCamera->getView()));
-				glUniformMatrix4fv(shaderManager->getCurrShader()->projectionLoc, 1, GL_FALSE, glm::value_ptr(activeCamera->getProjection()));
+				glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelMat));
+				glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(activeCamera->getView()));
+				glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(activeCamera->getProjection()));
 				//Render the GameObject
 				_gameObject->Draw();
 			}
@@ -88,7 +92,7 @@ void OpenGLRenderSystem::RenderObject(GameObject* _gameObject){
 			//Let's just assume the collider position is always with the GameObject's position... hehehe :P
 			//so just use the GameObject's MVP and not make a new matrix with its translation
 			glm::mat4 debugMat = glm::scale(modelMat, glm::vec3(colScale * dimensions.x, colScale * dimensions.y, colScale * dimensions.z));
-			glUniformMatrix4fv(debugShader->modelLoc, 1, GL_FALSE, glm::value_ptr(debugMat));
+			glUniformMatrix4fv(debugShader->getShaderUniform("Model"), 1, GL_FALSE, glm::value_ptr(debugMat));
 			RenderDebugMesh(colMesh);
 		}
 	}
