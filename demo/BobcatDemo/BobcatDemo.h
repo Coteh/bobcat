@@ -16,6 +16,7 @@ private:
 	glm::vec3 sphereOrigPos;
 
 	bobcat::Ray* ray;
+	bool rayOnTopOfCube;
 
 	bobcat::Material* mat;
 	bobcat::Material* moonMat;

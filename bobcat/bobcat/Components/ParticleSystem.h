@@ -26,6 +26,7 @@ private:
 	std::vector<GLfloat> vertices;
 	std::vector<GLuint> elements;
 	std::vector<int> indiceCountData;
+	Material* partiMat;
 	Shader* shada;
 	GLuint shaderTimeLoc;
 

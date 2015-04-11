@@ -1,4 +1,5 @@
 #include "BobcatDemo.h"
+#include "Components/ParticleSystem.h"
 #include <glm\gtc\type_ptr.hpp>
 
 #define TEXTURE_MODEL "TextureModel"
@@ -80,6 +81,12 @@ void BobcatDemo::Init(){
 		{ GL_NONE, NULL }
 	};
 
+	ShaderLoadInfo shaders9[] = {
+		{ GL_VERTEX_SHADER, "particle-vert.glsl" },
+		{ GL_FRAGMENT_SHADER, "colormodel-frag.glsl" },
+		{ GL_NONE, NULL }
+	};
+
 	shaderManager->addShader(ShaderLoader::LoadShaders(shaders), "TestShader");
 	shaderManager->addShader(ShaderLoader::LoadShaders(shaders2), "TestShader2");
 	shaderManager->addShader(ShaderLoader::LoadShaders(shaders3), "JakeShader");
@@ -88,6 +95,7 @@ void BobcatDemo::Init(){
 	shaderManager->addShader(ShaderLoader::LoadShaders(shaders6), "UniformColor");
 	shaderManager->addShader(ShaderLoader::LoadShaders(shaders7), "ScottShader");
 	shaderManager->addShader(ShaderLoader::LoadShaders(shaders8), "ScottTextureShader");
+	shaderManager->addShader(ShaderLoader::LoadShaders(shaders9), "ParticleShader");
 
 	/*Setting up Textures*/
 	resourceManager->loadTexture("kitteh.png", "Cat");
@@ -292,6 +300,11 @@ void BobcatDemo::InputUpdate(){
 		}
 		break;
 	}
+	if (inputSystem->getInputState(InputEnums::KeyCode::KEY_SPACE) == InputEnums::InputState::INPUT_PRESSED){
+		if (rayOnTopOfCube){
+			cubeObj->AddComponent<ParticleSystem>();
+		}
+	}
 }
 
 void BobcatDemo::Update(){
@@ -302,13 +315,15 @@ void BobcatDemo::Update(){
 	Collider* col = cubeObj->collider;
 	if (ray->intersects(col->position, col->radius * col->scale, &dist) && (RAY_DIST_LIMIT == 0.0f ^ dist <= RAY_DIST_LIMIT)){
 		//Something will happen here
+		rayOnTopOfCube = true;
 		printf("Hit! at dist %f", dist);
 	} else{
 		//Something else will happen here
+		rayOnTopOfCube = false;
 	}
 
 	if (shaderManager->getCurrShader() != nullptr){
-		glUniform3fv(shaderManager->getCurrShader()->lightingLoc, 1, glm::value_ptr(lightSource));
+		glUniform3fv(shaderManager->getCurrShader()->getShaderUniform("lightPos"), 1, glm::value_ptr(lightSource));
 	}
 }
 

@@ -85,6 +85,9 @@ void SFMLWindower::init() {
 	glEnable(GL_DEPTH_TEST);
 	//Set GL Depth Function
 	glDepthFunc(GL_LESS);
+
+	//TO-DO: Add in v-sync
+	//window->setVerticalSyncEnabled(true);
 }
 
 void SFMLWindower::updateWindow() {

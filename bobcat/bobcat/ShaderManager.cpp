@@ -41,11 +41,19 @@ Shader* ShaderManager::getCurrShader(){
 	return currShader;
 }
 
-void ShaderManager::useShader(std::string _name){
+bool ShaderManager::compareCurrentShader(Shader* _shader){
+	return (currShader != nullptr && currShader->shaderProgram == _shader->shaderProgram);
+}
+
+void ShaderManager::useShader(Shader* _shader){
 	if (currShader != nullptr) disableShaderAttribs(currShader);
+	glUseProgram(_shader->shaderProgram);
+	currShader = _shader;
+}
+
+void ShaderManager::useShader(std::string _name){
 	Shader* shaderToUse = getShader(_name);
-	glUseProgram(shaderToUse->shaderProgram);
-	currShader = shaderToUse;
+	useShader(shaderToUse);
 }
 
 void ShaderManager::initShaderAttribs(Shader* _shader){
@@ -79,36 +87,40 @@ void ShaderManager::disableShaderAttribs(Shader* _shader){
 	glDisableVertexAttribArray(_shader->colAttrib);
 }
 
-void ShaderManager::updateAttribs(std::string _shaderName, Mesh* _mesh){
-	Shader* shader = getShader(_shaderName);
-	
+void ShaderManager::updateAttribs(Shader* _shader, Mesh* _mesh){
 	glBindVertexArray(_mesh->getVAO());
 	glBindBuffer(GL_ARRAY_BUFFER, _mesh->getVBO());
 
-	glEnableVertexAttribArray(shader->posAttrib);
-	glEnableVertexAttribArray(shader->normAttrib);
-	glEnableVertexAttribArray(shader->texAttrib);
-	glEnableVertexAttribArray(shader->colAttrib);
-
+	GLuint numParts = 11;
 	size_t offset = 0;
 
 	/*Specify that our coordinate data is going into attribute index 0 (vPosition), and contains
 	three floats per vertex*/
-	glVertexAttribPointer(shader->posAttrib, 3, GL_FLOAT,
-		GL_FALSE, 11 * sizeof(GLfloat), BUFFER_OFFSET(offset));
+	glVertexAttribPointer(_shader->posAttrib, 3, GL_FLOAT,
+		GL_FALSE, numParts * sizeof(GLfloat), BUFFER_OFFSET(offset));
 	/*Specify that our normal data is going into attribute index 1 (vNormals), and contains
 	three floats per vertex*/
 	offset += (3 * sizeof(GLfloat));
-	glVertexAttribPointer(shader->normAttrib, 3, GL_FLOAT,
-		GL_FALSE, 11 * sizeof(GLfloat), BUFFER_OFFSET(offset));
+	glVertexAttribPointer(_shader->normAttrib, 3, GL_FLOAT,
+		GL_FALSE, numParts * sizeof(GLfloat), BUFFER_OFFSET(offset));
 	/*Specify that our uv data is going into attribute index 2 (vTexture), and contains
 	two floats per vertex*/
 	offset += (3 * sizeof(GLfloat));
-	glVertexAttribPointer(shader->texAttrib, 2, GL_FLOAT,
-		GL_FALSE, 11 * sizeof(GLfloat), BUFFER_OFFSET(offset));
+	glVertexAttribPointer(_shader->texAttrib, 2, GL_FLOAT,
+		GL_FALSE, numParts * sizeof(GLfloat), BUFFER_OFFSET(offset));
 	/*Specify that our color data is going into attribute index 3 (vColor), and contains
 	three floats per vertex*/
 	offset += (2 * sizeof(GLfloat));
-	glVertexAttribPointer(shader->colAttrib, 3, GL_FLOAT,
-		GL_FALSE, 11 * sizeof(GLfloat), BUFFER_OFFSET(offset));
+	glVertexAttribPointer(_shader->colAttrib, 3, GL_FLOAT,
+		GL_FALSE, numParts * sizeof(GLfloat), BUFFER_OFFSET(offset));
+
+	glEnableVertexAttribArray(_shader->posAttrib);
+	glEnableVertexAttribArray(_shader->normAttrib);
+	glEnableVertexAttribArray(_shader->texAttrib);
+	glEnableVertexAttribArray(_shader->colAttrib);
+}
+
+void ShaderManager::updateAttribs(std::string _shaderName, Mesh* _mesh){
+	Shader* shader = getShader(_shaderName);
+	updateAttribs(shader, _mesh);
 }

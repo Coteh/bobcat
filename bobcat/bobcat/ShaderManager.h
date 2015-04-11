@@ -29,7 +29,10 @@ namespace bobcat {
 		void addShader(GLuint _shaderProgram, std::string _name);
 		Shader* getShader(std::string _name);
 		Shader* getCurrShader();
+		bool compareCurrentShader(Shader* _shader);
+		void useShader(Shader* _shader);
 		void useShader(std::string _name);
+		void updateAttribs(Shader* _shader, Mesh* _mesh);
 		void updateAttribs(std::string _shaderName, Mesh* _mesh);
 	};
 

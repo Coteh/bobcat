@@ -44,24 +44,23 @@ void OpenGLRenderSystem::PreRender(){
 void OpenGLRenderSystem::RenderObject(GameObject* _gameObject){
 	glm::mat4 modelMat = _gameObject->getModelMat();
 
-	/*Drawing GameObject*/
 	if (_gameObject->renderer != nullptr){ //don't draw if mesh renderer is null
 		Material* mat = _gameObject->renderer->material; //get a reference to the material
 		if (mat != nullptr && mat->shader != nullptr){
 			//Make sure OpenGL is always using the shader program that the GameObject is using
-			if (shaderManager->getCurrShader() == nullptr || mat->shader->shaderProgram != shaderManager->getCurrShader()->shaderProgram){
-				shaderManager->useShader(mat->shader->name);
+			if (!shaderManager->compareCurrentShader(mat->shader)){
+				shaderManager->useShader(mat->shader);
 			}
 			if (_gameObject->renderer->meshFilter->mesh != nullptr){ //don't draw if mesh is null
 				//Update Mesh attributes if the GameObject's shader is different than the one the mesh has at the moment
 				if (!_gameObject->renderer->CheckShaderMatchup()){
-					shaderManager->updateAttribs(mat->shader->name, _gameObject->renderer->meshFilter->mesh);
+					shaderManager->updateAttribs(mat->shader, _gameObject->renderer->meshFilter->mesh);
 					_gameObject->renderer->meshFilter->mesh->setBoundShaderProgram(shaderManager->getCurrShader()->shaderProgram);
-					currShader = shaderManager->getCurrShader();
-					modelLoc = currShader->getShaderUniform("Model");
-					viewLoc = currShader->getShaderUniform("View");
-					projectionLoc = currShader->getShaderUniform("Projection");
 				}
+				currShader = shaderManager->getCurrShader();
+				modelLoc = currShader->getShaderUniform("Model");
+				viewLoc = currShader->getShaderUniform("View");
+				projectionLoc = currShader->getShaderUniform("Projection");
 				//Send Model View Projection to the shader
 				glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelMat));
 				glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(activeCamera->getView()));
@@ -70,6 +69,7 @@ void OpenGLRenderSystem::RenderObject(GameObject* _gameObject){
 				_gameObject->Draw();
 			}
 		}
+
 	}
 
 	/*Drawing Debug stuff*/
