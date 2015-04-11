@@ -70,12 +70,7 @@ void ParticleSystem::setMaxTime(float _maxTime){
 
 void ParticleSystem::Update(float _deltaTime){
 	if (shada != nullptr){
-		//Right now, I call glUseProgram every time I want to update the following time uniform.
-		//This is because update calls do not happen concurrently with draw calls, and thus,
-		//it is not guaranteed that our shader is the current shader being used.
-		//Hopefully I can find a better way to manage these uniforms in the future.
-		glUseProgram(shada->shaderProgram);
-		glUniform1f(shaderTimeLoc, elapsedTime);
+		shada->setShaderUniformFloat(shaderTimeLoc, elapsedTime);
 	}
 	elapsedTime += _deltaTime;
 	if (elapsedTime > m_maxTime){

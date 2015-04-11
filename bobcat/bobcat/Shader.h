@@ -15,6 +15,9 @@ namespace bobcat {
 		~Shader();
 		
 		GLuint getShaderUniform(const char* _name);
+
+		void setShaderUniformFloat(GLuint _uniformID, GLfloat _floatValue);
+		void setShaderUniformFloat(const char* _name, GLfloat _floatValue);
 	};
 
 }
