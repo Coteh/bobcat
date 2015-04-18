@@ -64,6 +64,7 @@ namespace bobcat {
 		void clearBuffers();
 		void updateDrawModes();
 		void updateDrawModes(int _glDrawMode);
+		void updateDrawModes(std::vector<GLenum> _drawModesVec);
 	};
 
 }

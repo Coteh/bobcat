@@ -188,6 +188,8 @@ void Mesh::updateDrawModes(){
 			drawModeVec.push_back(GL_TRIANGLE_FAN);
 		} else if (indiceCountData[i] == 3){
 			drawModeVec.push_back(GL_TRIANGLES);
+		} else if (indiceCountData[i] == 2){
+			drawModeVec.push_back(GL_LINES);
 		} else {
 			drawModeVec.push_back(GL_POINTS);
 		}
@@ -199,4 +201,8 @@ void Mesh::updateDrawModes(int _glDrawMode){
 	for (size_t i = 0; i < indiceCountData.size(); i++){
 		drawModeVec.push_back(_glDrawMode);
 	}
+}
+
+void Mesh::updateDrawModes(std::vector<GLenum> _drawModesVec){
+	drawModeVec = _drawModesVec;
 }
