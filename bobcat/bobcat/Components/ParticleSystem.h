@@ -8,7 +8,7 @@ using namespace bobcat;
 class ParticleSystem : public Component {
 public:
 	ParticleSystem();
-	~ParticleSystem();
+	virtual ~ParticleSystem();
 
 	__declspec(property(get = getMaxTime, put = setMaxTime)) float maxTime;
 

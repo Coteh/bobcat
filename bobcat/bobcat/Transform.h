@@ -21,8 +21,7 @@ namespace bobcat {
 		void determineDirections();
 	public:
 		Transform();
-
-		~Transform();
+		virtual ~Transform();
 
 		/**
 		* Get the position of the GameObject.

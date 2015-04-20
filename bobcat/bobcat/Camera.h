@@ -19,8 +19,7 @@ namespace bobcat {
 		Camera* parentCamera;
 	public:
 		Camera();
-
-		~Camera();
+		virtual ~Camera();
 
 		/**
 		* Get a Matrix4x4 representing the View.

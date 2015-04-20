@@ -8,7 +8,7 @@ namespace bobcat {
 		float m_radius;
 	public:
 		SphereCollider();
-		~SphereCollider();
+		virtual ~SphereCollider();
 		virtual float getRadius();
 		virtual glm::vec3 getDimensions();
 		virtual void setRadius(float _radius);

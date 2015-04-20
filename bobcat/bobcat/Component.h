@@ -16,7 +16,7 @@ namespace bobcat {
 		virtual void Awake(){}
 	public:
 		Component(){}
-		~Component(){}
+		virtual ~Component(){}
 
 		/**
 		* Returns the GameObject this component is attached to.

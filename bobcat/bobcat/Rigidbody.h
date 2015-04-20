@@ -12,7 +12,7 @@ namespace bobcat {
 		float m_friction;
 	public:
 		Rigidbody();
-		~Rigidbody();
+		virtual ~Rigidbody();
 
 		glm::vec3 getVelocity();
 		glm::vec3 getRotationalVel();

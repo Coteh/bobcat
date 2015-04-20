@@ -8,6 +8,9 @@ namespace bobcat {
 	private:
 		Mesh* m_mesh;
 	public:
+		MeshFilter(){};
+		virtual ~MeshFilter(){}
+
 		Mesh* getMesh(){
 			return m_mesh;
 		}
@@ -15,9 +18,6 @@ namespace bobcat {
 			m_mesh = _mesh;
 		}
 		__declspec(property(get = getMesh, put = setMesh)) Mesh* mesh;
-
-		MeshFilter(){};
-		~MeshFilter(){}
 	};
 
 }

@@ -9,7 +9,7 @@ namespace bobcat {
 	class MeshRenderer : public Component {
 	public:
 		MeshRenderer();
-		~MeshRenderer();
+		virtual ~MeshRenderer();
 
 		MeshFilter* meshFilter;
 		Material* material;
