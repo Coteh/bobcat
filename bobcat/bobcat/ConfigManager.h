@@ -5,6 +5,7 @@
 
 #define CFG_KEY_WINDOW "window"
 #define CFG_KEY_ASSETPATHS "content-paths"
+#define CFG_KEY_LOGSETTINGS "log-settings"
 
 namespace bobcat {
 
@@ -50,6 +51,8 @@ namespace bobcat {
 		void getWindowSettings(const char* &_name, int &_width, int &_height);
 
 		void getAssetLoadPaths(AssetPaths* _assetPaths);
+
+		bool getLogSettings(LogSettings* _logSettings);
 	};
 
 }

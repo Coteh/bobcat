@@ -14,6 +14,10 @@ Engine::Engine() {
 	logManager->setLogfile("EngineLog.txt");
 	configManager = ConfigManager::getInstance();
 	configManager->readConfigFile(CONFIG_FILE);
+	LogSettings logSettings;
+	if (configManager->getLogSettings(&logSettings)){
+		logManager->setLogSettings(logSettings);
+	}
 	//Setting up clock
 	Clock::init();
 	deltaTime = 0.0f;

@@ -50,7 +50,7 @@ void ConfigManager::readConfigFile(const char* _filePath){
 //}
 
 void ConfigManager::getWindowSettings(const char* &_name, int &_width, int &_height){
-	if (!document.HasMember(CFG_KEY_WINDOW)){
+	if (document.HasParseError() || !document.HasMember(CFG_KEY_WINDOW)){
 		logManager->log(LogLevel::LOG_ERROR, "Could not retrive window settings from config file.");
 		return; //exit since window key does not have a member
 	}
@@ -67,8 +67,8 @@ void ConfigManager::getWindowSettings(const char* &_name, int &_width, int &_hei
 }
 
 void ConfigManager::getAssetLoadPaths(AssetPaths* _assetPaths) {
-	if (!document.HasMember(CFG_KEY_ASSETPATHS)){
-		logManager->log(LogLevel::LOG_ERROR, "Could not retrive window settings from config file.");
+	if (document.HasParseError() || !document.HasMember(CFG_KEY_ASSETPATHS)){
+		logManager->log(LogLevel::LOG_ERROR, "Could not retrive asset load paths from config file.");
 		return; //exit since window key does not have a member
 	}
 	Value& val = document[CFG_KEY_ASSETPATHS];
@@ -81,4 +81,19 @@ void ConfigManager::getAssetLoadPaths(AssetPaths* _assetPaths) {
 	if (val.HasMember("shaders")){
 		_assetPaths->shadersPath = val["shaders"].GetString();
 	}
+}
+
+bool ConfigManager::getLogSettings(LogSettings* _logSettings){
+	if (document.HasParseError() || !document.HasMember(CFG_KEY_LOGSETTINGS)){
+		logManager->log(LogLevel::LOG_ERROR, "Could not retrive log settings from config file.");
+		return false;
+	}
+	Value& val = document[CFG_KEY_LOGSETTINGS];
+	if (val.HasMember("write-priority-level")){
+		_logSettings->writePriority = val["write-priority-level"].GetInt();
+	}
+	if (val.HasMember("print-priority-level")){
+		_logSettings->printPriority = val["print-priority-level"].GetInt();
+	}
+	return true;
 }

@@ -16,7 +16,13 @@ namespace bobcat {
 		LOG_INFO,
 		LOG_TRACE,
 		LOG_WARN,
-		LOG_ERROR
+		LOG_ERROR,
+		LOG_NOTHING
+	};
+
+	struct LogSettings {
+		int writePriority;
+		int printPriority;
 	};
 
 	class LogManager {
@@ -44,6 +50,7 @@ namespace bobcat {
 	public:
 		static LogManager* getInstance();
 		void setLogfile(std::string _filePath);
+		void setLogSettings(LogSettings _logSettings);
 		void log(LogLevel _level, std::string _message);
 		void printLastError();
 		

@@ -12,7 +12,15 @@ const WORD LogManager::colors[] = {
 
 LogManager::LogManager() {
 	fileWriter = new FileIO::FileWriter();
+
+	//Setting default log manager settings
+#ifdef _DEBUG
+	writePriority = LogLevel::LOG_NONE;
 	printPriority = LogLevel::LOG_INFO;
+#else
+	writePriority = LogLevel::LOG_INFO;
+	printPriority = LogLevel::LOG_NOTHING;
+#endif
 
 #ifdef _WIN32
 	hstdout = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -61,6 +69,11 @@ void LogManager::setLogfile(std::string _filePath){
 	fileWriter->writeToFile(defaultLogFilePath, ""); //clear out the log file before we start writing to it.
 }
 
+void LogManager::setLogSettings(LogSettings _logSettings){
+	writePriority = (LogLevel)_logSettings.writePriority;
+	printPriority = (LogLevel)_logSettings.printPriority;
+}
+
 /* Stores the error message and then writes it to the log file.
 */
 void LogManager::log(LogLevel _level, std::string _message){
@@ -72,7 +85,7 @@ void LogManager::log(LogLevel _level, std::string _message){
 }
 
 void LogManager::printLastError(){
-	if (lastErrorLevel < printPriority)return; //only print if error level is on print priority bracket
+	if (lastErrorLevel < printPriority) return; //only print if error level is on print priority bracket
 	int charBufferSize = lastErrorStr.length() + 1;
 	char* errorCharArr = new char[charBufferSize];
 	errno_t errErrCode; //to see if there was an error converting the error string to char array :P
