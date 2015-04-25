@@ -13,8 +13,7 @@ namespace bobcat {
 		}
 		virtual ~TextureLoader(){};
 		virtual void LoadTextureImage(Texture* _texture, char* _filePath){
-			logManager->writeLog(LogLevel::LOG_ERROR, "Please specify a format for loading texture image.");
-			logManager->printLastError();
+			logManager->log(LogLevel::LOG_ERROR, "Please specify a format for loading texture image.");
 		};
 	};
 

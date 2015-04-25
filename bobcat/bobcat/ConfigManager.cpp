@@ -29,10 +29,10 @@ void ConfigManager::readConfigFile(const char* _filePath){
 	std::string fileContents = fileReader.readFromFileAsString(_filePath);
 	document.Parse(fileContents.c_str());
 	if (document.HasParseError()){
-		logManager->writeLog(LogLevel::LOG_ERROR, "Could not read config file " + std::string(_filePath));
+		logManager->log(LogLevel::LOG_ERROR, "Could not read config file " + std::string(_filePath));
 		return; //parse error
 	}
-	logManager->writeLog(LogLevel::LOG_INFO, "Config file " + std::string(_filePath) + " read succesfully");
+	logManager->log(LogLevel::LOG_INFO, "Config file " + std::string(_filePath) + " read succesfully");
 }
 
 //bool ConfigManager::writeConfigFile(const char* _fileName){
@@ -51,7 +51,7 @@ void ConfigManager::readConfigFile(const char* _filePath){
 
 void ConfigManager::getWindowSettings(const char* &_name, int &_width, int &_height){
 	if (!document.HasMember(CFG_KEY_WINDOW)){
-		logManager->writeLog(LogLevel::LOG_ERROR, "Could not retrive window settings from config file.");
+		logManager->log(LogLevel::LOG_ERROR, "Could not retrive window settings from config file.");
 		return; //exit since window key does not have a member
 	}
 	Value& val = document[CFG_KEY_WINDOW];
@@ -68,7 +68,7 @@ void ConfigManager::getWindowSettings(const char* &_name, int &_width, int &_hei
 
 void ConfigManager::getAssetLoadPaths(AssetPaths* _assetPaths) {
 	if (!document.HasMember(CFG_KEY_ASSETPATHS)){
-		logManager->writeLog(LogLevel::LOG_ERROR, "Could not retrive window settings from config file.");
+		logManager->log(LogLevel::LOG_ERROR, "Could not retrive window settings from config file.");
 		return; //exit since window key does not have a member
 	}
 	Value& val = document[CFG_KEY_ASSETPATHS];

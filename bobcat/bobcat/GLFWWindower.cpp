@@ -83,10 +83,10 @@ void GLFWWindower::init(){
 	//Check if window creation was unsuccessful (window is null)
 	if (!window) {
 		glfwTerminate();
-		logManager->writeLog(LogLevel::LOG_ERROR, "Could not initalize GLFW window!");
+		logManager->log(LogLevel::LOG_ERROR, "Could not initalize GLFW window!");
 		exit(EXIT_FAILURE);
 	} else {
-		logManager->writeLog(LogLevel::LOG_INFO, "GLFW window initalized successfully!");
+		logManager->log(LogLevel::LOG_INFO, "GLFW window initalized successfully!");
 	}
 
 	//Make the window context current

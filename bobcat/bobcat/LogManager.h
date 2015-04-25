@@ -44,8 +44,9 @@ namespace bobcat {
 	public:
 		static LogManager* getInstance();
 		void setLogfile(std::string _filePath);
-		void writeLog(LogLevel _level, std::string _message);
+		void log(LogLevel _level, std::string _message);
 		void printLastError();
+		
 		~LogManager();
 	};
 

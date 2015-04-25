@@ -21,8 +21,7 @@ namespace bobcat {
 			m_shader = _shader;
 			if (_shader == nullptr){
 				LogManager* logManager = LogManager::getInstance();
-				logManager->writeLog(LogLevel::LOG_ERROR, "ERROR: Shader provided for material is NULL!");
-				logManager->printLastError();
+				logManager->log(LogLevel::LOG_ERROR, "ERROR: Shader provided for material is NULL!");
 			}
 			//Getting relevant uniforms from shader
 			colorLoc = m_shader->getShaderUniform("uniColor");

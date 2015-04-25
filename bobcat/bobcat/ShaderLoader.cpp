@@ -12,8 +12,7 @@ const GLchar* ShaderLoader::ReadShader(const char* _fileName){
 	if (!inFile) {
 #ifdef _DEBUG
 		LogManager* logManager = LogManager::getInstance();
-		logManager->writeLog(LogLevel::LOG_ERROR, "Unable to open file \"" + std::string(_fileName) + "\"");
-		logManager->printLastError();
+		logManager->log(LogLevel::LOG_ERROR, "Unable to open file \"" + std::string(_fileName) + "\"");
 #endif /* DEBUG */
 		return NULL;
 	}
@@ -80,11 +79,10 @@ GLuint ShaderLoader::LoadShaders(ShaderLoadInfo* _shaders){
 			GLsizei len;
 			glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &len);
 
-			GLchar* log = new GLchar[len + 1];
-			glGetShaderInfoLog(shader, len, &len, log);
-			logManager->writeLog(LogLevel::LOG_ERROR, "Shader file " + std::string(entry->filename) + " compilation failed: \n" + std::string(log));
-			logManager->printLastError();
-			delete[] log;
+			GLchar* glslLogStr = new GLchar[len + 1];
+			glGetShaderInfoLog(shader, len, &len, glslLogStr);
+			logManager->log(LogLevel::LOG_ERROR, "Shader file " + std::string(entry->filename) + " compilation failed: \n" + std::string(glslLogStr));
+			delete[] glslLogStr;
 #endif /* DEBUG */
 			//Exit the method, returning a 0 which will signify an error with loading shader
 			return 0;
@@ -109,11 +107,10 @@ GLuint ShaderLoader::LoadShaders(ShaderLoadInfo* _shaders){
 		GLsizei len;
 		glGetProgramiv(program, GL_INFO_LOG_LENGTH, &len);
 
-		GLchar* log = new GLchar[len + 1];
-		glGetProgramInfoLog(program, len, &len, log);
-		logManager->writeLog(LogLevel::LOG_ERROR, "Shader file " + std::string(entry->filename) + " linking failed: \n" + std::string(log));
-		logManager->printLastError();
-		delete[] log;
+		GLchar* glslLogStr = new GLchar[len + 1];
+		glGetProgramInfoLog(program, len, &len, glslLogStr);
+		logManager->log(LogLevel::LOG_ERROR, "Shader file " + std::string(entry->filename) + " linking failed: \n" + std::string(glslLogStr));
+		delete[] glslLogStr;
 #endif /* DEBUG */
 		//Delete all the shaders
 		for (entry = _shaders; entry->type != GL_NONE; ++entry) {

@@ -63,11 +63,12 @@ void LogManager::setLogfile(std::string _filePath){
 
 /* Stores the error message and then writes it to the log file.
 */
-void LogManager::writeLog(LogLevel _level, std::string _message){
+void LogManager::log(LogLevel _level, std::string _message){
 	if (_level < writePriority) return; //only write if error level is on write priority bracket
 	lastErrorStr = getLogLevelString(_level) + _message + "\n";
 	lastErrorLevel = _level;
 	fileWriter->appendToFile(defaultLogFilePath, lastErrorStr);
+	printLastError(); //Print this error
 }
 
 void LogManager::printLastError(){

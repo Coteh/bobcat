@@ -60,23 +60,19 @@ void ShaderManager::initShaderAttribs(Shader* _shader){
 	//Grab the attribute locations from the shader
 	_shader->posAttrib = glGetAttribLocation(_shader->shaderProgram, "vPosition");
 	if (_shader->posAttrib < 0){
-		logManager->writeLog(LogLevel::LOG_WARN, "Shader " + _shader->name + " position attribute not found!");
-		logManager->printLastError();
+		logManager->log(LogLevel::LOG_WARN, "Shader " + _shader->name + " position attribute not found!");
 	}
 	_shader->normAttrib = glGetAttribLocation(_shader->shaderProgram, "vNormals");
 	if (_shader->normAttrib < 0){
-		logManager->writeLog(LogLevel::LOG_WARN, "Shader " + _shader->name + " normal attribute not found!");
-		logManager->printLastError();
+		logManager->log(LogLevel::LOG_WARN, "Shader " + _shader->name + " normal attribute not found!");
 	}
 	_shader->texAttrib = glGetAttribLocation(_shader->shaderProgram, "vTexture");
 	if (_shader->texAttrib < 0){
-		logManager->writeLog(LogLevel::LOG_WARN, "Shader " + _shader->name + " texture attribute not found!");
-		logManager->printLastError();
+		logManager->log(LogLevel::LOG_WARN, "Shader " + _shader->name + " texture attribute not found!");
 	}
 	_shader->colAttrib = glGetAttribLocation(_shader->shaderProgram, "vColor");
 	if (_shader->colAttrib < 0){
-		logManager->writeLog(LogLevel::LOG_WARN, "Shader " + _shader->name + " color attribute not found!");
-		logManager->printLastError();
+		logManager->log(LogLevel::LOG_WARN, "Shader " + _shader->name + " color attribute not found!");
 	}
 }
 

@@ -65,10 +65,10 @@ void SFMLWindower::init() {
 	window = new sf::Window(videoMode, name);
 
 	if (!window) {
-		logManager->writeLog(LogLevel::LOG_ERROR, "Could not initalize SFML window!");
+		logManager->log(LogLevel::LOG_ERROR, "Could not initalize SFML window!");
 		return;
 	} else {
-		logManager->writeLog(LogLevel::LOG_INFO, "SFML window initalized successfully!");
+		logManager->log(LogLevel::LOG_INFO, "SFML window initalized successfully!");
 	}
 
 	//Initalizing OpenGL Viewport

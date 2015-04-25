@@ -113,7 +113,7 @@ void ResourceManager::addMesh(std::string _fileName, std::string _meshName){
 		std::vector<int> indiceCountData = modelReader->getIndiceCountData();
 		addMesh(new Mesh(verts, indices, _meshName, indiceCountData));
 	} catch (...){
-		logManager->writeLog(LogLevel::LOG_ERROR, "Could not load mesh " + _fileName);
+		logManager->log(LogLevel::LOG_ERROR, "Could not load mesh " + _fileName);
 	}
 }
 
@@ -165,8 +165,7 @@ void ResourceManager::loadTexture(std::string _fileName, std::string _texName){
 	textureLoader->LoadTextureImage(brandNewTexture, fileNameChars);
 
 	if (brandNewTexture->imageData == nullptr){
-		logManager->writeLog(LogLevel::LOG_ERROR, "Cannot load texture " + _fileName);
-		logManager->printLastError();
+		logManager->log(LogLevel::LOG_ERROR, "Cannot load texture " + _fileName);
 		brandNewTexture = getTexture(RESOUR_TEXTURENOTFOUND);
 		if (brandNewTexture == nullptr){ //if THAT is null as well
 			return; //exit texture loading
