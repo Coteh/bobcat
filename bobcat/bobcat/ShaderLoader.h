@@ -15,13 +15,13 @@ namespace bobcat {
 	};
 
 	class ShaderLoader {
-	private:
-		static std::string shadersLoadPath;
-		static const GLchar* ReadShader(const char* _fileName);
 	public:
 		//GLuint LoadShaders(const char * vertex_file_path, const char * fragment_file_path);
 		static GLuint LoadShaders(ShaderLoadInfo* _shaders);
 		static void ProvideShaderLoadPath(std::string _shadersLoadPath);
+	private:
+		static std::string shadersLoadPath;
+		static const GLchar* ReadShader(const char* _fileName);
 	};
 
 }

@@ -1,4 +1,5 @@
 #include "ShaderLoader.h"
+#include "LogManager.h"
 #include <iostream>
 
 using namespace bobcat;
@@ -10,7 +11,9 @@ const GLchar* ShaderLoader::ReadShader(const char* _fileName){
 	fopen_s(&inFile, _fileName, "rb");
 	if (!inFile) {
 #ifdef _DEBUG
-		std::cerr << "Unable to open file '" << _fileName << "'" << std::endl;
+		LogManager* logManager = LogManager::getInstance();
+		logManager->writeLog(LogLevel::LOG_ERROR, "Unable to open file \"" + std::string(_fileName) + "\"");
+		logManager->printLastError();
 #endif /* DEBUG */
 		return NULL;
 	}
@@ -35,6 +38,9 @@ GLuint ShaderLoader::LoadShaders(ShaderLoadInfo* _shaders){
 
 	//Create the shader program that will be filled with shaders and then returned
 	GLuint program = glCreateProgram();
+
+	//Get the Log Manager singleton
+	LogManager* logManager = LogManager::getInstance();
 
 	ShaderLoadInfo* entry = _shaders;
 	while (entry->type != GL_NONE){
@@ -76,7 +82,8 @@ GLuint ShaderLoader::LoadShaders(ShaderLoadInfo* _shaders){
 
 			GLchar* log = new GLchar[len + 1];
 			glGetShaderInfoLog(shader, len, &len, log);
-			std::cerr << "Shader compilation failed: " << log << std::endl;
+			logManager->writeLog(LogLevel::LOG_ERROR, "Shader file " + std::string(entry->filename) + " compilation failed: \n" + std::string(log));
+			logManager->printLastError();
 			delete[] log;
 #endif /* DEBUG */
 			//Exit the method, returning a 0 which will signify an error with loading shader
@@ -104,7 +111,8 @@ GLuint ShaderLoader::LoadShaders(ShaderLoadInfo* _shaders){
 
 		GLchar* log = new GLchar[len + 1];
 		glGetProgramInfoLog(program, len, &len, log);
-		std::cerr << "Shader linking failed: " << log << std::endl;
+		logManager->writeLog(LogLevel::LOG_ERROR, "Shader file " + std::string(entry->filename) + " linking failed: \n" + std::string(log));
+		logManager->printLastError();
 		delete[] log;
 #endif /* DEBUG */
 		//Delete all the shaders
