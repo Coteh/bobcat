@@ -32,6 +32,21 @@ BobcatDemo::~BobcatDemo() {
 void BobcatDemo::Init(){
 	Engine::Init();
 
+	logManager->writeLog(LogLevel::LOG_NONE, "This is none");
+	logManager->printLastError();
+	logManager->writeLog(LogLevel::LOG_INFO, "This is info");
+	logManager->printLastError();
+	logManager->writeLog(LogLevel::LOG_TRACE, "This is trace");
+	logManager->printLastError();
+	logManager->writeLog(LogLevel::LOG_WARN, "This is warn");
+	logManager->printLastError();
+	logManager->writeLog(LogLevel::LOG_ERROR, "This is error");
+	logManager->printLastError();
+	logManager->writeLog((LogLevel)-1, "This is -1");
+	logManager->printLastError();
+	logManager->writeLog((LogLevel)6, "This is 6");
+	logManager->printLastError();
+
 	/*Setting up Shaders*/
 	ShaderLoadInfo shaders[] = {
 		{ GL_VERTEX_SHADER, "rainbow-vert.glsl" },

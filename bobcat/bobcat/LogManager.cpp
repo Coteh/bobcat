@@ -4,9 +4,20 @@ using namespace bobcat;
 
 LogManager* LogManager::instance;
 
+#ifdef _WIN32
+const WORD LogManager::colors[] = {
+	0x0F, 0x02, 0x0D, 0x0E, 0x0C
+};
+#endif
+
 LogManager::LogManager() {
 	fileWriter = new FileIO::FileWriter();
-	printPriority = LogLevel::LOG_WARN;
+	printPriority = LogLevel::LOG_INFO;
+
+#ifdef _WIN32
+	hstdout = GetStdHandle(STD_OUTPUT_HANDLE);
+	GetConsoleScreenBufferInfo(hstdout, &csbi);
+#endif
 }
 
 LogManager::~LogManager() {
@@ -38,7 +49,8 @@ std::string LogManager::getLogLevelString(LogLevel _logLevel){
 		logLevelString = "INFO";
 		break;
 	}
-	if (_logLevel > 0){
+	if (_logLevel != 0){
+		logLevelString += "\t";
 		logLevelString += COLON_SEP;
 	}
 	return logLevelString;
@@ -52,11 +64,10 @@ void LogManager::setLogfile(std::string _filePath){
 /* Stores the error message and then writes it to the log file.
 */
 void LogManager::writeLog(LogLevel _level, std::string _message){
+	if (_level < writePriority) return; //only write if error level is on write priority bracket
 	lastErrorStr = getLogLevelString(_level) + _message + "\n";
 	lastErrorLevel = _level;
-	if (_level >= writePriority){ //only write if error level is on write priority bracket
-		fileWriter->appendToFile(defaultLogFilePath, lastErrorStr);
-	}
+	fileWriter->appendToFile(defaultLogFilePath, lastErrorStr);
 }
 
 void LogManager::printLastError(){
@@ -66,5 +77,20 @@ void LogManager::printLastError(){
 	errno_t errErrCode; //to see if there was an error converting the error string to char array :P
 	errErrCode = strcpy_s(errorCharArr, charBufferSize, lastErrorStr.c_str());
 	if (errErrCode > 0) return;
+#ifdef _WIN32
+	//Determining color if on Windows systems
+	WORD errLogColor;
+	if (lastErrorLevel > LOG_ERROR || lastErrorLevel < 0){
+		errLogColor = colors[LOG_NONE];
+	} else{
+		errLogColor = colors[lastErrorLevel];
+	}
+	SetConsoleTextAttribute(hstdout, errLogColor);
+#endif
+	//Print the error message to console
 	printf("%s", errorCharArr);
+#ifdef _WIN32
+	//Setting color back to normal when done
+	SetConsoleTextAttribute(hstdout, csbi.wAttributes);
+#endif
 }

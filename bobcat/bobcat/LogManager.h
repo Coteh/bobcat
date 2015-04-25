@@ -3,6 +3,10 @@
 #include <stdio.h> //used for printf
 #include "FileWriter.h"
 
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 #define COLON_SEP "> "
 
 namespace bobcat {
@@ -28,6 +32,12 @@ namespace bobcat {
 
 		LogLevel writePriority;
 		LogLevel printPriority;
+
+#ifdef _WIN32
+		CONSOLE_SCREEN_BUFFER_INFO csbi;
+		HANDLE hstdout;
+		static const WORD colors[];
+#endif
 
 		std::string getLogLevelString(LogLevel _logLevel);
 		LogManager();
