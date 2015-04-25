@@ -4,9 +4,13 @@
 using namespace bobcat;
 
 SFMLWindower::SFMLWindower() {
-	configManager = ConfigManager::getInstance();
 	logManager = LogManager::getInstance();
 	sfEventListener = nullptr;
+
+	//Setting default window settings
+	name = "Engine Window (SFML)";
+	width = 640;
+	height = 640;
 }
 
 SFMLWindower::~SFMLWindower() {
@@ -55,9 +59,6 @@ void SFMLWindower::showWindow(int _expression) {
 }
 
 void SFMLWindower::init() {
-	//Get window settings from Config Manager
-	configManager->getWindowSettings(name, width, height);
-
 	//Initalize a SFML video mode
 	videoMode = sf::VideoMode(width, height);
 

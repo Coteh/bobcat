@@ -49,27 +49,28 @@ void ConfigManager::readConfigFile(const char* _filePath){
 //	return true;
 //}
 
-void ConfigManager::getWindowSettings(const char* &_name, int &_width, int &_height){
+bool ConfigManager::getWindowSettings(WindowSettings* _windowSettings){
 	if (document.HasParseError() || !document.HasMember(CFG_KEY_WINDOW)){
 		logManager->log(LogLevel::LOG_ERROR, "Could not retrive window settings from config file.");
-		return; //exit since window key does not have a member
+		return false; //exit since window key does not have a member
 	}
 	Value& val = document[CFG_KEY_WINDOW];
 	if (val.HasMember("title")){
-		_name = val["title"].GetString();
+		_windowSettings->windowName = val["title"].GetString();
 	}
 	if (val.HasMember("width")){
-		_width = val["width"].GetInt();
+		_windowSettings->windowWidth = val["width"].GetInt();
 	}
 	if (val.HasMember("height")){
-		_height = val["height"].GetInt();
+		_windowSettings->windowHeight = val["height"].GetInt();
 	}
+	return true;
 }
 
-void ConfigManager::getAssetLoadPaths(AssetPaths* _assetPaths) {
+bool ConfigManager::getAssetLoadPaths(AssetPaths* _assetPaths) {
 	if (document.HasParseError() || !document.HasMember(CFG_KEY_ASSETPATHS)){
 		logManager->log(LogLevel::LOG_ERROR, "Could not retrive asset load paths from config file.");
-		return; //exit since window key does not have a member
+		return false; //exit since window key does not have a member
 	}
 	Value& val = document[CFG_KEY_ASSETPATHS];
 	if (val.HasMember("models")){
@@ -81,6 +82,7 @@ void ConfigManager::getAssetLoadPaths(AssetPaths* _assetPaths) {
 	if (val.HasMember("shaders")){
 		_assetPaths->shadersPath = val["shaders"].GetString();
 	}
+	return true;
 }
 
 bool ConfigManager::getLogSettings(LogSettings* _logSettings){

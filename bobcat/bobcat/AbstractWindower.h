@@ -6,6 +6,12 @@
 
 namespace bobcat {
 
+	struct WindowSettings {
+		int windowWidth;
+		int windowHeight;
+		const char* windowName;
+	};
+
 	/**
 	* An abstract class that all Windowers must derive from and use.
 	* Windowers have methods that allow for direct interfacing

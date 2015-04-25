@@ -1,7 +1,7 @@
 #pragma once
 #include "AbstractWindower.h"
 #include "Notifier.h"
-#include "ConfigManager.h"
+#include "LogManager.h"
 // Include SFML
 #include <SFML\Window.hpp>
 // Include OpenGL
@@ -20,7 +20,6 @@ namespace bobcat {
 		int width, height;
 		bool visibility;
 
-		ConfigManager* configManager;
 		LogManager* logManager;
 
 		sf::Context sfmlContext;

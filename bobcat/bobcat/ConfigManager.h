@@ -1,6 +1,7 @@
 #pragma once
 #include "LogManager.h"
 #include "FileReader.h"
+#include "AbstractWindower.h"
 #include <rapidjson\document.h>
 
 #define CFG_KEY_WINDOW "window"
@@ -48,9 +49,9 @@ namespace bobcat {
 		* @param &_width Reference to width variable to overwrite.
 		* @param &_height Reference to height variable to overwrite.
 		*/
-		void getWindowSettings(const char* &_name, int &_width, int &_height);
+		bool getWindowSettings(WindowSettings* _windowSettings);
 
-		void getAssetLoadPaths(AssetPaths* _assetPaths);
+		bool getAssetLoadPaths(AssetPaths* _assetPaths);
 
 		bool getLogSettings(LogSettings* _logSettings);
 	};

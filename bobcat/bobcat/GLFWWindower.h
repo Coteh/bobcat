@@ -1,7 +1,7 @@
 #pragma once
 #include "AbstractWindower.h"
 #include "Notifier.h"
-#include "ConfigManager.h"
+#include "LogManager.h"
 // Include OpenGL
 #include "vgl.h";
 // Include GLFW
@@ -19,7 +19,6 @@ namespace bobcat {
 		GLFWwindow* window;
 		const char* name;
 		int width, height;
-		ConfigManager* configManager;
 		LogManager* logManager;
 	protected:
 		/**

@@ -32,6 +32,12 @@ Engine::Engine() {
 	window = new SFMLWindower();
 	inputSystem = new SFMLInputSystem((SFMLWindower*)window);
 #endif
+	//Get window settings from Config Manager
+	WindowSettings windowSettings;
+	if (configManager->getWindowSettings(&windowSettings)){
+		window->setName(windowSettings.windowName);
+		window->setWindowDimensions(windowSettings.windowWidth, windowSettings.windowHeight);
+	}
 	//Setting up content paths (This must be done before the next step!)
 	resourceManager = ResourceManager::getInstance();
 	AssetPaths assetPaths;

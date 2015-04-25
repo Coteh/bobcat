@@ -5,10 +5,9 @@
 using namespace bobcat;
 
 GLFWWindower::GLFWWindower(){
-	configManager = ConfigManager::getInstance();
 	logManager = LogManager::getInstance();
 	//Set default window settings
-	name = "Engine Window";
+	name = "Engine Window (GLFW)";
 	width = 640;
 	height = 640;
 }
@@ -74,9 +73,6 @@ void GLFWWindower::init(){
 
 	//Set GLFW error callback
 	glfwSetErrorCallback(GLFWAPIHolder::GLFWErrorCallback);
-
-	//Get window settings from Config Manager
-	configManager->getWindowSettings(name, width, height);
 
 	//Create the GLFW window
 	window = glfwCreateWindow(width, height, name, NULL, NULL);
