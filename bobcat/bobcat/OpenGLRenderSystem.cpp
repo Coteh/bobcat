@@ -57,14 +57,22 @@ void OpenGLRenderSystem::RenderObject(GameObject* _gameObject){
 					shaderManager->updateAttribs(mat->shader, _gameObject->renderer->meshFilter->mesh);
 					_gameObject->renderer->meshFilter->mesh->setBoundShaderProgram(shaderManager->getCurrShader()->shaderProgram);
 				}
+				//Set the current shader reference
 				currShader = shaderManager->getCurrShader();
+				//Get Uniform locations from the shader
 				modelLoc = currShader->getShaderUniform("Model");
 				viewLoc = currShader->getShaderUniform("View");
 				projectionLoc = currShader->getShaderUniform("Projection");
+				normalLoc = currShader->getShaderUniform("NormalMatrix");
+				//Get view matrix from active camera
+				glm::mat4 viewMat = activeCamera->getView();
+				//Calculating normal matrix
+				glm::mat4 normMat = glm::transpose(glm::inverse(viewMat * modelMat));
 				//Send Model View Projection to the shader
 				glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelMat));
-				glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(activeCamera->getView()));
+				glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(viewMat));
 				glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(activeCamera->getProjection()));
+				glUniformMatrix3fv(normalLoc, 1, GL_FALSE, glm::value_ptr(normMat));
 				//Render the GameObject
 				_gameObject->Draw();
 			}

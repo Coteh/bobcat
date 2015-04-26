@@ -5,13 +5,13 @@ in vec3 vertexColor;
 //lighting
 in vec3 vertexWorld;
 in vec3 normalWorld;
-uniform vec3 lightPos;
+uniform vec3 LightPos;
 
 out vec4 fColor;
 
 void main()
 {
-	vec3 lightVectorWorld = normalize((lightPos).xyz - vertexWorld);
+	vec3 lightVectorWorld = normalize((LightPos).xyz - vertexWorld);
 	//diffuse brightness
 	float Kd = dot(lightVectorWorld, normalize(normalWorld));
 	vec4 diffuse = Kd * vec4(1.0,1.0,1.0,1.0);

@@ -2,7 +2,7 @@
 #include "Components/ParticleSystem.h"
 #include <glm\gtc\type_ptr.hpp>
 
-#define TEXTURE_MODEL "TextureModel"
+#define TEXTURE_MODEL "ScottTextureShader"
 
 #define MOVE_SPEED 25.0f
 #define ROTATE_SPEED 100.0f
@@ -87,6 +87,12 @@ void BobcatDemo::Init(){
 		{ GL_NONE, NULL }
 	};
 
+	ShaderLoadInfo shaders10[] = {
+		{ GL_VERTEX_SHADER, "toon-vert.glsl" },
+		{ GL_FRAGMENT_SHADER, "toon-frag.glsl" },
+		{ GL_NONE, NULL }
+	};
+
 	shaderManager->addShader(ShaderLoader::LoadShaders(shaders), "TestShader");
 	shaderManager->addShader(ShaderLoader::LoadShaders(shaders2), "TestShader2");
 	shaderManager->addShader(ShaderLoader::LoadShaders(shaders3), "JakeShader");
@@ -96,6 +102,7 @@ void BobcatDemo::Init(){
 	shaderManager->addShader(ShaderLoader::LoadShaders(shaders7), "ScottShader");
 	shaderManager->addShader(ShaderLoader::LoadShaders(shaders8), "ScottTextureShader");
 	shaderManager->addShader(ShaderLoader::LoadShaders(shaders9), "ParticleShader");
+	shaderManager->addShader(ShaderLoader::LoadShaders(shaders10), "ToonShader");
 
 	/*Setting up Textures*/
 	resourceManager->loadTexture("kitteh.png", "Cat");
@@ -126,7 +133,11 @@ void BobcatDemo::Init(){
 	moonMat->texture = planeTex;
 	noTexMat = new Material();
 	noTexMat->color = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
-	noTexMat->shader = shaderManager->getShader(TEXTURE_MODEL);
+	noTexMat->shader = shaderManager->getShader("ColorModel");
+	Material* toonMat = new Material();
+	toonMat->color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+	toonMat->shader = shaderManager->getShader("ToonShader");
+	resourceManager->addMaterial(toonMat, "ToonMaterial");
 
 	//Initalize the objects, plugging the meshes into them
 	GameObjectConstructionInfo cubeObjInfo;
@@ -135,7 +146,7 @@ void BobcatDemo::Init(){
 	cubeObjInfo.setRigidbodyValues(glm::vec3(0.0f), glm::vec3(0.0f, 0.0f, 0.0f), 1.0f);
 	cubeObjInfo.setMesh(resourceManager->getMesh("Teapot"));
 	cubeObj = GameObjectCreator::ConstructFrom(cubeObjInfo);
-	cubeObj->renderer->material = mat;
+	cubeObj->renderer->material = toonMat;
 
 	sphereTorque = cubeObj->rigidbody->rotationalVel;
 	scene->addGameObject(cubeObj);
@@ -165,10 +176,6 @@ void BobcatDemo::Init(){
 	planeObj->renderer->material = moonMat;
 	scene->addGameObject(planeObj);
 
-	logManager->log(LogLevel::LOG_NONE, "This is a test log");
-	logManager->log(LogLevel::LOG_INFO, "This is a test log also");
-	logManager->log(LogLevel::LOG_ERROR, "This is an error!");
-
 	GameObjectConstructionInfo cameraObjInfo;
 	cameraObjInfo.setTransformValues(glm::vec3(0, 0, 20), glm::vec3(0.0f), glm::vec3(1.0f));
 	//cameraObjInfo.setRigidbodyValues(glm::vec3(0), glm::vec3(0.0f, 35.0f, 0.0f), 0.0f);
@@ -181,12 +188,11 @@ void BobcatDemo::Init(){
 	//cameraObjInfo.setRigidbodyValues(glm::vec3(0), glm::vec3(0.0f, 35.0f, 0.0f), 0.0f);
 	cameraChildObj = GameObjectCreator::ConstructFrom(cameraObjChildInfo);
 	cameraChildObj->AddComponent<Camera>();
-	//cameraChildObj->AddComponent<TestDisplayPosition>();
 	cameraObj->attachGameObject(cameraChildObj);
 
 	origCameraPos = cameraObj->transform->position;
 
-	lightSource = glm::vec3(0.0, -10.0, -1000.0);
+	lightSource = glm::vec3(0.0, -100.0, -100.0);
 
 	ray = new Ray(mainCamera->gameObject->transform->position, mainCamera->gameObject->transform->forward);
 
@@ -323,7 +329,7 @@ void BobcatDemo::Update(){
 	}
 
 	if (shaderManager->getCurrShader() != nullptr){
-		glUniform3fv(shaderManager->getCurrShader()->getShaderUniform("lightPos"), 1, glm::value_ptr(lightSource));
+		glUniform3fv(shaderManager->getCurrShader()->getShaderUniform("LightPos"), 1, glm::value_ptr(lightSource));
 	}
 }
 

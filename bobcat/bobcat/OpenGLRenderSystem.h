@@ -17,7 +17,7 @@ namespace bobcat {
 
 		ShaderManager* shaderManager;
 		Shader* currShader;
-		GLuint modelLoc, viewLoc, projectionLoc;
+		GLuint modelLoc, viewLoc, projectionLoc, normalLoc;
 
 		glm::mat4 cam;
 		glm::mat4 proj;

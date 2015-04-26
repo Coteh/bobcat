@@ -11,14 +11,14 @@ uniform sampler2D tex;
 //in lighting
 in vec3 vertexWorld;
 in vec3 normalWorld;
-uniform vec3 lightPos;
+uniform vec3 LightPos;
 
 //out color
 out vec4 fColor;
 
 void main()
 {
-	vec3 lightVectorWorld = normalize((lightPos).xyz - vertexWorld);
+	vec3 lightVectorWorld = normalize((LightPos).xyz - vertexWorld);
 
 	//diffuse brightness
 	float Kd = dot(lightVectorWorld, normalize(normalWorld));
