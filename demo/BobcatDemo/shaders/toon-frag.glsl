@@ -5,6 +5,9 @@ in vec3 normal;
 in vec3 lightDir;
 in vec4 eyePos;
 
+//uniform color
+uniform vec4 uniColor;
+
 out vec4 fragColor;
 
 void main() {
@@ -16,12 +19,13 @@ void main() {
 	if (silhouette < 0.2){
 		fragColor = color;
 	}else if (intensity > 0.95){
-		fragColor = vec4(1.0, 0.5, 0.5, 1.0);
+		fragColor = vec4(1.0, 1.0, 1.0, 1.0);
 	}else if (intensity > 0.5){
-		fragColor = vec4(0.6, 0.3, 0.3, 1.0);
+		fragColor = vec4(0.7, 0.7, 0.7, 1.0);
 	}else if (intensity > 0.25){
-		fragColor = vec4(0.4, 0.2, 0.2, 1.0);
+		fragColor = vec4(0.45, 0.45, 0.45, 1.0);
 	}else{
-		fragColor = vec4(0.2, 0.1, 0.1, 1.0);
+		fragColor = vec4(0.2, 0.2, 0.2, 1.0);
 	}
+  fragColor *= uniColor;
 }

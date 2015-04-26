@@ -2,6 +2,9 @@
 #include "Components/ParticleSystem.h"
 #include <glm\gtc\type_ptr.hpp>
 
+#include <glm/gtc/noise.hpp>
+#include <glm/gtc/random.hpp>
+
 #define TEXTURE_MODEL "ScottTextureShader"
 
 #define MOVE_SPEED 25.0f
@@ -135,9 +138,13 @@ void BobcatDemo::Init(){
 	noTexMat->color = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
 	noTexMat->shader = shaderManager->getShader("ColorModel");
 	Material* toonMat = new Material();
-	toonMat->color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+	toonMat->color = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
 	toonMat->shader = shaderManager->getShader("ToonShader");
 	resourceManager->addMaterial(toonMat, "ToonMaterial");
+	Material* toonMoonMat = new Material();
+	toonMoonMat->color = glm::vec4(0.5f, 0.5f, 0.5f, 1.0f);
+	toonMoonMat->shader = shaderManager->getShader("ToonShader");
+	resourceManager->addMaterial(toonMoonMat, "ToonMoonMaterial");
 
 	//Initalize the objects, plugging the meshes into them
 	GameObjectConstructionInfo cubeObjInfo;
@@ -146,10 +153,31 @@ void BobcatDemo::Init(){
 	cubeObjInfo.setRigidbodyValues(glm::vec3(0.0f), glm::vec3(0.0f, 0.0f, 0.0f), 1.0f);
 	cubeObjInfo.setMesh(resourceManager->getMesh("Teapot"));
 	cubeObj = GameObjectCreator::ConstructFrom(cubeObjInfo);
-	cubeObj->renderer->material = toonMat;
+	cubeObj->renderer->material = mat;
 
 	sphereTorque = cubeObj->rigidbody->rotationalVel;
 	scene->addGameObject(cubeObj);
+
+	cubeObj = GameObjectCreator::ConstructFrom(cubeObjInfo);
+	cubeObj->transform->position += glm::vec3(-5, 0, 0);
+	cubeObj->transform->scale = glm::vec3(0.5f, 0.5f, 0.5f);
+	cubeObj->renderer->material = moonMat;
+	scene->addGameObject(cubeObj);
+
+	//Create perlin noise for teapot model
+	std::vector<glm::vec2> fireTex = cubeObj->renderer->meshFilter->mesh->uv;
+	for (size_t i = 0; i < fireTex.size(); i++){
+		float noised = glm::simplex(glm::circularRand<float>(1.0f));
+		fireTex[i] = glm::vec2(noised, noised);
+	}
+	cubeObj->renderer->meshFilter->mesh->uv = fireTex;
+
+	cubeObjInfo.setMesh(resourceManager->getMesh("Sphere"));
+	GameObject* toonMoonObj = GameObjectCreator::ConstructFrom(cubeObjInfo);
+	toonMoonObj->transform->position += glm::vec3(-10, 0, -100);
+	toonMoonObj->transform->scale = glm::vec3(0.5f, 0.5f, 0.5f);
+	toonMoonObj->renderer->material = toonMoonMat;
+	scene->addGameObject(toonMoonObj);
 
 	GameObjectConstructionInfo torusObjInfo;
 	torusObjInfo.setTransformValues(glm::vec3(1.0f, 1.0f, -1.0f), glm::vec3(0.0f), glm::vec3(0.4f));
@@ -211,6 +239,14 @@ void BobcatDemo::OnKeyEvent(){
 		mainCamera = cameraChildObj->GetComponent<Camera>();
 	} else if (inputSystem->getInputState(InputEnums::KeyCode::KEY_4) == InputEnums::InputState::INPUT_PRESSED) {
 		mainCamera = cameraObj->GetComponent<Camera>();
+	} else if (inputSystem->getInputState(InputEnums::KeyCode::KEY_5) == InputEnums::InputState::INPUT_PRESSED) {
+		//Create perlin noise for teapot model
+		std::vector<glm::vec2> fireTex = cubeObj->renderer->meshFilter->mesh->uv;
+		for (size_t i = 0; i < fireTex.size(); i++){
+			float noised = glm::simplex(glm::circularRand<float>(1.0f));
+			fireTex[i] = glm::vec2(noised, noised);
+		}
+		cubeObj->renderer->meshFilter->mesh->uv = fireTex;
 	} else if (inputSystem->getInputState(InputEnums::KeyCode::KEY_U) == InputEnums::InputState::INPUT_PRESSED){
 		debugRenderOn = !debugRenderOn;
 		renderer->setDebugRender(debugRenderOn);

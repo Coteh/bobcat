@@ -20,7 +20,7 @@ void main() {
 	normal = NormalMatrix * vNormals;
 
   /// Create the eye vector
-	eyePos = modelViewMatrix * vec4(vPosition, 0.7);
+	eyePos = modelViewMatrix * vec4(vPosition, 1.0);
 
   /// Create the light direction
 	lightDir = normalize(LightPos.xyz - eyePos.xyz);

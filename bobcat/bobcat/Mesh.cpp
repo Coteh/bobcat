@@ -21,6 +21,7 @@ Mesh::Mesh(std::vector<GLfloat> _vertices, std::vector<GLuint> _elements, std::s
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indiceCount * sizeof(GLuint), &_elements[0], GL_STATIC_DRAW);
 
+	m_elements = _elements;
 	indiceCountData = _indiceCountData;
 	updateDrawModes();
 
@@ -28,6 +29,12 @@ Mesh::Mesh(std::vector<GLfloat> _vertices, std::vector<GLuint> _elements, std::s
 	glBindVertexArray(0);
 
 	boundShaderProgram = 0;
+}
+
+/*Tried a copy constructor, but values weren't really 
+copying over properly, so I am doing this for now.*/
+Mesh* Mesh::CopyMesh(const Mesh& _copyMesh){
+	return new Mesh(_copyMesh.m_vertices, _copyMesh.m_elements, _copyMesh.m_name, _copyMesh.indiceCountData);
 }
 
 Mesh::~Mesh(){

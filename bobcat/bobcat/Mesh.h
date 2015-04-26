@@ -12,6 +12,7 @@ namespace bobcat {
 	private:
 		GLuint vbo, ebo, vao;
 		std::vector<GLfloat> m_vertices;
+		std::vector<GLuint> m_elements;
 		std::vector<int> indiceCountData;
 		std::vector<GLenum> drawModeVec;
 		int vertexCount;
@@ -30,6 +31,8 @@ namespace bobcat {
 		Mesh(){}
 		Mesh(std::vector<GLfloat> _vertices, std::vector<GLuint> _elements, std::string _name, std::vector<int> _indiceCountData);
 		~Mesh();
+
+		static Mesh* CopyMesh(const Mesh& _copyMesh);
 
 		GLuint getVAO();
 		GLuint getVBO();
