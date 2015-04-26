@@ -12,12 +12,22 @@ namespace bobcat {
 		virtual ~MeshRenderer();
 
 		MeshFilter* meshFilter;
-		Material* material;
+		
 		bool isEnabled;
 		bool isWireFrameOn;
 
+		Material* getMaterial();
+		Material* getSharedMaterial();
+		void setMaterial(Material* _material);
+
 		bool CheckShaderMatchup();
 		void Render();
+
+		__declspec(property(get = getMaterial, put = setMaterial)) Material* material;
+		__declspec(property(get = getSharedMaterial)) Material* sharedMaterial;
+	private:
+		Material* m_material;
+		Material* m_sharedMaterial;
 	};
 
 }

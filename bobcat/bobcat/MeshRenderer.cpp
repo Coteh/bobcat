@@ -10,6 +10,26 @@ MeshRenderer::~MeshRenderer() {
 
 }
 
+Material* MeshRenderer::getMaterial(){
+	return m_material;
+}
+
+Material* MeshRenderer::getSharedMaterial(){
+	return m_sharedMaterial;
+}
+
+void MeshRenderer::setMaterial(Material* _material){
+	//Delete the old material
+	delete m_material;
+	m_material = nullptr;
+	//Create a copy the supplied material
+	Material* copiedMat = new Material(*_material);
+	//Set the material to this copied material
+	m_material = copiedMat;
+	//Set the shared material to the original version
+	m_sharedMaterial = _material;
+}
+
 bool MeshRenderer::CheckShaderMatchup(){
 	if (meshFilter == nullptr) return false;
 	return (meshFilter->mesh->getBoundShaderProgram() == material->shader->shaderProgram);

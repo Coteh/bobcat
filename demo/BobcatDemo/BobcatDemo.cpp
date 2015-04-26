@@ -165,12 +165,14 @@ void BobcatDemo::Init(){
 	scene->addGameObject(cubeObj);
 
 	//Create perlin noise for teapot model
-	std::vector<glm::vec2> fireTex = cubeObj->renderer->meshFilter->mesh->uv;
-	for (size_t i = 0; i < fireTex.size(); i++){
+	std::vector<glm::vec2> fiyaTex = cubeObj->renderer->meshFilter->mesh->uv;
+	for (size_t i = 0; i < fiyaTex.size(); i++){
 		float noised = glm::simplex(glm::circularRand<float>(1.0f));
-		fireTex[i] = glm::vec2(noised, noised);
+		fiyaTex[i] = glm::vec2(noised, noised);
 	}
-	cubeObj->renderer->meshFilter->mesh->uv = fireTex;
+	cubeObj->renderer->meshFilter->mesh->uv = fiyaTex;
+
+	cubeObj->renderer->meshFilter->mesh = resourceManager->getMesh("Sphere");
 
 	cubeObjInfo.setMesh(resourceManager->getMesh("Sphere"));
 	GameObject* toonMoonObj = GameObjectCreator::ConstructFrom(cubeObjInfo);
@@ -263,8 +265,6 @@ void BobcatDemo::OnKeyEvent(){
 			circleObj->renderer->material = mat;
 			planeObj->renderer->material = mat;
 		}
-	} else if (inputSystem->getInputState(InputEnums::KeyCode::KEY_C) == InputEnums::InputState::INPUT_PRESSED){
-		cameraObj->RemoveComponent<TestDisplayPosition>();
 	}
 }
 

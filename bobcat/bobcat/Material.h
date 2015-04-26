@@ -14,6 +14,14 @@ namespace bobcat {
 		Material(){};
 		~Material(){};
 
+		Material(const Material& _matToCopy)
+		: color(_matToCopy.color) {
+			texture = _matToCopy.texture;
+			if (_matToCopy.m_shader != nullptr){
+				shader = _matToCopy.m_shader;
+			}
+		}
+
 		Shader* getShader(){
 			return m_shader;
 		}
@@ -22,6 +30,7 @@ namespace bobcat {
 			if (_shader == nullptr){
 				LogManager* logManager = LogManager::getInstance();
 				logManager->log(LogLevel::LOG_ERROR, "ERROR: Shader provided for material is NULL!");
+				return;
 			}
 			//Getting relevant uniforms from shader
 			colorLoc = m_shader->getShaderUniform("uniColor");

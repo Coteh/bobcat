@@ -33,8 +33,8 @@ Mesh::Mesh(std::vector<GLfloat> _vertices, std::vector<GLuint> _elements, std::s
 
 /*Tried a copy constructor, but values weren't really 
 copying over properly, so I am doing this for now.*/
-Mesh* Mesh::CopyMesh(const Mesh& _copyMesh){
-	return new Mesh(_copyMesh.m_vertices, _copyMesh.m_elements, _copyMesh.m_name, _copyMesh.indiceCountData);
+Mesh* Mesh::CopyMesh(const Mesh& _meshToCopy){
+	return new Mesh(_meshToCopy.m_vertices, _meshToCopy.m_elements, _meshToCopy.m_name, _meshToCopy.indiceCountData);
 }
 
 Mesh::~Mesh(){

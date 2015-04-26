@@ -32,7 +32,7 @@ namespace bobcat {
 		Mesh(std::vector<GLfloat> _vertices, std::vector<GLuint> _elements, std::string _name, std::vector<int> _indiceCountData);
 		~Mesh();
 
-		static Mesh* CopyMesh(const Mesh& _copyMesh);
+		static Mesh* CopyMesh(const Mesh& _meshToCopy);
 
 		GLuint getVAO();
 		GLuint getVBO();

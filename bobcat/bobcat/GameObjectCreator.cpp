@@ -43,9 +43,7 @@ GameObject* GameObjectCreator::ConstructFrom(GameObjectConstructionInfo _info){
 	if (_info.mesh != nullptr){
 		go->renderer = go->AddComponent<MeshRenderer>();
 		MeshFilter* meshFilter = go->AddComponent<MeshFilter>();
-		//meshFilter->mesh = _info.mesh;
-		Mesh* copyMesh = Mesh::CopyMesh(*_info.mesh);
-		meshFilter->mesh = copyMesh;
+		meshFilter->mesh = _info.mesh;
 		go->renderer->meshFilter = meshFilter;
 		go->renderer->isEnabled = true;
 	}
