@@ -30,6 +30,9 @@ ResourceManager::~ResourceManager() {
 	MeshMapType meshClearMap;
 	meshClearMap.swap(meshMap);
 	//Wipes out texture map entirely from memory
+	for (TextureMapType::iterator it = textureMap.begin(); it != textureMap.end(); ++it){
+		it->second->ClearData();
+	}
 	textureMap.clear();
 	TextureMapType textureClearMap;
 	textureClearMap.swap(textureMap);
@@ -154,6 +157,8 @@ void ResourceManager::loadTexture(std::string _fileName, std::string _texName){
 	glBindTexture(GL_TEXTURE_2D, texID);
 	//Assign the newly created texture ID to the new Texture instance we just made
 	brandNewTexture->texID = texID;
+	//Assign name to texture
+	brandNewTexture->name = _texName.c_str();
 
 	//Convert path + filename to char array
 	std::string concatStr = texPath + _fileName;

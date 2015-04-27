@@ -7,7 +7,7 @@ Texture::Texture(){
 }
 
 Texture::~Texture(){
-
+	
 }
 
 void Texture::Bind(int _mode, GLuint _samplerLoc) {
@@ -22,4 +22,9 @@ void Texture::Bind(GLuint _samplerLoc){
 
 void Texture::Unbind(){
 	glBindTexture(textureType, 0);
+}
+
+void Texture::ClearData() {
+	free(imageData);
+	imageData = nullptr;
 }
