@@ -31,6 +31,16 @@ int SFMLInputSystem::translateKeyCodeInput(int _keyCode) {
 	case InputEnums::KeyCode::KEY_7:			return sf::Keyboard::Num7;
 	case InputEnums::KeyCode::KEY_8:			return sf::Keyboard::Num8;
 	case InputEnums::KeyCode::KEY_9:			return sf::Keyboard::Num9;
+	case InputEnums::KeyCode::KEY_NUM0:			return sf::Keyboard::Numpad0;
+	case InputEnums::KeyCode::KEY_NUM1:			return sf::Keyboard::Numpad1;
+	case InputEnums::KeyCode::KEY_NUM2:			return sf::Keyboard::Numpad2;
+	case InputEnums::KeyCode::KEY_NUM3:			return sf::Keyboard::Numpad3;
+	case InputEnums::KeyCode::KEY_NUM4:			return sf::Keyboard::Numpad4;
+	case InputEnums::KeyCode::KEY_NUM5:			return sf::Keyboard::Numpad5;
+	case InputEnums::KeyCode::KEY_NUM6:			return sf::Keyboard::Numpad6;
+	case InputEnums::KeyCode::KEY_NUM7:			return sf::Keyboard::Numpad7;
+	case InputEnums::KeyCode::KEY_NUM8:			return sf::Keyboard::Numpad8;
+	case InputEnums::KeyCode::KEY_NUM9:			return sf::Keyboard::Numpad9;
 	case InputEnums::KeyCode::KEY_A:			return sf::Keyboard::A;
 	case InputEnums::KeyCode::KEY_B:			return sf::Keyboard::B;
 	case InputEnums::KeyCode::KEY_C:			return sf::Keyboard::C;
@@ -74,9 +84,6 @@ int SFMLInputSystem::translateKeyCodeInput(int _keyCode) {
 int SFMLInputSystem::translateInputStateOutput(int _inputState) {
 	int currState = -1;
 	switch (_inputState) {
-	case 0:
-		currState = InputEnums::InputState::INPUT_RELEASED;
-		break;
 	case 1:
 		currState = InputEnums::InputState::INPUT_PRESSED;
 		break;

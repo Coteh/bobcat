@@ -233,6 +233,8 @@ void BobcatDemo::OnKeyEvent(){
 	Engine::OnKeyEvent();
 	if (inputSystem->getInputState(InputEnums::KeyCode::KEY_ESCAPE) == InputEnums::InputState::INPUT_PRESSED){
 		Quit();
+	} else if (inputSystem->getInputState(InputEnums::KeyCode::KEY_NUM1) == InputEnums::InputState::INPUT_PRESSED){
+		printf("This numpad works!");
 	} else if (inputSystem->getInputState(InputEnums::KeyCode::KEY_1) == InputEnums::InputState::INPUT_PRESSED){
 		mode = 0;
 	} else if (inputSystem->getInputState(InputEnums::KeyCode::KEY_2) == InputEnums::InputState::INPUT_PRESSED){

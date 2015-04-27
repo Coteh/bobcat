@@ -26,6 +26,16 @@ int GLFWInputSystem::translateKeyCodeInput(int _keyCode) {
 	case InputEnums::KeyCode::KEY_7:			return GLFW_KEY_7;
 	case InputEnums::KeyCode::KEY_8:			return GLFW_KEY_8;
 	case InputEnums::KeyCode::KEY_9:			return GLFW_KEY_9;
+	case InputEnums::KeyCode::KEY_NUM0:			return GLFW_KEY_KP_0;
+	case InputEnums::KeyCode::KEY_NUM1:			return GLFW_KEY_KP_1;
+	case InputEnums::KeyCode::KEY_NUM2:			return GLFW_KEY_KP_2;
+	case InputEnums::KeyCode::KEY_NUM3:			return GLFW_KEY_KP_3;
+	case InputEnums::KeyCode::KEY_NUM4:			return GLFW_KEY_KP_4;
+	case InputEnums::KeyCode::KEY_NUM5:			return GLFW_KEY_KP_5;
+	case InputEnums::KeyCode::KEY_NUM6:			return GLFW_KEY_KP_6;
+	case InputEnums::KeyCode::KEY_NUM7:			return GLFW_KEY_KP_7;
+	case InputEnums::KeyCode::KEY_NUM8:			return GLFW_KEY_KP_8;
+	case InputEnums::KeyCode::KEY_NUM9:			return GLFW_KEY_KP_9;
 	case InputEnums::KeyCode::KEY_A:			return GLFW_KEY_A;
 	case InputEnums::KeyCode::KEY_B:			return GLFW_KEY_B;
 	case InputEnums::KeyCode::KEY_C:			return GLFW_KEY_C;
@@ -67,12 +77,15 @@ int GLFWInputSystem::translateKeyCodeInput(int _keyCode) {
 }
 
 int GLFWInputSystem::translateInputStateOutput(int _inputState) {
+	int currState = -1;
 	switch (_inputState) {
-	case GLFW_PRESS:	return InputEnums::InputState::INPUT_PRESSED;
-	case GLFW_RELEASE:	return InputEnums::InputState::INPUT_RELEASED;
-	case GLFW_REPEAT:	return InputEnums::InputState::INPUT_HELD;
+	case GLFW_PRESS:	currState = InputEnums::InputState::INPUT_PRESSED; break;
+	case GLFW_RELEASE:	currState = (m_lastKeyAction == GLFW_PRESS || m_lastKeyAction == GLFW_REPEAT) ? InputEnums::InputState::INPUT_RELEASED : InputEnums::InputState::INPUT_NONE; break;
+	case GLFW_REPEAT:	currState = InputEnums::InputState::INPUT_HELD; break;
+	default:			currState = InputEnums::InputState::INPUT_NONE; break;
 	}
-	return InputEnums::InputState::INPUT_NONE;
+	m_lastKeyAction = currState;
+	return currState;
 }
 
 int GLFWInputSystem::getInputState(int _keyCode) {
