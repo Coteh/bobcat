@@ -56,7 +56,9 @@ namespace bobcat {
 
 		inline void Unbind(){
 			//Unbind Texture when done
-			glBindTexture(GL_TEXTURE_2D, 0);
+			if (texture != nullptr){
+				texture->Unbind();
+			}
 		}
 	};
 

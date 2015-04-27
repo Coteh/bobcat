@@ -22,7 +22,7 @@ void main() {
 	if(diff != 0.0){
 		spec = pow(spec,16.0);
 	}
-	vec3 specular = spec * vec3(1.0,1.0,1.0);
+	vec3 specular = spec * vec3(0.5, 0.5, 0.5);
 
 	vec3 result = ambient + diffuse + specular;
 

@@ -3,7 +3,7 @@
 using namespace bobcat;
 
 Texture::Texture(){
-
+	textureType = GL_TEXTURE_2D; //default texture type is 2D
 }
 
 Texture::~Texture(){
@@ -17,5 +17,9 @@ void Texture::Bind(int _mode, GLuint _samplerLoc) {
 }
 
 void Texture::Bind(GLuint _samplerLoc){
-	Bind(GL_TEXTURE_2D, _samplerLoc);
+	Bind(textureType, _samplerLoc);
+}
+
+void Texture::Unbind(){
+	glBindTexture(textureType, 0);
 }

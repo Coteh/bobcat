@@ -195,3 +195,8 @@ void ResourceManager::addMaterial(Material* _material, std::string _materialName
 	//Add brand new material to the material map
 	materialMap[_materialName] = _material;
 }
+
+void ResourceManager::addTexture(Texture* _texture, std::string _textureName){
+	//Add new texture to the texture map
+	textureMap[_textureName] = _texture;
+}

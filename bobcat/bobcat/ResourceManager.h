@@ -95,6 +95,8 @@ namespace bobcat {
 
 		void addMaterial(Material* _material, std::string _materialName);
 
+		void addTexture(Texture* _texture, std::string _textureName);
+
 		~ResourceManager();
 	};
 
