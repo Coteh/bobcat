@@ -16,13 +16,13 @@ GameObject* GameObjectCreator::ConstructFrom(GameObjectConstructionInfo _info){
 		transform->scale = _info.scale;
 		go->transform = transform;
 	}
-	if (_info.colliderMode > 0){
+	if (_info.colliderType > 0){
 		Collider* collider;
-		switch (_info.colliderMode){
-		case ColliderMode::BOX:
+		switch (_info.colliderType){
+		case ColliderType::BOX:
 			collider = go->AddComponent<BoxCollider>();
 			break;
-		case ColliderMode::SPHERE:
+		case ColliderType::SPHERE:
 			collider = go->AddComponent<SphereCollider>();
 			break;
 		default:

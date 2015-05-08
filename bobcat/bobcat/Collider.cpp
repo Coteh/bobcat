@@ -26,8 +26,8 @@ glm::vec3 Collider::getDimensions(){
 	return glm::vec3(0.0f);
 }
 
-ColliderDebugDrawType Collider::getDebugDrawType(){
-	return drawType;
+ColliderType Collider::getColliderType(){
+	return m_colliderType;
 }
 
 void Collider::setPosition(glm::vec3 _pos){
@@ -38,6 +38,6 @@ void Collider::setScale(float _scaleAmt){
 	m_scale = _scaleAmt;
 }
 
-void Collider::setDebugDrawType(ColliderDebugDrawType _drawType){
-	drawType = _drawType;
+void Collider::setColliderType(ColliderType _colliderType){
+	m_colliderType = _colliderType;
 }

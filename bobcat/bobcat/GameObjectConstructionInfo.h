@@ -1,19 +1,9 @@
 #pragma once
 #include <glm\glm.hpp>
 #include "Mesh.h"
+#include "Collider.h"
 
 namespace bobcat {
-
-	namespace ColliderMode{
-		/**
-		* The type of Collider.
-		*/
-		enum ColliderMode{
-			NONE = 0,
-			BOX = 1,
-			SPHERE = 2
-		};
-	}
 
 	/**
 	* Information that can be applied to a new GameObject using GameObjectCreator.
@@ -26,7 +16,7 @@ namespace bobcat {
 		glm::vec3 rotation;
 		glm::vec3 scale;
 
-		ColliderMode::ColliderMode colliderMode;
+		ColliderType colliderType;
 
 		bool isRigidbodySet = false;
 		glm::vec3 velocity;
@@ -69,8 +59,8 @@ namespace bobcat {
 		* Set the type of Collider GameObjects created with this information will have.
 		* @param _mode The Collider type enum.
 		*/
-		inline void setColliderMode(ColliderMode::ColliderMode _mode){
-			colliderMode = _mode;
+		inline void setColliderType(ColliderType _type){
+			colliderType = _type;
 		}
 
 		/**

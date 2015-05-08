@@ -4,7 +4,7 @@
 
 namespace bobcat {
 
-	enum ColliderDebugDrawType{
+	enum ColliderType{
 		NONE = 0,
 		BOX = 1,
 		SPHERE = 2
@@ -19,7 +19,7 @@ namespace bobcat {
 		glm::vec3 m_position;
 		float m_scale;
 	protected:
-		ColliderDebugDrawType drawType;
+		ColliderType m_colliderType;
 	public:
 		Collider();
 		virtual ~Collider();
@@ -51,11 +51,7 @@ namespace bobcat {
 		*/
 		virtual glm::vec3 getDimensions();
 
-		/**
-		* Get the type of collider shape this collider will render. (will only render if debug draw is turned on)
-		* @return ColliderDebugDrawType enum value representing the type of shape it will draw.
-		*/
-		virtual ColliderDebugDrawType getDebugDrawType();
+		virtual ColliderType getColliderType();
 
 		/**
 		* Set position of the collider.
@@ -92,11 +88,7 @@ namespace bobcat {
 		*/
 		virtual void setDimensions(glm::vec3 _dim){};
 
-		/**
-		* Set the type of collider shape this collider will render. (will only render if debug draw is turned on)
-		* @param _drawType ColliderDebugDrawType enum value representing the type of shape it will draw.
-		*/
-		virtual void setDebugDrawType(ColliderDebugDrawType _drawType);
+		virtual void setColliderType(ColliderType _colliderType);
 
 		/**
 		* Property to access the position of the Collider.
@@ -112,6 +104,8 @@ namespace bobcat {
 		* Property to access the scale of the Collider.
 		*/
 		__declspec(property(get = getScale, put = setScale)) float scale;
+
+		__declspec(property(get = getColliderType, put = setColliderType)) ColliderType colliderType;
 	};
 
 }

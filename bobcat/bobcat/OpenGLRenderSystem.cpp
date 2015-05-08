@@ -85,7 +85,7 @@ void OpenGLRenderSystem::RenderObject(GameObject* _gameObject){
 		Collider* col = _gameObject->collider;
 		if (col != nullptr){
 			Mesh* colMesh;
-			if (col->getDebugDrawType() == ColliderDebugDrawType::SPHERE){
+			if (col->colliderType == ColliderType::SPHERE){
 				colMesh = sphereColliderMesh;
 			} else{
 				colMesh = boxColliderMesh;

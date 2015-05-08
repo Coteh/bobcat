@@ -6,7 +6,7 @@ BoxCollider::BoxCollider() {
 	m_width = 0;
 	m_height = 0;
 	m_length = 0;
-	drawType = ColliderDebugDrawType::BOX;
+	colliderType = ColliderType::BOX;
 }
 
 BoxCollider::~BoxCollider() {

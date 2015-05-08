@@ -149,7 +149,7 @@ void BobcatDemo::Init(){
 	//Initalize the objects, plugging the meshes into them
 	GameObjectConstructionInfo cubeObjInfo;
 	cubeObjInfo.setTransformValues(glm::vec3(0.0f), glm::vec3(0.0f), glm::vec3(0.5f));
-	cubeObjInfo.setColliderMode(ColliderMode::SPHERE);
+	cubeObjInfo.setColliderType(ColliderType::SPHERE);
 	cubeObjInfo.setRigidbodyValues(glm::vec3(0.0f), glm::vec3(0.0f, 0.0f, 0.0f), 1.0f);
 	cubeObjInfo.setMesh(resourceManager->getMesh("Teapot"));
 	cubeObj = GameObjectCreator::ConstructFrom(cubeObjInfo);
@@ -183,7 +183,7 @@ void BobcatDemo::Init(){
 
 	GameObjectConstructionInfo torusObjInfo;
 	torusObjInfo.setTransformValues(glm::vec3(1.0f, 1.0f, -1.0f), glm::vec3(0.0f), glm::vec3(0.4f));
-	torusObjInfo.setColliderMode(ColliderMode::BOX);
+	torusObjInfo.setColliderType(ColliderType::BOX);
 	torusObjInfo.setRigidbodyValues(glm::vec3(0.0f), glm::vec3(5.0f, 0.0f, 5.0f), 1.0f);
 	torusObjInfo.setMesh(resourceManager->getMesh("Cube"));
 	torusObj = GameObjectCreator::ConstructFrom(torusObjInfo);
@@ -192,7 +192,7 @@ void BobcatDemo::Init(){
 
 	GameObjectConstructionInfo circleObjInfo;
 	circleObjInfo.setTransformValues(glm::vec3(20.0f, 1.0f, 1.0f), glm::vec3(0.0f), glm::vec3(0.4f));
-	circleObjInfo.setColliderMode(ColliderMode::BOX);
+	circleObjInfo.setColliderType(ColliderType::BOX);
 	circleObjInfo.setRigidbodyValues(glm::vec3(0.0f), glm::vec3(10.0f, 0.0f, 10.0f), 1.0f);
 	circleObjInfo.setMesh(resourceManager->getMesh("Monkey"));
 	circleObj = GameObjectCreator::ConstructFrom(circleObjInfo);
