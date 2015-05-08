@@ -16,6 +16,8 @@ namespace bobcat {
 		* @note This method has not been implemented yet. Do not use.
 		*/
 		static bool CheckForCollision(Collider* _c1, Collider* _c2);
+
+		static bool CheckForSphereToSphereCollision(SphereCollider* _sc1, SphereCollider* _sc2);
 	};
 
 }
