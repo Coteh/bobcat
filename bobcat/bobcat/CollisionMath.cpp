@@ -28,7 +28,12 @@ bool CollisionMath::CheckForSphereToSphereCollision(SphereCollider* _sc1, Sphere
 }
 
 bool CollisionMath::CheckForAABBToAABBCollision(BoxCollider* _bc1, BoxCollider* _bc2){
-	return false; //not implemented yet
+	Transform* bc1Trans = _bc1->gameObject->transform;
+	Transform* bc2Trans = _bc2->gameObject->transform;
+	if (::abs(bc1Trans->position.x - bc2Trans->position.x) > (_bc1->width * bc1Trans->scale.x + _bc2->width * bc2Trans->scale.x)) return false;
+	if (::abs(bc1Trans->position.y - bc2Trans->position.y) > (_bc1->height * bc1Trans->scale.y + _bc2->height * bc2Trans->scale.y)) return false;
+	if (::abs(bc1Trans->position.z - bc2Trans->position.z) > (_bc1->length * bc1Trans->scale.z + _bc2->length * bc2Trans->scale.z)) return false;
+	return true; //collision detected!
 }
 
 bool CollisionMath::CheckForAABBToSphereCollision(BoxCollider* _bc, SphereCollider* _sc){
