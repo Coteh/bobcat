@@ -43,7 +43,7 @@ void BobcatDemo::Init(){
 	};
 
 	ShaderLoadInfo shaders2[] = {
-		{ GL_VERTEX_SHADER, "thomasalex-vert.glsl" },
+		{ GL_VERTEX_SHADER, "basic-vert.glsl" },
 		{ GL_FRAGMENT_SHADER, "thomasalex-frag.glsl" },
 		{ GL_NONE, NULL }
 	};
@@ -54,21 +54,9 @@ void BobcatDemo::Init(){
 		{ GL_NONE, NULL }
 	};
 
-	ShaderLoadInfo shaders4[] = {
-		{ GL_VERTEX_SHADER, "colormodel-vert.glsl" },
-		{ GL_FRAGMENT_SHADER, "colormodel-frag.glsl" },
-		{ GL_NONE, NULL }
-	};
-
 	ShaderLoadInfo shaders5[] = {
 		{ GL_VERTEX_SHADER, "texturemodel-vert.glsl" },
 		{ GL_FRAGMENT_SHADER, "texturemodel-frag.glsl" },
-		{ GL_NONE, NULL }
-	};
-
-	ShaderLoadInfo shaders6[] = {
-		{ GL_VERTEX_SHADER, "thomasalex-vert.glsl" },
-		{ GL_FRAGMENT_SHADER, "uniformcolor-frag.glsl" },
 		{ GL_NONE, NULL }
 	};
 
@@ -84,12 +72,6 @@ void BobcatDemo::Init(){
 		{ GL_NONE, NULL }
 	};
 
-	ShaderLoadInfo shaders9[] = {
-		{ GL_VERTEX_SHADER, "particle-vert.glsl" },
-		{ GL_FRAGMENT_SHADER, "colormodel-frag.glsl" },
-		{ GL_NONE, NULL }
-	};
-
 	ShaderLoadInfo shaders10[] = {
 		{ GL_VERTEX_SHADER, "toon-vert.glsl" },
 		{ GL_FRAGMENT_SHADER, "toon-frag.glsl" },
@@ -99,12 +81,9 @@ void BobcatDemo::Init(){
 	shaderManager->addShader(ShaderLoader::LoadShaders(shaders), "TestShader");
 	shaderManager->addShader(ShaderLoader::LoadShaders(shaders2), "TestShader2");
 	shaderManager->addShader(ShaderLoader::LoadShaders(shaders3), "JakeShader");
-	shaderManager->addShader(ShaderLoader::LoadShaders(shaders4), "ColorModel");
 	shaderManager->addShader(ShaderLoader::LoadShaders(shaders5), "TextureModel");
-	shaderManager->addShader(ShaderLoader::LoadShaders(shaders6), "UniformColor");
 	shaderManager->addShader(ShaderLoader::LoadShaders(shaders7), "ScottShader");
 	shaderManager->addShader(ShaderLoader::LoadShaders(shaders8), "ScottTextureShader");
-	shaderManager->addShader(ShaderLoader::LoadShaders(shaders9), "ParticleShader");
 	shaderManager->addShader(ShaderLoader::LoadShaders(shaders10), "ToonShader");
 
 	/*Setting up Textures*/
@@ -136,7 +115,7 @@ void BobcatDemo::Init(){
 	moonMat->texture = planeTex;
 	noTexMat = new Material();
 	noTexMat->color = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
-	noTexMat->shader = shaderManager->getShader("ColorModel");
+	noTexMat->shader = shaderManager->getShader("VertexColorModel");
 	Material* toonMat = new Material();
 	toonMat->color = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
 	toonMat->shader = shaderManager->getShader("ToonShader");

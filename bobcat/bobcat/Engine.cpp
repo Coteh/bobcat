@@ -86,12 +86,36 @@ void Engine::setMainCamera(Camera* _camera){
 }
 
 void Engine::Init(){
-	//inputManager = InputManager::getInstance();
+	//Initialize window
 	window->init();
+	//Initialize renderer
 	renderer->Init();
 
+	/*Load in built-in resources*/
+	//Load models
 	resourceManager->addMesh(RESOUR_MODELNOTFOUND + std::string(".ply"), RESOUR_MODELNOTFOUND);
+	//Load textures
 	resourceManager->loadTexture(RESOUR_TEXTURENOTFOUND + std::string(".png"), RESOUR_TEXTURENOTFOUND);
+	//Load basic shaders
+	ShaderLoadInfo colorShader[] = {
+		{ GL_VERTEX_SHADER, "colormodel-vert.glsl" },
+		{ GL_FRAGMENT_SHADER, "colormodel-frag.glsl" },
+		{ GL_NONE, NULL }
+	};
+	ShaderLoadInfo uniformColorShader[] = {
+		{ GL_VERTEX_SHADER, "basic-vert.glsl" },
+		{ GL_FRAGMENT_SHADER, "uniformcolor-frag.glsl" },
+		{ GL_NONE, NULL }
+	};
+	shaderManager->addShader(ShaderLoader::LoadShaders(colorShader), "VertexColorModel");
+	shaderManager->addShader(ShaderLoader::LoadShaders(uniformColorShader), "UniformColorModel");
+	//Load shaders needed for components
+	ShaderLoadInfo particleShader[] = {
+		{ GL_VERTEX_SHADER, "particle-vert.glsl" },
+		{ GL_FRAGMENT_SHADER, "colormodel-frag.glsl" },
+		{ GL_NONE, NULL }
+	};
+	shaderManager->addShader(ShaderLoader::LoadShaders(particleShader), "ParticleShader");
 }
 
 void Engine::InputUpdate() {
