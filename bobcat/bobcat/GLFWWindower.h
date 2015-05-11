@@ -3,7 +3,7 @@
 #include "Notifier.h"
 #include "LogManager.h"
 // Include OpenGL
-#include "vgl.h";
+#include "External\gl_core_3_3.h"
 // Include GLFW
 #include <GLFW\glfw3.h>
 
@@ -15,19 +15,6 @@ namespace bobcat {
 	*/
 	class GLFWWindower : public AbstractWindower, public Notifier {
 		friend class GLFWInputSystem;
-	private:
-		GLFWwindow* window;
-		const char* name;
-		int width, height;
-		LogManager* logManager;
-	protected:
-		/**
-		* Get GLFW-specific key state of supplied key.
-		* @note This is used to supply key state information to GLFWInputSystem.
-		*/
-		int getGLFWKeyState(int _key);
-
-		virtual void notifyObservers();
 	public:
 		GLFWWindower();
 		virtual ~GLFWWindower();
@@ -47,6 +34,20 @@ namespace bobcat {
 		* Receives the Window Changed callback from the GLFW API.
 		*/
 		void OnWindowChanged(GLFWwindow* _window, int _width, int _height);
+	protected:
+		/**
+		* Get GLFW-specific key state of supplied key.
+		* @note This is used to supply key state information to GLFWInputSystem.
+		*/
+		int getGLFWKeyState(int _key);
+
+		virtual void notifyObservers();
+	private:
+		GLFWwindow* window;
+		const char* name;
+		int width, height;
+		LogManager* logManager;
+		bool isOpenGLLoaded;
 	};
 
 }

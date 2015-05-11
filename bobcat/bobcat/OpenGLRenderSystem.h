@@ -1,6 +1,6 @@
 #pragma once
 #include "AbstractRenderSystem.h"
-#include "vgl.h";
+#include "External\gl_core_3_3.h"
 #include "Camera.h"
 #include "ShaderManager.h"
 #include "GameObject.h"

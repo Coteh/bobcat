@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include "vgl.h"
 #include "BobcatDemo.h"
 
 bobcat::Engine* engine;

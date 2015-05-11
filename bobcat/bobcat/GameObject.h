@@ -2,7 +2,6 @@
 
 #include <map>
 #include <typeindex>
-#include <GL\glew.h>
 #include <glm\glm.hpp>
 #include "Component.h"
 #include "Mesh.h"

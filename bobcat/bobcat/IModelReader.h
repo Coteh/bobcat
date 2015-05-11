@@ -1,7 +1,9 @@
 #pragma once
 #include <string>
-#include <GL\glew.h>
 #include <vector>
+
+typedef float GLfloat;
+typedef unsigned int GLuint;
 
 namespace bobcat {
 

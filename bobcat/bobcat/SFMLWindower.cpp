@@ -40,7 +40,9 @@ bool SFMLWindower::isRunning() {
 void SFMLWindower::setWindowDimensions(int _width, int _height) {
 	width = _width;
 	height = _height;
-	glViewport(0, 0, width, height);
+	if (isOpenGLLoaded){
+		glViewport(0, 0, width, height);
+	}
 	videoMode.width = width;
 	videoMode.height = height;
 }
@@ -62,8 +64,11 @@ void SFMLWindower::init() {
 	//Initalize a SFML video mode
 	videoMode = sf::VideoMode(width, height);
 
+	//Request a Core context
+	sf::ContextSettings contextSettings(sf::ContextSettings::Core);
+
 	//Create a SFML window with these window settings
-	window = new sf::Window(videoMode, name);
+	window = new sf::Window(videoMode, name, sf::Style::Default, contextSettings);
 
 	if (!window) {
 		logManager->log(LogLevel::LOG_ERROR, "Could not initalize SFML window!");
@@ -72,12 +77,16 @@ void SFMLWindower::init() {
 		logManager->log(LogLevel::LOG_INFO, "SFML window initalized successfully!");
 	}
 
+	//Loading OpenGL functions
+	if (!OpenGLHelpers::loadOpenGL()){
+		logManager->log(LogLevel::LOG_ERROR, "OpenGL functions could not load! Exiting...");
+		exit(0);
+	} else {
+		isOpenGLLoaded = true;
+	}
+
 	//Initalizing OpenGL Viewport
 	glViewport(0, 0, width, height);
-
-	//Turn on GLEW Experimental
-	glewExperimental = GL_TRUE;
-	glewInit();
 
 	//Print Info of OpenGL and graphics card drivers (for testing)
 	OpenGLHelpers::printVersionInfo();

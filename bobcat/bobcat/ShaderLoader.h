@@ -1,9 +1,9 @@
 #pragma once
-// Include GLEW via vgl.h. Always include it before gl.h and glfw.h
-#include "vgl.h";
-// Include GLFW
+//Include glLoadGen
+#include "External\gl_core_3_3.h"
+//Include GLFW
 #include <GLFW/glfw3.h>
-// Include string
+//Include string
 #include <string>
 
 namespace bobcat {

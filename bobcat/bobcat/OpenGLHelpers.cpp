@@ -3,6 +3,15 @@
 
 using namespace bobcat;
 
+bool OpenGLHelpers::loadOpenGL(){
+	//Load OpenGL functions
+	int loaded = ogl_LoadFunctions();
+	if (loaded == ogl_LOAD_FAILED){
+		return false;
+	}
+	return true;
+}
+
 void OpenGLHelpers::printVersionInfo() {
 	printf("============================================================\n");
 	printf("Renderer: %s\n", glGetString(GL_RENDERER));

@@ -1,5 +1,5 @@
 #pragma once
-#include "vgl.h"
+#include "External\gl_core_3_3.h"
 #include <string>
 
 namespace bobcat {

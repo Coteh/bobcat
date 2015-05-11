@@ -1,4 +1,5 @@
 #include "Texture.h"
+#include <stdlib.h>
 
 using namespace bobcat;
 

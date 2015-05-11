@@ -39,8 +39,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SFML_SOURCE)\include;$(RAPIDJSON)\include;$(SOIL)\src;$(GLM);$(GLFW_SOURCE)\include;$(OPEN_GL)\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SFML_BUILT)\lib\Release;$(SOIL)\lib;$(GLFW_BUILT)\lib-msvc120;$(OPEN_GL)\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SFML_SOURCE)\include;$(RAPIDJSON)\include;$(SOIL)\src;$(GLM);$(GLFW_SOURCE)\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SFML_BUILT)\lib\Release;$(SOIL)\lib;$(GLFW_BUILT)\lib-msvc120;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -77,6 +77,7 @@
     <ClCompile Include="Components\ParticleSystem.cpp" />
     <ClCompile Include="ConfigManager.cpp" />
     <ClCompile Include="Engine.cpp" />
+    <ClCompile Include="External\gl_core_3_3.c" />
     <ClCompile Include="FileReader.cpp" />
     <ClCompile Include="FileWriter.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -123,6 +124,7 @@
     <ClInclude Include="Components\ParticleSystem.h" />
     <ClInclude Include="ConfigManager.h" />
     <ClInclude Include="Engine.h" />
+    <ClInclude Include="External\gl_core_3_3.h" />
     <ClInclude Include="FileReader.h" />
     <ClInclude Include="FileWriter.h" />
     <ClInclude Include="GameObject.h" />

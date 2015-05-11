@@ -5,7 +5,7 @@
 // Include SFML
 #include <SFML\Window.hpp>
 // Include OpenGL
-#include "vgl.h";
+#include "External\gl_core_3_3.h"
 
 namespace bobcat {
 
@@ -15,18 +15,6 @@ namespace bobcat {
 	*/
 	class SFMLWindower : public AbstractWindower, public Notifier {
 		friend class SFMLInputSystem;
-	private:
-		const char* name;
-		int width, height;
-		bool visibility;
-
-		LogManager* logManager;
-
-		sf::Context sfmlContext;
-		sf::Window* window;
-		sf::VideoMode videoMode;
-
-		void* sfEventListener;
 	public:
 		SFMLWindower();
 		~SFMLWindower();
@@ -45,6 +33,19 @@ namespace bobcat {
 		virtual void closeWindow();
 
 		virtual void notifyObservers();
+	private:
+		const char* name;
+		int width, height;
+		bool visibility;
+		bool isOpenGLLoaded;
+
+		LogManager* logManager;
+
+		sf::Context sfmlContext;
+		sf::Window* window;
+		sf::VideoMode videoMode;
+
+		void* sfEventListener;
 	};
 
 }

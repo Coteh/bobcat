@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include <map>
-#include "vgl.h"
+#include "External\gl_core_3_3.h"
 #include "Mesh.h"
 #include "Material.h"
 #include "IModelReader.h"

@@ -39,7 +39,9 @@ bool GLFWWindower::isRunning(){
 
 void GLFWWindower::setWindowDimensions(int _width, int _height){
 	glfwSetWindowSize(window, _width, _height);
-	glViewport(0, 0, _width, _height);
+	if (isOpenGLLoaded){
+		glViewport(0, 0, _width, _height);
+	}
 	width = _width;
 	height = _height;
 }
@@ -88,15 +90,19 @@ void GLFWWindower::init(){
 	//Make the window context current
 	glfwMakeContextCurrent(window);
 
+	//Loading OpenGL functions
+	if (!OpenGLHelpers::loadOpenGL()){
+		logManager->log(LogLevel::LOG_ERROR, "OpenGL functions could not load! Exiting...");
+		exit(0);
+	} else {
+		isOpenGLLoaded = true;
+	}
+
 	//Currently not in use.
 	//glfwGetFramebufferSize(window, &width, &height);
 
 	//Initalizing OpenGL Viewport
 	glViewport(0, 0, width, height);
-
-	//Turn on GLEW Experimental
-	glewExperimental = GL_TRUE;
-	glewInit();
 
 	//Print Info of OpenGL and graphics card drivers (for testing)
 	OpenGLHelpers::printVersionInfo();
