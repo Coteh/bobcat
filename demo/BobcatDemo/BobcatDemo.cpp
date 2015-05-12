@@ -250,7 +250,6 @@ void BobcatDemo::OnKeyEvent(){
 }
 
 void BobcatDemo::InputUpdate(){
-	if (inputSystem == nullptr) return;
 	Engine::InputUpdate();
 	switch (mode){
 	case 0:

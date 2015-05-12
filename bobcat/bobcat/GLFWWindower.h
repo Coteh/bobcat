@@ -15,6 +15,7 @@ namespace bobcat {
 	*/
 	class GLFWWindower : public AbstractWindower, public Notifier {
 		friend class GLFWInputSystem;
+		friend class GLFWAPIHolder;
 	public:
 		GLFWWindower();
 		virtual ~GLFWWindower();
@@ -23,6 +24,7 @@ namespace bobcat {
 		virtual const char* getName();
 		virtual bool isVisible();
 		virtual bool isRunning();
+		virtual bool isFocused();
 		virtual void setWindowDimensions(int _width, int _height);
 		virtual void setName(const char* _name);
 		virtual void showWindow(int _expression);
@@ -46,6 +48,7 @@ namespace bobcat {
 		GLFWwindow* window;
 		const char* name;
 		int width, height;
+		bool isWindowFocused;
 		LogManager* logManager;
 		bool isOpenGLLoaded;
 	};

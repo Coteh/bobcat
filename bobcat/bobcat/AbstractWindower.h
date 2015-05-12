@@ -44,6 +44,8 @@ namespace bobcat {
 		*/
 		virtual bool isRunning() = 0;
 
+		virtual bool isFocused() = 0;
+
 		/**
 		* Set window dimensions. (width and height)
 		*/

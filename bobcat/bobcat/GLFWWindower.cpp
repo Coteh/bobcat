@@ -37,6 +37,10 @@ bool GLFWWindower::isRunning(){
 	return !glfwWindowShouldClose(window);
 }
 
+bool GLFWWindower::isFocused() {
+	return isWindowFocused;
+}
+
 void GLFWWindower::setWindowDimensions(int _width, int _height){
 	glfwSetWindowSize(window, _width, _height);
 	if (isOpenGLLoaded){
@@ -117,6 +121,11 @@ void GLFWWindower::init(){
 
 	//Set GLFW Keyboard Callback
 	glfwSetKeyCallback(window, GLFWAPIHolder::GLFWKeyFun);
+
+	//Set GLFW Window Focus Callback
+	glfwSetWindowFocusCallback(window, GLFWAPIHolder::GLFWWindowFocusCallback);
+	//GLFW focus callback doesn't seem to callback on initial window focus, so this is being set to true for now
+	isWindowFocused = true;
 }
 
 void GLFWWindower::updateWindow(){

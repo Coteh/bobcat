@@ -37,6 +37,10 @@ bool SFMLWindower::isRunning() {
 	return window->isOpen();
 }
 
+bool SFMLWindower::isFocused() {
+	return isWindowFocused;
+}
+
 void SFMLWindower::setWindowDimensions(int _width, int _height) {
 	width = _width;
 	height = _height;
@@ -98,6 +102,9 @@ void SFMLWindower::init() {
 
 	//TO-DO: Add in v-sync
 	//window->setVerticalSyncEnabled(true);
+
+	//SFML window starts out as focused, so set window focused boolean to true
+	isWindowFocused = true;
 }
 
 void SFMLWindower::updateWindow() {
@@ -108,6 +115,10 @@ void SFMLWindower::updateWindow() {
 		} else if (event.type == sf::Event::Resized) {
 			setWindowDimensions(event.size.width, event.size.height);
 			notifyObservers();
+		} else if (event.type == sf::Event::GainedFocus){
+			isWindowFocused = true;
+		} else if (event.type == sf::Event::LostFocus){
+			isWindowFocused = false;
 		}
 		//Pass the event to the event listener now
 		if (sfEventListener != nullptr){

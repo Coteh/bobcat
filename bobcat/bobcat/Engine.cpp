@@ -130,7 +130,9 @@ void Engine::OnWindowResize(int _width, int _height){
 }
 
 void Engine::Update(){
-	InputUpdate();
+	if (inputSystem != nullptr && window->isFocused()){
+		InputUpdate();
+	}
 }
 
 void Engine::DrawBegin(){

@@ -29,6 +29,8 @@ namespace bobcat {
 		*/
 		static void GLFWKeyFun(GLFWwindow* _window, int _key, int _scancode, int _action, int _mods);
 
+		static void GLFWWindowFocusCallback(GLFWwindow* _window, int _focused);
+
 		/**
 		* GLFW error callback with GLFWerrorfun signature.
 		*/

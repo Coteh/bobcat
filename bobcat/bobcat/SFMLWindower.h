@@ -24,6 +24,7 @@ namespace bobcat {
 		virtual const char* getName();
 		virtual bool isVisible();
 		virtual bool isRunning();
+		virtual bool isFocused();
 		virtual void setWindowDimensions(int _width, int _height);
 		virtual void setWindowChangedCallback(void* _function);
 		virtual void setName(const char* _name);
@@ -37,6 +38,7 @@ namespace bobcat {
 		const char* name;
 		int width, height;
 		bool visibility;
+		bool isWindowFocused;
 		bool isOpenGLLoaded;
 
 		LogManager* logManager;

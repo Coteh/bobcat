@@ -22,6 +22,12 @@ void GLFWAPIHolder::GLFWKeyFun(GLFWwindow* _window, int _key, int _scancode, int
 	}
 }
 
+void GLFWAPIHolder::GLFWWindowFocusCallback(GLFWwindow* _window, int _focused){
+	if (glfwWindower != nullptr) {
+		glfwWindower->isWindowFocused = _focused;
+	}
+}
+
 void GLFWAPIHolder::GLFWErrorCallback(int _error, const char* _descrip) {
 	fputs(_descrip, stderr);
 }

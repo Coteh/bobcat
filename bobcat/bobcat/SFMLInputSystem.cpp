@@ -101,7 +101,7 @@ int SFMLInputSystem::getInputState(int _keyCode) {
 }
 
 void SFMLInputSystem::handleEvent(sf::Event _evt) {
-	if (_evt.type == sf::Event::KeyPressed || _evt.type == sf::Event::KeyReleased) {
+	if ((_evt.type == sf::Event::KeyPressed || _evt.type == sf::Event::KeyReleased) && m_sfmlWindower->isFocused()) {
 		notifyObservers();
 	}
 }
