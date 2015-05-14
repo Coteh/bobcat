@@ -5,6 +5,7 @@
 #include "SFMLInputSystem.h"
 #include "OpenGLRenderSystem.h"
 #include "GLFWAPIHolder.h"
+#include "ShaderLoader.h"
 
 using namespace bobcat;
 
@@ -47,7 +48,6 @@ Engine::Engine() {
 	//Setting up everything else
 	renderer = new OpenGLRenderSystem();
 	sceneManager = SceneManager::getInstance();
-	shaderManager = ShaderManager::getInstance();
 	isGameRunning = true;
 }
 
@@ -97,25 +97,28 @@ void Engine::Init(){
 	//Load textures
 	resourceManager->loadTexture(RESOUR_TEXTURENOTFOUND + std::string(".png"), RESOUR_TEXTURENOTFOUND);
 	//Load basic shaders
-	ShaderLoadInfo colorShader[] = {
+	ShaderLoadInfo colorShaderInfo[] = {
 		{ GL_VERTEX_SHADER, "colormodel-vert.glsl" },
 		{ GL_FRAGMENT_SHADER, "colormodel-frag.glsl" },
 		{ GL_NONE, NULL }
 	};
-	ShaderLoadInfo uniformColorShader[] = {
+	ShaderLoadInfo uniformColorShaderInfo[] = {
 		{ GL_VERTEX_SHADER, "basic-vert.glsl" },
 		{ GL_FRAGMENT_SHADER, "uniformcolor-frag.glsl" },
 		{ GL_NONE, NULL }
 	};
-	shaderManager->addShader(ShaderLoader::LoadShaders(colorShader), "VertexColorModel");
-	shaderManager->addShader(ShaderLoader::LoadShaders(uniformColorShader), "UniformColorModel");
+	Shader* colorShader = new Shader(ShaderLoader::LoadShaders(colorShaderInfo), "VertexColorModel");
+	resourceManager->addShader(colorShader, colorShader->name);
+	Shader* uniformColorShader = new Shader(ShaderLoader::LoadShaders(uniformColorShaderInfo), "UniformColorModel");
+	resourceManager->addShader(uniformColorShader, uniformColorShader->name);
 	//Load shaders needed for components
-	ShaderLoadInfo particleShader[] = {
+	ShaderLoadInfo particleShaderInfo[] = {
 		{ GL_VERTEX_SHADER, "particle-vert.glsl" },
 		{ GL_FRAGMENT_SHADER, "colormodel-frag.glsl" },
 		{ GL_NONE, NULL }
 	};
-	shaderManager->addShader(ShaderLoader::LoadShaders(particleShader), "ParticleShader");
+	Shader* particleShader = new Shader(ShaderLoader::LoadShaders(particleShaderInfo), "ParticleShader");
+	resourceManager->addShader(particleShader, particleShader->name);
 }
 
 void Engine::InputUpdate() {
@@ -174,6 +177,5 @@ Engine::~Engine() {
 	delete configManager;
 	delete sceneManager;
 	delete resourceManager;
-	delete shaderManager;
 	exit(EXIT_SUCCESS);
 }

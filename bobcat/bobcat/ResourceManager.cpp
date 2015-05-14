@@ -40,6 +40,10 @@ ResourceManager::~ResourceManager() {
 	materialMap.clear();
 	MaterialMapType materialClearMap;
 	materialClearMap.swap(materialMap);
+	//Wipes out shader map entirely from memory
+	shaderMap.clear();
+	ShaderMapType shaderClearMap;
+	shaderClearMap.swap(shaderMap);
 }
 
 void ResourceManager::provideAssetPaths(std::string _modelPath, std::string _texPath) {
@@ -80,6 +84,13 @@ GLuint ResourceManager::getTextureID(std::string _name){
 Material* ResourceManager::getMaterial(std::string _name){
 	if (materialMap.count(_name)){ //if material exists...
 		return materialMap[_name]; //return the material
+	}
+	return nullptr; //otherwise, just return null pointer
+}
+
+Shader* ResourceManager::getShader(std::string _name){
+	if (shaderMap.count(_name)){ //if shader exists...
+		return shaderMap[_name]; //return the shader
 	}
 	return nullptr; //otherwise, just return null pointer
 }
@@ -204,4 +215,9 @@ void ResourceManager::addMaterial(Material* _material, std::string _materialName
 void ResourceManager::addTexture(Texture* _texture, std::string _textureName){
 	//Add new texture to the texture map
 	textureMap[_textureName] = _texture;
+}
+
+void ResourceManager::addShader(Shader* _shader, std::string _shaderName){
+	//Add new shader to the shader map
+	shaderMap[_shaderName] = _shader;
 }

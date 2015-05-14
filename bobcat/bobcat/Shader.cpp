@@ -1,13 +1,37 @@
 #include "Shader.h"
+#include "LogManager.h"
 
 using namespace bobcat;
 
-Shader::Shader(){
-
+Shader::Shader(GLuint _shaderProgram, std::string _name){
+	shaderProgram = _shaderProgram;
+	name = _name;
+	initAttribs();
 }
 
 Shader::~Shader(){
 	
+}
+
+void Shader::initAttribs(){
+	LogManager* logManager = LogManager::getInstance();
+	//Grab the attribute locations from the shader
+	posAttrib = glGetAttribLocation(shaderProgram, "vPosition");
+	if (posAttrib < 0){
+		logManager->log(LogLevel::LOG_WARN, "Shader " + name + " position attribute not found!");
+	}
+	normAttrib = glGetAttribLocation(shaderProgram, "vNormals");
+	if (normAttrib < 0){
+		logManager->log(LogLevel::LOG_WARN, "Shader " + name + " normal attribute not found!");
+	}
+	texAttrib = glGetAttribLocation(shaderProgram, "vTexture");
+	if (texAttrib < 0){
+		logManager->log(LogLevel::LOG_WARN, "Shader " + name + " texture attribute not found!");
+	}
+	colAttrib = glGetAttribLocation(shaderProgram, "vColor");
+	if (colAttrib < 0){
+		logManager->log(LogLevel::LOG_WARN, "Shader " + name + " color attribute not found!");
+	}
 }
 
 GLuint Shader::getShaderUniform(const char* _name){
@@ -25,4 +49,18 @@ void Shader::setShaderUniformFloat(GLuint _uniformID, GLfloat _floatValue){
 
 void Shader::setShaderUniformFloat(const char* _name, GLfloat _floatValue){
 	setShaderUniformFloat(getShaderUniform(_name), _floatValue);
+}
+
+void Shader::enableShaderAttribs(){
+	glEnableVertexAttribArray(posAttrib);
+	glEnableVertexAttribArray(normAttrib);
+	glEnableVertexAttribArray(texAttrib);
+	glEnableVertexAttribArray(colAttrib);
+}
+
+void Shader::disableShaderAttribs(){
+	glDisableVertexAttribArray(posAttrib);
+	glDisableVertexAttribArray(normAttrib);
+	glDisableVertexAttribArray(texAttrib);
+	glDisableVertexAttribArray(colAttrib);
 }

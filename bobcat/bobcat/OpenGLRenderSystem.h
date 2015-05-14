@@ -2,7 +2,6 @@
 #include "AbstractRenderSystem.h"
 #include "External\gl_core_3_3.h"
 #include "Camera.h"
-#include "ShaderManager.h"
 #include "GameObject.h"
 
 namespace bobcat {
@@ -12,10 +11,18 @@ namespace bobcat {
 	* Facilitates OpenGL rendering tasks.
 	*/
 	class OpenGLRenderSystem : public AbstractRenderSystem {
+	public:
+		OpenGLRenderSystem();
+		virtual ~OpenGLRenderSystem();
+		virtual void setActiveCamera(Camera* _camera);
+		virtual void setDebugRender(bool _expression);
+		virtual void Init();
+		virtual void PreRender();
+		virtual void RenderObject(GameObject* _gameObject);
+		virtual void EndRender();
 	private:
 		Camera* activeCamera;
 
-		ShaderManager* shaderManager;
 		Shader* currShader;
 		GLuint modelLoc, viewLoc, projectionLoc, normalLoc;
 
@@ -27,16 +34,11 @@ namespace bobcat {
 
 		Shader* debugShader;
 		bool isDebugOn;
+
+		void UseShader(Shader* _shader);
+		void UpdateShaderAttribs(Shader* _shader, Mesh* _mesh);
+
 		void RenderDebugMesh(Mesh* _mesh);
-	public:
-		OpenGLRenderSystem();
-		virtual ~OpenGLRenderSystem();
-		virtual void setActiveCamera(Camera* _camera);
-		virtual void setDebugRender(bool _expression);
-		virtual void Init();
-		virtual void PreRender();
-		virtual void RenderObject(GameObject* _gameObject);
-		virtual void EndRender();
 	};
 
 }

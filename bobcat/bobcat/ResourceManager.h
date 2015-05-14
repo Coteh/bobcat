@@ -24,10 +24,12 @@ namespace bobcat {
 		typedef std::map<const std::string, Mesh*> MeshMapType;
 		typedef std::map<const std::string, Texture*> TextureMapType;
 		typedef std::map<const std::string, Material*> MaterialMapType;
+		typedef std::map<const std::string, Shader*> ShaderMapType;
 
 		MeshMapType meshMap;
 		TextureMapType textureMap;
 		MaterialMapType materialMap;
+		ShaderMapType shaderMap;
 
 		IModelReader* modelReader;
 		ITextureLoader* textureLoader;
@@ -73,6 +75,8 @@ namespace bobcat {
 
 		Material* getMaterial(std::string _name);
 
+		Shader* getShader(std::string _name);
+
 		/**
 		* Add a mesh.
 		* @param _mesh Mesh instance to add.
@@ -96,6 +100,10 @@ namespace bobcat {
 		void addMaterial(Material* _material, std::string _materialName);
 
 		void addTexture(Texture* _texture, std::string _textureName);
+
+		//TO DO
+		//Figure out a more user-friendly way to add shaders and other resources
+		void addShader(Shader* _shader, std::string _shaderName);
 
 		~ResourceManager();
 	};

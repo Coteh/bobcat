@@ -6,7 +6,6 @@
 #include "ConfigManager.h"
 #include "AbstractInputSystem.h"
 #include "AbstractRenderSystem.h"
-#include "ShaderManager.h"
 #include "ResourceManager.h"
 #include "SceneManager.h"
 #include "PLYModelReader.h"
@@ -43,7 +42,6 @@ namespace bobcat {
 		AbstractRenderSystem* renderer; /**< The current rendering system used by the engine. */
 		SceneManager* sceneManager; /**< The scene manager used by the engine. */
 		ResourceManager* resourceManager; /**< The resource manager used by the engine. */
-		ShaderManager* shaderManager; /**< The shader manager used by the engine. */
 
 		/**
 		* Returns the main camera of the Engine.

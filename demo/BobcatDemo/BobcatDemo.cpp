@@ -1,4 +1,5 @@
 #include "BobcatDemo.h"
+#include "ShaderLoader.h"
 #include "Components/ParticleSystem.h"
 #include <glm\gtc\type_ptr.hpp>
 
@@ -78,13 +79,17 @@ void BobcatDemo::Init(){
 		{ GL_NONE, NULL }
 	};
 
-	shaderManager->addShader(ShaderLoader::LoadShaders(shaders), "TestShader");
-	shaderManager->addShader(ShaderLoader::LoadShaders(shaders2), "TestShader2");
-	shaderManager->addShader(ShaderLoader::LoadShaders(shaders3), "JakeShader");
-	shaderManager->addShader(ShaderLoader::LoadShaders(shaders5), "TextureModel");
-	shaderManager->addShader(ShaderLoader::LoadShaders(shaders7), "ScottShader");
-	shaderManager->addShader(ShaderLoader::LoadShaders(shaders8), "ScottTextureShader");
-	shaderManager->addShader(ShaderLoader::LoadShaders(shaders10), "ToonShader");
+	Shader* shadersToLoad[7];
+	shadersToLoad[0] = new Shader(ShaderLoader::LoadShaders(shaders), "TestShader");
+	shadersToLoad[1] = new Shader(ShaderLoader::LoadShaders(shaders2), "TestShader2");
+	shadersToLoad[2] = new Shader(ShaderLoader::LoadShaders(shaders3), "JakeShader");
+	shadersToLoad[3] = new Shader(ShaderLoader::LoadShaders(shaders5), "TextureModel");
+	shadersToLoad[4] = new Shader(ShaderLoader::LoadShaders(shaders7), "ScottShader");
+	shadersToLoad[5] = new Shader(ShaderLoader::LoadShaders(shaders8), "ScottTextureShader");
+	shadersToLoad[6] = new Shader(ShaderLoader::LoadShaders(shaders10), "ToonShader");
+	for (size_t i = 0; i < 7; i++){
+		resourceManager->addShader(shadersToLoad[i], shadersToLoad[i]->name);
+	}
 
 	/*Setting up Textures*/
 	resourceManager->loadTexture("kitteh.png", "Cat");
@@ -107,22 +112,22 @@ void BobcatDemo::Init(){
 	/*Adding Materials*/
 	mat = new Material();
 	mat->color = glm::vec4(1.0, 1.0, 1.0, 1.0);
-	mat->shader = shaderManager->getShader(TEXTURE_MODEL);
+	mat->shader = resourceManager->getShader(TEXTURE_MODEL);
 	mat->texture = tex;
 	moonMat = new Material();
 	moonMat->color = glm::vec4(1.0, 1.0, 1.0, 1.0);
-	moonMat->shader = shaderManager->getShader(TEXTURE_MODEL);
+	moonMat->shader = resourceManager->getShader(TEXTURE_MODEL);
 	moonMat->texture = planeTex;
 	noTexMat = new Material();
 	noTexMat->color = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
-	noTexMat->shader = shaderManager->getShader("VertexColorModel");
+	noTexMat->shader = resourceManager->getShader("VertexColorModel");
 	Material* toonMat = new Material();
 	toonMat->color = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
-	toonMat->shader = shaderManager->getShader("ToonShader");
+	toonMat->shader = resourceManager->getShader("ToonShader");
 	resourceManager->addMaterial(toonMat, "ToonMaterial");
 	Material* toonMoonMat = new Material();
 	toonMoonMat->color = glm::vec4(0.5f, 0.5f, 0.5f, 1.0f);
-	toonMoonMat->shader = shaderManager->getShader("ToonShader");
+	toonMoonMat->shader = resourceManager->getShader("ToonShader");
 	resourceManager->addMaterial(toonMoonMat, "ToonMoonMaterial");
 
 	//Initalize the objects, plugging the meshes into them
@@ -344,9 +349,9 @@ void BobcatDemo::Update(){
 		rayOnTopOfCube = false;
 	}
 
-	if (shaderManager->getCurrShader() != nullptr){
+	/*if (shaderManager->getCurrShader() != nullptr){
 		glUniform3fv(shaderManager->getCurrShader()->getShaderUniform("LightPos"), 1, glm::value_ptr(lightSource));
-	}
+	}*/
 }
 
 void BobcatDemo::Draw(){

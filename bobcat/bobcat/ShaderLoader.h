@@ -1,8 +1,6 @@
 #pragma once
 //Include glLoadGen
 #include "External\gl_core_3_3.h"
-//Include GLFW
-#include <GLFW/glfw3.h>
 //Include string
 #include <string>
 

@@ -1,5 +1,5 @@
 #include "ParticleSystem.h"
-#include "../ShaderManager.h"
+#include "../ResourceManager.h"
 #include <stdlib.h>
 #include <glm/gtc/random.hpp>
 
@@ -46,7 +46,7 @@ void ParticleSystem::Awake(){
 	//Right now, we'll just overwrite the GameObject's mesh with this one
 	gameObject->renderer->meshFilter->mesh = mesh;
 	//Get Particle Shader from the Shader Manager
-	shada = ShaderManager::getInstance()->getShader("ParticleShader");
+	shada = ResourceManager::getInstance()->getShader("ParticleShader");
 	//Create new particle material and put shader on that
 	partiMat = new Material();
 	partiMat->color = glm::vec4(1.0, 1.0, 1.0, 1.0);
