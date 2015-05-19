@@ -50,8 +50,8 @@ void ParticleSystem::Awake(){
 	//Create new particle material and put shader on that
 	partiMat = new Material();
 	partiMat->color = glm::vec4(1.0, 1.0, 1.0, 1.0);
+	partiMat->shader = shada;
 	gameObject->renderer->material = partiMat;
-	gameObject->renderer->material->shader = shada;
 	//Setting the time location from shader
 	shaderTimeLoc = shada->getShaderUniform("Time");
 	//Setting default max time
@@ -61,7 +61,7 @@ void ParticleSystem::Awake(){
 }
 
 float ParticleSystem::getMaxTime(){
-	return maxTime;
+	return m_maxTime;
 }
 
 void ParticleSystem::setMaxTime(float _maxTime){

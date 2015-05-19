@@ -11,6 +11,9 @@ Shader::~Shader(){
 }
 
 GLuint Shader::getShaderUniform(const char* _name){
+	//Like the set method down below, I call glUseProgram to ensure that
+	//the shader we are calling to is the one currently used by OpenGL.
+	glUseProgram(shaderProgram);
 	return glGetUniformLocation(shaderProgram, _name);
 }
 
