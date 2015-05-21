@@ -73,6 +73,7 @@
     <ClCompile Include="Clock.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="CollisionMath.cpp" />
+    <ClCompile Include="Component.cpp" />
     <ClCompile Include="ComponentHolder.cpp" />
     <ClCompile Include="Components\ParticleSystem.cpp" />
     <ClCompile Include="ConfigManager.cpp" />

@@ -1,4 +1,5 @@
 #include "Collider.h"
+#include "Transform.h"
 
 using namespace bobcat;
 
@@ -11,7 +12,13 @@ Collider::~Collider(){
 }
 
 glm::vec3 Collider::getPosition(){
-	return m_position;
+	//collider position is relative to Transform position, if there is one
+	glm::vec3 transformPos = glm::vec3(0);
+	Transform* trans = transform;
+	if (trans != nullptr){
+		transformPos = trans->position;
+	}
+	return m_position + transformPos;
 }
 
 float Collider::getScale(){

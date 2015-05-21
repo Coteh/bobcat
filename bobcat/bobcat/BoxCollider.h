@@ -4,8 +4,6 @@
 namespace bobcat {
 
 	class BoxCollider : public Collider{
-	private:
-		float m_width, m_height, m_length;
 	public:
 		BoxCollider();
 		virtual ~BoxCollider();
@@ -23,6 +21,8 @@ namespace bobcat {
 		__declspec(property(get = getWidth, put = setWidth)) float width;
 		__declspec(property(get = getHeight, put = setHeight)) float height;
 		__declspec(property(get = getLength, put = setLength)) float length;
+	private:
+		float m_width, m_height, m_length;
 	};
 
 }

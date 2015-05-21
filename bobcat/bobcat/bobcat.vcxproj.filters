@@ -296,5 +296,8 @@
     <ClCompile Include="External\gl_core_3_3.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -15,11 +15,6 @@ namespace bobcat {
 	* Gives a GameObject a bounding space.
 	*/
 	class Collider : public Component {
-	private:
-		glm::vec3 m_position;
-		float m_scale;
-	protected:
-		ColliderType m_colliderType;
 	public:
 		Collider();
 		virtual ~Collider();
@@ -106,6 +101,11 @@ namespace bobcat {
 		__declspec(property(get = getScale, put = setScale)) float scale;
 
 		__declspec(property(get = getColliderType, put = setColliderType)) ColliderType colliderType;
+	protected:
+		ColliderType m_colliderType;
+	private:
+		glm::vec3 m_position;
+		float m_scale;
 	};
 
 }

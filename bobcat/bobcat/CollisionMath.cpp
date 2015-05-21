@@ -21,15 +21,15 @@ bool CollisionMath::CheckForCollision(Collider* _c1, Collider* _c2){
 }
 
 bool CollisionMath::CheckForSphereToSphereCollision(SphereCollider* _sc1, SphereCollider* _sc2){
-	float distance = glm::distance(_sc1->gameObject->transform->position, _sc2->gameObject->transform->position);
+	float distance = glm::distance(_sc1->transform->position, _sc2->transform->position);
 
 	//If the distance between the two spheres is less than or equal to the sum of both radii, then there is a collision
-	return (distance <= _sc1->radius * _sc1->gameObject->transform->scale.x + _sc2->radius * _sc2->gameObject->transform->scale.x);
+	return (distance <= _sc1->radius * _sc1->transform->scale.x + _sc2->radius * _sc2->transform->scale.x);
 }
 
 bool CollisionMath::CheckForAABBToAABBCollision(BoxCollider* _bc1, BoxCollider* _bc2){
-	Transform* bc1Trans = _bc1->gameObject->transform;
-	Transform* bc2Trans = _bc2->gameObject->transform;
+	Transform* bc1Trans = _bc1->transform;
+	Transform* bc2Trans = _bc2->transform;
 	if (::abs(bc1Trans->position.x - bc2Trans->position.x) > (_bc1->width * bc1Trans->scale.x + _bc2->width * bc2Trans->scale.x)) return false;
 	if (::abs(bc1Trans->position.y - bc2Trans->position.y) > (_bc1->height * bc1Trans->scale.y + _bc2->height * bc2Trans->scale.y)) return false;
 	if (::abs(bc1Trans->position.z - bc2Trans->position.z) > (_bc1->length * bc1Trans->scale.z + _bc2->length * bc2Trans->scale.z)) return false;
@@ -38,14 +38,14 @@ bool CollisionMath::CheckForAABBToAABBCollision(BoxCollider* _bc1, BoxCollider* 
 
 bool CollisionMath::CheckForAABBToSphereCollision(BoxCollider* _bc, SphereCollider* _sc){
 	//Get the opposing corners of the cube
-	glm::vec3 boxPos = _bc->gameObject->transform->position;
-	glm::vec3 spherePos = _sc->gameObject->transform->position;
-	glm::vec3 boxScale = _bc->gameObject->transform->scale;
+	glm::vec3 boxPos = _bc->transform->position;
+	glm::vec3 spherePos = _sc->transform->position;
+	glm::vec3 boxScale = _bc->transform->scale;
 	glm::vec3 corner1 = glm::vec3(boxPos.x - (_bc->width * boxScale.x) / 2, boxPos.y - (_bc->height * boxScale.y) / 2, boxPos.z - (_bc->length * boxScale.z) / 2);
 	glm::vec3 corner2 = glm::vec3(boxPos.x + (_bc->width * boxScale.x) / 2, boxPos.y + (_bc->height * boxScale.y) / 2, boxPos.z + (_bc->length * boxScale.z) / 2);
 	
 	//Find the square of the distance from the sphere to the box
-	float radius = (_sc->radius * _sc->gameObject->transform->scale.x);
+	float radius = (_sc->radius * _sc->transform->scale.x);
 	float distanceSquared = ::pow(radius, 2);
 
 	if (spherePos.x < corner1.x){
