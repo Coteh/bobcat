@@ -37,6 +37,12 @@ Engine::Engine() {
 	if (configManager->getWindowSettings(&windowSettings)){
 		window->setName(windowSettings.windowName);
 		window->setWindowDimensions(windowSettings.windowWidth, windowSettings.windowHeight);
+		//Messy territory right around here lol
+		WindowStyle windowStyle = WindowStyle::DEFAULT;
+		if (strcmp(windowSettings.windowStyle, "fullscreen") == 0) {
+			windowStyle = WindowStyle::FULL_SCREEN;
+		}
+		window->setWindowStyle(windowStyle);
 	}
 	//Setting up content paths (This must be done before the next step!)
 	resourceManager = ResourceManager::getInstance();

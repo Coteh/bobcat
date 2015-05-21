@@ -28,6 +28,7 @@ namespace bobcat {
 		virtual void setWindowDimensions(int _width, int _height);
 		virtual void setWindowChangedCallback(void* _function);
 		virtual void setName(const char* _name);
+		virtual void setWindowStyle(WindowStyle _windowStyle);
 		virtual void showWindow(int _expression);
 		virtual void init();
 		virtual void updateWindow();
@@ -46,6 +47,7 @@ namespace bobcat {
 		sf::Context sfmlContext;
 		sf::Window* window;
 		sf::VideoMode videoMode;
+		sf::Uint32 sfmlWindowStyle;
 
 		void* sfEventListener;
 	};

@@ -27,6 +27,7 @@ namespace bobcat {
 		virtual bool isFocused();
 		virtual void setWindowDimensions(int _width, int _height);
 		virtual void setName(const char* _name);
+		virtual void setWindowStyle(WindowStyle _windowStyle);
 		virtual void showWindow(int _expression);
 		virtual void init();
 		virtual void updateWindow();

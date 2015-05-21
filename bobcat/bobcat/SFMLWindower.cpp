@@ -11,6 +11,9 @@ SFMLWindower::SFMLWindower() {
 	name = "Engine Window (SFML)";
 	width = 640;
 	height = 640;
+
+	//Setup SFML style
+	sfmlWindowStyle = sf::Style::Default;
 }
 
 SFMLWindower::~SFMLWindower() {
@@ -59,6 +62,17 @@ void SFMLWindower::setName(const char* _name) {
 	name = _name;
 }
 
+void SFMLWindower::setWindowStyle(WindowStyle _windowStyle) {
+	switch (_windowStyle) {
+	case WindowStyle::FULL_SCREEN:
+		sfmlWindowStyle = sf::Style::Fullscreen;
+		break;
+	default: //DEFAULT
+		sfmlWindowStyle = sf::Style::Default;
+		break;
+	}
+}
+
 void SFMLWindower::showWindow(int _expression) {
 	window->setVisible(_expression);
 	visibility = _expression;
@@ -72,7 +86,7 @@ void SFMLWindower::init() {
 	sf::ContextSettings contextSettings(sf::ContextSettings::Core);
 
 	//Create a SFML window with these window settings
-	window = new sf::Window(videoMode, name, sf::Style::Default, contextSettings);
+	window = new sf::Window(videoMode, name, sfmlWindowStyle, contextSettings);
 
 	if (!window) {
 		logManager->log(LogLevel::LOG_ERROR, "Could not initalize SFML window!");

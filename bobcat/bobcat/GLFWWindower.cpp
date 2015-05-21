@@ -55,6 +55,11 @@ void GLFWWindower::setName(const char* _name){
 	name = _name;
 }
 
+void GLFWWindower::setWindowStyle(WindowStyle _windowStyle){
+	//No implementation exists yet.
+	//So no fullscreen GLFW yet.
+}
+
 void GLFWWindower::showWindow(int _expression){
 	if (!_expression){
 		glfwHideWindow(window);

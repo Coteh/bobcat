@@ -10,6 +10,13 @@ namespace bobcat {
 		int windowWidth;
 		int windowHeight;
 		const char* windowName;
+		const char* windowStyle;
+	};
+
+	//TO DO
+	//Put enums in namespaces (maybe?)
+	enum WindowStyle {
+		NO_WINDOW_STYLE, DEFAULT, FULL_SCREEN
 	};
 
 	/**
@@ -55,6 +62,8 @@ namespace bobcat {
 		* Set window name.
 		*/
 		virtual void setName(const char* _name) = 0;
+
+		virtual void setWindowStyle(WindowStyle _windowStyle) = 0;
 
 		/**
 		* Toggle window visibility.

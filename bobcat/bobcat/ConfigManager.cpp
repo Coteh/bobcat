@@ -49,6 +49,9 @@ void ConfigManager::readConfigFile(const char* _filePath){
 //	return true;
 //}
 
+//TO DO
+//Structure a better and more automated way to add and manage config settings
+
 bool ConfigManager::getWindowSettings(WindowSettings* _windowSettings){
 	if (document.HasParseError() || !document.HasMember(CFG_KEY_WINDOW)){
 		logManager->log(LogLevel::LOG_ERROR, "Could not retrive window settings from config file.");
@@ -63,6 +66,9 @@ bool ConfigManager::getWindowSettings(WindowSettings* _windowSettings){
 	}
 	if (val.HasMember("height")){
 		_windowSettings->windowHeight = val["height"].GetInt();
+	}
+	if (val.HasMember("style")){
+		_windowSettings->windowStyle = val["style"].GetString();
 	}
 	return true;
 }
