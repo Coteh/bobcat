@@ -4,6 +4,11 @@
 
 using namespace bobcat;
 
+//TO DO
+//Add a writer to the ConfigHolder.
+//Create a default config file if there isn't one in the folder.
+//Add error handling.
+
 ConfigHolder::ConfigHolder() {
 	//Getting LogManager singleton
 	logManager = LogManager::getInstance();
@@ -122,4 +127,34 @@ bool ConfigHolder::getBool(std::string _key){
 	}
 
 	return NULL;
+}
+
+int* ConfigHolder::getIntArray(std::string _key) {
+	rapidjson::Value val;
+
+	if (getJSONValue(_key, val) && val.IsArray()){
+		rapidjson::SizeType arrSize = val.Size();
+		int *arrToReturn = new int[arrSize];
+		for (rapidjson::SizeType i = 0; i < arrSize; i++){
+			arrToReturn[i] = val[i].GetInt();
+		}
+		return arrToReturn;
+	}
+
+	return nullptr;
+}
+
+std::string* ConfigHolder::getStringArray(std::string _key) {
+	rapidjson::Value val;
+
+	if (getJSONValue(_key, val) && val.IsArray()){
+		rapidjson::SizeType arrSize = val.Size();
+		std::string *arrToReturn = new std::string[arrSize];
+		for (rapidjson::SizeType i = 0; i < arrSize; i++){
+			arrToReturn[i] = val[i].GetString();
+		}
+		return arrToReturn;
+	}
+
+	return nullptr;
 }

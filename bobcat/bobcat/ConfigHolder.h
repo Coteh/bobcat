@@ -29,9 +29,11 @@ namespace bobcat {
 		float getFloat(std::string _key);
 		double getDouble(std::string _key);
 		bool getBool(std::string _key);
+		int* getIntArray(std::string _key);
+		std::string* getStringArray(std::string _key);
 	private:
 		LogManager* logManager;
-		FileIO::FileWriter fileWriter;
+		//FileIO::FileWriter fileWriter;
 		FileIO::FileReader fileReader;
 		rapidjson::Document document;
 
