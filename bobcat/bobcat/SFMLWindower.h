@@ -21,13 +21,13 @@ namespace bobcat {
 
 		virtual int getWidth();
 		virtual int getHeight();
-		virtual const char* getName();
+		virtual std::string getName();
 		virtual bool isVisible();
 		virtual bool isRunning();
 		virtual bool isFocused();
 		virtual void setWindowDimensions(int _width, int _height);
 		virtual void setWindowChangedCallback(void* _function);
-		virtual void setName(const char* _name);
+		virtual void setName(std::string _name);
 		virtual void setWindowStyle(WindowStyle _windowStyle);
 		virtual void showWindow(int _expression);
 		virtual void init();
@@ -36,7 +36,7 @@ namespace bobcat {
 
 		virtual void notifyObservers();
 	private:
-		const char* name;
+		std::string name;
 		int width, height;
 		bool visibility;
 		bool isWindowFocused;

@@ -28,7 +28,7 @@ int SFMLWindower::getHeight() {
 	return height;
 }
 
-const char* SFMLWindower::getName() {
+std::string SFMLWindower::getName() {
 	return name;
 }
 
@@ -58,7 +58,10 @@ void SFMLWindower::setWindowChangedCallback(void* _function) {
 
 }
 
-void SFMLWindower::setName(const char* _name) {
+void SFMLWindower::setName(std::string _name) {
+	if (window != nullptr) {
+		window->setTitle(_name.c_str());
+	}
 	name = _name;
 }
 
@@ -86,7 +89,7 @@ void SFMLWindower::init() {
 	sf::ContextSettings contextSettings(sf::ContextSettings::Core);
 
 	//Create a SFML window with these window settings
-	window = new sf::Window(videoMode, name, sfmlWindowStyle, contextSettings);
+	window = new sf::Window(videoMode, name.c_str(), sfmlWindowStyle, contextSettings);
 
 	if (!window) {
 		logManager->log(LogLevel::LOG_ERROR, "Could not initalize SFML window!");

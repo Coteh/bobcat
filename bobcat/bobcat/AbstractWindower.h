@@ -1,5 +1,6 @@
 #pragma once
 #include "AbstractNotifier.h"
+#include <string>
 
 #define WINDOW_SHOW 1
 #define WINDOW_HIDE 0
@@ -39,7 +40,7 @@ namespace bobcat {
 		/**
 		* Returns the name of a window.
 		*/
-		virtual const char* getName() = 0;
+		virtual std::string getName() = 0;
 
 		/**
 		* Returns a bool indicating whether the window is visible or not.
@@ -61,7 +62,7 @@ namespace bobcat {
 		/**
 		* Set window name.
 		*/
-		virtual void setName(const char* _name) = 0;
+		virtual void setName(std::string _name) = 0;
 
 		virtual void setWindowStyle(WindowStyle _windowStyle) = 0;
 

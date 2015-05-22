@@ -12,10 +12,12 @@ Engine::Engine() {
 	//Setting up Engine I/O
 	logManager = LogManager::getInstance();
 	logManager->setLogfile("EngineLog.txt");
-	configManager = ConfigManager::getInstance();
-	configManager->readConfigFile(CONFIG_FILE);
-	LogSettings logSettings;
-	if (configManager->getLogSettings(&logSettings)){
+	configHolder = new ConfigHolder();
+	configHolder->readConfigFile(CONFIG_FILE);
+	if (configHolder->hasSetting("log-settings")){
+		LogSettings logSettings;
+		logSettings.writePriority = configHolder->getInt("log-settings.write-priority-level");
+		logSettings.printPriority = configHolder->getInt("log-settings.print-priority-level");
 		logManager->setLogSettings(logSettings);
 	}
 	//Setting up clock
@@ -32,24 +34,23 @@ Engine::Engine() {
 	window = new SFMLWindower();
 	inputSystem = new SFMLInputSystem((SFMLWindower*)window);
 #endif
-	//Get window settings from Config Manager
-	WindowSettings windowSettings;
-	if (configManager->getWindowSettings(&windowSettings)){
-		window->setName(windowSettings.windowName);
-		window->setWindowDimensions(windowSettings.windowWidth, windowSettings.windowHeight);
+	if (configHolder->hasSetting("window")){
+		//Get window settings from Config Manager
+		window->setName(configHolder->getString("window.title"));
+		window->setWindowDimensions(configHolder->getInt("window.width"), configHolder->getInt("window.height"));
 		//Messy territory right around here lol
 		WindowStyle windowStyle = WindowStyle::DEFAULT;
-		if (strcmp(windowSettings.windowStyle, "fullscreen") == 0) {
+		if (strcmp(configHolder->getString("window.style").c_str(), "fullscreen") == 0) {
 			windowStyle = WindowStyle::FULL_SCREEN;
 		}
 		window->setWindowStyle(windowStyle);
 	}
 	//Setting up content paths (This must be done before the next step!)
 	resourceManager = ResourceManager::getInstance();
-	AssetPaths assetPaths;
-	configManager->getAssetLoadPaths(&assetPaths);
-	resourceManager->provideAssetPaths(assetPaths.modelPath, assetPaths.texPath);
-	ShaderLoader::ProvideShaderLoadPath(assetPaths.shadersPath);
+	if (configHolder->hasSetting("content-paths")){
+		resourceManager->provideAssetPaths(configHolder->getString("content-paths.models"), configHolder->getString("content-paths.textures"));
+		ShaderLoader::ProvideShaderLoadPath(configHolder->getString("content-paths.shaders"));
+	}
 	//Setting up everything else
 	renderer = new OpenGLRenderSystem();
 	sceneManager = SceneManager::getInstance();
@@ -177,7 +178,6 @@ AbstractInputSystem* Engine::getInputSystem() {
 Engine::~Engine() {
 	delete window;
 	delete logManager;
-	delete configManager;
 	delete sceneManager;
 	delete resourceManager;
 	delete shaderManager;

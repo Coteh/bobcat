@@ -76,7 +76,7 @@
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="ComponentHolder.cpp" />
     <ClCompile Include="Components\ParticleSystem.cpp" />
-    <ClCompile Include="ConfigManager.cpp" />
+    <ClCompile Include="ConfigHolder.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="External\gl_core_3_3.c" />
     <ClCompile Include="FileReader.cpp" />
@@ -123,7 +123,7 @@
     <ClInclude Include="Component.h" />
     <ClInclude Include="ComponentHolder.h" />
     <ClInclude Include="Components\ParticleSystem.h" />
-    <ClInclude Include="ConfigManager.h" />
+    <ClInclude Include="ConfigHolder.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="External\gl_core_3_3.h" />
     <ClInclude Include="FileReader.h" />

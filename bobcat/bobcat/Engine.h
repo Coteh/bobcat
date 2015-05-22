@@ -3,7 +3,7 @@
 #include "Clock.h"
 #include "AbstractWindower.h"
 #include "LogManager.h"
-#include "ConfigManager.h"
+#include "ConfigHolder.h"
 #include "AbstractInputSystem.h"
 #include "AbstractRenderSystem.h"
 #include "ShaderManager.h"
@@ -38,7 +38,7 @@ namespace bobcat {
 	protected:
 		AbstractWindower* window; /**< The current window in use by the engine. */
 		LogManager* logManager; /**< The log manager instance used by the engine. */
-		ConfigManager* configManager; /**< The config manager instance used by the engine. */
+		ConfigHolder* configHolder; /**< The config holder. */
 		AbstractInputSystem* inputSystem; /**< The current input system in use by the engine. */
 		AbstractRenderSystem* renderer; /**< The current rendering system used by the engine. */
 		SceneManager* sceneManager; /**< The scene manager used by the engine. */

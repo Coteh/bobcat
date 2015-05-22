@@ -25,7 +25,7 @@ int GLFWWindower::getHeight(){
 	return height;
 }
 
-const char* GLFWWindower::getName(){
+std::string GLFWWindower::getName(){
 	return name;
 }
 
@@ -50,8 +50,8 @@ void GLFWWindower::setWindowDimensions(int _width, int _height){
 	height = _height;
 }
 
-void GLFWWindower::setName(const char* _name){
-	glfwSetWindowTitle(window, _name);
+void GLFWWindower::setName(std::string _name){
+	glfwSetWindowTitle(window, _name.c_str());
 	name = _name;
 }
 
@@ -86,7 +86,7 @@ void GLFWWindower::init(){
 	glfwSetErrorCallback(GLFWAPIHolder::GLFWErrorCallback);
 
 	//Create the GLFW window
-	window = glfwCreateWindow(width, height, name, NULL, NULL);
+	window = glfwCreateWindow(width, height, name.c_str(), NULL, NULL);
 	//Check if window creation was unsuccessful (window is null)
 	if (!window) {
 		glfwTerminate();
