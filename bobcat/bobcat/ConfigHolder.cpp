@@ -60,18 +60,22 @@ bool ConfigHolder::getJSONValue(std::string _key, rapidjson::Value &_val){
 	int objectDepth = 0;
 	//Iterate through the json members, starting from root
 	for (rapidjson::Value::MemberIterator memberItr = currJsonObj->MemberBegin(); memberItr != currJsonObj->MemberEnd(); ++memberItr) {
+		//Check if the current key we are iterating is the one we are currently on in our list.
+		//If it is, then check if it's an Object, and then switch over to this key.
+		if (memberItr->name.GetString() == keyPartsVec[objectDepth] && memberItr->value.IsObject()){
+			currJsonObj = &memberItr->value; //switch the current json object observed
+			memberItr = currJsonObj->MemberBegin() - 1; //reset the incrementation (and minus one because it'll be iterated next loop)
+			objectDepth++; //we just decended into the json tree hierarchy
+		}
 		//If we are on the last key, the one that will have the value we want
 		if (objectDepth == keyPartsVec.size() - 1) {
 			memberItr = currJsonObj->FindMember(keyPartsVec[objectDepth].c_str());
-			_val = memberItr->value;
-			return true;
-		} else { //If we aren't on the last key yet
-			//Check if the current key we are iterating is the one we are currently on in our list.
-			//If it is, then check if it's an Object, and then switch over to this key.
-			if (memberItr->name.GetString() == keyPartsVec[objectDepth] && memberItr->value.IsObject()){
-				currJsonObj = &memberItr->value; //switch the current json object observed
-				memberItr = currJsonObj->MemberBegin() - 1; //reset the incrementation (and minus one because it'll be iterated next loop)
-				objectDepth++; //we just decended into the json tree hierarchy
+			//Did we find a valid member?
+			if (memberItr != currJsonObj->MemberEnd()){
+				_val = memberItr->value; //return the value we found to the user
+				return true;
+			} else{
+				return false; //it's not here, just give up
 			}
 		}
 	}
